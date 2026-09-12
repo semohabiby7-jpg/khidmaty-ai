@@ -16,7 +16,7 @@ function buildSystemPrompt(){
 
 async function callGemini(msg){
   aiHistory.push({role:'user',parts:[{text:msg}]})
-  if(!getGeminiKey())return '🔑 محتاج تدخل API key من Gemini الأول!<br><br>اضغط <strong>تسجيل الدخول</strong> فوق وادخل الـ API key بتاعك.<br><br>اعمله من: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>'
+  if(!getGeminiKey()){aiHistory.pop();return getAI(msg)}
   try{
     const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key='+getGeminiKey(),{
       method:'POST',

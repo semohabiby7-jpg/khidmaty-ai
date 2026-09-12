@@ -536,10 +536,10 @@ border:1px solid var(--gray-m)
 }
 .step-num{
 position:absolute;
-top:14px;left:14px;
-font-size:36px;
+top:12px;left:14px;
+font-size:32px;
 font-weight:900;
-color:rgba(212,169,55,.15);
+color:rgba(212,169,55,.45);
 line-height:1
 }
 .step-icon{

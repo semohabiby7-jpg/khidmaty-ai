@@ -252,10 +252,31 @@ window.addEventListener('scroll',()=>{
 })
 
 /* ===== Init ===== */
+/* ===== Render Government Links ===== */
+function renderGovLinks(){
+  const grid=document.getElementById('govLinksGrid')
+  if(!grid)return
+  const seen=new Set()
+  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category})).filter(x=>{
+    if(seen.has(x.link))return false
+    seen.add(x.link);return true
+  })
+  const catName=id=>{const c=categories.find(c=>c.id===id);return c?c.icon+' '+c.name:id}
+  grid.innerHTML=links.map(l=>`
+    <a href="${l.link}" target="_blank" class="svc-card" style="text-decoration:none;cursor:pointer">
+      <div class="svc-icon">${l.icon}</div>
+      <h3 class="svc-name" style="font-size:15px">${l.source}</h3>
+      <p class="svc-desc" style="font-size:12px">${catName(l.cat)}</p>
+      <span class="svc-link">زيارة الموقع ←</span>
+    </a>
+  `).join('')
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   renderCats()
   renderServices()
   renderProviders()
+  renderGovLinks()
 })
 
 /* ===== SERVICE DETAIL PAGE ===== */

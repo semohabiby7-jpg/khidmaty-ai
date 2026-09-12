@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://semohabiby7-jpg.github.io/khidmaty-ai/sitemap.xml

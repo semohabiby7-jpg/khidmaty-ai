@@ -1,275 +1,369 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خِدْمَتي AI | KHADMETY AI - مصلحتك في مكان واحد</title>
-    <meta name="description" content="خِدْمَتي AI - منصة مصرية ذكية تساعدك على إنجاز مصالحك الحكومية بسهولة. قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة.">
-    <meta name="keywords" content="مصر, خدمات حكومية, مصالح, رخصة, بطاقة, ضرائب, تأمينات, معاش, جواز سفر, خِدْمَتي, khidmaty">
-    <meta property="og:title" content="خِدْمَتي AI | KHADMETY AI">
-    <meta property="og:description" content="مصلحتك في مكان واحد - منصة مصرية ذكية">
-    <meta property="og:type" content="website">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="src/styles/main.css">
-    <link rel="manifest" href="public/manifest.json">
-</head>
-<body>
 
-<!-- ========== HEADER ========== -->
-<header class="header" id="header">
-    <div class="header-inner">
-        <a href="#home" class="logo">
-            <span class="logo-mark">خ</span>
-            <span class="logo-text">
-                <span class="logo-name">خِدْمَتي <span class="logo-ai">AI</span></span>
-                <span class="logo-tag">مصلحتك في مكان واحد</span>
-            </span>
-        </a>
-        <nav class="nav-desktop">
-            <a href="#home" class="nav-link active">الرئيسية</a>
-            <a href="#services" class="nav-link">الخدمات</a>
-            <a href="#ask-ai" class="nav-link">اسأل AI</a>
-            <a href="#providers" class="nav-link">مقدمو الخدمات</a>
-        </nav>
-        <div class="header-btns">
-            <button class="btn-ghost" onclick="openModal('loginModal')">تسجيل الدخول</button>
-            <button class="btn-gold" onclick="openModal('registerModal')">إنشاء حساب</button>
-        </div>
-        <button class="burger" id="burger" onclick="toggleMobileNav()">☰</button>
-    </div>
-    <nav class="nav-mobile" id="navMobile">
-        <a href="#home" class="nav-link">الرئيسية</a>
-        <a href="#services" class="nav-link">الخدمات</a>
-        <a href="#ask-ai" class="nav-link">اسأل AI</a>
-        <a href="#providers" class="nav-link">مقدمو الخدمات</a>
-        <button class="btn-gold" onclick="openModal('loginModal')">تسجيل الدخول</button>
-        <button class="btn-ghost" onclick="openModal('registerModal')">إنشاء حساب</button>
-    </nav>
-</header>
+function normalizeArabic(text = '') {
+ return text
+ .replace(/[أإآ]/g, 'ا')
+ .replace(/ى/g, 'ي')
+ .replace(/ة/g, 'ه')
+ .replace(/ؤ/g, 'و')
+ .replace(/ئ/g, 'ي')
+ .replace(/\s+/g, ' ')
+ .trim()
+ .toLowerCase();
+}
 
-<!-- ========== HERO ========== -->
-<section class="hero" id="home">
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-        <span class="hero-badge"><span class="dot"></span> منصة مصرية ذكية</span>
-        <h1 class="hero-title">إيه المصلحة اللي<br><span class="gold">عايز تخلصها؟</span></h1>
-        <p class="hero-subtitle">قولّي محتاج تخلص إيه، وخِدْمَتي AI هتقولّك تبدأ منين خطوة بخطوة.</p>
-        <div class="hero-search-wrap">
-            <div class="hero-search">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="heroSearch" placeholder="اكتب مشكلتك أو الخدمة اللي محتاجها..." oninput="heroSearchLive(this.value)">
-                <button class="btn-ai-search" onclick="heroSubmit()">
-                    <span>🤖</span> اسأل خِدْمَتي AI
-                </button>
-            </div>
-            <div class="search-dropdown" id="searchDropdown"></div>
-        </div>
-        <div class="hero-chips">
-            <span class="chips-label">جرّب:</span>
-            <button class="chip" onclick="quickAsk('تجديد رخصة')">🚗 تجديد رخصة</button>
-            <button class="chip" onclick="quickAsk('بطاقة ضريبية')">📊 بطاقة ضريبية</button>
-            <button class="chip" onclick="quickAsk('معاش')">👴 معاش</button>
-            <button class="chip" onclick="quickAsk('جواز سفر')">✈️ جواز سفر</button>
-            <button class="chip" onclick="quickAsk('بدل فاقد')">🆔 بدل فاقد</button>
-        </div>
-        <div class="hero-actions">
-            <button class="btn-primary" onclick="goToAI()">
-                <span>🤖</span> اسأل خِدْمَتي AI
-            </button>
-            <button class="btn-help" onclick="needHelp()">
-                <span>👤</span> محتاج حد يخلصهالي
-            </button>
-        </div>
-    </div>
-</section>
+function openModal(id) {
+ document.getElementById(id).classList.add('show');
+}
 
-<!-- ========== CATEGORIES ========== -->
-<section class="categories-section" id="services">
-    <div class="container">
-        <div class="section-head">
-            <span class="section-label">دليل الخدمات</span>
-            <h2 class="section-title">كل المصالح <span class="gold">الحكومية</span></h2>
-            <p class="section-desc">12 تصنيف، أكثر من 20 خدمة — ابحث واختار وابدأ</p>
-        </div>
-        <div class="search-bar-wrap">
-            <div class="search-bar">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="mainSearch" placeholder="ابحث عن خدمة أو جهة..." oninput="mainSearchLive(this.value)">
-                <button class="search-clear" id="searchClear" onclick="clearMainSearch()">✕</button>
-            </div>
-        </div>
-        <div class="cat-filter" id="catFilter">
-            <button class="cat-pill active" onclick="filterCat('all', this)">الكل</button>
-        </div>
-        <div class="services-grid" id="servicesGrid"></div>
-    </div>
-</section>
+function closeModal(id) {
+ document.getElementById(id).classList.remove('show');
+}
 
-<!-- ========== SERVICE DETAIL MODAL ========== -->
-<div class="modal-overlay" id="serviceModal">
-    <div class="modal service-modal">
-        <button class="modal-x" onclick="closeModal('serviceModal')">✕</button>
-        <div id="serviceContent"></div>
-    </div>
-</div>
+function toggleMobileNav() {
+ const nav = document.getElementById('navMobile');
+ nav.classList.toggle('show');
+}
 
-<!-- ========== ASK AI SECTION ========== -->
-<section class="ai-section" id="ask-ai">
-    <div class="container">
-        <div class="section-head">
-            <span class="section-label">المساعد الذكي</span>
-            <h2 class="section-title">اسأل <span class="gold">خِدْمَتي AI</span></h2>
-            <p class="section-desc">اكتب مشكلتك بالعربي، والـ AI هيفهم ويوجّهك</p>
-        </div>
-        <div class="ai-chat-wrap">
-            <div class="ai-chat" id="aiChat">
-                <div class="ai-msg bot">
-                    <span class="ai-avatar">🤖</span>
-                    <div class="ai-bubble">ولا يهمك ❤️ قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة</div>
-                </div>
-            </div>
-            <div class="ai-input-wrap">
-                <input type="text" id="aiInput" placeholder="اكتب طلبك هنا..." onkeypress="if(event.key==='Enter') aiSend()">
-                <button class="btn-send" onclick="aiSend()">إرسال</button>
-            </div>
-        </div>
-    </div>
-</section>
+function handleLogin(e) {
+ e.preventDefault();
+ alert('تم تسجيل الدخول بنجاح (نسخة تجريبية)');
+ closeModal('loginModal');
+ return false;
+}
 
-<!-- ========== PROVIDERS ========== -->
-<section class="providers-section" id="providers">
-    <div class="container">
-        <div class="section-head">
-            <span class="section-label">مقدمو الخدمات</span>
-            <h2 class="section-title">مقدمون <span class="gold">موثوقون</span></h2>
-            <p class="section-desc">محامون، محاسبون، مخلصو معاملات والمزيد</p>
-        </div>
-        <div class="providers-cta">
-            <div class="cta-text">
-                <h3>إنت مقدم خدمة؟</h3>
-                <p>سجل نفسك ووصل لعملاء في منطقتك</p>
-            </div>
-            <button class="btn-gold" onclick="openModal('providerModal')">سجل كمقدم خدمة ←</button>
-        </div>
-        <div class="providers-grid" id="providersGrid"></div>
-    </div>
-</section>
+function handleRegister(e) {
+ e.preventDefault();
+ alert('تم إنشاء الحساب بنجاح (نسخة تجريبية)');
+ closeModal('registerModal');
+ return false;
+}
 
-<!-- ========== HOW IT WORKS ========== -->
-<section class="how-section" id="how">
-    <div class="container">
-        <div class="section-head">
-            <span class="section-label">إزاي بنشتغل</span>
-            <h2 class="section-title">بساطة <span class="gold">إنجاز مصلحتك</span></h2>
-        </div>
-        <div class="steps-grid">
-            <div class="step-card"><div class="step-num">١</div><div class="step-icon">🔍</div><h3>اكتب طلبك</h3><p>قولّي المصلحة اللي محتاجها بالعربي</p></div>
-            <div class="step-card"><div class="step-num">٢</div><div class="step-icon">🤖</div><h3>AI يوجّهك</h3><p>المساعد الذكي يحدد الخدمة والمستندات</p></div>
-            <div class="step-card"><div class="step-num">٣</div><div class="step-icon">✅</div><h3>ابدأ الخدمة</h3><p>اتبع الخطوات وخلّص مصلحتك</p></div>
-            <div class="step-card"><div class="step-num">٤</div><div class="step-icon">👤</div><h3>أو اطلب حد</h3><p>لو مش فاضي، نرشحلك مقدم خدمة</p></div>
-        </div>
-    </div>
-</section>
+function handleProvider(e) {
+ e.preventDefault();
+ alert('تم تسجيل مقدم الخدمة بنجاح (نسخة تجريبية)');
+ closeModal('providerModal');
+ return false;
+}
 
-<!-- ========== DISCLAIMER ========== -->
-<section class="disclaimer">
-    <div class="container">
-        <p>⚠️ <strong>خِدْمَتي AI</strong> منصة مستقلة وليست جهة حكومية. المعلومات من مصادر رسمية ومحددة بتاريخ آخر تحديث.</p>
-    </div>
-</section>
+function renderCategories() {
+ const filter = document.getElementById('catFilter');
+ if (!filter) return;
 
-<!-- ========== FOOTER ========== -->
-<footer class="footer" id="contact">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <a href="#home" class="logo logo-footer">
-                    <span class="logo-mark">خ</span>
-                    <span class="logo-text">
-                        <span class="logo-name">خِدْمَتي <span class="logo-ai">AI</span></span>
-                        <span class="logo-tag">مصلحتك في مكان واحد</span>
-                    </span>
-                </a>
-                <p class="footer-desc">منصة مصرية ذكية تربط المواطن بمقدم الخدمة باستخدام الذكاء الاصطناعي.</p>
-            </div>
-            <div class="footer-col">
-                <h4>روابط سريعة</h4>
-                <a href="#home">الرئيسية</a>
-                <a href="#services">الخدمات</a>
-                <a href="#ask-ai">اسأل AI</a>
-                <a href="#providers">مقدمو الخدمات</a>
-            </div>
-            <div class="footer-col">
-                <h4>تواصل معنا</h4>
-                <a href="#">📧 info@khidmaty.ai</a>
-                <a href="#">📞 19XXX</a>
-                <a href="#">📍 القاهرة، مصر</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 خِدْمَتي AI | جميع الحقوق محفوظة <span class="sig">MIA8444</span></p>
-        </div>
-    </div>
-</footer>
+ const buttons = categories.map(cat => `
+ <button class="cat-pill" onclick="filterByCategory('${cat.id}', this)">
+ ${cat.icon} ${cat.name}
+ </button>
+ `).join('');
 
-<!-- ========== BOTTOM NAV (MOBILE) ========== -->
-<nav class="bottom-nav">
-    <a href="#home" class="bn-item active"><span class="bn-icon">🏠</span><span class="bn-label">الرئيسية</span></a>
-    <a href="#services" class="bn-item"><span class="bn-icon">📋</span><span class="bn-label">الخدمات</span></a>
-    <a href="#ask-ai" class="bn-item bn-center"><span class="bn-icon">🤖</span><span class="bn-label">اسأل AI</span></a>
-    <a href="#providers" class="bn-item"><span class="bn-icon">👥</span><span class="bn-label">مقدمون</span></a>
-    <a href="#account" class="bn-item" onclick="openModal('loginModal')"><span class="bn-icon">👤</span><span class="bn-label">حسابي</span></a>
-</nav>
+ filter.innerHTML = `
+ <button class="cat-pill active" onclick="filterByCategory('all', this)">الكل</button>
+ ${buttons}
+ `;
+}
 
-<!-- ========== MODALS ========== -->
-<div class="modal-overlay" id="loginModal">
-    <div class="modal">
-        <button class="modal-x" onclick="closeModal('loginModal')">✕</button>
-        <h2 class="modal-title">تسجيل الدخول</h2>
-        <p class="modal-sub">ادخل بياناتك عشان تكمّل</p>
-        <form class="auth-form" onsubmit="return handleLogin(event)">
-            <input type="tel" placeholder="رقم الموبايل" required>
-            <input type="password" placeholder="كلمة المرور" required>
-            <button type="submit" class="btn-submit">دخول</button>
-            <p class="auth-switch">مش عندك حساب؟ <a onclick="closeModal('loginModal');openModal('registerModal')">أنشئ حساب</a></p>
-        </form>
-    </div>
-</div>
+function renderServices(list = services) {
+ const grid = document.getElementById('servicesGrid');
+ if (!grid) return;
 
-<div class="modal-overlay" id="registerModal">
-    <div class="modal">
-        <button class="modal-x" onclick="closeModal('registerModal')">✕</button>
-        <h2 class="modal-title">إنشاء حساب</h2>
-        <p class="modal-sub">أنشئ حسابك في دقيقة</p>
-        <form class="auth-form" onsubmit="return handleRegister(event)">
-            <input type="text" placeholder="الاسم الكامل" required>
-            <input type="tel" placeholder="رقم الموبايل" required>
-            <select required><option value="">اختر المحافظة</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الشرقية</option><option>الدقهلية</option><option>البحيرة</option><option>القليوبية</option><option>الغربية</option><option>المنوفية</option></select>
-            <input type="password" placeholder="كلمة المرور" required>
-            <button type="submit" class="btn-submit">إنشاء الحساب</button>
-            <p class="auth-switch">عندك حساب؟ <a onclick="closeModal('registerModal');openModal('loginModal')">سجل دخول</a></p>
-        </form>
-    </div>
-</div>
+ if (!list.length) {
+ grid.innerHTML = <div class="empty-state">لا توجد نتائج مطابقة</div>;
+ return;
+ }
 
-<div class="modal-overlay" id="providerModal">
-    <div class="modal modal-lg">
-        <button class="modal-x" onclick="closeModal('providerModal')">✕</button>
-        <h2 class="modal-title">تسجيل مقدم خدمة</h2>
-        <p class="modal-sub">سجل بياناتك ووصل لعملاء أكثر</p>
-        <form class="auth-form" onsubmit="return handleProvider(event)">
-            <div class="form-row"><input type="text" placeholder="الاسم / المكتب" required><select required><option value="">النشاط</option><option>محاسب</option><option>محامي</option><option>مخلص معاملات</option><option>مندوب خدمات</option><option>مكتب خدمات</option><option>متخصص ضرائب</option><option>متخصص تأمينات</option><option>متخصص مرور</option></select></div>
-            <div class="form-row"><select required><option value="">المحافظة</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الشرقية</option></select><input type="tel" placeholder="رقم التليفون" required></div>
-            <input type="text" placeholder="الخدمات اللي بتقدمها">
-            <input type="tel" placeholder="رقم واتساب">
-            <button type="submit" class="btn-submit">سجل كمقدم خدمة</button>
-        </form>
-    </div>
-</div>
+ grid.innerHTML = list.map(service => `
+ <div class="service-card" onclick="openServiceDetails(${service.id})">
+ <div class="service-icon">${service.icon}</div>
+ <h3>${service.name}</h3>
+ <p>${service.desc}</p>
+ <div class="service-meta">
+ <span class="badge ${service.online ? 'badge-online' : 'badge-offline'}">
+ ${service.online ? 'متاح أونلاين' : 'حضوري'}
+ </span>
+ </div>
+ </div>
+ `).join('');
+}
 
-<script src="src/data/services.js"></script>
-<script src="src/app.js"></script>
-</body>
-</html>
+function renderProviders() {
+ const grid = document.getElementById('providersGrid');
+ if (!grid) return;
+
+ grid.innerHTML = providers.map(provider => `
+ <div class="provider-card">
+ <div class="provider-top">
+ <div class="provider-avatar">👤</div>
+ <div>
+ <h3>${provider.name}</h3>
+ <p>${provider.type} - ${provider.gov}</p>
+ </div>
+ </div>
+ <div class="provider-rating">⭐ ${provider.rating} | ${provider.orders} عملية</div>
+ <div class="provider-badge">${provider.badge}</div>
+ </div>
+ `).join('');
+}
+
+function filterByCategory(categoryId, btn) {
+ document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+ if (btn) btn.classList.add('active');
+
+ if (categoryId === 'all') {
+ renderServices(services);
+ return;
+ }
+
+ const filtered = services.filter(service => service.category === categoryId);
+ renderServices(filtered);
+}
+
+function mainSearchLive(value) {
+ const clearBtn = document.getElementById('searchClear');
+ if (clearBtn) {
+ if (value.trim()) {
+ clearBtn.style.display = 'flex';
+ } else {
+ clearBtn.style.display = 'none';
+ }
+ }
+
+ const normalizedQuery = normalizeArabic(value);
+
+ if (!normalizedQuery) {
+ renderServices(services);
+ return;
+ }
+
+ const filtered = services.filter(service => {
+ const name = normalizeArabic(service.name);
+ const desc = normalizeArabic(service.desc);
+ const tags = (service.tags || []).map(normalizeArabic).join(' ');
+
+ return (
+ name.includes(normalizedQuery) ||
+ desc.includes(normalizedQuery) ||
+ tags.includes(normalizedQuery)
+ );
+ });
+
+ renderServices(filtered);
+}
+
+function clearMainSearch() {
+ const input = document.getElementById('mainSearch');
+ const clearBtn = document.getElementById('searchClear');
+ if (input) input.value = '';
+ if (clearBtn) clearBtn.style.display = 'none';
+ renderServices(services);
+}
+
+function heroSearchLive(value) {
+ const dropdown = document.getElementById('searchDropdown');
+ if (!dropdown) return;
+
+ const normalizedQuery = normalizeArabic(value);
+
+ if (!normalizedQuery || normalizedQuery.length < 2) {
+ dropdown.classList.remove('show');
+ dropdown.innerHTML = '';
+ return;
+ }
+
+ const filtered = services.filter(service => {
+ const name = normalizeArabic(service.name);
+ const desc = normalizeArabic(service.desc);
+ const tags = (service.tags || []).map(normalizeArabic).join(' ');
+
+ return (
+ name.includes(normalizedQuery) ||
+ desc.includes(normalizedQuery) ||
+ tags.includes(normalizedQuery)
+ );
+ });
+
+ if (!filtered.length) {
+ dropdown.innerHTML = <div class="dropdown-empty">لا توجد نتائج</div>;
+ } else {
+ dropdown.innerHTML = filtered.map(service => `
+ <div class="dropdown-item" onclick="openServiceDetails(${service.id}); hideHeroDropdown();">
+ <span class="dropdown-icon">${service.icon}</span>
+ <div>
+ <strong>${service.name}</strong>
+ <p>${service.desc}</p>
+ </div>
+ </div>
+ `).join('');
+ }
+
+ dropdown.classList.add('show');
+}
+
+function hideHeroDropdown() {
+ const dropdown = document.getElementById('searchDropdown');
+ if (dropdown) {
+ dropdown.classList.remove('show');
+ dropdown.innerHTML = '';
+ }
+}
+
+function heroSubmit() {
+ const input = document.getElementById('heroSearch');
+ if (!input) return;
+
+ const query = input.value.trim();
+ if (!query) return;
+
+ document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+ const mainSearch = document.getElementById('mainSearch');
+ if (mainSearch) {
+ mainSearch.value = query;
+ mainSearchLive(query);
+ }
+ hideHeroDropdown();
+}
+
+function quickAsk(text) {
+ const input = document.getElementById('heroSearch');
+ if (!input) return;
+ input.value = text;
+ heroSubmit();
+}
+
+function goToAI() {
+ document.getElementById('ask-ai').scrollIntoView({ behavior: 'smooth' });
+}
+
+function needHelp() {
+ document.getElementById('providers').scrollIntoView({ behavior: 'smooth' });
+}
+
+function getServiceByMessage(message) {
+ const q = normalizeArabic(message);
+ return services.find(service => {
+ const name = normalizeArabic(service.name);
+ const desc = normalizeArabic(service.desc);
+ const tags = (service.tags || []).map(normalizeArabic).join(' ');
+ return (
+ q.includes(name) ||
+ name.includes(q) ||
+ desc.includes(q) ||
+ tags.includes(q)
+ );
+ });
+}
+
+function aiSend() {
+ const input = document.getElementById('aiInput');
+ const chat = document.getElementById('aiChat');
+ if (!input || !chat) return;
+
+ const message = input.value.trim();
+ if (!message) return;
+
+ chat.innerHTML += `
+ <div class="ai-msg user">
+ <div class="ai-bubble">${message}</div>
+ </div>
+ `;
+
+ const matchedService = getServiceByMessage(message);
+
+ let reply = ولا يهمك ❤️ فهمت طلبك، وهنبدأ نوصلك لأقرب خدمة مناسبة.;
+
+ if (matchedService) {
+ reply = `
+ تمام 👌<br>
+ الخدمة الأقرب لطلبك هي: <strong>${matchedService.name}</strong><br><br>
+ 📄 المستندات: ${matchedService.documents.join(' - ')}<br>
+ 🪜 الخطوات: ${matchedService.steps[0]} → ${matchedService.steps[1]}...<br>
+ 💰 الرسوم: ${matchedService.fees}<br>
+ ⏱️ المدة: ${matchedService.duration}<br>
+ 🔗 <a href="${matchedService.link}" target="_blank">الرابط الرسمي</a><br><br>
+ لو حابب، أقدر أرشحلك كمان مقدم خدمة يساعدك فيها 👤
+ `;
+ }
+
+ setTimeout(() => {
+ chat.innerHTML += `
+ <div class="ai-msg bot">
+ <span class="ai-avatar">🤖</span>
+ <div class="ai-bubble">${reply}</div>
+ </div>
+ `;
+ chat.scrollTop = chat.scrollHeight;
+ }, 400);
+
+ input.value = '';
+}
+
+function openServiceDetails(id) {
+ const service = services.find(s => s.id === id);
+ if (!service) return;
+
+ const content = document.getElementById('serviceContent');
+ if (!content) return;
+
+ content.innerHTML = `
+ <div class="service-detail">
+ <div class="detail-hero">
+ <div class="detail-icon">${service.icon}</div>
+ <div>
+ <h2>${service.name}</h2>
+ <p>${service.desc}</p>
+ </div>
+ </div>
+
+ <div class="detail-grid">
+ <div class="detail-box"><strong>الجهة:</strong><span>${service.source}</span></div>
+ <div class="detail-box"><strong>الرسوم:</strong><span>${service.fees}</span></div>
+ <div class="detail-box"><strong>المدة:</strong><span>${service.duration}</span></div>
+ <div class="detail-box"><strong>التنفيذ:</strong><span>${service.online ? 'أونلاين' : 'حضوري'}</span></div>
+ </div>
+
+ <h3>من يستطيع الحصول عليها؟</h3>
+ <p>${service.eligibility}</p>
+
+ <h3>المستندات المطلوبة</h3>
+ <ul>
+ ${service.documents.map(doc => <li>${doc}</li>).join('')}
+ </ul>
+
+ <h3>الخطوات</h3>
+ <ol>
+ ${service.steps.map(step => <li>${step}</li>).join('')}
+ </ol>
+
+ <div class="detail-actions">
+ <a class="btn-gold" href="${service.link}" target="_blank">زيارة الموقع الرسمي</a>
+ <button class="btn-ghost" onclick="closeModal('serviceModal');goToAI();">اسأل AI عنها</button>
+ <button class="btn-primary" onclick="closeModal('serviceModal');needHelp();">محتاج حد يخلصهالي</button>
+ </div>
+
+ <div class="detail-footer">
+ <small>المصدر: ${service.source} | آخر تحديث: ${service.updated}</small>
+ </div>
+ </div>
+ `;
+
+ openModal('serviceModal');
+}
+
+document.addEventListener('click', function (e) {
+ const dropdown = document.getElementById('searchDropdown');
+ const heroWrap = document.querySelector('.hero-search-wrap');
+ if (dropdown && heroWrap && !heroWrap.contains(e.target)) {
+ hideHeroDropdown();
+ }
+});
+
+window.addEventListener('scroll', function () {
+ const header = document.getElementById('header');
+ if (!header) return;
+ if (window.scrollY > 20) header.classList.add('scrolled');
+ else header.classList.remove('scrolled');
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+ renderCategories();
+ renderServices();
+ renderProviders();
+});

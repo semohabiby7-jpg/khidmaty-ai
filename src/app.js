@@ -1,369 +1,456 @@
+/* ===== KHADMETY AI — App Logic ===== */
 
-function normalizeArabic(text = '') {
- return text
- .replace(/[أإآ]/g, 'ا')
- .replace(/ى/g, 'ي')
- .replace(/ة/g, 'ه')
- .replace(/ؤ/g, 'و')
- .replace(/ئ/g, 'ي')
- .replace(/\s+/g, ' ')
- .trim()
- .toLowerCase();
+/* ===== Arabic Normalizer ===== */
+function norm(s){return s.replace(/[\u064B-\u0652]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim().toLowerCase()}
+
+/* ===== Render Categories ===== */
+function renderCats(){
+  const el=document.getElementById('catFilter')
+  let h='<button class="cat-pill active" onclick="filterCat(\'all\',this)">الكل</button>'
+  categories.forEach(c=>{h+=`<button class="cat-pill" onclick="filterCat('${c.id}',this)">${c.icon} ${c.name}</button>`})
+  el.innerHTML=h
 }
 
-function openModal(id) {
- document.getElementById(id).classList.add('show');
+/* ===== Render Services ===== */
+let currentCat='all', currentSearch=''
+function renderServices(){
+  const grid=document.getElementById('servicesGrid')
+  let list=currentCat==='all'?services:services.filter(s=>s.category===currentCat)
+  if(currentSearch){
+    const q=norm(currentSearch)
+    list=list.filter(s=>norm(s.name).includes(q)||norm(s.desc).includes(q)||s.tags.some(t=>norm(t).includes(q)))
+  }
+  if(list.length===0){grid.innerHTML='<p class="no-results">لا توجد نتائج مطابقة 🤷‍♂️</p>';return}
+  grid.innerHTML=list.map(s=>`
+    <div class="svc-card" onclick="openService(${s.id})">
+      <div class="svc-icon">${s.icon}</div>
+      <h3 class="svc-name">${s.name}</h3>
+      <p class="svc-desc">${s.desc}</p>
+      <span class="svc-badge ${s.online?'badge-on':'badge-off'}">${s.online?'🌐 أونلاين':'🏛️ حضوري'}</span>
+      <br><span class="svc-link">تفاصيل الخدمة ←</span>
+    </div>
+  `).join('')
 }
 
-function closeModal(id) {
- document.getElementById(id).classList.remove('show');
+/* ===== Filter Category ===== */
+function filterCat(cat,btn){
+  document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'))
+  btn.classList.add('active')
+  currentCat=cat
+  renderServices()
 }
 
-function toggleMobileNav() {
- const nav = document.getElementById('navMobile');
- nav.classList.toggle('show');
+/* ===== Main Search Live ===== */
+function mainSearchLive(val){
+  currentSearch=val
+  document.getElementById('searchClear').classList.toggle('show',val.length>0)
+  renderServices()
+}
+function clearMainSearch(){
+  document.getElementById('mainSearch').value=''
+  currentSearch=''
+  document.getElementById('searchClear').classList.remove('show')
+  renderServices()
 }
 
-function handleLogin(e) {
- e.preventDefault();
- alert('تم تسجيل الدخول بنجاح (نسخة تجريبية)');
- closeModal('loginModal');
- return false;
+/* ===== Hero Search Live ===== */
+function heroSearchLive(val){
+  const dd=document.getElementById('searchDropdown')
+  if(val.length<2){dd.classList.remove('show');return}
+  const q=norm(val)
+  const results=services.filter(s=>norm(s.name).includes(q)||norm(s.desc).includes(q)||s.tags.some(t=>norm(t).includes(q)))
+  if(results.length===0){
+    dd.innerHTML='<div class="dd-no">لا توجد نتائج — جرّب كلمة تانية</div>'
+  }else{
+    dd.innerHTML=results.map(s=>`
+      <div class="dd-item" onclick="openService(${s.id});document.getElementById('searchDropdown').classList.remove('show')">
+        <span class="dd-icon">${s.icon}</span>
+        <div class="dd-info"><h4>${s.name}</h4><p>${s.desc}</p></div>
+      </div>
+    `).join('')
+  }
+  dd.classList.add('show')
+}
+function heroSubmit(){
+  const v=document.getElementById('heroSearch').value.trim()
+  if(!v){alert('اكتب طلبك الأول! 😊');return}
+  document.getElementById('searchDropdown').classList.remove('show')
+  const q=norm(v)
+  const match=services.find(s=>norm(s.name).includes(q)||s.tags.some(t=>norm(t).includes(q))||norm(s.desc).includes(q))
+  if(match){openService(match.id)}else{
+    document.getElementById('services').scrollIntoView({behavior:'smooth'})
+    setTimeout(()=>{document.getElementById('mainSearch').value=v;currentSearch=v;document.getElementById('searchClear').classList.add('show');renderServices()},400)
+  }
 }
 
-function handleRegister(e) {
- e.preventDefault();
- alert('تم إنشاء الحساب بنجاح (نسخة تجريبية)');
- closeModal('registerModal');
- return false;
+/* ===== Open Service Detail ===== */
+function openService(id){
+  const s=services.find(x=>x.id===id)
+  if(!s)return
+  const c=document.getElementById('serviceContent')
+  c.innerHTML=`
+    <div class="sd-head">
+      <span class="sd-icon">${s.icon}</span>
+      <div><h2 class="sd-title">${s.name}</h2><p class="sd-desc">${s.desc}</p></div>
+    </div>
+    <div class="sd-grid">
+      <div class="sd-box"><span>الجهة</span><strong>${s.source}</strong></div>
+      <div class="sd-box"><span>الرسوم</span><strong>${s.fees}</strong></div>
+      <div class="sd-box"><span>المدة</span><strong>${s.duration}</strong></div>
+      <div class="sd-box"><span>التنفيذ</span><strong>${s.online?'🌐 أونلاين':'🏛️ حضوري'}</strong></div>
+    </div>
+    ${s.eligibility?`<h3 class="sd-h3">من يستطيع الحصول عليها</h3><p style="color:var(--text);font-size:14px;margin-bottom:10px;">${s.eligibility}</p>`:''}
+    <h3 class="sd-h3">📋 المستندات المطلوبة</h3>
+    <ul class="sd-list">${s.documents.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <h3 class="sd-h3">📝 خطوات التنفيذ</h3>
+    <ol class="sd-ol">${s.steps.map((st,i)=>`<li><strong>${i+1}.</strong> ${st}</li>`).join('')}</ol>
+    <div class="sd-actions">
+      <a href="${s.link}" target="_blank" class="sd-link-btn">🔗 الموقع الرسمي</a>
+      <button class="sd-ai-btn" onclick="askAIAbout('${s.name}')">🤖 اسأل AI عنها</button>
+      <button class="sd-help-btn" onclick="closeModal('serviceModal');needHelp()">👤 محتاج حد يخلصهالي</button>
+    </div>
+    <p class="sd-source">المصدر: ${s.source} | آخر تحديث: ${s.updated}</p>
+  `
+  openModal('serviceModal')
 }
 
-function handleProvider(e) {
- e.preventDefault();
- alert('تم تسجيل مقدم الخدمة بنجاح (نسخة تجريبية)');
- closeModal('providerModal');
- return false;
+/* ===== AI Chat ===== */
+function aiSend(){
+  const inp=document.getElementById('aiInput')
+  const msg=inp.value.trim()
+  if(!msg)return
+  const chat=document.getElementById('aiChat')
+  chat.innerHTML+=`<div class="ai-msg user"><div class="ai-bubble">${msg}</div></div>`
+  inp.value=''
+  chat.scrollTop=chat.scrollHeight
+  setTimeout(()=>{
+    chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar">🤖</span><div class="ai-bubble">${getAI(msg)}</div></div>`
+    chat.scrollTop=chat.scrollHeight
+  },600)
+}
+function askAIAbout(name){
+  closeModal('serviceModal')
+  document.getElementById('ask-ai').scrollIntoView({behavior:'smooth'})
+  setTimeout(()=>{
+    document.getElementById('aiInput').value='عايز أعرف عن '+name
+    aiSend()
+  },400)
+}
+function getAI(msg){
+  const q=norm(msg)
+  const match=services.find(s=>norm(s.name).includes(q)||s.tags.some(t=>norm(t).includes(q))||norm(s.desc).includes(q))
+  if(match){
+    return `تمام يا باشا 👌<br><br>
+    <strong>${match.icon} ${match.name}</strong><br>${match.desc}<br><br>
+    📋 <strong>المستندات:</strong> ${match.documents.join('، ')}<br>
+    ⏱️ <strong>المدة:</strong> ${match.duration}<br>
+    💰 <strong>الرسوم:</strong> ${match.fees}<br>
+    🏛️ <strong>الجهة:</strong> ${match.source}<br>
+    🌐 <strong>الموقع:</strong> <a href="${match.link}" target="_blank" style="color:var(--gold-d);font-weight:700;">زيارة الموقع الرسمي ←</a><br><br>
+    لو مش فاضي، اضغط <strong>"محتاج حد يخلصهالي"</strong> 👤 وهنرشحلك مقدم خدمة في منطقتك.`
+  }
+  if(q.includes('مرور')||q.includes('رخص')||q.includes('مخالف'))return '🚗 خدمات المرور متاحة! اكتب "تجديد رخصة" أو "مخالفات" لتفاصيل أكثر.'
+  if(q.includes('ضري'))return '📊 خدمات الضرائب متاحة! اكتب "تسجيل ضريبي" أو "فاتورة إلكترونية".'
+  if(q.includes('معاش')||q.includes('تأمين'))return '👴 خدمات التأمينات متاحة! اكتب "رقم تأميني" أو "استخراج معاش".'
+  if(q.includes('جواز')||q.includes('سفر'))return '✈️ اكتب "جواز سفر" وأنا هطلعلك التفاصيل.'
+  if(q.includes('بطاق')||q.includes('رقم قومي'))return '🆔 اكتب "بطاقة رقم قومي" أو "بدل فاقد" وأنا هطلعلك التفاصيل.'
+  return 'ولا يهمك ❤️ قولّي المصلحة اللي محتاجها بالظبط.<br><br>مثلاً:<br>• "عايز أجدد رخصة العربية"<br>• "عايز أطلع بطاقة ضريبية"<br>• "عايز أعرف موقف التأمينات"'
 }
 
-function renderCategories() {
- const filter = document.getElementById('catFilter');
- if (!filter) return;
-
- const buttons = categories.map(cat => `
- <button class="cat-pill" onclick="filterByCategory('${cat.id}', this)">
- ${cat.icon} ${cat.name}
- </button>
- `).join('');
-
- filter.innerHTML = `
- <button class="cat-pill active" onclick="filterByCategory('all', this)">الكل</button>
- ${buttons}
- `;
+/* ===== Hero Actions ===== */
+function quickAsk(term){
+  document.getElementById('heroSearch').value=term
+  heroSubmit()
+}
+function goToAI(){
+  document.getElementById('ask-ai').scrollIntoView({behavior:'smooth'})
+  setTimeout(()=>document.getElementById('aiInput').focus(),500)
+}
+function needHelp(){
+  document.getElementById('providers').scrollIntoView({behavior:'smooth'})
 }
 
-function renderServices(list = services) {
- const grid = document.getElementById('servicesGrid');
- if (!grid) return;
-
- if (!list.length) {
- grid.innerHTML = <div class="empty-state">لا توجد نتائج مطابقة</div>;
- return;
- }
-
- grid.innerHTML = list.map(service => `
- <div class="service-card" onclick="openServiceDetails(${service.id})">
- <div class="service-icon">${service.icon}</div>
- <h3>${service.name}</h3>
- <p>${service.desc}</p>
- <div class="service-meta">
- <span class="badge ${service.online ? 'badge-online' : 'badge-offline'}">
- ${service.online ? 'متاح أونلاين' : 'حضوري'}
- </span>
- </div>
- </div>
- `).join('');
+/* ===== Render Providers ===== */
+function renderProviders(){
+  const grid=document.getElementById('providersGrid')
+  grid.innerHTML=providers.map(p=>{
+    const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
+    const bc=p.badge==='Top Provider'?'badge-on':p.badge==='Recommended'?'badge-on':'badge-off'
+    const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
+    return `
+      <div class="prv-card">
+        <div class="prv-top">
+          <div class="prv-avatar">${ic}</div>
+          <div class="prv-info"><h4>${p.name}</h4><span>${p.type} — ${p.gov}</span></div>
+        </div>
+        <div class="prv-badges">
+          <span class="svc-badge ${bc}">${p.badge}</span>
+          <span class="svc-badge badge-off">${p.orders} طلب</span>
+        </div>
+        <p class="prv-stars">${stars} ${p.rating}</p>
+      </div>
+    `
+  }).join('')
 }
 
-function renderProviders() {
- const grid = document.getElementById('providersGrid');
- if (!grid) return;
+/* ===== Modals ===== */
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function handleLogin(e){e.preventDefault();alert('سيتم تفعيل تسجيل الدخول عند رفع الموقع على الاستضافة ✅');closeModal('loginModal');return false}
+function handleRegister(e){e.preventDefault();alert('تم إنشاء حسابك بنجاح! 🎉');closeModal('registerModal');return false}
+function handleProvider(e){e.preventDefault();alert('تم تسجيلك كمقدم خدمة! هنتواصل معاك للتوثيق ✅');closeModal('providerModal');return false}
 
- grid.innerHTML = providers.map(provider => `
- <div class="provider-card">
- <div class="provider-top">
- <div class="provider-avatar">👤</div>
- <div>
- <h3>${provider.name}</h3>
- <p>${provider.type} - ${provider.gov}</p>
- </div>
- </div>
- <div class="provider-rating">⭐ ${provider.rating} | ${provider.orders} عملية</div>
- <div class="provider-badge">${provider.badge}</div>
- </div>
- `).join('');
+/* ===== Mobile Nav ===== */
+function toggleMobileNav(){document.getElementById('navMobile').classList.toggle('show')}
+
+/* ===== Header Scroll ===== */
+window.addEventListener('scroll',()=>{
+  const h=document.getElementById('header')
+  h.classList.toggle('scrolled',window.scrollY>50)
+})
+
+/* ===== Close search dropdown on outside click ===== */
+document.addEventListener('click',e=>{
+  const wrap=document.querySelector('.hero-search-wrap')
+  if(wrap&&!wrap.contains(e.target))document.getElementById('searchDropdown').classList.remove('show')
+  document.querySelectorAll('.modal-overlay').forEach(m=>{if(e.target===m)m.classList.remove('show')})
+})
+
+/* ===== Bottom Nav Active ===== */
+window.addEventListener('scroll',()=>{
+  const secs=['home','services','ask-ai','providers']
+  let cur=''
+  secs.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<200)cur=id})
+  document.querySelectorAll('.bn-item').forEach(b=>{
+    const href=b.getAttribute('href')||''
+    b.classList.toggle('active',href==='#'+cur)
+  })
+})
+
+/* ===== Init ===== */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderCats()
+  renderServices()
+  renderProviders()
+})
+
+/* ===== SERVICE DETAIL PAGE ===== */
+function openServicePage(id){
+  const s=services.find(x=>x.id===id)
+  if(!s)return
+  const app=document.getElementById('app')
+  document.body.scrollTop=0
+  const docs=s.documents.map((d,i)=>`<div class="doc-check" id="doc${i}" onclick="toggleDoc(${i})"><div class="dc-icon">✓</div><div class="dc-text">${d}</div></div>`)
+  const steps=s.steps.map((st,i)=>`<div class="journey-step" id="step${i}" onclick="toggleStep(${i})"><div class="js-circle">${i+1}<div class="js-line"></div></div><div class="js-content"><h4>${st}</h4><p>اضغط لتحديد كإكتمل</p></div></div>`)
+  const main=document.querySelector('.categories-section')
+  main.innerHTML=`
+    <div class="service-page">
+      <div class="container">
+        <button class="sp-back" onclick="location.reload()">→ رجوع للخدمات</button>
+        <div class="sp-header">
+          <div class="sp-icon">${s.icon}</div>
+          <div class="sp-info">
+            <h1>${s.name}</h1>
+            <p>${s.desc}</p>
+            <div class="sp-badges">
+              <span class="svc-badge ${s.online?'badge-on':'badge-off'}">${s.online?'🌐 متاح أونلاين':'🏛️ حضوري'}</span>
+              <span class="svc-badge badge-off">🏛️ ${s.source}</span>
+            </div>
+          </div>
+        </div>
+        <div class="sp-grid">
+          <div class="sp-main">
+            <h2>📋 المستندات المطلوبة</h2>
+            <div class="checklist-progress">
+              <div class="cp-bar"><div class="cp-fill" id="docBar" style="width:0%"></div></div>
+              <p class="cp-text">جهزت <strong id="docCount">0</strong> من ${s.documents.length} مستندات</p>
+            </div>
+            ${docs.join('')}
+            <h2>📝 رحلة إنجاز المصلحة</h2>
+            <p class="desc">اتبع الخطوات دي واحدة واحدة وعلّم كل خطوة لما تخلصها</p>
+            <div class="journey-step" id="step-all">
+              <div style="width:100%">
+                ${steps.join('')}
+              </div>
+            </div>
+            <h2>💰 الرسوم والمدة</h2>
+            <div class="sp-info-box"><p><strong>الرسوم:</strong> ${s.fees}<br><strong>المدة المتوقعة:</strong> ${s.duration}</p></div>
+            ${s.eligibility?`<h2>👤 من يستطيع الحصول عليها</h2><p class="desc">${s.eligibility}</p>`:''}
+          </div>
+          <div class="sp-side">
+            <div class="sp-side-card">
+              <h3>📊 معلومات سريعة</h3>
+              <div class="sp-stat"><span>الجهة</span><strong>${s.source}</strong></div>
+              <div class="sp-stat"><span>التنفيذ</span><strong>${s.online?'أونلاين':'حضوري'}</strong></div>
+              <div class="sp-stat"><span>الرسوم</span><strong>${s.fees}</strong></div>
+              <div class="sp-stat"><span>المدة</span><strong>${s.duration}</strong></div>
+            </div>
+            <div class="sp-side-card">
+              <h3>إجرائات</h3>
+              <div class="sp-actions">
+                <a href="${s.link}" target="_blank" class="btn-help">🔗 الموقع الرسمي</a>
+                <button class="btn-primary" onclick="askAIAbout('${s.name}')">🤖 اسأل AI عنها</button>
+                <button class="btn-ghost" onclick="needHelp()" style="border:2px solid var(--navy);padding:14px;border-radius:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--navy)">👤 محتاج حد يخلصهالي</button>
+              </div>
+              <p class="sp-source">المصدر: ${s.source}<br>آخر تحديث: ${s.updated}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+  document.getElementById('services').scrollIntoView({behavior:'smooth'})
+  state.serviceId=id
+  state.docsDone=new Array(s.documents.length).fill(false)
+  state.stepsDone=new Array(s.steps.length).fill(false)
 }
 
-function filterByCategory(categoryId, btn) {
- document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
- if (btn) btn.classList.add('active');
-
- if (categoryId === 'all') {
- renderServices(services);
- return;
- }
-
- const filtered = services.filter(service => service.category === categoryId);
- renderServices(filtered);
+/* Toggle Document */
+function toggleDoc(i){
+  state.docsDone[i]=!state.docsDone[i]
+  const el=document.getElementById('doc'+i)
+  el.classList.toggle('done',state.docsDone[i])
+  const done=state.docsDone.filter(Boolean).length
+  const total=state.docsDone.length
+  document.getElementById('docCount').textContent=done
+  document.getElementById('docBar').style.width=(done/total*100)+'%'
 }
 
-function mainSearchLive(value) {
- const clearBtn = document.getElementById('searchClear');
- if (clearBtn) {
- if (value.trim()) {
- clearBtn.style.display = 'flex';
- } else {
- clearBtn.style.display = 'none';
- }
- }
-
- const normalizedQuery = normalizeArabic(value);
-
- if (!normalizedQuery) {
- renderServices(services);
- return;
- }
-
- const filtered = services.filter(service => {
- const name = normalizeArabic(service.name);
- const desc = normalizeArabic(service.desc);
- const tags = (service.tags || []).map(normalizeArabic).join(' ');
-
- return (
- name.includes(normalizedQuery) ||
- desc.includes(normalizedQuery) ||
- tags.includes(normalizedQuery)
- );
- });
-
- renderServices(filtered);
+/* Toggle Step */
+function toggleStep(i){
+  state.stepsDone[i]=!state.stepsDone[i]
+  const el=document.getElementById('step'+i)
+  el.classList.toggle('done',state.stepsDone[i])
+  el.classList.toggle('active',!state.stepsDone[i]&&state.stepsDone.slice(0,i).every(Boolean))
 }
 
-function clearMainSearch() {
- const input = document.getElementById('mainSearch');
- const clearBtn = document.getElementById('searchClear');
- if (input) input.value = '';
- if (clearBtn) clearBtn.style.display = 'none';
- renderServices(services);
+/* State */
+const state={serviceId:null,docsDone:[],stepsDone:[]}
+
+/* Override openService to use full page */
+function openService(id){openServicePage(id)}
+
+/* ===== USER DASHBOARD ===== */
+const myServices=[
+  {id:1,svc:'تجديد رخصة قيادة',icon:'🚗',status:'progress',progress:60,docs:4,total:5},
+  {id:2,svc:'استخراج بطاقة رقم قومي',icon:'🆔',status:'pending',progress:20,docs:1,total:3},
+  {id:3,svc:'التسجيل الضريبي',icon:'📊',status:'done',progress:100,docs:4,total:4}
+];
+const myRequests=[
+  {id:1,svc:'تجديد رخصة سيارة',provider:'مكتب الأهرام',date:'12 سبتمبر',status:'pending'},
+  {id:2,svc:'استخراج جواز سفر',provider:'أ. خالد مصطفى',date:'10 سبتمبر',status:'progress'}
+];
+
+function openDashboard(){
+  const main=document.querySelector('.categories-section')
+  main.innerHTML=`
+    <div class="dashboard">
+      <div class="container">
+        <div class="dash-header">
+          <h1>أهلاً بك في حسابك 👋</h1>
+          <p>تابع مصالحك وطلباتك في مكان واحد</p>
+        </div>
+        <div class="dash-tabs">
+          <button class="dash-tab active" onclick="dashTab('services',this)">📋 مصالحي</button>
+          <button class="dash-tab" onclick="dashTab('requests',this)">📨 طلباتي</button>
+          <button class="dash-tab" onclick="dashTab('saved',this)">⭐ محفوظات</button>
+          <button class="dash-tab" onclick="dashTab('profile',this)">👤 حسابي</button>
+        </div>
+        <div id="dashContent"></div>
+      </div>
+    </div>
+  `
+  dashTab('services')
+  document.getElementById('services').scrollIntoView({behavior:'smooth'})
 }
 
-function heroSearchLive(value) {
- const dropdown = document.getElementById('searchDropdown');
- if (!dropdown) return;
-
- const normalizedQuery = normalizeArabic(value);
-
- if (!normalizedQuery || normalizedQuery.length < 2) {
- dropdown.classList.remove('show');
- dropdown.innerHTML = '';
- return;
- }
-
- const filtered = services.filter(service => {
- const name = normalizeArabic(service.name);
- const desc = normalizeArabic(service.desc);
- const tags = (service.tags || []).map(normalizeArabic).join(' ');
-
- return (
- name.includes(normalizedQuery) ||
- desc.includes(normalizedQuery) ||
- tags.includes(normalizedQuery)
- );
- });
-
- if (!filtered.length) {
- dropdown.innerHTML = <div class="dropdown-empty">لا توجد نتائج</div>;
- } else {
- dropdown.innerHTML = filtered.map(service => `
- <div class="dropdown-item" onclick="openServiceDetails(${service.id}); hideHeroDropdown();">
- <span class="dropdown-icon">${service.icon}</span>
- <div>
- <strong>${service.name}</strong>
- <p>${service.desc}</p>
- </div>
- </div>
- `).join('');
- }
-
- dropdown.classList.add('show');
+function dashTab(tab,btn){
+  if(btn){document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+  const c=document.getElementById('dashContent')
+  if(tab==='services'){
+    c.innerHTML=`<div class="dash-grid">${myServices.map(s=>{
+      const st={pending:['🟡 قيد التجهيز','status-pending'],progress:['🔵 جاري التنفيذ','status-progress'],done:['✅ مكتمل','status-done']}[s.status]
+      return `<div class="dash-card">
+        <span class="dc-status ${st[1]}">${st[0]}</span>
+        <h4>${s.icon} ${s.svc}</h4>
+        <p>جهزت ${s.docs} من ${s.total} مستندات</p>
+        <div class="dash-progress"><div class="dash-progress-fill" style="width:${s.progress}%"></div></div>
+        <div class="dash-card-actions">
+          <button class="dash-btn-gold" onclick="location.reload()">متابعة</button>
+          <button class="dash-btn-navy" onclick="alert('سيتم تفعيل لاحقاً')">تفاصيل</button>
+        </div>
+      </div>`
+    }).join('')}</div>`
+  } else if(tab==='requests'){
+    c.innerHTML=`<div class="dash-grid">${myRequests.map(r=>`
+      <div class="dash-card">
+        <span class="dc-status ${r.status==='pending'?'status-pending':'status-progress'}">${r.status==='pending'?'🟡 في انتظار القبول':'🔵 جاري التنفيذ'}</span>
+        <h4>📨 ${r.svc}</h4>
+        <p>المقدم: ${r.provider}<br>التاريخ: ${r.date}</p>
+        <div class="dash-card-actions">
+          <button class="dash-btn-gold" onclick="alert('سيتم تفعيل الشات لاحقاً')">💬 مراسلة</button>
+          <button class="dash-btn-navy" onclick="alert('تفاصيل الطلب')">تفاصيل</button>
+        </div>
+      </div>
+    `).join('')}</div>`
+  } else if(tab==='saved'){
+    c.innerHTML=`<div class="dash-empty"><span>⭐</span><p>لا توجد خدمات محفوظة بعد</p><br><button class="dash-btn-gold" style="padding:12px 24px" onclick="location.reload()">تصفح الخدمات</button></div>`
+  } else if(tab==='profile'){
+    c.innerHTML=`<div class="dash-card" style="max-width:500px;margin:0 auto;text-align:center">
+      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-l));display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px">👤</div>
+      <h4 style="font-size:20px;color:var(--navy);margin-bottom:8px">محمد عبد الله</h4>
+      <p style="color:var(--text-l);margin-bottom:20px">القاهرة - 01012345678</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="dash-btn-navy" style="padding:10px 20px">تعديل البيانات</button>
+        <button class="dash-btn-gold" style="padding:10px 20px">تسجيل الخروج</button>
+      </div>
+    </div>`
+  }
 }
 
-function hideHeroDropdown() {
- const dropdown = document.getElementById('searchDropdown');
- if (dropdown) {
- dropdown.classList.remove('show');
- dropdown.innerHTML = '';
- }
+/* ===== ADMIN DASHBOARD ===== */
+function openAdmin(){
+  const main=document.querySelector('.categories-section')
+  main.innerHTML=`
+    <div class="admin">
+      <div class="container">
+        <div class="admin-header">
+          <h1>⚙️ لوحة الإدارة</h1>
+          <p>إدارة الخدمات والمستخدمين والمقدمين</p>
+        </div>
+        <div class="admin-stats">
+          <div class="admin-stat"><div class="as-icon">👥</div><div class="as-num">${services.length}</div><div class="as-label">خدمة</div></div>
+          <div class="admin-stat"><div class="as-icon">🧑‍💼</div><div class="as-num">${providers.length}</div><div class="as-label">مقدم خدمة</div></div>
+          <div class="admin-stat"><div class="as-icon">📨</div><div class="as-num">${myRequests.length}</div><div class="as-label">طلب</div></div>
+          <div class="admin-stat"><div class="as-icon">📋</div><div class="as-num">${categories.length}</div><div class="as-label">تصنيف</div></div>
+        </div>
+        <div class="admin-table">
+          <h3>الخدمات الأخيرة</h3>
+          <table>
+            <tr><th>الخدمة</th><th>التصنيف</th><th>الحالة</th><th>إجراء</th></tr>
+            ${services.slice(0,8).map(s=>`<tr>
+              <td>${s.icon} ${s.name}</td>
+              <td>${categories.find(c=>c.id===s.category)?.name||'-'}</td>
+              <td><span class="at-badge ${s.online?'badge-on':'badge-off'}">${s.online?'أونلاين':'حضوري'}</span></td>
+              <td><button class="dash-btn-navy" style="padding:6px 12px;font-size:12px" onclick="alert('تعديل')">تعديل</button></td>
+            </tr>`).join('')}
+          </table>
+        </div>
+        <div class="admin-table">
+          <h3>مقدمو الخدمات</h3>
+          <table>
+            <tr><th>الاسم</th><th>النوع</th><th>المحافظة</th><th>الحالة</th><th>إجراء</th></tr>
+            ${providers.map(p=>`<tr>
+              <td>${p.name}</td>
+              <td>${p.type}</td>
+              <td>${p.gov}</td>
+              <td><span class="at-badge badge-on">${p.badge}</span></td>
+              <td><button class="dash-btn-navy" style="padding:6px 12px;font-size:12px" onclick="alert('مراجعة')">مراجعة</button></td>
+            </tr>`).join('')}
+          </table>
+        </div>
+      </div>
+    </div>
+  `
+  document.getElementById('services').scrollIntoView({behavior:'smooth'})
 }
-
-function heroSubmit() {
- const input = document.getElementById('heroSearch');
- if (!input) return;
-
- const query = input.value.trim();
- if (!query) return;
-
- document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
- const mainSearch = document.getElementById('mainSearch');
- if (mainSearch) {
- mainSearch.value = query;
- mainSearchLive(query);
- }
- hideHeroDropdown();
-}
-
-function quickAsk(text) {
- const input = document.getElementById('heroSearch');
- if (!input) return;
- input.value = text;
- heroSubmit();
-}
-
-function goToAI() {
- document.getElementById('ask-ai').scrollIntoView({ behavior: 'smooth' });
-}
-
-function needHelp() {
- document.getElementById('providers').scrollIntoView({ behavior: 'smooth' });
-}
-
-function getServiceByMessage(message) {
- const q = normalizeArabic(message);
- return services.find(service => {
- const name = normalizeArabic(service.name);
- const desc = normalizeArabic(service.desc);
- const tags = (service.tags || []).map(normalizeArabic).join(' ');
- return (
- q.includes(name) ||
- name.includes(q) ||
- desc.includes(q) ||
- tags.includes(q)
- );
- });
-}
-
-function aiSend() {
- const input = document.getElementById('aiInput');
- const chat = document.getElementById('aiChat');
- if (!input || !chat) return;
-
- const message = input.value.trim();
- if (!message) return;
-
- chat.innerHTML += `
- <div class="ai-msg user">
- <div class="ai-bubble">${message}</div>
- </div>
- `;
-
- const matchedService = getServiceByMessage(message);
-
- let reply = ولا يهمك ❤️ فهمت طلبك، وهنبدأ نوصلك لأقرب خدمة مناسبة.;
-
- if (matchedService) {
- reply = `
- تمام 👌<br>
- الخدمة الأقرب لطلبك هي: <strong>${matchedService.name}</strong><br><br>
- 📄 المستندات: ${matchedService.documents.join(' - ')}<br>
- 🪜 الخطوات: ${matchedService.steps[0]} → ${matchedService.steps[1]}...<br>
- 💰 الرسوم: ${matchedService.fees}<br>
- ⏱️ المدة: ${matchedService.duration}<br>
- 🔗 <a href="${matchedService.link}" target="_blank">الرابط الرسمي</a><br><br>
- لو حابب، أقدر أرشحلك كمان مقدم خدمة يساعدك فيها 👤
- `;
- }
-
- setTimeout(() => {
- chat.innerHTML += `
- <div class="ai-msg bot">
- <span class="ai-avatar">🤖</span>
- <div class="ai-bubble">${reply}</div>
- </div>
- `;
- chat.scrollTop = chat.scrollHeight;
- }, 400);
-
- input.value = '';
-}
-
-function openServiceDetails(id) {
- const service = services.find(s => s.id === id);
- if (!service) return;
-
- const content = document.getElementById('serviceContent');
- if (!content) return;
-
- content.innerHTML = `
- <div class="service-detail">
- <div class="detail-hero">
- <div class="detail-icon">${service.icon}</div>
- <div>
- <h2>${service.name}</h2>
- <p>${service.desc}</p>
- </div>
- </div>
-
- <div class="detail-grid">
- <div class="detail-box"><strong>الجهة:</strong><span>${service.source}</span></div>
- <div class="detail-box"><strong>الرسوم:</strong><span>${service.fees}</span></div>
- <div class="detail-box"><strong>المدة:</strong><span>${service.duration}</span></div>
- <div class="detail-box"><strong>التنفيذ:</strong><span>${service.online ? 'أونلاين' : 'حضوري'}</span></div>
- </div>
-
- <h3>من يستطيع الحصول عليها؟</h3>
- <p>${service.eligibility}</p>
-
- <h3>المستندات المطلوبة</h3>
- <ul>
- ${service.documents.map(doc => <li>${doc}</li>).join('')}
- </ul>
-
- <h3>الخطوات</h3>
- <ol>
- ${service.steps.map(step => <li>${step}</li>).join('')}
- </ol>
-
- <div class="detail-actions">
- <a class="btn-gold" href="${service.link}" target="_blank">زيارة الموقع الرسمي</a>
- <button class="btn-ghost" onclick="closeModal('serviceModal');goToAI();">اسأل AI عنها</button>
- <button class="btn-primary" onclick="closeModal('serviceModal');needHelp();">محتاج حد يخلصهالي</button>
- </div>
-
- <div class="detail-footer">
- <small>المصدر: ${service.source} | آخر تحديث: ${service.updated}</small>
- </div>
- </div>
- `;
-
- openModal('serviceModal');
-}
-
-document.addEventListener('click', function (e) {
- const dropdown = document.getElementById('searchDropdown');
- const heroWrap = document.querySelector('.hero-search-wrap');
- if (dropdown && heroWrap && !heroWrap.contains(e.target)) {
- hideHeroDropdown();
- }
-});
-
-window.addEventListener('scroll', function () {
- const header = document.getElementById('header');
- if (!header) return;
- if (window.scrollY > 20) header.classList.add('scrolled');
- else header.classList.remove('scrolled');
-});
-
-document.addEventListener('DOMContentLoaded', function () {
- renderCategories();
- renderServices();
- renderProviders();
-});

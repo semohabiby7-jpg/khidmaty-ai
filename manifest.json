@@ -1,11 +1,21 @@
 {
- "name": "خِدْمَتي AI - KHADMETY AI",
- "short_name": "خِدْمَتي AI",
- "description": "منصة مصرية ذكية - مصلحتك في مكان واحد",
- "start_url": "/",
- "display": "standalone",
- "background_color": "#0F1E3D",
- "theme_color": "#D4A937",
- "lang": "ar",
- "dir": "rtl"
+  "name": "خِدْمَتي AI - KHADMETY AI",
+  "short_name": "خِدْمَتي AI",
+  "description": "منصة مصرية ذكية - مصلحتك في مكان واحد",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F1E3D",
+  "theme_color": "#0F1E3D",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

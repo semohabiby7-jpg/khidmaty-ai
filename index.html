@@ -13,7 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles/main.css">
-    <link rel="manifest" href="public/manifest.json">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.svg">
 <!-- Schema.org for SEO -->
 <script type="application/ld+json">
 {
@@ -322,5 +324,25 @@
 
 <script src="src/data/services.js"></script>
 <script src="src/app.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').then(()=>console.log('SW OK')).catch(e=>console.log('SW fail',e))
+  })
+}
+let deferredPrompt
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault()
+  deferredPrompt=e
+  const btn=document.createElement('button')
+  btn.textContent='📱 تثبيت التطبيق'
+  btn.style.cssText='position:fixed;bottom:80px;left:16px;z-index:9999;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;font-family:Cairo,sans-serif'
+  btn.onclick=()=>{
+    deferredPrompt.prompt()
+    deferredPrompt.userChoice.then(()=>{btn.remove();deferredPrompt=null})
+  }
+  document.body.appendChild(btn)
+})
+</script>
 </body>
 </html>

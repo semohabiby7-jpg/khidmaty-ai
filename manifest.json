@@ -1,0 +1,11 @@
+{
+ "name": "خِدْمَتي AI - KHADMETY AI",
+ "short_name": "خِدْمَتي AI",
+ "description": "منصة مصرية ذكية - مصلحتك في مكان واحد",
+ "start_url": "/",
+ "display": "standalone",
+ "background_color": "#0F1E3D",
+ "theme_color": "#D4A937",
+ "lang": "ar",
+ "dir": "rtl"
+}

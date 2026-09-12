@@ -1,6 +1,42 @@
 /* ===== KHADMETY AI — App Logic ===== */
 
 /* ===== Arabic Normalizer ===== */
+
+/* ===== GEMINI AI INTEGRATION ===== */
+function getGeminiKey(){return localStorage.getItem('gemini_key')||''}
+function saveGeminiKey(k){localStorage.setItem('gemini_key',k)}
+function saveAiSetup(e){e.preventDefault();const inp=document.getElementById('aiKeyInput');const k=inp.value.trim();if(!k){alert('ادخل الـ API key!');return false}saveGeminiKey(k);alert('تم تفعيل الذكاء الاصطناعي! 🎉');closeModal('aiSetupModal');return false}
+function openAiSetup(){openModal('aiSetupModal');const inp=document.getElementById('aiKeyInput');const k=getGeminiKey();if(k)inp.value=k}
+const aiHistory=[]
+
+function buildSystemPrompt(){
+  const svcList=services.map(s=>`- ${s.name} (${s.category}): ${s.desc} | الرسوم: ${s.fees} | المدة: ${s.duration} | المستندات: ${s.documents.join(', ')} | الخطوات: ${s.steps.join(' → ')} | الرابط: ${s.link}`).join('\n')
+  return `أنت "خِدْمَتي AI"، مساعد ذكي مصري للمصالح الحكومية. بتعرف الخدمات دي:\n${svcList}\n\nقواعدك:\n1. ردّ بالعربي المصري بود وود\n2. لو سألوا عن خدمة، اعرض التفاصيل (المستندات، الخطوات، الرسوم، الرابط)\n3. لو السؤال عام، ساعد وارشح خدمات مناسبة\n4. خليك صديق وحبيب، استخدم إيموجي بشكل طبيعي\n5. لو محتاج حد، اقترح مقدم خدمة\n6. ردّ مختصر ومفيد`
+}
+
+async function callGemini(msg){
+  aiHistory.push({role:'user',parts:[{text:msg}]})
+  if(!getGeminiKey())return '🔑 محتاج تدخل API key من Gemini الأول!<br><br>اضغط <strong>تسجيل الدخول</strong> فوق وادخل الـ API key بتاعك.<br><br>اعمله من: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>'
+  try{
+    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key='+getGeminiKey(),{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        systemInstruction:{parts:[{text:buildSystemPrompt()}]},
+        contents:aiHistory
+      })
+    })
+    const data=await res.json()
+    const reply=data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]?data.candidates[0].content.parts[0].text:null
+    if(!reply)throw new Error('no reply')
+    aiHistory.push({role:'model',parts:[{text:reply}]})
+    return reply
+  }catch(e){
+    aiHistory.pop()
+    return getAI(msg)
+  }
+}
+
 function norm(s){return s.replace(/[\u064B-\u0652]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim().toLowerCase()}
 
 /* ===== Render Categories ===== */
@@ -115,7 +151,7 @@ function openService(id){
 }
 
 /* ===== AI Chat ===== */
-function aiSend(){
+async function aiSend(){
   const inp=document.getElementById('aiInput')
   const msg=inp.value.trim()
   if(!msg)return
@@ -123,10 +159,12 @@ function aiSend(){
   chat.innerHTML+=`<div class="ai-msg user"><div class="ai-bubble">${msg}</div></div>`
   inp.value=''
   chat.scrollTop=chat.scrollHeight
-  setTimeout(()=>{
-    chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar">🤖</span><div class="ai-bubble">${getAI(msg)}</div></div>`
-    chat.scrollTop=chat.scrollHeight
-  },600)
+  chat.innerHTML+=`<div class="ai-msg bot" id="typing"><span class="ai-avatar">🤖</span><div class="ai-bubble">🤔 بفكر...</div></div>`
+  chat.scrollTop=chat.scrollHeight
+  const reply=await callGemini(msg)
+  const t=document.getElementById('typing');if(t)t.remove()
+  chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar">🤖</span><div class="ai-bubble">${reply.replace(/\n/g,'<br>')}</div></div>`
+  chat.scrollTop=chat.scrollHeight
 }
 function askAIAbout(name){
   closeModal('serviceModal')
@@ -135,70 +173,6 @@ function askAIAbout(name){
     document.getElementById('aiInput').value='عايز أعرف عن '+name
     aiSend()
   },400)
-}
-/* AI State - تذكر آخر خدمة اتعرف عنها */
-let lastService=null
-
-const synonyms={
-  'عربيه':'سياره مركبه رخص سواقه قياده','سياره':'عربيه مركبه رخص','رخص':'سواقه قياده تجديد',
-  'فلوس':'رسوم تكلفه مصاريف','رسوم':'فلوس تكلفه','ورق':'مستندات اوراق','مستندات':'ورق اوراق',
-  'بطاقه':'رقم قومي هوية','رقم قومي':'بطاقه هوية','معاش':'تقاعد تأمين','تأمين':'معاش اشتراك',
-  'جواز':'سفر هجره','ضرايب':'ضرائب ضريبي','شركه':'تاسيس استثمار'
-}
-function expandSynonyms(q){
-  let e=q
-  Object.keys(synonyms).forEach(k=>{if(q.includes(k))e+=' '+synonyms[k]})
-  return e
-}
-const openers=['تمام يا باشا 👌','ولا يهمك ❤️ فهمت طلبك','أوكي 🤝','حبيبي 😊','تمام يا نجم ⭐']
-
-function getAI(msg){
-  const q=norm(msg)
-  const words=q.split(/\s+/).filter(w=>w.length>2)
-  const opener=openers[Math.floor(Math.random()*openers.length)]
-  if(/^(سلام|سلام عليكم|هاي|هلا|اهلا|ازيك|عامل ايه|اخبارك|صباح|مساء|ازيك)/.test(q)) return '🙏 ولا يهمك، أهلاً وسهلاً بيّك!<br><br>أنا <strong>خِدْمَتي AI</strong>، مساعدك الشخصي في المصالح الحكومية.<br>قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة 😊<br><br>جرّب تكتب:<br>• "عايز أجدد رخصة العربية"<br>• "محتاج بطاقة رقم قومي"<br>• "عايز أعرف موقف التأمينات"'
-  if(/^(شكر|تسلم|جزاك|ربنا ي|ممتن|thanks|thank|تسلم ايدك)/.test(q)) return '❤️ ولا يهمك، ده واجبي يا باشا!<br>لو محتاج أي حاجة تانية أنا هنا دايماً 🤝<br><br>تحب نسأل عن حاجة تانية؟'
-  if(/^(ساعد|عايز مساعده|محتاج مساعده|ممكن تساعد|تعمل ايه|بتعمل ايه|ازاي|ازاى|الاخبار|ايوه)/.test(q)) return '❤️ أنا هنا عشان أساعدك!<br><br>أقدر أوجّهك في:<br>🚗 المرور (رخص، مخالفات)<br>🆔 الأحوال المدنية (بطاقة، شهادات)<br>📊 الضرائب (تسجيل، فاتورة)<br>👴 التأمينات (معاش، رقم تأميني)<br>📜 الشهر العقاري (توكيلات)<br>✈️ السفر (جواز سفر)<br>🏢 الشركات (تأسيس)<br>⚡ المرافق (كهرباء)<br>📮 البريد<br><br>قولّي المصلحة اللي محتاجها بالظبط 😊'
-  if(lastService && (q.includes('رسوم')||q.includes('فلوس')||q.includes('تكلفه')||q.includes('كم')||q.includes('كام'))){
-    return opener+'<br><br>💰 <strong>رسوم '+lastService.name+':</strong> '+lastService.fees+'<br>⏱️ المدة: '+lastService.duration+'<br><br>تحب أعرفك على المستندات كمان؟ 📋'
-  }
-  if(lastService && (q.includes('ورق')||q.includes('مستند')||q.includes('اوراق')||q.includes('محتاج اي'))){
-    return opener+'<br><br>📋 <strong>مستندات '+lastService.name+':</strong><br>'+lastService.documents.map(d=>'• '+d).join('<br>')+'<br><br>تحب أعرفك على الخطوات؟ 🪜'
-  }
-  if(lastService && (q.includes('خطوه')||q.includes('خطوات')||q.includes('ازاي')||q.includes('اعمل ايه')||q.includes('ابدا'))){
-    return opener+'<br><br>🪜 <strong>خطوات '+lastService.name+':</strong><br>'+lastService.steps.map((s,i)=>(i+1)+'. '+s).join('<br>')+'<br><br>🌐 <a href="'+lastService.link+'" target="_blank" style="color:var(--gold-d);font-weight:700;">روح للموقع الرسمي ←</a>'
-  }
-  const expandedQ=expandSynonyms(q)
-  const allWords=expandedQ.split(/\s+/).filter(w=>w.length>2)
-  const scored=services.map(s=>{
-    let score=0
-    const sn=norm(s.name), sd=norm(s.desc)
-    allWords.forEach(w=>{
-      if(sn.includes(w))score+=3
-      if(sd.includes(w))score+=2
-      if(s.tags.some(t=>norm(t)===w))score+=5
-      if(s.tags.some(t=>norm(t).includes(w)||w.includes(norm(t))))score+=2
-    })
-    return{s,score}
-  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score)
-  if(scored.length){
-    const m=scored[0].s
-    lastService=m
-    const recs=scored.slice(1,4).map(x=>'• '+x.s.icon+' '+x.s.name).join('<br>')
-    return opener+'<br><br><strong>'+m.icon+' '+m.name+'</strong><br>'+m.desc+'<br><br>📋 <strong>المستندات:</strong> '+m.documents.join('، ')+'<br>⏱️ <strong>المدة:</strong> '+m.duration+'<br>💰 <strong>الرسوم:</strong> '+m.fees+'<br>🏛️ <strong>الجهة:</strong> '+m.source+'<br>🌐 <strong>الموقع:</strong> <a href="'+m.link+'" target="_blank" style="color:var(--gold-d);font-weight:700;">زيارة الموقع الرسمي ←</a><br><br>لو مش فاضي، اضغط <strong>"محتاج حد يخلصهالي"</strong> 👤 وهنرشحلك مقدم خدمة في منطقتك.'+(recs?'<br><br>💡 خدمات ممكن تهمك كمان:<br>'+recs:'')+'<br><br>🔄 تقدر تسألني كمان "والرسوم؟" أو "والورق؟" أو "الخطوات؟"'
-  }
-  if(q.includes('مرور')||q.includes('رخص')||q.includes('مخالف')||q.includes('عربيه')||q.includes('سياره'))return '🚗 خدمات المرور متاحة! جرّب تكتب:<br>• "تجديد رخصة قيادة"<br>• "تجديد رخصة سيارة"<br>• "مخالفات مرورية"'
-  if(q.includes('ضري'))return '📊 خدمات الضرائب متاحة! جرّب:<br>• "تسجيل ضريبي"<br>• "فاتورة إلكترونية"'
-  if(q.includes('معاش')||q.includes('تأمين'))return '👴 خدمات التأمينات متاحة! جرّب:<br>• "رقم تأميني"<br>• "استخراج معاش"'
-  if(q.includes('جواز')||q.includes('سفر')||q.includes('هجره'))return '✈️ جرّب تكتب "جواز سفر" وأنا هطلعلك كل التفاصيل.'
-  if(q.includes('بطاق')||q.includes('رقم قومي')||q.includes('بدل فاقد'))return '🆔 جرّب:<br>• "بطاقة رقم قومي"<br>• "بدل فاقد"<br>• "شهادة ميلاد"'
-  if(q.includes('توكيل')||q.includes('عقاري')||q.includes('توثيق'))return '📜 جرّب تكتب "توكيل رسمي" وأنا هطلعلك التفاصيل.'
-  if(q.includes('شركه')||q.includes('تاسيس')||q.includes('استثمار'))return '🏢 جرّب تكتب "تأسيس شركة" وأنا هطلعلك التفاصيل.'
-  if(q.includes('كهرب')||q.includes('مياه')||q.includes('غاز')||q.includes('مرافق'))return '⚡ جرّب تكتب "توصيل كهرباء" وأنا هطلعلك التفاصيل.'
-  if(q.includes('بريد')||q.includes('شحن')||q.includes('طرد'))return '📮 جرّب تكتب "خدمات بريدية" وأنا هطلعلك التفاصيل.'
-  if(q.includes('محكمه')||q.includes('دعوي')||q.includes('قضيه')||q.includes('محكمة'))return '⚖️ جرّب تكتب "الاستعلام عن موقف دعوى" وأنا هطلعلك التفاصيل.'
-  if(q.includes('نتيجه')||q.includes('مدرسه')||q.includes('ثانويه')||q.includes('تعليم'))return '🎓 جرّب تكتب "الاستعلام عن نتيجة" وأنا هطلعلك التفاصيل.'
-  return 'ولا يهمك ❤️ قولّي المصلحة اللي محتاجها بالظبط.<br><br>مثلاً:<br>• "عايز أجدد رخصة العربية"<br>• "عايز أطلع بطاقة ضريبية"<br>• "عايز أعرف موقف التأمينات"<br>• "محتاج جواز سفر"'
 }
 
 /* ===== Hero Actions ===== */

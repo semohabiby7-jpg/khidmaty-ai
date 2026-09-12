@@ -36,6 +36,7 @@
         <div class="header-btns">
             <button class="btn-ghost" onclick="openModal('loginModal')">تسجيل الدخول</button>
             <button class="btn-gold" onclick="openModal('registerModal')">إنشاء حساب</button>
+            <button class="btn-gold" onclick="openAiSetup()" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));margin-right:6px">⚙️ AI</button>
         </div>
         <button class="burger" id="burger" onclick="toggleMobileNav()">☰</button>
     </div>
@@ -277,6 +278,24 @@
             <input type="text" placeholder="الخدمات اللي بتقدمها">
             <input type="tel" placeholder="رقم واتساب">
             <button type="submit" class="btn-submit">سجل كمقدم خدمة</button>
+        </form>
+    </div>
+</div>
+
+<!-- ========== AI SETUP MODAL ========== -->
+<div class="modal-overlay" id="aiSetupModal">
+    <div class="modal">
+        <button class="modal-x" onclick="closeModal('aiSetupModal')">✕</button>
+        <h2 class="modal-title">🔑 إعداد الذكاء الاصطناعي</h2>
+        <p class="modal-sub">أدخل Gemini API Key لتفعيل المساعد الذكي</p>
+        <form class="auth-form" onsubmit="return saveAiSetup(event)">
+            <input type="text" id="aiKeyInput" placeholder="AIza..." style="direction:ltr;text-align:left">
+            <button type="submit" class="btn-submit">حفظ وتفعيل ✅</button>
+            <p class="auth-switch" style="font-size:12px;line-height:1.7;text-align:right">
+                📌 اعمل API key مجاني من:<br>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--gold-d)">Google AI Studio ←</a>
+            </p>
+            <button type="button" class="btn-ghost" onclick="closeModal('aiSetupModal')" style="width:100%;margin-top:8px">إلغاء</button>
         </form>
     </div>
 </div>

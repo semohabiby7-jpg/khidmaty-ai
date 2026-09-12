@@ -542,7 +542,16 @@ font-weight:900;
 color:rgba(212,169,55,.15);
 line-height:1
 }
-.step-icon{font-size:42px;margin-bottom:14px}
+.step-icon{
+font-size:48px;
+margin:0 auto 18px;
+width:90px;height:90px;
+background:linear-gradient(135deg,var(--gold-l),var(--gold-d));
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+box-shadow:0 6px 18px rgba(212,169,55,.25);
+line-height:1
+}
 .step-card h3{font-size:18px;color:var(--navy);margin-bottom:8px}
 .step-card p{font-size:14px;color:var(--text-l)}
 .disclaimer{

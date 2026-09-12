@@ -327,9 +327,6 @@ function toggleStep(i){
 /* State */
 const state={serviceId:null,docsDone:[],stepsDone:[]}
 
-/* Override openService to use full page */
-function openService(id){openServicePage(id)}
-
 /* ===== USER DASHBOARD ===== */
 const myServices=[
   {id:1,svc:'تجديد رخصة قيادة',icon:'🚗',status:'progress',progress:60,docs:4,total:5},

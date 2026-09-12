@@ -138,23 +138,47 @@ function askAIAbout(name){
 }
 function getAI(msg){
   const q=norm(msg)
-  const match=services.find(s=>norm(s.name).includes(q)||s.tags.some(t=>norm(t).includes(q))||norm(s.desc).includes(q))
-  if(match){
+  const words=q.split(/\s+/).filter(w=>w.length>2)
+  // Greetings
+  if(/^(سلام|سلام عليكم|هاي|هلا|اهلا|ازيك|عامل ايه|اخبارك|صباح|مساء)/.test(q)) return '🙏 ولا يهمك، أهلاً وسهلاً بيّك!<br><br>أنا <strong>خِدْمَتي AI</strong>، مساعدك الشخصي في المصالح الحكومية.<br>قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة 😊<br><br>جرّب تكتب:<br>• "عايز أجدد رخصة العربية"<br>• "محتاج بطاقة رقم قومي"<br>• "عايز أعرف موقف التأمينات"'
+  // Thanks
+  if(/^(شكر|تسلم|جزاك|ربنا ي|ممتن|thanks|thank)/.test(q)) return '❤️ ولا يهمك، ده واجبي يا باشا!<br>لو محتاج أي حاجة تانية أنا هنا دايماً 🤝'
+  // Help
+  if(/^(ساعد||عايز مساعده|محتاج مساعده|ممكن تساعد|تعمل ايه|بتعمل ايه|ازاي|ازاى)/.test(q)) return '❤️ أنا هنا عشان أساعدك!<br><br>أقدر أوجّهك في:<br>🚗 المرور (رخص، مخالفات)<br>🆔 الأحوال المدنية (بطاقة، شهادات)<br>📊 الضرائب (تسجيل، فاتورة)<br>👴 التأمينات (معاش، رقم تأميني)<br>📜 الشهر العقاري (توكيلات)<br>✈️ السفر (جواز سفر)<br>🏢 الشركات (تأسيس)<br><br>قولّي المصلحة اللي محتاجها بالظبط 😊'
+  // Score every service by keyword hits
+  const scored=services.map(s=>{
+    let score=0
+    const sn=norm(s.name), sd=norm(s.desc)
+    const allWords=[...norm(s.name).split(/\s+/),...s.tags.map(norm),...norm(s.desc).split(/\s+/)]
+    words.forEach(w=>{
+      if(sn.includes(w))score+=3
+      if(sd.includes(w))score+=2
+      if(s.tags.some(t=>norm(t)===w))score+=5
+      if(s.tags.some(t=>norm(t).includes(w)||w.includes(norm(t))))score+=2
+    })
+    return{s,score}
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score)
+  if(scored.length){
+    const m=scored[0].s
+    const recs=scored.slice(1,4).map(x=>`• ${x.s.icon} ${x.s.name}`).join('<br>')
     return `تمام يا باشا 👌<br><br>
-    <strong>${match.icon} ${match.name}</strong><br>${match.desc}<br><br>
-    📋 <strong>المستندات:</strong> ${match.documents.join('، ')}<br>
-    ⏱️ <strong>المدة:</strong> ${match.duration}<br>
-    💰 <strong>الرسوم:</strong> ${match.fees}<br>
-    🏛️ <strong>الجهة:</strong> ${match.source}<br>
-    🌐 <strong>الموقع:</strong> <a href="${match.link}" target="_blank" style="color:var(--gold-d);font-weight:700;">زيارة الموقع الرسمي ←</a><br><br>
-    لو مش فاضي، اضغط <strong>"محتاج حد يخلصهالي"</strong> 👤 وهنرشحلك مقدم خدمة في منطقتك.`
+    <strong>${m.icon} ${m.name}</strong><br>${m.desc}<br><br>
+    📋 <strong>المستندات:</strong> ${m.documents.join('، ')}<br>
+    ⏱️ <strong>المدة:</strong> ${m.duration}<br>
+    💰 <strong>الرسوم:</strong> ${m.fees}<br>
+    🏛️ <strong>الجهة:</strong> ${m.source}<br>
+    🌐 <strong>الموقع:</strong> <a href="${m.link}" target="_blank" style="color:var(--gold-d);font-weight:700;">زيارة الموقع الرسمي ←</a><br><br>
+    لو مش فاضي، اضغط <strong>"محتاج حد يخلصهالي"</strong> 👤 وهنرشحلك مقدم خدمة في منطقتك.${recs?'<br><br>💡 خدمات ممكن تهمك كمان:<br>'+recs:''}`
   }
-  if(q.includes('مرور')||q.includes('رخص')||q.includes('مخالف'))return '🚗 خدمات المرور متاحة! اكتب "تجديد رخصة" أو "مخالفات" لتفاصيل أكثر.'
-  if(q.includes('ضري'))return '📊 خدمات الضرائب متاحة! اكتب "تسجيل ضريبي" أو "فاتورة إلكترونية".'
-  if(q.includes('معاش')||q.includes('تأمين'))return '👴 خدمات التأمينات متاحة! اكتب "رقم تأميني" أو "استخراج معاش".'
-  if(q.includes('جواز')||q.includes('سفر'))return '✈️ اكتب "جواز سفر" وأنا هطلعلك التفاصيل.'
-  if(q.includes('بطاق')||q.includes('رقم قومي'))return '🆔 اكتب "بطاقة رقم قومي" أو "بدل فاقد" وأنا هطلعلك التفاصيل.'
-  return 'ولا يهمك ❤️ قولّي المصلحة اللي محتاجها بالظبط.<br><br>مثلاً:<br>• "عايز أجدد رخصة العربية"<br>• "عايز أطلع بطاقة ضريبية"<br>• "عايز أعرف موقف التأمينات"'
+  // Category hints
+  if(q.includes('مرور')||q.includes('رخص')||q.includes('مخالف')||q.includes('عربيه')||q.includes('سياره'))return '🚗 خدمات المرور متاحة! جرّب تكتب:<br>• "تجديد رخصة قيادة"<br>• "تجديد رخصة سيارة"<br>• "مخالفات مرورية"'
+  if(q.includes('ضري'))return '📊 خدمات الضرائب متاحة! جرّب:<br>• "تسجيل ضريبي"<br>• "فاتورة إلكترونية"'
+  if(q.includes('معاش')||q.includes('تأمين'))return '👴 خدمات التأمينات متاحة! جرّب:<br>• "رقم تأميني"<br>• "استخراج معاش"'
+  if(q.includes('جواز')||q.includes('سفر')||q.includes('هجره'))return '✈️ جرّب تكتب "جواز سفر" وأنا هطلعلك كل التفاصيل.'
+  if(q.includes('بطاق')||q.includes('رقم قومي')||q.includes('بدل فاقد'))return '🆔 جرّب:<br>• "بطاقة رقم قومي"<br>• "بدل فاقد"<br>• "شهادة ميلاد"'
+  if(q.includes('توكيل')||q.includes('عقاري')||q.includes('توثيق'))return '📜 جرّب تكتب "توكيل رسمي" وأنا هطلعلك التفاصيل.'
+  if(q.includes('شركه')||q.includes('تاسيس')||q.includes('استثمار'))return '🏢 جرّب تكتب "تأسيس شركة" وأنا هطلعلك التفاصيل.'
+  return 'ولا يهمك ❤️ قولّي المصلحة اللي محتاجها بالظبط.<br><br>مثلاً:<br>• "عايز أجدد رخصة العربية"<br>• "عايز أطلع بطاقة ضريبية"<br>• "عايز أعرف موقف التأمينات"<br>• "محتاج جواز سفر"'
 }
 
 /* ===== Hero Actions ===== */

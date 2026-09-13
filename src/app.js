@@ -1,3 +1,24 @@
+/* ===== SUPABASE CONFIG ===== */
+const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
+const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
+
+async function loadFromSupabase(){
+  try{
+    const [svcRes,catRes,prvRes] = await Promise.all([
+      fetch(SUPABASE_URL+'/rest/v1/services?select=*', {headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}}),
+      fetch(SUPABASE_URL+'/rest/v1/categories?select=*', {headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}}),
+      fetch(SUPABASE_URL+'/rest/v1/providers?select=*', {headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}})
+    ])
+    const svc = await svcRes.json()
+    const cat = await catRes.json()
+    const prv = await prvRes.json()
+    if(svc.length){services.length=0;services.push(...svc.map(s=>({...s,desc:s.svc_desc})))}
+    if(cat.length){categories.length=0;categories.push(...cat)}
+    if(prv.length){providers.length=0;providers.push(...prv)}
+    console.log('✅ Loaded from Supabase:',services.length,'services,',categories.length,'categories,',providers.length,'providers')
+  }catch(e){console.log('Using local data:',e)}
+}
+
 /* ===== KHADMETY AI — App Logic ===== */
 
 /* ===== Arabic Normalizer ===== */
@@ -269,7 +290,8 @@ function renderGovLinks(){
   `).join('')
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded',async()=>{
+  await loadFromSupabase()
   renderCats()
   renderServices()
   renderProviders()

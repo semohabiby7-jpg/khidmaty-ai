@@ -144,6 +144,15 @@ function openService(id){
   const s=services.find(x=>x.id===id)
   if(!s)return
   const c=document.getElementById('serviceContent')
+  // Build interactive checklist
+  const checklist=s.documents.map((d,i)=>`<label class="check-item" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--gray);border-radius:10px;margin-bottom:8px;cursor:pointer;border:1px solid var(--gray-m)" onclick="toggleCheck(${i})">
+    <input type="checkbox" id="chk${i}" style="width:20px;height:20px;accent-color:var(--gold)">
+    <span id="chkLabel${i}" style="font-size:15px">${d}</span>
+  </label>`).join('')
+  const stepsChecklist=s.steps.map((st,i)=>`<div class="step-check" id="stepCk${i}" style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--gray);border-radius:10px;margin-bottom:8px;cursor:pointer;border:1px solid var(--gray-m)" onclick="toggleStepCheck(${i})">
+    <div id="stepIcon${i}" style="min-width:28px;height:28px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">${i+1}</div>
+    <div style="flex:1"><strong id="stepText${i}">${st}</strong><br><span style="font-size:12px;color:var(--text-l)" id="stepStatus${i}">اضغط لتحديد كإكتمل</span></div>
+  </div>`).join('')
   c.innerHTML=`
     <div class="sd-head">
       <span class="sd-icon">${s.icon}</span>
@@ -157,9 +166,17 @@ function openService(id){
     </div>
     ${s.eligibility?`<h3 class="sd-h3">من يستطيع الحصول عليها</h3><p style="color:var(--text);font-size:14px;margin-bottom:10px;">${s.eligibility}</p>`:''}
     <h3 class="sd-h3">📋 المستندات المطلوبة</h3>
-    <ul class="sd-list">${s.documents.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <div style="margin-bottom:16px" id="docChecklist">${checklist}</div>
+    <div style="background:rgba(212,169,55,.1);border-radius:10px;padding:12px;margin-bottom:20px;text-align:center">
+      <span id="docProgress" style="font-size:14px;font-weight:600">جهزت 0 من ${s.documents.length} مستندات</span>
+      <div style="height:6px;background:var(--gray-m);border-radius:3px;margin-top:8px"><div id="docBar" style="height:6px;background:linear-gradient(135deg,var(--gold),var(--gold-d));border-radius:3px;width:0%;transition:width .3s"></div></div>
+    </div>
     <h3 class="sd-h3">📝 خطوات التنفيذ</h3>
-    <ol class="sd-ol">${s.steps.map((st,i)=>`<li><strong>${i+1}.</strong> ${st}</li>`).join('')}</ol>
+    <div style="margin-bottom:16px" id="stepsChecklist">${stepsChecklist}</div>
+    <div style="background:rgba(15,30,61,.05);border-radius:10px;padding:12px;margin-bottom:20px;text-align:center">
+      <span id="stepProgress" style="font-size:14px;font-weight:600">خلصت 0 من ${s.steps.length} خطوات</span>
+      <div style="height:6px;background:var(--gray-m);border-radius:3px;margin-top:8px"><div id="stepBarFill" style="height:6px;background:linear-gradient(135deg,var(--navy),var(--navy-l));border-radius:3px;width:0%;transition:width .3s"></div></div>
+    </div>
     <div class="sd-actions">
       <a href="${s.link}" target="_blank" class="sd-link-btn">🔗 الموقع الرسمي</a>
       <button class="sd-ai-btn" onclick="askAIAbout('${s.name}')">🤖 اسأل AI عنها</button>

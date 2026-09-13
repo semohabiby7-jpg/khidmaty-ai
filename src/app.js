@@ -254,7 +254,8 @@ function renderProviders(){
         <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
         <div style="display:flex;gap:8px;margin-top:12px">
           <button onclick="requestProvider('${p.name.replace(/'/g,"")}')" style="flex:1;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px">📩 اطلب خدمة</button>
-          <button onclick="shareProvider('${p.name.replace(/'/g,"")}')" style="background:var(--gray);border:1px solid var(--gray-m);padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px">📤</button>
+          <button onclick="openReviewModal('${p.name.replace(/'/g,"")}')" style="background:var(--gray);border:1px solid var(--gray-m);padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px" title="قيّم">⭐</button>
+          <button onclick="shareProvider('${p.name.replace(/'/g,"")}')" style="background:var(--gray);border:1px solid var(--gray-m);padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px" title="شارك">📤</button>
         </div>
       </div>
     `
@@ -749,4 +750,96 @@ let selectedGov='all'
 function filterProviders(gov){
   selectedGov=gov
   renderProviders()
+}
+
+/* ===== REVIEWS & VERIFICATION ===== */
+function getProviderReviews(providerId){
+  return JSON.parse(localStorage.getItem('reviews_'+providerId)||'[]')
+}
+function addReview(providerId,review){
+  const reviews=getProviderReviews(providerId)
+  review.id=Date.now()
+  review.date=new Date().toLocaleDateString('ar-EG')
+  reviews.unshift(review)
+  localStorage.setItem('reviews_'+providerId,JSON.stringify(reviews))
+}
+function renderReviews(providerName){
+  // Find provider
+  const p=providers.find(x=>x.name===providerName)
+  if(!p)return ''
+  const pid=p.id||providerName
+  const reviews=getProviderReviews(pid)
+  const avg=reviews.length?(reviews.reduce((s,r)=>s+r.stars,0)/reviews.length).toFixed(1):p.rating
+  
+  const starsHtml=Array(5).fill(0).map((_,i)=>`<span style="font-size:20px;cursor:pointer;color:${i<Math.round(avg)?'var(--gold)':'var(--gray-m)'}" onclick="setReviewStars(${i+1})">${i<Math.round(avg)?'★':'☆'}</span>`).join('')
+  
+  const reviewsList=reviews.slice(0,5).map(r=>`
+    <div style="background:var(--gray);border-radius:10px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong style="font-size:14px">${r.name||'مستخدم'}</strong>
+        <span style="color:var(--gold)">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-l);margin:4px 0 0">${r.text||''}</p>
+      <small style="color:var(--text-l)">${r.date}</small>
+    </div>
+  `).join('')
+  
+  return `
+    <div style="margin-top:16px;border-top:1px solid var(--gray-m);padding-top:16px">
+      <h4 style="margin:0 0 8px;font-size:16px">⭐ التقييمات (${reviews.length} تقييم)</h4>
+      <div style="background:var(--gray);border-radius:10px;padding:16px;margin-bottom:16px;text-align:center">
+        <div style="font-size:32px;font-weight:900;color:var(--gold)">${avg}</div>
+        <div style="margin:4px 0">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</div>
+        <small style="color:var(--text-l)">${reviews.length} تقييم من عملاء فعليين</small>
+      </div>
+      <div id="reviewsList">${reviewsList||'<p style="text-align:center;color:var(--text-l);padding:20px">لسه مفيش تقييمات. كن أول واحد! 🌟</p>'}</div>
+    </div>
+  `
+}
+
+let selectedReviewStars=5
+function setReviewStars(n){
+  selectedReviewStars=n
+  const stars=document.querySelectorAll('#reviewStarPicker span')
+  stars.forEach((s,i)=>{s.textContent=i<n?'★':'☆';s.style.color=i<n?'var(--gold)':'var(--gray-m)'})
+}
+
+function submitReview(providerName){
+  const token=localStorage.getItem('sb_token')
+  const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
+  if(!token){alert('سجل دخول الأول عشان تقيّم 👍');openModal('loginModal');return}
+  
+  const text=document.getElementById('reviewText')?.value?.trim()||''
+  const p=providers.find(x=>x.name===providerName)
+  if(!p)return
+  const pid=p.id||providerName
+  addReview(pid,{name:user.name||'مستخدم',stars:selectedReviewStars,text})
+  alert('شكراً لتقييمك! ⭐')
+  closeModal('reviewModal')
+  renderProviders()
+}
+
+function openReviewModal(providerName){
+  const token=localStorage.getItem('sb_token')
+  if(!token){alert('سجل دخول الأول عشان تقيّم 👍');openModal('loginModal');return}
+  
+  // Create modal dynamically
+  let modal=document.getElementById('reviewModal')
+  if(!modal){
+    modal=document.createElement('div')
+    modal.className='modal-overlay'
+    modal.id='reviewModal'
+    modal.innerHTML=`<div class="modal"><button class="modal-x" onclick="closeModal('reviewModal')">✕</button><h2 class="modal-title">⭐ قيّم المقدم</h2><div id="reviewContent"></div></div>`
+    document.body.appendChild(modal)
+  }
+  
+  document.getElementById('reviewContent').innerHTML=`
+    <p style="text-align:center;margin-bottom:16px"><strong>${providerName}</strong></p>
+    <div id="reviewStarPicker" style="text-align:center;margin:16px 0">
+      ${Array(5).fill(0).map((_,i)=>`<span style="font-size:36px;cursor:pointer;color:${i<5?'var(--gold)':'var(--gray-m)'}" onclick="setReviewStars(${i+1})">${i<5?'★':'☆'}</span>`).join('')}
+    </div>
+    <textarea id="reviewText" placeholder="اكتب تعليقك (اختياري)..." style="width:100%;min-height:80px;padding:12px;border:1px solid var(--gray-m);border-radius:10px;font-family:Cairo,sans-serif;resize:vertical"></textarea>
+    <button onclick="submitReview('${providerName.replace(/'/g,"")}')" style="width:100%;margin-top:12px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px">⭐ أضف التقييم</button>
+  `
+  openModal('reviewModal')
 }

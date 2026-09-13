@@ -36,10 +36,11 @@ async function callGemini(msg){
   aiHistory.push({role:'user',parts:[{text:msg}]})
   // Using Worker proxy - no key needed
   try{
+    const svcContext=services.map(s=>`- ${s.icon} ${s.name} (${s.category}): ${s.desc} | المستندات: ${(s.documents||[]).join(', ')} | الخطوات: ${(s.steps||[]).join(' → ')} | الرسوم: ${s.fees||'غير محدد'} | المدة: ${s.duration||'غير محدد'} | الجهة: ${s.source||'غير محدد'} | الرابط: ${s.link||'غير متاح'}`).join('\n')
     const res=await fetch('https://wispy-pine-7fd2.semohabiby7.workers.dev/',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:msg,history:aiHistory})
+      body:JSON.stringify({message:msg,history:aiHistory,services:svcContext})
     })
     const data=await res.json()
     if(data.reply){

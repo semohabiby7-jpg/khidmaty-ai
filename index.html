@@ -67,7 +67,7 @@
         <div class="header-btns">
             <button class="btn-ghost" onclick="openModal('loginModal')" aria-label="تسجيل الدخول">تسجيل الدخول</button>
             <button class="btn-gold" onclick="openModal('registerModal')" aria-label="إنشاء حساب جديد">إنشاء حساب</button>
-            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="background:transparent;border:none;font-size:20px;cursor:pointer;padding:0 4px" aria-label="تبديل الوضع">🌙</button><button class="btn-gold" onclick="openAiSetup()" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));margin-right:6px">⚙️ AI</button>
+            <button class="btn-gold" onclick="openModal('settingsModal')" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));margin-right:6px" aria-label="الإعدادات">⚙️</button>
         </div>
         <button class="burger" id="burger" onclick="toggleMobileNav()" aria-label="القائمة">☰</button>
     </div>
@@ -333,6 +333,34 @@
 
 <script src="src/data/services.js"></script>
 <script src="src/app.js"></script>
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+        <button class="modal-x" onclick="closeModal('settingsModal')">✕</button>
+        <h2 class="modal-title">⚙️ الإعدادات</h2>
+        <p class="modal-sub">تخصيص تجربتك في خِدْمَتي AI</p>
+        <div class="settings-section">
+            <div class="setting-row">
+                <div><strong>🌙 المظهر</strong><p style="font-size:13px;color:var(--text-l);margin:4px 0 0">الوضع الداكن أو الفاتح</p></div>
+                <button class="setting-toggle" id="themeBtn" onclick="toggleTheme()" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px 20px;border-radius:10px;font-weight:700;cursor:pointer">🌙</button>
+            </div>
+            <div class="setting-row">
+                <div><strong>🌐 اللغة</strong><p style="font-size:13px;color:var(--text-l);margin:4px 0 0">عربي / English</p></div>
+                <button class="setting-toggle" id="langBtn" onclick="toggleLang()" style="background:var(--navy);color:var(--white);border:none;padding:10px 20px;border-radius:10px;font-weight:700;cursor:pointer">عربي</button>
+            </div>
+            <div class="setting-row">
+                <div><strong>🤖 الذكاء الاصطناعي</strong><p style="font-size:13px;color:var(--text-l);margin:4px 0 0">تفعيل Gemini AI</p></div>
+                <button class="setting-toggle" onclick="closeModal('settingsModal');openAiSetup()" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));color:var(--white);border:none;padding:10px 20px;border-radius:10px;font-weight:700;cursor:pointer">إعداد</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.settings-section{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--gray);border-radius:12px;border:1px solid var(--gray-m)}
+.setting-row strong{font-size:15px;color:var(--navy)}
+</style>
+
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{

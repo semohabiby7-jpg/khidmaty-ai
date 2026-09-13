@@ -524,6 +524,7 @@ function toggleTheme(){
   localStorage.setItem('theme',next)
   const btn=document.getElementById('themeToggle')
   if(btn)btn.textContent=next==='dark'?'☀️':'🌙'
+  const sb=document.getElementById('themeBtn');if(sb)sb.textContent=next==='dark'?'☀️':'🌙'
 }
 (function(){
   const saved=localStorage.getItem('theme')
@@ -532,3 +533,21 @@ function toggleTheme(){
     setTimeout(()=>{const b=document.getElementById('themeToggle');if(b)b.textContent='☀️'},100)
   }
 })()
+
+/* ===== LANGUAGE TOGGLE ===== */
+function toggleLang(){
+  const cur=localStorage.getItem('lang')||'ar'
+  const next=cur==='ar'?'en':'ar'
+  localStorage.setItem('lang',next)
+  const btn=document.getElementById('langBtn')
+  if(btn)btn.textContent=next==='ar'?'عربي':'English'
+  if(next==='en'){
+    document.documentElement.lang='en'
+    document.documentElement.dir='ltr'
+    alert('English mode selected ✅\nFull translation coming soon!')
+  }else{
+    document.documentElement.lang='ar'
+    document.documentElement.dir='rtl'
+    alert('تم تفعيل العربية ✅')
+  }
+}

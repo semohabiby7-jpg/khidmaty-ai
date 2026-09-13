@@ -113,6 +113,9 @@
             <button class="btn-help" onclick="needHelp()">
                 <span>👤</span> محتاج حد يخلصهالي
             </button>
+            <button class="btn-ghost" onclick="shareSite()" style="border:2px solid var(--gold);color:var(--gold-d);margin-top:10px">
+                <span>📤</span> شارك الموقع
+            </button>
         </div>
     </div>
 </section>
@@ -253,7 +256,12 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2024 خِدْمَتي AI | جميع الحقوق محفوظة <span class="sig">MIA8444</span></p>
+            <p>© 2024 خِدْمَتي AI | جميع الحقوق محفوظة <span class="sig">MIA8444</span><br>
+        <div style="margin-top:12px;display:flex;gap:10px;justify-content:center">
+          <button onclick="shareSite()" style="background:var(--gold);color:var(--navy);border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px">📤 واتساب</button>
+          <button onclick="shareFacebook('https://semohabiby7-jpg.github.io/khidmaty-ai/')" style="background:#1877f2;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px">📘 فيسبوك</button>
+          <button onclick="copyLink('https://semohabiby7-jpg.github.io/khidmaty-ai/')" style="background:var(--navy);color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px">🔗 نسخ الرابط</button>
+        </div></p>
         </div>
     </div>
 </footer>

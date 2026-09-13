@@ -86,6 +86,7 @@ function renderServices(){
       <p class="svc-desc">${s.desc}</p>
       <span class="svc-badge ${s.online?'badge-on':'badge-off'}">${s.online?'🌐 أونلاين':'🏛️ حضوري'}</span>
       <br><span class="svc-link">تفاصيل الخدمة ←</span>
+      <div class="svc-share" onclick="event.stopPropagation();shareService('${s.name.replace(/'/g,"")}','${s.link||""}')" style="position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:none">📤</div>
     </div>
   `).join('')
 }
@@ -626,5 +627,31 @@ function toggleLang(){
     document.documentElement.lang='ar'
     document.documentElement.dir='rtl'
     alert('تم تفعيل العربية ✅')
+  }
+}
+
+/* ===== SHARE FUNCTIONS ===== */
+function shareService(name,link){
+  const text='شوف خدمة '+name+' على خِدْمَتي AI 🔗\n'+link+'\n\nمصلحتك في مكان واحد!'
+  const url='https://wa.me/?text='+encodeURIComponent(text)
+  window.open(url,'_blank')
+}
+function shareFacebook(url){
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank')
+}
+function shareTwitter(text,url){
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url),'_blank')
+}
+function copyLink(url){
+  navigator.clipboard.writeText(url).then(()=>alert('تم نسخ الرابط! ✅')).catch(()=>alert('انسخ: '+url))
+}
+function shareSite(){
+  const text='خِدْمَتي AI - مصلحتك في مكان واحد! 🎯'
+  const url='https://semohabiby7-jpg.github.io/khidmaty-ai/'
+  const full=text+'\n'+url
+  if(navigator.share){
+    navigator.share({title:'خِدْمَتي AI',text:text,url:url}).catch(()=>{})
+  }else{
+    window.open('https://wa.me/?text='+encodeURIComponent(full),'_blank')
   }
 }

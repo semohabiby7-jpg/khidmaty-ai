@@ -715,3 +715,27 @@ border-radius:var(--radius-s)
 .form-row{flex-direction:column}
 .footer{padding-bottom:80px}
 }
+
+/* ===== ANIMATIONS & VISUAL UPGRADES ===== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes typing{0%,60%,100%{opacity:.4}30%{opacity:1}}
+.svc-card{animation:fadeInUp .4s ease-out}
+.svc-card:hover{transform:translateY(-8px);box-shadow:0 12px 30px rgba(15,30,61,.15)}
+.ai-msg.bot .ai-avatar{animation:pulse 2s infinite}
+.hero-badge{animation:fadeInUp .6s ease-out}
+.hero-title{animation:fadeInUp .7s ease-out}
+.hero-subtitle{animation:fadeInUp .8s ease-out}
+.hero-search-wrap{animation:fadeInUp .9s ease-out}
+.hero-chips{animation:fadeInUp 1s ease-out}
+.hero-actions{animation:fadeInUp 1.1s ease-out}
+#typing .ai-bubble{animation:typing 1.4s infinite}
+.ai-bubble{transition:all .2s}
+.ai-bubble:hover{transform:translateY(-1px)}
+.ai-msg.bot .ai-bubble{background:linear-gradient(135deg,#fff,#f5f6f8);border-color:var(--gold-l)}
+.cat-pill{transition:all .3s}
+.cat-pill:hover{transform:translateY(-2px)}
+.chip{transition:all .3s}
+.chip:hover{transform:scale(1.05);background:var(--gold);color:var(--navy)}
+.step-card{animation:fadeInUp .5s ease-out}
+.provider-cta{animation:fadeInUp .6s ease-out}

@@ -24,10 +24,7 @@ async function loadFromSupabase(){
 /* ===== Arabic Normalizer ===== */
 
 /* ===== GEMINI AI INTEGRATION ===== */
-function getGeminiKey(){return localStorage.getItem('gemini_key')||''}
-function saveGeminiKey(k){localStorage.setItem('gemini_key',k)}
-function saveAiSetup(e){e.preventDefault();const inp=document.getElementById('aiKeyInput');const k=inp.value.trim();if(!k){alert('ادخل الـ API key!');return false}saveGeminiKey(k);alert('تم تفعيل الذكاء الاصطناعي! 🎉');closeModal('aiSetupModal');return false}
-function openAiSetup(){openModal('aiSetupModal');const inp=document.getElementById('aiKeyInput');const k=getGeminiKey();if(k)inp.value=k}
+
 const aiHistory=[]
 
 function buildSystemPrompt(){

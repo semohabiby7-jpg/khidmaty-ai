@@ -321,23 +321,7 @@
     </div>
 </div>
 
-<!-- ========== AI SETUP MODAL ========== -->
-<div class="modal-overlay" id="aiSetupModal">
-    <div class="modal">
-        <button class="modal-x" onclick="closeModal('aiSetupModal')">✕</button>
-        <h2 class="modal-title">🔑 إعداد الذكاء الاصطناعي</h2>
-        <p class="modal-sub">أدخل Gemini API Key لتفعيل المساعد الذكي</p>
-        <form class="auth-form" onsubmit="return saveAiSetup(event)">
-            <input type="text" id="aiKeyInput" placeholder="AIza..." style="direction:ltr;text-align:left">
-            <button type="submit" class="btn-submit">حفظ وتفعيل ✅</button>
-            <p class="auth-switch" style="font-size:12px;line-height:1.7;text-align:right">
-                📌 اعمل API key مجاني من:<br>
-                <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--gold-d)">Google AI Studio ←</a>
-            </p>
-            <button type="button" class="btn-ghost" onclick="closeModal('aiSetupModal')" style="width:100%;margin-top:8px">إلغاء</button>
-        </form>
-    </div>
-</div>
+
 
 <script src="src/data/services.js"></script>
 <script src="src/app.js"></script>

@@ -238,8 +238,85 @@ function renderProviders(){
 /* ===== Modals ===== */
 function openModal(id){document.getElementById(id).classList.add('show')}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
-function handleLogin(e){e.preventDefault();alert('سيتم تفعيل تسجيل الدخول عند رفع الموقع على الاستضافة ✅');closeModal('loginModal');return false}
-function handleRegister(e){e.preventDefault();alert('تم إنشاء حسابك بنجاح! 🎉');closeModal('registerModal');return false}
+/* ===== SUPABASE AUTH ===== */
+function makeEmail(phone){return phone.replace(/[^0-9]/g,'')+'@khidmaty.ai'}
+
+async function handleRegister(e){
+  e.preventDefault()
+  const name=document.getElementById('regName').value.trim()
+  const phone=document.getElementById('regPhone').value.trim()
+  const gov=document.getElementById('regGov').value
+  const pass=document.getElementById('regPass').value
+  if(!name||!phone||!gov||!pass){alert('املأ كل البيانات!');return false}
+  try{
+    const email=makeEmail(phone)
+    const res=await fetch(SUPABASE_URL+'/auth/v1/signup',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email,password:pass,data:{name,gov,phone}})
+    })
+    const data=await res.json()
+    if(data.access_token){
+      localStorage.setItem('sb_token',data.access_token)
+      localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email}))
+      alert('تم إنشاء حسابك بنجاح! 🎉\nأهلاً '+name)
+      closeModal('registerModal')
+      updateAuthUI()
+    }else{
+      alert(data.msg||data.message||'رقم الموبايل مستخدم بالفعل')
+    }
+  }catch(err){alert('حصلت مشكلة، جرّب تاني')}
+  return false
+}
+
+async function handleLogin(e){
+  e.preventDefault()
+  const phone=document.getElementById('loginPhone').value.trim()
+  const pass=document.getElementById('loginPass').value
+  if(!phone||!pass){alert('املأ البيانات!');return false}
+  try{
+    const email=makeEmail(phone)
+    const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email,password:pass})
+    })
+    const data=await res.json()
+    if(data.access_token){
+      const user=data.user
+      const name=user.user_metadata?.name||user.email
+      localStorage.setItem('sb_token',data.access_token)
+      localStorage.setItem('sb_user',JSON.stringify({name:name,gov:user.user_metadata?.gov||'',phone,email}))
+      alert('أهلاً '+name+' 👋')
+      closeModal('loginModal')
+      updateAuthUI()
+    }else{
+      alert('رقم الموبايل أو كلمة المرور غلط')
+    }
+  }catch(err){alert('حصلت مشكلة، جرّب تاني')}
+  return false
+}
+
+function logout(){
+  localStorage.removeItem('sb_token')
+  localStorage.removeItem('sb_user')
+  updateAuthUI()
+  alert('تم تسجيل الخروج 👋')
+}
+
+function updateAuthUI(){
+  const token=localStorage.getItem('sb_token')
+  const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
+  const btns=document.querySelector('.header-btns')
+  if(token&&user.name){
+    if(btns)btns.innerHTML='<span style="color:var(--navy);font-weight:600;font-size:14px">👋 '+user.name+'</span><button class="btn-gold" onclick="logout()">خروج</button>'
+  }else{
+    if(btns)btns.innerHTML='<button class="btn-ghost" onclick="openModal(\'loginModal\')">تسجيل الدخول</button><button class="btn-gold" onclick="openModal(\'registerModal\')">إنشاء حساب</button><button class="btn-gold" onclick="openModal(\'settingsModal\')" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));margin-right:6px" aria-label="الإعدادات">⚙️</button>'
+  }
+}
+
+updateAuthUI()
+
 function handleProvider(e){e.preventDefault();alert('تم تسجيلك كمقدم خدمة! هنتواصل معاك للتوثيق ✅');closeModal('providerModal');return false}
 
 /* ===== Mobile Nav ===== */

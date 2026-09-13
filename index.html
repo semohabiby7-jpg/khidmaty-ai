@@ -274,8 +274,8 @@
         <h2 class="modal-title">تسجيل الدخول</h2>
         <p class="modal-sub">ادخل بياناتك عشان تكمّل</p>
         <form class="auth-form" onsubmit="return handleLogin(event)">
-            <input type="tel" placeholder="رقم الموبايل" required>
-            <input type="password" placeholder="كلمة المرور" required>
+            <input type="tel" id="loginPhone" placeholder="رقم الموبايل" required>
+            <input type="password" id="loginPass" placeholder="كلمة المرور" required>
             <button type="submit" class="btn-submit">دخول</button>
             <p class="auth-switch">مش عندك حساب؟ <a onclick="closeModal('loginModal');openModal('registerModal')">أنشئ حساب</a></p>
         </form>
@@ -288,10 +288,10 @@
         <h2 class="modal-title">إنشاء حساب</h2>
         <p class="modal-sub">أنشئ حسابك في دقيقة</p>
         <form class="auth-form" onsubmit="return handleRegister(event)">
-            <input type="text" placeholder="الاسم الكامل" required>
-            <input type="tel" placeholder="رقم الموبايل" required>
-            <select required><option value="">اختر المحافظة</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الشرقية</option><option>الدقهلية</option><option>البحيرة</option><option>القليوبية</option><option>الغربية</option><option>المنوفية</option><option>كفر الشيخ</option><option>دمياط</option><option>بورسعيد</option><option>الإسماعيلية</option><option>السويس</option><option>بني سويف</option><option>الفيوم</option><option>المنيا</option><option>أسيوط</option><option>سوهاج</option><option>قنا</option><option>الأقصر</option><option>أسوان</option><option>البحر الأحمر</option><option>الوادي الجديد</option><option>مطروح</option><option>شمال سيناء</option><option>جنوب سيناء</option></select>
-            <input type="password" placeholder="كلمة المرور" required>
+            <input type="text" id="regName" placeholder="الاسم الكامل" required>
+            <input type="tel" id="regPhone" placeholder="رقم الموبايل" required>
+            <select id="regGov" required><option value="">اختر المحافظة</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الشرقية</option><option>الدقهلية</option><option>البحيرة</option><option>القليوبية</option><option>الغربية</option><option>المنوفية</option><option>كفر الشيخ</option><option>دمياط</option><option>بورسعيد</option><option>الإسماعيلية</option><option>السويس</option><option>بني سويف</option><option>الفيوم</option><option>المنيا</option><option>أسيوط</option><option>سوهاج</option><option>قنا</option><option>الأقصر</option><option>أسوان</option><option>البحر الأحمر</option><option>الوادي الجديد</option><option>مطروح</option><option>شمال سيناء</option><option>جنوب سيناء</option></select>
+            <input type="password" id="regPass" placeholder="كلمة المرور" required>
             <button type="submit" class="btn-submit">إنشاء الحساب</button>
             <p class="auth-switch">عندك حساب؟ <a onclick="closeModal('registerModal');openModal('loginModal')">سجل دخول</a></p>
         </form>

@@ -232,26 +232,55 @@ function renderProviders(){
   const grid=document.getElementById('providersGrid')
   const filtered=selectedGov==='all'?providers:providers.filter(p=>p.gov===selectedGov)
   const govs=[...new Set(providers.map(p=>p.gov))]
-  const filterHtml=`<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center"><button class="cat-pill ${selectedGov==='all'?'active':''}" onclick="filterProviders('all')">الكل</button>${govs.map(g=>`<button class="cat-pill ${selectedGov===g?'active':''}" onclick="filterProviders('${g}')">${g}</button>`).join('')}</div>`
-  if(filtered.length===0){grid.innerHTML=filterHtml+'<p class="no-results">لا توجد مقدمين في هذه المحافظة حالياً 🤷</p>';return}
+  const filterHtml=`<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center"><button class="cat-pill ${selectedGov==='all'?'active':''}" onclick="filterProviders('all')">📍 الكل</button>${govs.map(g=>`<button class="cat-pill ${selectedGov===g?'active':''}" onclick="filterProviders('${g}')">${g}</button>`).join('')}</div>`
+  if(filtered.length===0){grid.innerHTML=filterHtml+'<div style="text-align:center;padding:40px;background:var(--gray);border-radius:var(--radius)"><div style="font-size:40px;margin-bottom:12px">🔍</div><p style="color:var(--text-l)">لا توجد مقدمين في هذه المحافظة حالياً</p><p style="font-size:13px;margin-top:8px">كنت أول مقدم خدمة في منطقتك! <button onclick="openModal(\'providerModal\')" style="background:var(--gold);color:var(--navy);border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;margin-top:8px">سجل كمقدم خدمة</button></p></div>';return}
   grid.innerHTML=filterHtml+filtered.map(p=>{
     const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
-    const bc=p.badge==='Top Provider'?'badge-on':p.badge==='Recommended'?'badge-on':'badge-off'
+    const bc=p.badge==='Top Provider'||p.badge==='Recommended'?'badge-on':p.badge==='جديد'?'badge-off':'badge-off'
+    const verifiedIcon=p.verified?'✓':''
     const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
+    const servicesList=p.services||p.type
     return `
-      <div class="prv-card">
+      <div class="prv-card" style="position:relative">
+        ${p.verified?'<div style="position:absolute;top:10px;left:10px;background:var(--success);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700" title="موثوق">✓</div>':''}
         <div class="prv-top">
           <div class="prv-avatar">${ic}</div>
           <div class="prv-info"><h4>${p.name}</h4><span>${p.type} — ${p.gov}</span></div>
         </div>
         <div class="prv-badges">
           <span class="svc-badge ${bc}">${p.badge}</span>
-          <span class="svc-badge badge-off">${p.orders} طلب</span>
+          <span class="svc-badge badge-off">💼 ${p.orders} عملية</span>
         </div>
-        <p class="prv-stars">${stars} ${p.rating}</p>
+        <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button onclick="requestProvider('${p.name.replace(/'/g,"")}')" style="flex:1;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px">📩 اطلب خدمة</button>
+          <button onclick="shareProvider('${p.name.replace(/'/g,"")}')" style="background:var(--gray);border:1px solid var(--gray-m);padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px">📤</button>
+        </div>
       </div>
     `
   }).join('')
+}
+
+function requestProvider(name){
+  const token=localStorage.getItem('sb_token')
+  const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
+  if(!token){
+    alert('سجل دخول الأول عشان تطلب خدمة 👍')
+    openModal('loginModal')
+    return
+  }
+  // Save request to localStorage (until requests table is ready)
+  const myReqs=JSON.parse(localStorage.getItem('myRequests')||'[]')
+  const req={id:Date.now(),provider:name,service:'',status:'new',date:new Date().toISOString()}
+  myReqs.unshift(req)
+  localStorage.setItem('myRequests',JSON.stringify(myReqs))
+  alert('تم إرسال طلبك لـ '+name+'! 🎉\nهيتواصل معاك قريب\nتقدر تتابع طلبك في "مصالحي"')
+}
+
+function shareProvider(name){
+  const text='شوف '+name+' على خِدْمَتي AI — مقدم خدمة موثوق 🔗'
+  const url='https://semohabiby7-jpg.github.io/khidmaty-ai/#providers'
+  window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+url),'_blank')
 }
 
 /* ===== Modals ===== */

@@ -84,6 +84,7 @@ function renderServices(){
       <p class="svc-desc">${s.desc}</p>
       <span class="svc-badge ${s.online?'badge-on':'badge-off'}">${s.online?'🌐 أونلاين':'🏛️ حضوري'}</span>
       <br><span class="svc-link">تفاصيل الخدمة ←</span>
+      <div class="svc-fav" onclick="event.stopPropagation();toggleFav(${s.id})" style="position:absolute;top:10px;right:10px;font-size:18px;cursor:pointer">${isFav(s.id)?'❤️':'🤍'}</div>
       <div class="svc-share" onclick="event.stopPropagation();shareService('${s.name.replace(/'/g,"")}','${s.link||""}')" style="position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:none">📤</div>
     </div>
   `).join('')
@@ -214,7 +215,11 @@ function needHelp(){
 /* ===== Render Providers ===== */
 function renderProviders(){
   const grid=document.getElementById('providersGrid')
-  grid.innerHTML=providers.map(p=>{
+  const filtered=selectedGov==='all'?providers:providers.filter(p=>p.gov===selectedGov)
+  const govs=[...new Set(providers.map(p=>p.gov))]
+  const filterHtml=`<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center"><button class="cat-pill ${selectedGov==='all'?'active':''}" onclick="filterProviders('all')">الكل</button>${govs.map(g=>`<button class="cat-pill ${selectedGov===g?'active':''}" onclick="filterProviders('${g}')">${g}</button>`).join('')}</div>`
+  if(filtered.length===0){grid.innerHTML=filterHtml+'<p class="no-results">لا توجد مقدمين في هذه المحافظة حالياً 🤷</p>';return}
+  grid.innerHTML=filterHtml+filtered.map(p=>{
     const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
     const bc=p.badge==='Top Provider'?'badge-on':p.badge==='Recommended'?'badge-on':'badge-off'
     const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
@@ -652,4 +657,21 @@ function shareSite(){
   }else{
     window.open('https://wa.me/?text='+encodeURIComponent(full),'_blank')
   }
+}
+
+/* ===== FAVORITES SYSTEM ===== */
+function toggleFav(id){
+  let favs=JSON.parse(localStorage.getItem('favs')||'[]')
+  const i=favs.indexOf(id)
+  if(i>-1){favs.splice(i,1)}else{favs.push(id)}
+  localStorage.setItem('favs',JSON.stringify(favs))
+  renderServices()
+}
+function isFav(id){return(JSON.parse(localStorage.getItem('favs')||'[]')).includes(id)}
+
+/* ===== PROVIDER FILTER BY GOV ===== */
+let selectedGov='all'
+function filterProviders(gov){
+  selectedGov=gov
+  renderProviders()
 }

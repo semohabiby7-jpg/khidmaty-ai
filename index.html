@@ -65,11 +65,11 @@
             <a href="#providers" class="nav-link">مقدمو الخدمات</a>
         </nav>
         <div class="header-btns">
-            <button class="btn-ghost" onclick="openModal('loginModal')">تسجيل الدخول</button>
-            <button class="btn-gold" onclick="openModal('registerModal')">إنشاء حساب</button>
+            <button class="btn-ghost" onclick="openModal('loginModal')" aria-label="تسجيل الدخول">تسجيل الدخول</button>
+            <button class="btn-gold" onclick="openModal('registerModal')" aria-label="إنشاء حساب جديد">إنشاء حساب</button>
             <button class="btn-gold" onclick="openAiSetup()" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));margin-right:6px">⚙️ AI</button>
         </div>
-        <button class="burger" id="burger" onclick="toggleMobileNav()">☰</button>
+        <button class="burger" id="burger" onclick="toggleMobileNav()" aria-label="القائمة">☰</button>
     </div>
     <nav class="nav-mobile" id="navMobile">
         <a href="#home" class="nav-link">الرئيسية</a>
@@ -352,6 +352,9 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   }
   document.body.appendChild(btn)
 })
+</script>
+<script>
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))})
 </script>
 </body>
 </html>

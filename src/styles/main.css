@@ -739,3 +739,30 @@ border-radius:var(--radius-s)
 .chip:hover{transform:scale(1.05);background:var(--gold);color:var(--navy)}
 .step-card{animation:fadeInUp .5s ease-out}
 .provider-cta{animation:fadeInUp .6s ease-out}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"]{
+--navy:#e6c258;
+--navy-l:#D4A937;
+--navy-d:#b8923a;
+--gold:#D4A937;
+--gold-l:#e6c258;
+--gold-d:#b8923a;
+--white:#0F1E3D;
+--gray:#0a1428;
+--gray-m:#1a2d5a;
+--text:#f5f6f8;
+--text-l:#9ca3af;
+--shadow-l:0 10px 40px rgba(0,0,0,.5)
+}
+[data-theme="dark"] .header{background:rgba(10,20,40,.95);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+[data-theme="dark"] .nav-link{color:var(--text)}
+[data-theme="dark"] .svc-card{background:#1a2d5a;border-color:#2a3d5a}
+[data-theme="dark"] .svc-card:hover{box-shadow:0 12px 30px rgba(0,0,0,.4)}
+[data-theme="dark"] .ai-bubble{background:#1a2d5a;color:var(--text)}
+[data-theme="dark"] .step-card{background:#1a2d5a}
+[data-theme="dark"] .modal{background:#1a2d5a;color:var(--text)}
+[data-theme="dark"] input,[data-theme="dark"] select{background:#0a1428;color:var(--text);border-color:#2a3d5a}
+[data-theme="dark"] .hero-glow{opacity:.3}
+[data-theme="dark"] .disclaimer{background:rgba(212,169,55,.1)}
+[data-theme="dark"] .bottom-nav{background:rgba(10,20,40,.95)}

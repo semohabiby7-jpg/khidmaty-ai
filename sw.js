@@ -1,4 +1,4 @@
-const CACHE='khidmaty-v1'
+const CACHE='khidmaty-v2'
 const ASSETS=[
   './',
   './index.html',
@@ -7,6 +7,9 @@ const ASSETS=[
   './src/data/services.js',
   './manifest.json',
   './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png',
   'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap'
 ]
 self.addEventListener('install',e=>{
@@ -25,7 +28,11 @@ self.addEventListener('fetch',e=>{
           caches.open(CACHE).then(c=>c.put(e.request,clone))
         }
         return res
-      }).catch(()=>cached)
+      }).catch(()=>{
+        if(cached)return cached
+        if(e.request.mode==='navigate')return caches.match('./index.html')
+        return new Response('Offline', {status:503})
+      })
       return cached||fetched
     })
   )

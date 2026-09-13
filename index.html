@@ -24,7 +24,10 @@
     <link rel="stylesheet" href="src/styles/main.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="خِدْمَتي AI">
 <!-- Schema.org for SEO -->
 <script type="application/ld+json">
 {
@@ -384,6 +387,17 @@ window.addEventListener('beforeinstallprompt',(e)=>{
     deferredPrompt.userChoice.then(()=>{btn.remove();deferredPrompt=null})
   }
   document.body.appendChild(btn)
+  // iOS instructions
+  const isiOS=/iPhone|iPad|iPod/.test(navigator.userAgent)
+  if(isiOS && !window.navigator.standalone){
+    const iosBtn=document.createElement('button')
+    iosBtn.textContent='📱 تثبيت على iPhone'
+    iosBtn.style.cssText='position:fixed;bottom:80px;right:16px;z-index:9999;background:var(--navy);color:var(--white);border:none;padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;font-family:Cairo,sans-serif'
+    iosBtn.onclick=()=>{
+      alert('لتثبيت خِدْمَتي AI على iPhone:\n\n1️⃣ اضغط زرار المشاركة 📤\n2️⃣ اختار "Add to Home Screen"\n3️⃣ اضغط "Add"\n\nهتلاقي أيقونة خِدْمَتي على شاشتك! 🎉')
+    }
+    document.body.appendChild(iosBtn)
+  }
 })
 </script>
 <script>

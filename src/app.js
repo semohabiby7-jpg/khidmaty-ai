@@ -33,6 +33,7 @@ async function callGemini(msg){
     return reply
   }catch(e){
     aiHistory.pop()
+    console.log('Gemini error:',e)
     return getAI(msg)
   }
 }
@@ -159,7 +160,9 @@ async function aiSend(){
   chat.innerHTML+=`<div class="ai-msg user"><div class="ai-bubble">${msg}</div></div>`
   inp.value=''
   chat.scrollTop=chat.scrollHeight
-  chat.innerHTML+=`<div class="ai-msg bot" id="typing"><span class="ai-avatar">🤖</span><div class="ai-bubble">🤔 بفكر...</div></div>`
+  const loadingMsgs=['🤔 بفكر في طلبك...','بـدور على أفضل طريقة...','🤖 خِدْمَتي بتجهّز الرد...','بـحلل المعلومات...']
+  const lm=loadingMsgs[Math.floor(Math.random()*loadingMsgs.length)]
+  chat.innerHTML+=`<div class="ai-msg bot" id="typing"><span class="ai-avatar">🤖</span><div class="ai-bubble">${lm}</div></div>`
   chat.scrollTop=chat.scrollHeight
   const reply=await callGemini(msg)
   const t=document.getElementById('typing');if(t)t.remove()

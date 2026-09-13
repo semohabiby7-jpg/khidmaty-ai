@@ -37,21 +37,19 @@ function buildSystemPrompt(){
 
 async function callGemini(msg){
   aiHistory.push({role:'user',parts:[{text:msg}]})
-  if(!getGeminiKey()){aiHistory.pop();return getAI(msg)}
+  // Using Worker proxy - no key needed
   try{
-    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key='+getGeminiKey(),{
+    const res=await fetch('https://wispy-pine-7fd2.semohabiby7.workers.dev/',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        systemInstruction:{parts:[{text:buildSystemPrompt()}]},
-        contents:aiHistory
-      })
+      body:JSON.stringify({message:msg,history:aiHistory})
     })
     const data=await res.json()
-    const reply=data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]?data.candidates[0].content.parts[0].text:null
-    if(!reply)throw new Error('no reply')
-    aiHistory.push({role:'model',parts:[{text:reply}]})
-    return reply
+    if(data.reply){
+      aiHistory.push({role:'model',parts:[{text:data.reply}]})
+      return data.reply
+    }
+    throw new Error('no reply')
   }catch(e){
     aiHistory.pop()
     console.log('Gemini error:',e)

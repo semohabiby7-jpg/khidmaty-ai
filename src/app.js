@@ -371,19 +371,50 @@ function renderGovLinks(){
   const grid=document.getElementById('govLinksGrid')
   if(!grid)return
   const seen=new Set()
-  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category})).filter(x=>{
+  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated})).filter(x=>{
     if(seen.has(x.link))return false
     seen.add(x.link);return true
   })
   const catName=id=>{const c=categories.find(c=>c.id===id);return c?c.icon+' '+c.name:id}
-  grid.innerHTML=links.map(l=>`
-    <a href="${l.link}" target="_blank" class="svc-card" style="text-decoration:none;cursor:pointer">
+  const svcCount=link=>services.filter(s=>s.link===link).length
+  
+  // Add search box for the guide
+  const searchBox=`<div class="search-bar-wrap" style="margin-bottom:20px">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="govSearch" placeholder="ابحث عن جهة حكومية..." oninput="filterGovLinks(this.value)">
+      <button class="search-clear" onclick="document.getElementById('govSearch').value='';filterGovLinks('')">✕</button>
+    </div>
+  </div>`
+  
+  window._govLinks=links
+  window._catName=catName
+  window._svcCount=svcCount
+  
+  const cards=links.map((l,idx)=>`
+    <a href="${l.link}" target="_blank" class="svc-card gov-card" data-source="${l.source}" data-cat="${catName(l.cat)}" style="text-decoration:none;cursor:pointer;position:relative">
       <div class="svc-icon">${l.icon}</div>
       <h3 class="svc-name" style="font-size:15px">${l.source}</h3>
       <p class="svc-desc" style="font-size:12px">${catName(l.cat)}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <span style="background:var(--gold);color:var(--navy);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600">✓ موثوق</span>
+        <span style="background:var(--gray);color:var(--text);padding:3px 8px;border-radius:6px;font-size:11px">${svcCount(l.link)} خدمة</span>
+        <span style="background:rgba(15,30,61,.08);color:var(--navy);padding:3px 8px;border-radius:6px;font-size:11px">📅 ${l.updated||'2026'}</span>
+      </div>
       <span class="svc-link">زيارة الموقع ←</span>
     </a>
   `).join('')
+  
+  grid.innerHTML=searchBox+`<div id="govCards">${cards}</div>`
+}
+
+function filterGovLinks(val){
+  const q=val.toLowerCase().trim()
+  document.querySelectorAll('.gov-card').forEach(card=>{
+    const src=(card.dataset.source||'').toLowerCase()
+    const cat=(card.dataset.cat||'').toLowerCase()
+    card.style.display=(!q||src.includes(q)||cat.includes(q))?'':'none'
+  })
 }
 
 document.addEventListener('DOMContentLoaded',async()=>{

@@ -13,7 +13,7 @@ create table if not exists public.categories (
   slug  text,
   name  text not null,
   icon  text,
-  desc  text,
+  "desc"  text,
   color text
 );
 
@@ -21,7 +21,7 @@ alter table public.categories enable row level security;
 drop policy if exists "categories read all" on public.categories;
 create policy "categories read all" on public.categories for select using (true);
 
-insert into public.categories (id, slug, name, icon, desc, color) values
+insert into public.categories (id, slug, name, icon, "desc", color) values
   ('traffic','traffic','المرور','🚗','رخص القيادة، تراخيص السيارات، المخالفات','#3b82f6'),
   ('civil','civil','الأحوال المدنية','🪪','بطاقة رقم قومي، شهادات ميلاد، زواج وطلاق','#8b5cf6'),
   ('notary','notary','الشهر العقاري والتوثيق','📄','توكيلات، توثيق عقود، تسجيل عقارات','#6366f1'),

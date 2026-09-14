@@ -252,6 +252,7 @@ function openService(id){
     <p class="sd-source">المصدر: ${s.source} | آخر تحديث: ${s.updated}</p>
   `
   openModal('serviceModal')
+  addUserService(id)
 }
 
 /* ===== AI Chat ===== */
@@ -429,6 +430,8 @@ function updateAuthUI(){
   }else{
     if(btns)btns.innerHTML='<button class="btn-ghost" onclick="openModal(\'loginModal\')">تسجيل الدخول</button><button class="btn-gold" onclick="openModal(\'registerModal\')">إنشاء حساب</button><button class="btn-gold" onclick="openModal(\'settingsModal\')" style="background:linear-gradient(135deg,var(--navy-l),var(--navy));margin-right:6px" aria-label="الإعدادات">⚙️</button>'
   }
+  if(typeof renderWelcomeBanner==='function')renderWelcomeBanner()
+  if(typeof updateReminderBadge==='function')updateReminderBadge()
 }
 
 updateAuthUI()
@@ -597,6 +600,11 @@ document.addEventListener('DOMContentLoaded',async()=>{
   renderServices()
   renderProviders()
   renderGovLinks()
+  renderWelcomeBanner()
+  updateReminderBadge()
+  initNotifications()
+  checkAndNotifyReminders()
+  setInterval(checkAndNotifyReminders,3600000)
 })
 
 /* ===== SERVICE DETAIL PAGE ===== */
@@ -888,6 +896,129 @@ function toggleFav(id){
   renderServices()
 }
 function isFav(id){return(JSON.parse(localStorage.getItem('favs')||'[]')).includes(id)}
+
+/* ===== KHADMATY FAHMANI — Smart Reminders + Notifications ===== */
+function getRenewalMonths(s){
+  const n=norm(s.name||'')
+  if(n.includes('تجديد رخصه'))return 12
+  if(n.includes('جواز'))return 84
+  if(n.includes('تامين صح'))return 12
+  if(n.includes('ضريب')||n.includes('فاتوره'))return 12
+  if(n.includes('تكافل'))return 12
+  if(n.includes('معاش'))return 12
+  if(n.includes('كهرباء')||n.includes('مياه'))return 1
+  return 12
+}
+function getUserServices(){
+  return JSON.parse(localStorage.getItem('userServices')||'[]')
+}
+function addUserService(serviceId){
+  const s=services.find(x=>x.id===serviceId)
+  if(!s)return
+  const us=getUserServices()
+  if(us.find(u=>u.serviceId===serviceId))return
+  const today=new Date()
+  const renewalDate=new Date(today)
+  renewalDate.setMonth(renewalDate.getMonth()+getRenewalMonths(s))
+  us.push({
+    id:Date.now(),serviceId,name:s.name,icon:s.icon,
+    dateAdded:today.toISOString(),
+    renewalDate:renewalDate.toISOString(),
+    status:'active',progress:0
+  })
+  localStorage.setItem('userServices',JSON.stringify(us))
+  updateReminderBadge()
+}
+function getReminders(){
+  const us=getUserServices()
+  const today=new Date()
+  return us.map(u=>{
+    const r=new Date(u.renewalDate)
+    const days=Math.round((r-today)/(1000*60*60*24))
+    return {...u,days}
+  }).filter(u=>u.days<=30).sort((a,b)=>a.days-b.days)
+}
+function reminderLabel(days){
+  if(days<0)return '⏰ عدى الموعد من '+Math.abs(days)+' يوم!'
+  if(days===0)return '🔴 النهارده!'
+  if(days<=7)return '🟡 بعد '+days+' يوم'
+  return '📅 بعد '+days+' يوم'
+}
+function updateReminderBadge(){
+  const reminders=getReminders()
+  const badge=document.getElementById('reminderBadge')
+  if(!badge)return
+  if(reminders.length>0){
+    badge.textContent=reminders.length
+    badge.style.display='flex'
+  }else{
+    badge.style.display='none'
+  }
+}
+function renderWelcomeBanner(){
+  const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
+  const token=localStorage.getItem('sb_token')
+  const reminders=getReminders()
+  const banner=document.getElementById('welcomeBanner')
+  if(!banner)return
+  if(!token||!user.name){
+    banner.innerHTML=''
+    banner.style.display='none'
+    return
+  }
+  let name=user.name||'صديقي'
+  let html='<div class="welcome-card"><div class="wc-head">👋 أهلاً '+name+'</div>'
+  if(reminders.length===0){
+    html+='<div class="wc-body">مفيش تذكيرات دلوقتي — كل حاجة تحت التحكم ✅</div>'
+  }else{
+    html+='<div class="wc-body">عندك <strong>'+reminders.length+'</strong> مصلحة محتاجة متابعة:</div><div class="wc-reminders">'
+    reminders.slice(0,3).forEach(r=>{
+      html+='<div class="wc-reminder" onclick="openService('+r.serviceId+')"><span class="wr-icon">'+r.icon+'</span><div class="wr-info"><strong>'+r.name+'</strong><span class="wr-when">'+reminderLabel(r.days)+'</span></div></div>'
+    })
+    html+='</div><button class="wc-cta" onclick="openDashboard()">📋 شوف كل مصالحي</button>'
+  }
+  html+='</div>'
+  banner.innerHTML=html
+  banner.style.display='block'
+}
+
+/* ===== WEB NOTIFICATIONS ===== */
+let _notifReady=false
+function initNotifications(){
+  if(!('Notification' in window))return
+  if(Notification.permission==='granted'){_notifReady=true;return}
+  // Ask after user logs in or interacts
+  if(localStorage.getItem('sb_token')&&Notification.permission==='default'){
+    setTimeout(()=>askNotifications(),3000)
+  }
+}
+function askNotifications(){
+  if(!('Notification' in window))return
+  if(Notification.permission!=='default')return
+  Notification.requestPermission().then(p=>{
+    if(p==='granted'){
+      _notifReady=true
+      showNotification('خِدْمَتي AI','🔔 دلوقتي هفكّرك بمواعيد مصالحك على طول! 👌')
+    }
+  })
+}
+function showNotification(title,body){
+  if(!('Notification' in window)||Notification.permission!=='granted')return
+  try{
+    const n=new Notification(title,{body,icon:'icon-192.png',badge:'icon-192.png',tag:'khidmaty-reminder'})
+    n.onclick=()=>{window.focus();n.close()}
+  }catch(e){console.log('notif error',e)}
+}
+function checkAndNotifyReminders(){
+  if(!_notifReady)return
+  const reminders=getReminders().filter(r=>r.days<=3)
+  reminders.forEach(r=>{
+    const key='notified_'+r.id+'_'+r.days
+    if(localStorage.getItem(key))return
+    localStorage.setItem(key,'1')
+    showNotification('🔔 تذكير: '+r.name,reminderLabel(r.days)+' — افتح خِدْمَتي AI للمتابعة')
+  })
+}
 
 /* ===== PROVIDER FILTER BY GOV ===== */
 let selectedGov='all'

@@ -51,6 +51,9 @@
 </head>
 <body>
 
+<!-- ========== WELCOME BANNER (logged in users) ========== -->
+<div id="welcomeBanner" class="welcome-wrap" style="display:none"></div>
+
 <!-- ========== HEADER ========== -->
 <header class="header" id="header">
     <div class="header-inner">
@@ -285,7 +288,7 @@
     <a href="#services" class="bn-item"><span class="bn-icon">📋</span><span class="bn-label">الخدمات</span></a>
     <a href="#ask-ai" class="bn-item bn-center"><span class="bn-icon">🤖</span><span class="bn-label">اسأل AI</span></a>
     <a href="#providers" class="bn-item"><span class="bn-icon">👥</span><span class="bn-label">مقدمون</span></a>
-    <a href="#account" class="bn-item" onclick="openDashboard()"><span class="bn-icon">👤</span><span class="bn-label">حسابي</span></a>
+    <a href="#account" class="bn-item" onclick="openDashboard()"><span class="bn-icon">👤</span><span class="bn-label">حسابي</span><span class="bn-badge" id="reminderBadge">0</span></a>
 </nav>
 
 <!-- ========== MODALS ========== -->

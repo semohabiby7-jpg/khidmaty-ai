@@ -594,6 +594,15 @@ function govVoiceSearch(){
   try{_govRec.start()}catch(e){console.log('already listening')}
 }
 
+/* ===== PAGE VIEW TRACKING ===== */
+async function trackPageView(page){
+  try{
+    let vid=localStorage.getItem('khidmaty_vid')
+    if(!vid){vid='v'+Date.now()+Math.random().toString(36).slice(2,8);localStorage.setItem('khidmaty_vid',vid)}
+    await fetch(SUPABASE_URL+'/rest/v1/page_views',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({visitor_id:vid,page:page||'#home',referrer:document.referrer||null,user_agent:navigator.userAgent})})
+  }catch(e){console.log('track err',e)}
+}
+
 document.addEventListener('DOMContentLoaded',async()=>{
   await loadFromSupabase()
   renderCats()
@@ -605,7 +614,9 @@ document.addEventListener('DOMContentLoaded',async()=>{
   initNotifications()
   checkAndNotifyReminders()
   setInterval(checkAndNotifyReminders,3600000)
+  trackPageView(location.hash||'#home')
 })
+window.addEventListener('hashchange',()=>{trackPageView(location.hash||'#home')})
 
 /* ===== SERVICE DETAIL PAGE ===== */
 function openServicePage(id){

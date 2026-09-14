@@ -1,15 +1,15 @@
 
 const categories = [
   { id: 'traffic', slug: 'traffic', name: 'المرور', icon: '🚗', desc: 'رخص القيادة، تراخيص السيارات، المخالفات', color: '#3b82f6' },
-  { id: 'civil', slug: 'civil', name: 'الأحوال المدنية', icon: '🆔', desc: 'بطاقة رقم قومي، شهادات ميلاد، زواج وطلاق', color: '#8b5cf6' },
-  { id: 'taxes', slug: 'taxes', name: 'الضرائب', icon: '📊', desc: 'تسجيل ضريبي، إقرارات، فاتورة إلكترونية', color: '#f59e0b' },
+  { id: 'civil', slug: 'civil', name: 'الأحوال المدنية', icon: '🪪', desc: 'بطاقة رقم قومي، شهادات ميلاد، زواج وطلاق', color: '#8b5cf6' },
+  { id: 'notary', slug: 'notary', name: 'الشهر العقاري والتوثيق', icon: '📄', desc: 'توكيلات، توثيق عقود، تسجيل عقارات', color: '#6366f1' },
+  { id: 'taxes', slug: 'taxes', name: 'الضرائب', icon: '💰', desc: 'تسجيل ضريبي، إقرارات، فاتورة إلكترونية', color: '#f59e0b' },
+  { id: 'utilities', slug: 'utilities', name: 'المرافق', icon: '🏠', desc: 'كهرباء، مياه، غاز', color: '#ef4444' },
   { id: 'insurance', slug: 'insurance', name: 'التأمينات والمعاشات', icon: '👴', desc: 'اشتراكات، معاشات، تأمين اجتماعي', color: '#10b981' },
-  { id: 'notary', slug: 'notary', name: 'الشهر العقاري والتوثيق', icon: '📜', desc: 'توكيلات، توثيق عقود، تسجيل عقارات', color: '#6366f1' },
-  { id: 'utilities', slug: 'utilities', name: 'المرافق', icon: '⚡', desc: 'كهرباء، مياه، غاز', color: '#ef4444' },
-  { id: 'post', slug: 'post', name: 'البريد', icon: '📮', desc: 'خدمات بريدية، مالية، شحن', color: '#14b8a6' },
-  { id: 'education', slug: 'education', name: 'التعليم', icon: '🎓', desc: 'مدارس، جامعات، نتائج', color: '#0ea5e9' },
   { id: 'travel', slug: 'travel', name: 'السفر والهجرة', icon: '✈️', desc: 'جواز سفر، هجرة، جنسية', color: '#f97316' },
   { id: 'health', slug: 'health', name: 'الصحة', icon: '🏥', desc: 'مستشفيات، تأمين صحي، تطعيمات', color: '#ec4899' },
+  { id: 'post', slug: 'post', name: 'البريد', icon: '📮', desc: 'خدمات بريدية، مالية، شحن', color: '#14b8a6' },
+  { id: 'education', slug: 'education', name: 'التعليم', icon: '🎓', desc: 'مدارس، جامعات، نتائج', color: '#0ea5e9' },
   { id: 'courts', slug: 'courts', name: 'المحاكم', icon: '⚖️', desc: 'استعلام عن دعاوى، جلسات', color: '#64748b' },
   { id: 'companies', slug: 'companies', name: 'الشركات والاستثمار', icon: '🏢', desc: 'تأسيس شركات، سجل تجاري', color: '#a855f7' }
 ];

@@ -70,6 +70,7 @@ font-size:13px;
 font-weight:700
 }
 .logo-tag{font-size:11px;color:var(--text-l)}
+.logo-tag-sub{font-size:10px;color:var(--gold-d);font-weight:600;letter-spacing:.3px;margin-top:1px}
 .nav-desktop{display:flex;gap:28px}
 .nav-link{
 font-weight:600;
@@ -291,6 +292,13 @@ font-size:16px;
 transition:var(--t)
 }
 .btn-help:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(212,169,55,.4)}
+.hero-cta-hint{
+font-size:14px;
+color:var(--gold-d);
+font-weight:600;
+margin-top:16px;
+margin-bottom:8px
+}
 .section-head{text-align:center;margin-bottom:40px}
 .section-label{
 display:inline-block;
@@ -714,6 +722,9 @@ border-radius:var(--radius-s)
 .providers-cta{flex-direction:column;text-align:center}
 .form-row{flex-direction:column}
 .footer{padding-bottom:80px}
+body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+.cat-filter{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.cat-filter::-webkit-scrollbar{display:none}
 }
 
 /* ===== ANIMATIONS & VISUAL UPGRADES ===== */
@@ -766,3 +777,62 @@ border-radius:var(--radius-s)
 [data-theme="dark"] .hero-glow{opacity:.3}
 [data-theme="dark"] .disclaimer{background:rgba(212,169,55,.1)}
 [data-theme="dark"] .bottom-nav{background:rgba(10,20,40,.95)}
+
+/* ===== Government Guide Search (voice + button) ===== */
+.gov-search-wrap{max-width:600px;margin:0 auto 28px}
+.gov-search-bar{
+display:flex;align-items:center;gap:8px;
+background:var(--white);
+border:2px solid var(--gray-m);
+border-radius:50px;
+padding:5px 6px 5px 16px;
+box-shadow:var(--shadow);
+transition:var(--t)
+}
+.gov-search-bar:focus-within{
+border-color:var(--gold);
+box-shadow:0 0 0 4px rgba(212,169,55,.12)
+}
+.gov-search-bar #govSearch{
+flex:1;border:none;outline:none;
+padding:12px 0;font-size:15px;background:transparent;
+color:var(--text)
+}
+.gov-voice-btn{
+width:42px;height:42px;flex:none;
+border-radius:50%;
+background:var(--gray);
+display:flex;align-items:center;justify-content:center;
+font-size:18px;transition:var(--t)
+}
+.gov-voice-btn:hover{background:var(--navy);color:var(--white);transform:scale(1.05)}
+.gov-voice-btn.listening{background:var(--danger);color:var(--white);animation:pulse 1s infinite}
+.gov-search-btn{
+flex:none;
+background:linear-gradient(135deg,var(--gold),var(--gold-d));
+color:var(--navy);
+padding:10px 18px;
+border-radius:50px;
+font-weight:800;font-size:14px;
+transition:var(--t)
+}
+.gov-search-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(212,169,55,.4)}
+.gov-search-meta{margin-top:10px;text-align:center;min-height:22px}
+.gov-meta-ok{color:var(--success);font-weight:700;font-size:13px}
+.gov-meta-empty{color:var(--danger);font-weight:700;font-size:13px}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.85}}
+[data-theme="dark"] .gov-search-bar{background:#1a2d5a;border-color:#2a3d5a}
+[data-theme="dark"] .gov-voice-btn{background:#0a1428}
+[data-theme="dark"] #govSearch{color:var(--text)}
+
+/* ===== AI Response Info Blocks (structured replies) ===== */
+.ai-info-card{background:var(--gray);border:1px solid var(--gray-m);border-radius:12px;padding:14px;margin:10px 0}
+.ai-info-card h4{font-size:14px;color:var(--navy);margin-bottom:8px;font-weight:700}
+.ai-info-row{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--gray-m);font-size:14px}
+.ai-info-row:last-child{border-bottom:none}
+.ai-info-row .ai-info-ico{font-size:18px;flex:none}
+.ai-info-row .ai-info-val{color:var(--text);flex:1}
+.ai-help-cta{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);padding:12px 16px;border-radius:12px;margin-top:14px;font-weight:700;font-size:14px;cursor:pointer;border:none;width:100%;justify-content:center;transition:var(--t)}
+.ai-help-cta:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(212,169,55,.4)}
+[data-theme="dark"] .ai-info-card{background:#1a2d5a;border-color:#2a3d5a}
+[data-theme="dark"] .ai-info-row{border-color:#2a3d5a}

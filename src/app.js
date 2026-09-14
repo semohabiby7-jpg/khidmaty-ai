@@ -27,9 +27,56 @@ async function loadFromSupabase(){
 
 const aiHistory=[]
 
+/* ===== KHADMATY AI — Local Smart Engine (fallback) ===== */
+const synMap={
+'عايز':'محتاج','عايزة':'محتاج','عايزين':'محتاج','نفسي':'محتاج',
+'اطلع':'استخراج','اطلعها':'استخراج','اعمل':'استخراج','اخرج':'استخراج','مستخرج':'استخراج',
+'بدل فاقد':'بدل','ضاعت':'بدل فاقد','ضاعتلي':'بدل فاقد','فقدت':'بدل فاقد',
+'رخصة':'قيادة','سواقة':'قيادة',
+'عربية':'سيارة','موتوسيكل':'دراجة',
+'كرت':'بطاقة','كارنيه':'بطاقة',
+'ضريبة':'ضريبي','ضرايب':'ضريبي',
+'معاش':'تأمين','تقاعد':'تأمين',
+'جواز':'سفر','ترافل':'سفر',
+'تجديد':'تجديد','جدد':'تجديد','جدد':'تجديد',
+'كهرباء':'كهرباء','نور':'كهرباء','مية':'مياه','مايه':'مياه','غاز':'غاز'
+}
+
+function getAI(msg){
+  let matched=msg
+  Object.keys(synMap).forEach(k=>{if(msg.includes(k))matched+=' '+synMap[k]})
+  const q=norm(matched)
+  let best=null,bestScore=0
+  services.forEach(s=>{
+    let score=0
+    if(norm(s.name).includes(q)||q.includes(norm(s.name)))score+=10
+    s.tags.forEach(t=>{if(q.includes(norm(t))||norm(t).includes(q.split(' ')[0]))score+=5})
+    if(norm(s.desc).includes(q))score+=2
+    if(q.includes(norm(s.category)))score+=3
+    if(score>bestScore){bestScore=score;best=s}
+  })
+  if(best&&bestScore>0){
+    const docs=best.documents.map(d=>'✓ '+d).join('<br>')
+    const steps=best.steps.map((st,i)=>`<strong>${i+1}.</strong> ${st}`).join('<br>')
+    return `<div class="ai-info-card">
+<h4>📍 ${best.name}</h4>
+<div class="ai-info-row"><span class="ai-info-ico">🏛️</span><span class="ai-info-val"><strong>الجهة:</strong> ${best.source||'غير محدد'}</span></div>
+<div class="ai-info-row"><span class="ai-info-ico">📄</span><span class="ai-info-val"><strong>المستندات:</strong><br>${docs}</span></div>
+<div class="ai-info-row"><span class="ai-info-ico">💰</span><span class="ai-info-val"><strong>الرسوم:</strong> ${best.fees||'غير محدد'}</span></div>
+<div class="ai-info-row"><span class="ai-info-ico">⏱️</span><span class="ai-info-val"><strong>المدة:</strong> ${best.duration||'غير محدد'}</span></div>
+<div class="ai-info-row"><span class="ai-info-ico">🌐</span><span class="ai-info-val"><strong>التنفيذ:</strong> ${best.online?'أونلاين ✓':'حضوري 🏛️'}</span></div>
+<div class="ai-info-row"><span class="ai-info-ico">📝</span><span class="ai-info-val"><strong>الخطوات:</strong><br>${steps}</span></div>
+</div>
+<button class="ai-help-cta" onclick="needHelp()">👤 مش عايز تعملها بنفسك؟ محتاج حد يخلصهالك؟</button>
+<a href="${best.link}" target="_blank" style="display:block;text-align:center;margin-top:8px;color:var(--gold-d);font-weight:600;font-size:14px">🔗 افتح الموقع الرسمي</a>`
+  }
+  const suggestions=services.slice(0,5).map(s=>`• ${s.icon} ${s.name}`).join('<br>')
+  return `معلش، مقدرتش ألاقي خدمة مطابقة لطلبك ده 🤔<br><br>بس ممكن تساعدني بإنك تكتب اسم الخدمة أوضح، أو جرّب:<br>${suggestions}<br><br>أو تصفّح <a href="#services" style="color:var(--gold-d);font-weight:600">دليل الخدمات</a> 📋`
+}
+
 function buildSystemPrompt(){
   const svcList=services.map(s=>`- ${s.name} (${s.category}): ${s.desc} | الرسوم: ${s.fees} | المدة: ${s.duration} | المستندات: ${s.documents.join(', ')} | الخطوات: ${s.steps.join(' → ')} | الرابط: ${s.link}`).join('\n')
-  return `أنت "خِدْمَتي AI"، مساعد ذكي مصري للمصالح الحكومية. بتعرف الخدمات دي:\n${svcList}\n\nقواعدك:\n1. ردّ بالعربي المصري بود وود\n2. لو سألوا عن خدمة، اعرض التفاصيل (المستندات، الخطوات، الرسوم، الرابط)\n3. لو السؤال عام، ساعد وارشح خدمات مناسبة\n4. خليك صديق وحبيب، استخدم إيموجي بشكل طبيعي\n5. لو محتاج حد، اقترح مقدم خدمة\n6. ردّ مختصر ومفيد`
+  return `أنت "خِدْمَتي AI"، مساعد ذكي مصري للمصالح الحكومية. بتعرف الخدمات دي:\n${svcList}\n\nقواعدك:\n1. ردّ بالعربي المصري بود وود\n2. لو سألوا عن خدمة، اعرض التفاصيل بشكل منظّم: 📍 الجهة، 📄 المستندات، 💰 الرسوم، ⏱️ المدة، 🌐 التنفيذ (أونلاين/حضوري)، 📝 الخطوات\n3. في آخر الرد، اسأل المستخدم: "مش عايز تعملها بنفسك؟ محتاج حد يخلصهالك؟" واقترح مقدم خدمة\n4. لو السؤال عام، ساعد وارشح خدمات مناسبة\n5. خليك صديق وحبيب، استخدم إيموجي بشكل طبيعي\n6. ردّ مختصر ومفيد\n7. افهم المصري العامي (عايز، محتاج، اطلع، بدل فاقد، ...)\n8. لو المستخدم كتب "محتاج حد يخلصهالي"، وجهه لقسم مقدمي الخدمات`
 }
 
 async function callGemini(msg){
@@ -71,8 +118,15 @@ function renderServices(){
   const grid=document.getElementById('servicesGrid')
   let list=currentCat==='all'?services:services.filter(s=>s.category===currentCat)
   if(currentSearch){
-    const q=norm(currentSearch)
-    list=list.filter(s=>norm(s.name).includes(q)||norm(s.desc).includes(q)||s.tags.some(t=>norm(t).includes(q)))
+    let expanded=currentSearch
+    Object.keys(synMap).forEach(k=>{if(currentSearch.includes(k))expanded+=' '+synMap[k]})
+    const words=norm(expanded).split(/\s+/).filter(w=>w.length>2)
+    list=list.filter(s=>{
+      const sn=norm(s.name),sd=norm(s.desc),sc=norm(currentSearch)
+      if(sn.includes(sc)||sd.includes(sc))return true
+      if(s.tags.some(t=>norm(t).includes(sc)))return true
+      return words.some(w=>sn.includes(w)||sd.includes(w)||s.tags.some(t=>norm(t).includes(w)))
+    })
   }
   if(list.length===0){grid.innerHTML='<p class="no-results">لا توجد نتائج مطابقة 🤷‍♂️</p>';return}
   grid.innerHTML=list.map(s=>`
@@ -113,8 +167,15 @@ function clearMainSearch(){
 function heroSearchLive(val){
   const dd=document.getElementById('searchDropdown')
   if(val.length<2){dd.classList.remove('show');return}
-  const q=norm(val)
-  const results=services.filter(s=>norm(s.name).includes(q)||norm(s.desc).includes(q)||s.tags.some(t=>norm(t).includes(q)))
+  let expanded=val
+  Object.keys(synMap).forEach(k=>{if(val.includes(k))expanded+=' '+synMap[k]})
+  const words=norm(expanded).split(/\s+/).filter(w=>w.length>2)
+  const sc=norm(val)
+  const results=services.filter(s=>{
+    const sn=norm(s.name),sd=norm(s.desc)
+    if(sn.includes(sc)||sd.includes(sc)||s.tags.some(t=>norm(t).includes(sc)))return true
+    return words.some(w=>sn.includes(w)||sd.includes(w)||s.tags.some(t=>norm(t).includes(w)))
+  })
   if(results.length===0){
     dd.innerHTML='<div class="dd-no">لا توجد نتائج — جرّب كلمة تانية</div>'
   }else{
@@ -131,8 +192,14 @@ function heroSubmit(){
   const v=document.getElementById('heroSearch').value.trim()
   if(!v){alert('اكتب طلبك الأول! 😊');return}
   document.getElementById('searchDropdown').classList.remove('show')
-  const q=norm(v)
-  const match=services.find(s=>norm(s.name).includes(q)||s.tags.some(t=>norm(t).includes(q))||norm(s.desc).includes(q))
+  let expanded=v
+  Object.keys(synMap).forEach(k=>{if(v.includes(k))expanded+=' '+synMap[k]})
+  const words=norm(expanded).split(/\s+/).filter(w=>w.length>2)
+  const match=services.find(s=>{
+    const sn=norm(s.name),sd=norm(s.desc),sc=norm(v)
+    if(sn.includes(sc)||sd.includes(sc)||s.tags.some(t=>norm(t).includes(sc)))return true
+    return words.some(w=>sn.includes(w)||s.tags.some(t=>norm(t).includes(w)))
+  })
   if(match){openService(match.id)}else{
     document.getElementById('services').scrollIntoView({behavior:'smooth'})
     setTimeout(()=>{document.getElementById('mainSearch').value=v;currentSearch=v;document.getElementById('searchClear').classList.add('show');renderServices()},400)
@@ -408,13 +475,20 @@ function renderGovLinks(){
   const catName=id=>{const c=categories.find(c=>c.id===id);return c?c.icon+' '+c.name:id}
   const svcCount=link=>services.filter(s=>s.link===link).length
   
-  // Add search box for the guide
-  const searchBox=`<div class="search-bar-wrap" style="margin-bottom:20px">
-    <div class="search-bar">
+  // Search box with voice + search button
+  const searchBox=`<div class="gov-search-wrap">
+    <div class="gov-search-bar">
       <span class="search-icon">🔍</span>
-      <input type="text" id="govSearch" placeholder="ابحث عن جهة حكومية..." oninput="filterGovLinks(this.value)">
-      <button class="search-clear" onclick="document.getElementById('govSearch').value='';filterGovLinks('')">✕</button>
+      <input type="text" id="govSearch" placeholder="ابحث بالاسم أو النوع... مثال: ضرائب، مرور، جوازات" oninput="filterGovLinks(this.value)">
+      <button class="gov-voice-btn" id="govVoiceBtn" onclick="govVoiceSearch()" title="ابحث بالصوت">
+        <span id="govMicIcon">🎤</span>
+      </button>
+      <button class="gov-search-btn" onclick="govSearchSubmit()" title="بحث">
+        <span>🔍 بحث</span>
+      </button>
+      <button class="search-clear" id="govSearchClear" onclick="clearGovSearch()">✕</button>
     </div>
+    <div class="gov-search-meta" id="govSearchMeta"></div>
   </div>`
   
   window._govLinks=links
@@ -439,12 +513,82 @@ function renderGovLinks(){
 }
 
 function filterGovLinks(val){
-  const q=val.toLowerCase().trim()
+  const q=(val||'').toLowerCase().trim()
+  let visible=0,total=0
   document.querySelectorAll('.gov-card').forEach(card=>{
+    total++
     const src=(card.dataset.source||'').toLowerCase()
     const cat=(card.dataset.cat||'').toLowerCase()
-    card.style.display=(!q||src.includes(q)||cat.includes(q))?'':'none'
+    const kw=(card.dataset.keywords||'').toLowerCase()
+    const match=!q||src.includes(q)||cat.includes(q)||kw.includes(q)
+    card.style.display=match?'':'none'
+    if(match)visible++
   })
+  // toggle clear button + meta info
+  const clearBtn=document.getElementById('govSearchClear')
+  if(clearBtn)clearBtn.classList.toggle('show',!!q)
+  const meta=document.getElementById('govSearchMeta')
+  if(meta){
+    if(!q){meta.innerHTML=''}
+    else if(visible===0){meta.innerHTML='<span class="gov-meta-empty">لا توجد نتائج لـ "'+val+'" 🤷‍♂️ جرّب كلمة تانية</span>'}
+    else{meta.innerHTML='<span class="gov-meta-ok">✓ '+visible+' نتيجة من '+total+'</span>'}
+  }
+}
+
+function clearGovSearch(){
+  const inp=document.getElementById('govSearch')
+  if(inp){inp.value='';inp.focus()}
+  filterGovLinks('')
+}
+
+function govSearchSubmit(){
+  const inp=document.getElementById('govSearch')
+  const val=inp?inp.value:''
+  filterGovLinks(val)
+  const cards=document.getElementById('govCards')
+  if(cards)cards.scrollIntoView({behavior:'smooth',block:'nearest'})
+}
+
+/* ===== Voice Search (Web Speech API) ===== */
+let _govRec=null,_govListening=false
+function govVoiceSearch(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition
+  if(!SR){alert('المتصفح مش بيدعم البحث بالصوت 🎤\nجرّب Chrome أو Safari');return}
+  const micIcon=document.getElementById('govMicIcon')
+  if(_govListening){
+    if(_govRec)_govRec.stop()
+    return
+  }
+  if(!_govRec){
+    _govRec=new SR()
+    _govRec.lang='ar-EG'
+    _govRec.interimResults=true
+    _govRec.continuous=false
+    _govRec.onstart=()=>{
+      _govListening=true
+      if(micIcon){micIcon.textContent='🔴';micIcon.style.animation='pulse 1s infinite'}
+    }
+    _govRec.onend=()=>{
+      _govListening=false
+      if(micIcon){micIcon.textContent='🎤';micIcon.style.animation=''}
+    }
+    _govRec.onerror=(e)=>{
+      _govListening=false
+      if(micIcon){micIcon.textContent='🎤';micIcon.style.animation=''}
+      if(e.error!=='no-speech'&&e.error!=='aborted')console.log('voice error:',e.error)
+    }
+    _govRec.onresult=(e)=>{
+      let txt=''
+      for(let i=e.resultIndex;i<e.results.length;i++){txt+=e.results[i][0].transcript}
+      const inp=document.getElementById('govSearch')
+      if(inp){inp.value=txt;filterGovLinks(txt)}
+      if(e.results[e.results.length-1].isFinal){
+        const cards=document.getElementById('govCards')
+        if(cards)cards.scrollIntoView({behavior:'smooth',block:'nearest'})
+      }
+    }
+  }
+  try{_govRec.start()}catch(e){console.log('already listening')}
 }
 
 document.addEventListener('DOMContentLoaded',async()=>{

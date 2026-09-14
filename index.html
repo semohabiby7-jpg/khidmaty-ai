@@ -59,6 +59,7 @@
             <span class="logo-text">
                 <span class="logo-name">خِدْمَتي <span class="logo-ai">AI</span></span>
                 <span class="logo-tag">مصلحتك في مكان واحد</span>
+                <span class="logo-tag-sub">اسأل… اعرف… وأنجز</span>
             </span>
         </a>
         <nav class="nav-desktop">
@@ -89,8 +90,8 @@
     <div class="hero-glow"></div>
     <div class="hero-content">
         <span class="hero-badge"><span class="dot"></span> منصة مصرية ذكية</span>
-        <h1 class="hero-title">إيه المصلحة اللي<br><span class="gold">عايز تخلصها؟</span></h1>
-        <p class="hero-subtitle">قولّي محتاج تخلص إيه، وخِدْمَتي AI هتقولّك تبدأ منين خطوة بخطوة.</p>
+        <h1 class="hero-title">محتاج تخلص إيه <span class="gold">النهارده؟</span></h1>
+        <p class="hero-subtitle">اكتبها بطريقتك… خِدْمَتي AI هتفهمك.</p>
         <div class="hero-search-wrap">
             <div class="hero-search">
                 <span class="search-icon">🔍</span>
@@ -101,6 +102,7 @@
             </div>
             <div class="search-dropdown" id="searchDropdown"></div>
         </div>
+        <p class="hero-cta-hint">قولّي محتاج تعمل إيه وأنا أوجّهك خطوة بخطوة</p>
         <div class="hero-chips">
             <span class="chips-label">جرّب:</span>
             <button class="chip" onclick="quickAsk('تجديد رخصة')">🚗 تجديد رخصة</button>
@@ -110,14 +112,8 @@
             <button class="chip" onclick="quickAsk('بدل فاقد')">🆔 بدل فاقد</button>
         </div>
         <div class="hero-actions">
-            <button class="btn-primary" onclick="goToAI()">
-                <span>🤖</span> اسأل خِدْمَتي AI
-            </button>
             <button class="btn-help" onclick="needHelp()">
                 <span>👤</span> محتاج حد يخلصهالي
-            </button>
-            <button class="btn-ghost" onclick="shareSite()" style="border:2px solid var(--gold);color:var(--gold-d);margin-top:10px">
-                <span>📤</span> شارك الموقع
             </button>
         </div>
     </div>
@@ -128,13 +124,13 @@
     <div class="container">
         <div class="section-head">
             <span class="section-label">دليل الخدمات</span>
-            <h2 class="section-title">كل المصالح <span class="gold">الحكومية</span></h2>
-            <p class="section-desc">12 تصنيف، أكثر من 20 خدمة — ابحث واختار وابدأ</p>
+            <h2 class="section-title">إيه <span class="gold">مصلحتك؟</span></h2>
+            <p class="section-desc">اكتب الخدمة اللي محتاجها… خِدْمَتي AI هتفهمك حتى لو كتبت بطريقتك</p>
         </div>
         <div class="search-bar-wrap">
             <div class="search-bar">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="mainSearch" placeholder="ابحث عن خدمة أو جهة..." oninput="mainSearchLive(this.value)">
+                <input type="text" id="mainSearch" placeholder="اكتب الخدمة اللي محتاجها… مثال: استخراج بطاقة، تجديد رخصة، بدل فاقد" oninput="mainSearchLive(this.value)">
                 <button class="search-clear" id="searchClear" onclick="clearMainSearch()">✕</button>
             </div>
         </div>
@@ -253,6 +249,7 @@
                     <span class="logo-text">
                         <span class="logo-name">خِدْمَتي <span class="logo-ai">AI</span></span>
                         <span class="logo-tag">مصلحتك في مكان واحد</span>
+                        <span class="logo-tag-sub">اسأل… اعرف… وأنجز</span>
                     </span>
                 </a>
                 <p class="footer-desc">منصة مصرية ذكية تربط المواطن بمقدم الخدمة باستخدام الذكاء الاصطناعي.</p>

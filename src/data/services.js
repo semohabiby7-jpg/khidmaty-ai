@@ -11,7 +11,8 @@ const categories = [
   { id: 'post', slug: 'post', name: 'البريد', icon: '📮', desc: 'خدمات بريدية، مالية، شحن', color: '#14b8a6' },
   { id: 'education', slug: 'education', name: 'التعليم', icon: '🎓', desc: 'مدارس، جامعات، نتائج', color: '#0ea5e9' },
   { id: 'courts', slug: 'courts', name: 'المحاكم', icon: '⚖️', desc: 'استعلام عن دعاوى، جلسات', color: '#64748b' },
-  { id: 'companies', slug: 'companies', name: 'الشركات والاستثمار', icon: '🏢', desc: 'تأسيس شركات، سجل تجاري', color: '#a855f7' }
+  { id: 'companies', slug: 'companies', name: 'الشركات والاستثمار', icon: '🏢', desc: 'تأسيس شركات، سجل تجاري', color: '#a855f7' },
+  { id: 'social', slug: 'social', name: 'التضامن الاجتماعي', icon: '🤝', desc: 'تكافل وكرامة، دعم اجتماعي', color: '#f43f5e' }
 ];
 
 const services = [

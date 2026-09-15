@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<!-- Google Analytics (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7WT8KN8P9"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
- gtag('config', 'G-W7WT8KN8P9');
-</script><head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خِدْمَتي AI | KHADMETY AI - مصلحتك في مكان واحد</title>
@@ -55,6 +48,14 @@
 }
 </script>
     <meta name="google-site-verification" content="6ZZx4v9kO2qr9qU8sTFfTTzpJB1VzaVK1HrBqUZ1nqo" />
+<!-- Google Analytics (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7WT8KN8P9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W7WT8KN8P9');
+</script>
 </head>
 <body>
 
@@ -65,7 +66,6 @@
 <header class="header" id="header">
     <div class="header-inner">
         <a href="#home" class="logo">
-            <span class="logo-mark">kh</span>
             <span class="logo-text">
                 <span class="logo-name">خِدْمَتي <span class="logo-ai">AI</span></span>
                 <span class="logo-tag">مصلحتك في مكان واحد</span>
@@ -175,7 +175,10 @@
                 </div>
             </div>
             <div class="ai-input-wrap">
-                <input type="text" id="aiInput" placeholder="اكتب طلبك هنا..." onkeypress="if(event.key==='Enter') aiSend()">
+                <button class="btn-voice" id="aiVoiceBtn" onclick="aiVoiceInput()" title="تكلم بدل الكتابة" aria-label="إدخال صوتي">
+                    <span id="aiMicIcon">🎤</span>
+                </button>
+                <input type="text" id="aiInput" placeholder="اكتب طلبك أو اضغط المايك 🎤 تتكلم..." onkeypress="if(event.key==='Enter') aiSend()">
                 <button class="btn-send" onclick="aiSend()">إرسال</button>
             </div>
         </div>

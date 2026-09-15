@@ -282,6 +282,49 @@ function askAIAbout(name){
   },400)
 }
 
+/* ===== AI Voice Input (Web Speech API) ===== */
+let _aiRec=null,_aiListening=false
+function aiVoiceInput(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition
+  if(!SR){alert('المتصفح مش بيدعم الصوت 🎤\nجرّب Chrome أو Safari');return}
+  const micIcon=document.getElementById('aiMicIcon')
+  const voiceBtn=document.getElementById('aiVoiceBtn')
+  if(_aiListening){if(_aiRec)_aiRec.stop();return}
+  if(!_aiRec){
+    _aiRec=new SR()
+    _aiRec.lang='ar-EG'
+    _aiRec.interimResults=true
+    _aiRec.continuous=false
+    _aiRec.onstart=()=>{
+      _aiListening=true
+      if(micIcon){micIcon.textContent='🔴';micIcon.style.animation='pulse 1s infinite'}
+      if(voiceBtn)voiceBtn.classList.add('recording')
+    }
+    _aiRec.onend=()=>{
+      _aiListening=false
+      if(micIcon){micIcon.textContent='🎤';micIcon.style.animation=''}
+      if(voiceBtn)voiceBtn.classList.remove('recording')
+    }
+    _aiRec.onerror=(e)=>{
+      _aiListening=false
+      if(micIcon){micIcon.textContent='🎤';micIcon.style.animation=''}
+      if(voiceBtn)voiceBtn.classList.remove('recording')
+      if(e.error!=='no-speech'&&e.error!=='aborted')console.log('ai voice error:',e.error)
+    }
+    _aiRec.onresult=(e)=>{
+      let txt=''
+      for(let i=e.resultIndex;i<e.results.length;i++){txt+=e.results[i][0].transcript}
+      const inp=document.getElementById('aiInput')
+      if(inp)inp.value=txt
+      if(e.results[e.results.length-1].isFinal){
+        // Auto-send after voice input finishes
+        setTimeout(()=>aiSend(),400)
+      }
+    }
+  }
+  try{_aiRec.start()}catch(e){console.log('already listening')}
+}
+
 /* ===== Hero Actions ===== */
 function quickAsk(term){
   document.getElementById('heroSearch').value=term

@@ -52,7 +52,7 @@ padding:0 20px
 }
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
 .logo-mark{
-width:42px;height:42px;
+width:64px;height:64px;
 border-radius:12px;
 object-fit:cover;
 box-shadow:0 4px 12px rgba(212,169,55,.3)

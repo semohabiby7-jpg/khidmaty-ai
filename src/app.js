@@ -1204,8 +1204,9 @@ function openArticle(id){
   if(!a)return
   const modal=document.getElementById('articleModal')
   if(!modal)return
+  const shareUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href)+'&quote='+encodeURIComponent(a.title+' — خِدْمَتي AI')
   document.getElementById('articleModalTitle').textContent=a.title
-  document.getElementById('articleModalBody').innerHTML=a.content
+  document.getElementById('articleModalBody').innerHTML='<div style="text-align:center;margin-bottom:16px"><a href="'+shareUrl+'" target="_blank" style="background:#1877F2;color:#fff;padding:10px 24px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📘 مشاركة على فيسبوك</a></div>'+a.content
   openModal('articleModal')
 }
 
@@ -1233,7 +1234,7 @@ function renderFAQ(){
         <span class="faq-q-text">${f.q}</span>
         <span class="faq-q-icon" id="faqIcon${i}">➕</span>
       </div>
-      <div class="faq-a" id="faqA${i}">${f.a}</div>
+      <div class="faq-a" id="faqA${i}">${f.a}<div style="text-align:left;margin-top:12px"><a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(f.q+' — خِدْمَتي AI')}" target="_blank" onclick="event.stopPropagation()" style="background:#1877F2;color:#fff;padding:8px 18px;border-radius:25px;text-decoration:none;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px">📘 مشاركة</a></div></div>
     </div>
   `).join('')
 }

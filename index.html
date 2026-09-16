@@ -254,6 +254,18 @@
     </div>
 </section>
 
+<!-- ========== ARTICLES (نصائح ومقالات) ========== -->
+<section class="how-section" id="articles">
+    <div class="container">
+        <div class="section-head">
+            <span class="section-label">نصائح ومقالات</span>
+            <h2 class="section-title">📖 <span class="gold">دليلك المصري</span></h2>
+            <p class="section-desc">مقالات ونصائح تساعدك تخلص مصالحك بسهولة</p>
+        </div>
+        <div class="articles-grid" id="articlesGrid"></div>
+    </div>
+</section>
+
 <!-- ========== FOOTER ========== -->
 <footer class="footer" id="contact">
     <div class="container">
@@ -412,6 +424,15 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   }
 })
 </script>
+<!-- ARTICLE MODAL -->
+<div class="modal-overlay" id="articleModal">
+    <div class="modal modal-lg">
+        <button class="modal-x" onclick="closeModal('articleModal')">✕</button>
+        <h2 class="modal-title" id="articleModalTitle">مقال</h2>
+        <div class="article-body" id="articleModalBody"></div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))})
 </script>

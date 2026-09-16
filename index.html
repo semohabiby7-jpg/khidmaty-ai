@@ -86,6 +86,7 @@
         </div>
         <button class="burger" id="burger" onclick="toggleMobileNav()" aria-label="القائمة">☰</button>
     </div>
+    <div id="installBtnWrap" style="display:none;justify-content:center;padding:8px 16px 10px;background:linear-gradient(180deg,rgba(15,30,61,.02),transparent)"></div>
     <nav class="nav-mobile" id="navMobile">
         <a href="#home" class="nav-link">الرئيسية</a>
         <a href="#services" class="nav-link">الخدمات</a>
@@ -405,12 +406,14 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   deferredPrompt=e
   const btn=document.createElement('button')
   btn.innerHTML='📲 حمل التطبيق من هنا'
-  btn.style.cssText='position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:14px 28px;border-radius:30px;font-weight:800;font-size:15px;box-shadow:0 6px 20px rgba(212,169,55,.5);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
+  btn.style.cssText='background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:10px 24px;border-radius:30px;font-weight:800;font-size:14px;box-shadow:0 4px 16px rgba(212,169,55,.4);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
   btn.onclick=()=>{
     deferredPrompt.prompt()
     deferredPrompt.userChoice.then(()=>{btn.remove();deferredPrompt=null})
   }
-  document.body.appendChild(btn)
+  const wrap=document.getElementById('installBtnWrap')
+  if(wrap){wrap.style.display='flex';wrap.appendChild(btn)}
+  else{document.body.appendChild(btn)}
   // iOS instructions
   const isiOS=/iPhone|iPad|iPod/.test(navigator.userAgent)
   if(isiOS && !window.navigator.standalone){

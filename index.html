@@ -404,7 +404,7 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault()
   deferredPrompt=e
   const btn=document.createElement('button')
-  btn.innerHTML='📱 ثبّت خِدْمَتي AI كمطقّ'
+  btn.innerHTML='📲 حمل التطبيق من هنا'
   btn.style.cssText='position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:14px 28px;border-radius:30px;font-weight:800;font-size:15px;box-shadow:0 6px 20px rgba(212,169,55,.5);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
   btn.onclick=()=>{
     deferredPrompt.prompt()

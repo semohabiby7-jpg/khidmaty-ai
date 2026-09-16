@@ -404,8 +404,8 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault()
   deferredPrompt=e
   const btn=document.createElement('button')
-  btn.textContent='📱 تثبيت التطبيق'
-  btn.style.cssText='position:fixed;bottom:80px;left:16px;z-index:9999;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;font-family:Cairo,sans-serif'
+  btn.innerHTML='📱 ثبّت خِدْمَتي AI كمطقّ'
+  btn.style.cssText='position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:14px 28px;border-radius:30px;font-weight:800;font-size:15px;box-shadow:0 6px 20px rgba(212,169,55,.5);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
   btn.onclick=()=>{
     deferredPrompt.prompt()
     deferredPrompt.userChoice.then(()=>{btn.remove();deferredPrompt=null})
@@ -415,8 +415,8 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   const isiOS=/iPhone|iPad|iPod/.test(navigator.userAgent)
   if(isiOS && !window.navigator.standalone){
     const iosBtn=document.createElement('button')
-    iosBtn.textContent='📱 تثبيت على iPhone'
-    iosBtn.style.cssText='position:fixed;bottom:80px;right:16px;z-index:9999;background:var(--navy);color:var(--white);border:none;padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;font-family:Cairo,sans-serif'
+    iosBtn.innerHTML='📱 ثبّت خِدْمَتي على iPhone'
+    iosBtn.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:9999;background:#0F1E3D;color:#fff;border:none;padding:14px 28px;border-radius:30px;font-weight:800;font-size:15px;box-shadow:0 6px 20px rgba(15,30,61,.4);cursor:pointer;font-family:Cairo,sans-serif'
     iosBtn.onclick=()=>{
       alert('لتثبيت خِدْمَتي AI على iPhone:\n\n1️⃣ اضغط زرار المشاركة 📤\n2️⃣ اختار "Add to Home Screen"\n3️⃣ اضغط "Add"\n\nهتلاقي أيقونة خِدْمَتي على شاشتك! 🎉')
     }

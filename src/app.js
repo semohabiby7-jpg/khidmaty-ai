@@ -514,7 +514,7 @@ function renderGovLinks(){
   const grid=document.getElementById('govLinksGrid')
   if(!grid)return
   const seen=new Set()
-  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated})).filter(x=>{
+  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated,names:services.filter(x=>x.link===s.link).map(x=>x.name).join(' ')})).filter(x=>{
     if(seen.has(x.link))return false
     seen.add(x.link);return true
   })
@@ -542,7 +542,7 @@ function renderGovLinks(){
   window._svcCount=svcCount
   
   const cards=links.map((l,idx)=>`
-    <a href="${l.link}" target="_blank" class="svc-card gov-card" data-source="${l.source}" data-cat="${catName(l.cat)}" style="text-decoration:none;cursor:pointer;position:relative">
+    <a href="${l.link}" target="_blank" class="svc-card gov-card" data-source="${l.source}" data-cat="${catName(l.cat)}" data-keywords="${l.names}" style="text-decoration:none;cursor:pointer;position:relative">
       <div class="svc-icon">${l.icon}</div>
       <h3 class="svc-name" style="font-size:15px">${l.source}</h3>
       <p class="svc-desc" style="font-size:12px">${catName(l.cat)}</p>

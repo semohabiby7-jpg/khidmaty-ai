@@ -1211,3 +1211,40 @@ function openArticle(id){
 
 /* init articles */
 document.addEventListener('DOMContentLoaded',renderArticles)
+
+/* ===== FAQ (الأسئلة الشائعة) ===== */
+const faqs=[
+  {q:'هل خِدْمَتي AI منصة حكومية رسمية؟',a:'لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية.'},
+  {q:'هل المنصة مجانية؟',a:'آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم.'},
+  {q:'إزاي أتحدث بالصوت مع الـ AI؟',a:'في خانة الكتابة في الـ AI chat، هتلاقي زر مايك 🎤. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً.'},
+  {q:'هل بياناتي آمنة؟',a:'آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك (localStorage).'},
+  {q:'إزاي أثبت التطبيق على موبايلي؟',a:'اضغط على زر "📲 حمل التطبيق من هنا" في أعلى الموقع، واتبع الخطوات. أو من قائمة المتصفح اختار "Add to Home Screen".'},
+  {q:'إزاي ألاقي خدمة معينة؟',a:'تقدر تبحث في الصفحة الرئيسية، أو في الدليل الحكومي الذكي، أو تسأل الـ AI مباشرة بالعربي المصري.'},
+  {q:'هل تقدروا تساعدوني أخلص معاملاتي؟',a:'خِدْمَتي AI بيساعدك تفهم الخطوات والمستندات المطلوبة. لو محتاج حد يخلصها لك، تقدر تطلب من قسم "مقدمو الخدمات" وتتواصل مع مقدم خدمة.'},
+  {q:'هل المنصة بتشتغل على الكمبيوتر والموبايل؟',a:'آه، خِدْمَتي AI بتشتغل على كل الأجهزة: موبايل، تابلت، كمبيوتر. وتقدر تثبتها كتطبيق على جهازك.'}
+]
+
+function renderFAQ(){
+  const list=document.getElementById('faqList')
+  if(!list)return
+  list.innerHTML=faqs.map((f,i)=>`
+    <div class="faq-item" onclick="toggleFAQ(${i})">
+      <div class="faq-q">
+        <span class="faq-q-text">${f.q}</span>
+        <span class="faq-q-icon" id="faqIcon${i}">➕</span>
+      </div>
+      <div class="faq-a" id="faqA${i}">${f.a}</div>
+    </div>
+  `).join('')
+}
+
+function toggleFAQ(i){
+  const ans=document.getElementById('faqA'+i)
+  const icon=document.getElementById('faqIcon'+i)
+  if(!ans)return
+  const open=ans.style.display==='block'
+  ans.style.display=open?'none':'block'
+  icon.textContent=open?'➕':'➖'
+}
+
+document.addEventListener('DOMContentLoaded',renderFAQ)

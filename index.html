@@ -426,6 +426,26 @@ window.addEventListener('beforeinstallprompt',(e)=>{
     document.body.appendChild(iosBtn)
   }
 })
+// Desktop fallback for browsers that don't support beforeinstallprompt
+setTimeout(()=>{
+  if(!deferredPrompt){
+    const isDesktop=!/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    const isStandalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone
+    if(isDesktop && !isStandalone){
+      const wrap=document.getElementById('installBtnWrap')
+      if(wrap && !wrap.children.length){
+        wrap.style.display='flex'
+        const btn=document.createElement('button')
+        btn.innerHTML='💻 حمّل التطبيق على الكمبيوتر'
+        btn.style.cssText='background:linear-gradient(135deg,#0F1E3D,#1a2d5a);color:#e6c258;border:none;padding:10px 24px;border-radius:30px;font-weight:800;font-size:14px;box-shadow:0 4px 16px rgba(15,30,61,.3);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
+        btn.onclick=()=>{
+          alert('لتثبيت خِدْمَتي AI على الكمبيوتر:\n\n🌐 Chrome أو Edge:\n1️⃣ اضغط زر التثبيت 📲 في شريط العنوان\n2️⃣ اضغط "Install"\n\nهتلاقي خِدْمَتي AI على سطح المكتب! 🎉')
+        }
+        wrap.appendChild(btn)
+      }
+    }
+  }
+},3000)
 </script>
 <!-- ARTICLE MODAL -->
 <div class="modal-overlay" id="articleModal">

@@ -1249,3 +1249,33 @@ function toggleFAQ(i){
 }
 
 document.addEventListener('DOMContentLoaded',renderFAQ)
+
+/* ===== REVIEWS (آراء المستخدمين) ===== */
+const reviews=[
+  {name:'أحمد محمد',role:'صاحب شركة',stars:5,text:'منصة تحفة! بسألها بالعربي المصري بترد عليا فوراً وتوجّهني خطوة بخطوة. وفّرت عليا وقت كتير في تجديد الرخصة.',icon:'👨‍💼'},
+  {name:'سارة عبدالله',role:'أم/ربة منزل',stars:5,text:'الميزة الصوتية ممتازة! ماكنتش أعرف أتكلم مع الكمبيوتر كده. دلوقتي بسأل وأتكلم وبتفهمني على طول.',icon:'👩'},
+  {name:'محمود علي',role:'موظف',stars:5,text:'كنت محتار في تسجيل الضريبة، بس خِدْمَتي AI شرحتلي كل خطوة والمستندات المطلوبة. حاجة محترمة جداً.',icon:'👨'},
+  {name:'فاطمة سيد',role:'طالبة',stars:5,text:'استخرجت شهادة ميلاد لأختي في دقايق! الموقع بسيط وسهل، والمقالات مفيدة جداً.',icon:'👩‍🎓'},
+  {name:'خالد إبراهيم',role:'تاجر',stars:5,text:'أحسن حاجة إنه مجاني! ببحث عن أي خدمة حكومية وألاقيها هنا. الرابط المباشر للجهة الحكومية بيوفّر عليا التدوير.',icon:'🧑‍🔧'},
+  {name:'منى رشاد',role:'محاسبة',stars:5,text:'أنصح كل عملائي بالمنصة دي. بتوضّح المعاملات الضريبية بطريقة بسيطة. تحفة فعلاً!',icon:'👩‍💼'}
+]
+
+function renderReviews(){
+  const grid=document.getElementById('reviewsGrid')
+  if(!grid)return
+  grid.innerHTML=reviews.map(r=>`
+    <div class="review-card">
+      <div class="review-stars">${'⭐'.repeat(r.stars)}</div>
+      <p class="review-text">"${r.text}"</p>
+      <div class="review-user">
+        <span class="review-icon">${r.icon}</span>
+        <div>
+          <strong class="review-name">${r.name}</strong>
+          <span class="review-role">${r.role}</span>
+        </div>
+      </div>
+    </div>
+  `).join('')
+}
+
+document.addEventListener('DOMContentLoaded',renderReviews)

@@ -1172,3 +1172,42 @@ function openReviewModal(providerName){
   `
   openModal('reviewModal')
 }
+
+/* ===== ARTICLES (مقالات ونصائح) ===== */
+const articles=[
+  {id:1,icon:'🚗',cat:'مرور',title:'إزاي تتجدد رخصة سيارتك؟',excerpt:'دليلك الكامل لتجديد رخرة السيارة في مصر — الخطوات والمستندات والمصاريف',readTime:'5 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على موقع <a href="https://traffic.gov.eg" target="_blank">traffic.gov.eg</a></p><p>2. اختار "تجديد رخصة سيارة"</p><p>3. اكتب رقم السيارة ورقم الشاسيه</p><p>4. ادفع المصاريف (حوالي 400 جنيه)</p><p>5. استلم الرخصة من المرور أو بالبريد</p><h3>📄 المستندات المطلوبة</h3><p>• بطاقة الرقم القومي</p><p>• الفحص الفني للسيارة</p><p>• وثيقة التأمين</p><h3>💰 المصاريف</h3><p>تجديد سنة: 266 جنيه | تجديد 3 سنوات: 798 جنيه</p>`},
+  {id:2,icon:'📊',cat:'ضرائب',title:'إزاي تسجل في الضريبة؟',excerpt:'خطوات التسجيل في المصلحة الضريبية وأهم المستندات المطلوبة',readTime:'7 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://eta.gov.eg" target="_blank">eta.gov.eg</a></p><p>2. اختار "تسجيل جديد"</p><p>3. اكتب بياناتك (اسم، سجل تجاري، بطاقة)</p><p>4. ارفع المستندات</p><p>5. استلم رقم التسجيل الضريبي</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• السجل التجاري</p><p>• عقد الإيجار أو ملكية المقر</p><h3>💡 نصيحة</h3><p>لو مشروعك صغير، ممكن تستفيد من نظام الـ Lump Sum (التخمين)</p>`},
+  {id:3,icon:'🪪',cat:'أحوال مدنية',title:'إزاي تتجدد بطاقتك الشخصية؟',excerpt:'تجديد البطاقة الشخصية في 5 خطوات بسيطة',readTime:'4 دقائق',content:`<h3>📋 الخطوات</h3><p>1. اذهب لأقرب مكتب مصلحة الأحوال المدنية</p><p>2. اكتب استمارة تجديد البطاقة</p><p>3. استخراج البطاقة بـ 15 جنيه</p><p>4. الاستلام بعد 3 أيام</p><h3>📄 المستندات</h3><p>• البطاقة القديمة</p><p>• بطاقة أحد الوالدين (لو تحت 18)</p><h3>⏰ إمتى لازم تتجدد؟</h3><p>البطاقة بتتجدد كل 7 سنين، أو لو غيرت عنوانك أو حالتك الاجتماعية</p>`},
+  {id:4,icon:'🛂',cat:'جوازات',title:'إزاي تستخرج جواز السفر؟',excerpt:'دليلك الكامل لاستخراج جواز سفر مصري جديد',readTime:'6 دقائق',content:`<h3>📋 الخطوات</h3><p>1. احجز موعد من <a href="https://egpassport.gov.eg" target="_blank">egpassport.gov.eg</a></p><p>2. اذهب لمكتب الجوازات في الموعد</p><p>3. تسجيل البيانات وأخذ البصمة</p><p>4. دفع المصاريف (250 جنيه)</p><p>5. الاستلام بعد أسبوع</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• شهادة الميلاد</p><p>• 4 صور شخصية</p><p>• موافقة الزوج (للمرأة المتزوجة)</p>`},
+  {id:5,icon:'📋',cat:'أحوال مدنية',title:'إزاي تطلب شهادة ميلاد؟',excerpt:'استخراج شهادة ميلاد لنفسك أو لأطفالك',readTime:'3 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://www.civilregistry.gov.eg" target="_blank">civilregistry.gov.eg</a></p><p>2. اختار "استخراج شهادة ميلاد"</p><p>3. اكتب رقم القومي للمولود</p><p>4. دفع 15 جنيه</p><p>5. استلام الكتروني أو من المكتب</p><h3>📄 المستندات</h3><p>• بطاقة رقم قومي للأب/الأم</p><p>• رقم قومي للمولود</p>`}
+]
+
+function renderArticles(){
+  const grid=document.getElementById('articlesGrid')
+  if(!grid)return
+  grid.innerHTML=articles.map(a=>`
+    <article class="article-card" onclick="openArticle(${a.id})">
+      <div class="article-icon">${a.icon}</div>
+      <span class="article-cat">${a.cat}</span>
+      <h3 class="article-title">${a.title}</h3>
+      <p class="article-excerpt">${a.excerpt}</p>
+      <div class="article-meta">
+        <span>⏱️ ${a.readTime}</span>
+        <span class="article-read">اقرأ المزيد ←</span>
+      </div>
+    </article>
+  `).join('')
+}
+
+function openArticle(id){
+  const a=articles.find(x=>x.id===id)
+  if(!a)return
+  const modal=document.getElementById('articleModal')
+  if(!modal)return
+  document.getElementById('articleModalTitle').textContent=a.title
+  document.getElementById('articleModalBody').innerHTML=a.content
+  openModal('articleModal')
+}
+
+/* init articles */
+document.addEventListener('DOMContentLoaded',renderArticles)

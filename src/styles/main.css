@@ -879,3 +879,9 @@ transition:var(--t)
 [data-theme="dark"] .article-title{color:#fff}
 [data-theme="dark"] .article-body{color:#d0d8e8}
 [data-theme="dark"] .article-body h3{color:#fff}
+
+/* ===== Install Button Animation ===== */
+@keyframes installPulse{
+  0%,100%{box-shadow:0 6px 20px rgba(212,169,55,.5);transform:translateX(-50%) scale(1)}
+  50%{box-shadow:0 8px 28px rgba(212,169,55,.7);transform:translateX(-50%) scale(1.05)}
+}

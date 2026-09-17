@@ -806,6 +806,10 @@ body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 [data-theme="dark"] .hero-glow{opacity:.3}
 [data-theme="dark"] .disclaimer{background:rgba(212,169,55,.1)}
 [data-theme="dark"] .bottom-nav{background:rgba(10,20,40,.95)}
+[data-theme="dark"] .prv-card{background:#1a2d5a;border-color:#2a3d5a}
+[data-theme="dark"] .prv-card:hover{box-shadow:0 12px 30px rgba(0,0,0,.4)}
+[data-theme="dark"] .prv-info h4{color:#fff}
+[data-theme="dark"] .providers-cta{background:linear-gradient(135deg,#0a1428,#1a2d5a);border:1px solid #2a3d5a}
 
 /* ===== Government Guide Search (voice + button) ===== */
 .gov-search-wrap{max-width:600px;margin:0 auto 28px}

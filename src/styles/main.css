@@ -795,6 +795,11 @@ body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 [data-theme="dark"] .svc-card{background:#1a2d5a;border-color:#2a3d5a}
 [data-theme="dark"] .svc-card:hover{box-shadow:0 12px 30px rgba(0,0,0,.4)}
 [data-theme="dark"] .ai-bubble{background:#1a2d5a;color:var(--text)}
+[data-theme="dark"] .ai-msg.bot .ai-bubble{background:#1a2d5a;color:var(--text);border-color:#2a3d5a}
+[data-theme="dark"] .ai-chat-wrap{background:#0a1428;border:1px solid #2a3d5a}
+[data-theme="dark"] .ai-input-wrap{background:#0F1E3D;border-top-color:#2a3d5a}
+[data-theme="dark"] #aiInput{background:#0a1428;color:var(--text);border-color:#2a3d5a}
+[data-theme="dark"] #aiInput::placeholder{color:#9ca3af}
 [data-theme="dark"] .step-card{background:#1a2d5a}
 [data-theme="dark"] .modal{background:#1a2d5a;color:var(--text)}
 [data-theme="dark"] input,[data-theme="dark"] select{background:#0a1428;color:var(--text);border-color:#2a3d5a}

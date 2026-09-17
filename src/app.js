@@ -1242,6 +1242,27 @@ function copyArticleLink(url){
   navigator.clipboard.writeText(url).then(()=>alert('تم نسخ الرابط! ✅')).catch(()=>alert('انسخ: '+url))
 }
 
+/* ===== Share Site Menu (footer) ===== */
+function shareSiteMenu(e){
+  e.stopPropagation()
+  const url='https://semohabiby7-jpg.github.io/khidmaty-ai/'
+  const title='خِدْمَتي AI - مصلحتك في مكان واحد!'
+  if(navigator.share){
+    navigator.share({title:'خِدْمَتي AI',text:title,url:url}).catch(()=>{})
+    return
+  }
+  const menu=document.getElementById('siteShareMenu')
+  if(menu)menu.style.display=menu.style.display==='none'?'block':'none'
+}
+
+/* Close site share menu on outside click */
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('siteShareMenu')
+  if(menu&&menu.style.display==='block'&&!e.target.closest('#siteShareMenu')&&!e.target.matches('button[onclick*="shareSiteMenu"]')){
+    menu.style.display='none'
+  }
+})
+
 /* ===== Share Article (Web Share API + dropdown fallback) ===== */
 function shareArticle(e,title,url){
   e.stopPropagation()

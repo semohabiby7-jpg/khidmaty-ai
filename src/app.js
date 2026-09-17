@@ -1206,8 +1206,31 @@ function openArticle(id){
   if(!modal)return
   const shareUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href)+'&quote='+encodeURIComponent(a.title+' — خِدْمَتي AI')
   document.getElementById('articleModalTitle').textContent=a.title
-  document.getElementById('articleModalBody').innerHTML='<div style="text-align:center;margin-bottom:16px"><a href="'+shareUrl+'" target="_blank" style="background:#1877F2;color:#fff;padding:10px 24px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📘 مشاركة على فيسبوك</a></div>'+a.content
+  const installBanner=`<div style="margin-top:24px;background:linear-gradient(135deg,#0F1E3D,#1a2d5a);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid rgba(230,194,88,.3)">
+    <div style="font-size:32px">📲</div>
+    <div style="flex:1;min-width:200px">
+      <strong style="color:#e6c258;font-size:15px;display:block;margin-bottom:4px">نزّل التطبيق عشان ترجع للأوراق المطلوبة وأنت جوة المصلحة</strong>
+      <span style="color:rgba(255,255,255,.8);font-size:13px">حتى لو النت قطع — التطبيق بيشتغل offline بعد تثبيته ✅</span>
+    </div>
+    <button onclick="installAppFromArticle()" style="background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:12px 22px;border-radius:25px;font-weight:800;font-size:14px;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 4px 14px rgba(212,169,55,.4);white-space:nowrap">📲 ثبّت التطبيق</button>
+  </div>`
+  document.getElementById('articleModalBody').innerHTML='<div style="text-align:center;margin-bottom:16px"><a href="'+shareUrl+'" target="_blank" style="background:#1877F2;color:#fff;padding:10px 24px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📘 مشاركة على فيسبوك</a></div>'+a.content+installBanner
   openModal('articleModal')
+}
+
+/* ===== Install App from Article (PWA prompt) ===== */
+function installAppFromArticle(){
+  if(typeof deferredPrompt!=='undefined'&&deferredPrompt){
+    deferredPrompt.prompt()
+    deferredPrompt.userChoice.then(()=>{deferredPrompt=null})
+  }else{
+    const isiOS=/iPhone|iPad|iPod/.test(navigator.userAgent)
+    if(isiOS){
+      alert('لتثبيت خِدْمَتي AI على iPhone:\n\n1️⃣ اضغط زر المشاركة 📲\n2️⃣ اختار "Add to Home Screen"\n3️⃣ اضغط "Add"\n\nهتلاقي خِدْمَتي AI على شاشتك! 🎉')
+    }else{
+      alert('لتثبيت خِدْمَتي AI:\n\n🌐 Chrome أو Edge:\n1️⃣ اضغط زر التثبيت 📲 في شريط العنوان\n2️⃣ اضغط "Install"\n\nهتلاقي خِدْمَتي AI على جهازك! 🎉')
+    }
+  }
 }
 
 /* init articles */

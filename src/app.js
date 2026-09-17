@@ -1212,11 +1212,19 @@ function openArticle(id){
   const siteUrl=window.location.href
   const fbShareUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(siteUrl)+'&quote='+encodeURIComponent(a.title+' — خِدْمَتي AI')
   const waShareUrl='https://wa.me/?text='+encodeURIComponent(a.title+' — خِدْمَتي AI\n\n'+siteUrl)
+  const tgShareUrl='https://t.me/share/url?url='+encodeURIComponent(siteUrl)+'&text='+encodeURIComponent(a.title+' — خِدْمَتي AI')
+  const xShareUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(a.title+' — خِدْمَتي AI')+'&url='+encodeURIComponent(siteUrl)
   document.getElementById('articleModalTitle').textContent=a.title
-  const shareButtons=`<div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
-    <a href="${fbShareUrl}" target="_blank" style="background:#1877F2;color:#fff;padding:10px 22px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📘 فيسبوك</a>
-    <a href="${waShareUrl}" target="_blank" style="background:#25D366;color:#fff;padding:10px 22px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📲 واتساب</a>
-    <button onclick="copyArticleLink('${siteUrl}')" style="background:var(--gray);color:var(--text);border:1px solid var(--gray-m);padding:10px 22px;border-radius:30px;cursor:pointer;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">🔗 نسخ الرابط</button>
+  const safeTitle=a.title.replace(/'/g,"\\'")
+  const shareButtons=`<div style="text-align:center;margin-bottom:16px;position:relative">
+    <button onclick="shareArticle(event,'${safeTitle}','${siteUrl}')" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px 28px;border-radius:30px;cursor:pointer;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;font-family:Cairo,sans-serif;box-shadow:0 4px 14px rgba(212,169,55,.3)">📤 مشاركة المقال</button>
+    <div id="articleShareMenu" style="display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--gray-m);border-radius:12px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);z-index:1000;min-width:200px;margin-top:8px">
+      <a href="${fbShareUrl}" target="_blank" style="display:block;padding:10px 14px;color:var(--text);text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;font-family:Cairo,sans-serif">📘 فيسبوك</a>
+      <a href="${waShareUrl}" target="_blank" style="display:block;padding:10px 14px;color:var(--text);text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;font-family:Cairo,sans-serif">📲 واتساب</a>
+      <a href="${tgShareUrl}" target="_blank" style="display:block;padding:10px 14px;color:var(--text);text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;font-family:Cairo,sans-serif">✈️ تليجرام</a>
+      <a href="${xShareUrl}" target="_blank" style="display:block;padding:10px 14px;color:var(--text);text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;font-family:Cairo,sans-serif">𝕏 إكس (تويتر)</a>
+      <button onclick="copyArticleLink('${siteUrl}')" style="display:block;width:100%;padding:10px 14px;background:none;border:none;color:var(--text);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-align:right;font-family:Cairo,sans-serif">🔗 نسخ الرابط</button>
+    </div>
   </div>`
   const installBanner=`<div style="margin-top:24px;background:linear-gradient(135deg,#0F1E3D,#1a2d5a);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid rgba(230,194,88,.3)">
     <div style="font-size:32px">📲</div>
@@ -1233,6 +1241,31 @@ function openArticle(id){
 function copyArticleLink(url){
   navigator.clipboard.writeText(url).then(()=>alert('تم نسخ الرابط! ✅')).catch(()=>alert('انسخ: '+url))
 }
+
+/* ===== Share Article (Web Share API + dropdown fallback) ===== */
+function shareArticle(e,title,url){
+  e.stopPropagation()
+  // لو navigator.share متاح (موبايل/بعض المتصفحات) — بيفتح قائمة المشاركة الأصلية
+  if(navigator.share){
+    navigator.share({
+      title:title+' — خِدْمَتي AI',
+      text:title+' — خِدْمَتي AI',
+      url:url
+    }).catch(()=>{})
+    return
+  }
+  // لو مش متاح، اظهر القائمة المخصصة
+  const menu=document.getElementById('articleShareMenu')
+  if(menu)menu.style.display=menu.style.display==='none'?'block':'none'
+}
+
+/* Close share menu on outside click */
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('articleShareMenu')
+  if(menu&&menu.style.display==='block'&&!e.target.closest('#articleShareMenu')&&!e.target.matches('button[onclick*="shareArticle"]')){
+    menu.style.display='none'
+  }
+})
 
 /* ===== Install App from Article (PWA prompt) ===== */
 function installAppFromArticle(){

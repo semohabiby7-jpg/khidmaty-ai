@@ -522,22 +522,22 @@ async function handleProvider(e){
     try{
       const email=makeEmail(phone)
       const randomPass=Math.random().toString(36).slice(2,10)+name.slice(0,3)
-      const authRes=await fetch(SUPABASE_URL+'/auth/v1/signup',{
+      const authRes=await fetch(SUPABASE_URL+'/rest/v1/providers',{
         method:'POST',
-        headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
-        body:JSON.stringify({
-          email,password:randomPass,
-          data:{...providerData,role:'provider',badge:'جديد'}
-        })
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+        body:JSON.stringify({...providerData,rating:0,orders:0,badge:'جديد',verified:false})
       })
-      const authData=await authRes.json()
-      if(authData.user||authData.access_token){
+      if(authRes.ok){
+        const authData=await authRes.json()
+        if(authData&&authData[0]){
+          if(!providers.find(p=>p.id===authData[0].id)){providers.push(authData[0]);renderProviders()}
+        }
         alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
         closeModal('providerModal')
         document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
         return false
       }
-    }catch(authErr){console.log('Auth fallback failed:',authErr)}
+    }catch(authErr){console.log('Direct Supabase insert failed:',authErr)}
 
     // ===== الطريق 3: حفظ محلي (لو النت فشل كله) =====
     const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')

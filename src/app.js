@@ -3,6 +3,19 @@ const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
 const WORKER_URL='https://wispy-pine-7fd2.semohabiby7.workers.dev'
 
+/* ===== TOAST (إشعار نجاح/خطأ) ===== */
+function showToast(msg,type){
+  type=type||'success'
+  let t=document.getElementById('appToast')
+  if(!t){t=document.createElement('div');t.id='appToast';document.body.appendChild(t)}
+  t.className='app-toast '+type
+  t.innerHTML=msg.replace(/\n/g,'<br>')
+  t.classList.add('show')
+  clearTimeout(t._timer)
+  t._timer=setTimeout(()=>t.classList.remove('show'),4500)
+}
+
+
 async function loadFromSupabase(){
   try{
     const [svcRes,catRes,prvRes] = await Promise.all([
@@ -408,7 +421,11 @@ async function handleRegister(e){
   const phone=document.getElementById('regPhone').value.trim()
   const gov=document.getElementById('regGov').value
   const pass=document.getElementById('regPass').value
-  if(!name||!phone||!gov||!pass){alert('املأ كل البيانات!');return false}
+  const pass2=document.getElementById('regPass2').value
+  const terms=document.getElementById('regTerms').checked
+  if(!name||!phone||!gov||!pass){showToast('املأ كل البيانات!','error');return false}
+  if(pass!==pass2){showToast('كلمتا المرور مش متطابقتين','error');return false}
+  if(!terms){showToast('لازم توافق على الشروط والأحكام','error');return false}
   try{
     const email=makeEmail(phone)
     const res=await fetch(SUPABASE_URL+'/auth/v1/signup',{
@@ -420,13 +437,13 @@ async function handleRegister(e){
     if(data.access_token){
       localStorage.setItem('sb_token',data.access_token)
       localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email}))
-      alert('تم إنشاء حسابك بنجاح! 🎉\nأهلاً '+name)
+      showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
       closeModal('registerModal')
       updateAuthUI()
     }else{
-      alert(data.msg||data.message||'رقم الموبايل مستخدم بالفعل')
+      showToast(data.msg||data.message||'رقم الموبايل مستخدم بالفعل','error')
     }
-  }catch(err){alert('حصلت مشكلة، جرّب تاني')}
+  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error')}
   return false
 }
 
@@ -488,7 +505,7 @@ async function handleProvider(e){
   const phone=document.getElementById('provPhone').value.trim()
   const services=document.getElementById('provServices').value.trim()
   const whatsapp=document.getElementById('provWhatsApp').value.trim()
-  if(!name||!type||!gov||!phone){alert('من فضلك املأ الحقول المطلوبة: الاسم، النشاط، المحافظة، التليفون');return false}
+  if(!name||!type||!gov||!phone){showToast('من فضلك املأ الحقول المطلوبة: الاسم، النشاط، المحافظة، التليفون','error');return false}
   const btn=document.getElementById('provSubmitBtn')
   const original=btn.textContent
   btn.textContent='جاري التسجيل...';btn.disabled=true
@@ -509,7 +526,7 @@ async function handleProvider(e){
             providers.push(data.provider)
             renderProviders()
           }
-          alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
+          showToast('تم تسجيلك بنجاح! 🎉<br>أهلاً '+name+'<br>هنتواصل معاك للتوثيق خلال 24 ساعة.')
           closeModal('providerModal')
           document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
           workerOk=true
@@ -532,7 +549,7 @@ async function handleProvider(e){
         if(authData&&authData[0]){
           if(!providers.find(p=>p.id===authData[0].id)){providers.push(authData[0]);renderProviders()}
         }
-        alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
+        showToast('تم تسجيلك بنجاح! 🎉<br>أهلاً '+name+'<br>هنتواصل معاك للتوثيق خلال 24 ساعة.')
         closeModal('providerModal')
         document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
         return false
@@ -543,14 +560,14 @@ async function handleProvider(e){
     const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
     pending.push({...providerData,date:new Date().toISOString()})
     localStorage.setItem('pendingProviders',JSON.stringify(pending))
-    alert('سجلنا طلبك! ✅ هنتواصل معاك للتوثيق خلال 24 ساعة.')
+    showToast('سجلنا طلبك! ✅ هنتواصل معاك للتوثيق خلال 24 ساعة.')
     closeModal('providerModal')
   }catch(err){
     console.error('Provider submit error:',err)
     const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
     pending.push({...providerData,date:new Date().toISOString()})
     localStorage.setItem('pendingProviders',JSON.stringify(pending))
-    alert('في مشكلة في النت، بس سجلنا طلبك محلياً ✅ هنتواصل معاك.')
+    showToast('في مشكلة في النت، بس سجلنا طلبك محلياً ✅ هنتواصل معاك.','error')
     closeModal('providerModal')
   }finally{
     btn.textContent=original;btn.disabled=false

@@ -1179,7 +1179,12 @@ const articles=[
   {id:2,icon:'📊',cat:'ضرائب',title:'إزاي تسجل في الضريبة؟',excerpt:'خطوات التسجيل في المصلحة الضريبية وأهم المستندات المطلوبة',readTime:'7 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://eta.gov.eg" target="_blank">eta.gov.eg</a></p><p>2. اختار "تسجيل جديد"</p><p>3. اكتب بياناتك (اسم، سجل تجاري، بطاقة)</p><p>4. ارفع المستندات</p><p>5. استلم رقم التسجيل الضريبي</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• السجل التجاري</p><p>• عقد الإيجار أو ملكية المقر</p><h3>💡 نصيحة</h3><p>لو مشروعك صغير، ممكن تستفيد من نظام الـ Lump Sum (التخمين)</p>`},
   {id:3,icon:'🪪',cat:'أحوال مدنية',title:'إزاي تتجدد بطاقتك الشخصية؟',excerpt:'تجديد البطاقة الشخصية في 5 خطوات بسيطة',readTime:'4 دقائق',content:`<h3>📋 الخطوات</h3><p>1. اذهب لأقرب مكتب مصلحة الأحوال المدنية</p><p>2. اكتب استمارة تجديد البطاقة</p><p>3. استخراج البطاقة بـ 15 جنيه</p><p>4. الاستلام بعد 3 أيام</p><h3>📄 المستندات</h3><p>• البطاقة القديمة</p><p>• بطاقة أحد الوالدين (لو تحت 18)</p><h3>⏰ إمتى لازم تتجدد؟</h3><p>البطاقة بتتجدد كل 7 سنين، أو لو غيرت عنوانك أو حالتك الاجتماعية</p>`},
   {id:4,icon:'🛂',cat:'جوازات',title:'إزاي تستخرج جواز السفر؟',excerpt:'دليلك الكامل لاستخراج جواز سفر مصري جديد',readTime:'6 دقائق',content:`<h3>📋 الخطوات</h3><p>1. احجز موعد من <a href="https://egpassport.gov.eg" target="_blank">egpassport.gov.eg</a></p><p>2. اذهب لمكتب الجوازات في الموعد</p><p>3. تسجيل البيانات وأخذ البصمة</p><p>4. دفع المصاريف (250 جنيه)</p><p>5. الاستلام بعد أسبوع</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• شهادة الميلاد</p><p>• 4 صور شخصية</p><p>• موافقة الزوج (للمرأة المتزوجة)</p>`},
-  {id:5,icon:'📋',cat:'أحوال مدنية',title:'إزاي تطلب شهادة ميلاد؟',excerpt:'استخراج شهادة ميلاد لنفسك أو لأطفالك',readTime:'3 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://www.civilregistry.gov.eg" target="_blank">civilregistry.gov.eg</a></p><p>2. اختار "استخراج شهادة ميلاد"</p><p>3. اكتب رقم القومي للمولود</p><p>4. دفع 15 جنيه</p><p>5. استلام الكتروني أو من المكتب</p><h3>📄 المستندات</h3><p>• بطاقة رقم قومي للأب/الأم</p><p>• رقم قومي للمولود</p>`}
+  {id:5,icon:'📋',cat:'أحوال مدنية',title:'إزاي تطلب شهادة ميلاد؟',excerpt:'استخراج شهادة ميلاد لنفسك أو لأطفالك',readTime:'3 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://www.civilregistry.gov.eg" target="_blank">civilregistry.gov.eg</a></p><p>2. اختار "استخراج شهادة ميلاد"</p><p>3. اكتب رقم القومي للمولود</p><p>4. دفع 15 جنيه</p><p>5. استلام الكتروني أو من المكتب</p><h3>📄 المستندات</h3><p>• بطاقة رقم قومي للأب/الأم</p><p>• رقم قومي للمولود</p>`},
+  {id:6,icon:'🛂',cat:'جوازات',title:'إزاي تتجدد جواز السفر؟',excerpt:'تجديد الجواز قبل انتهاءه — الخطوات والمستندات',readTime:'5 دقائق',content:`<h3>📋 الخطوات</h3><p>1. احجز موعد من <a href=\"https://egpassport.gov.eg\" target=\"_blank\">egpassport.gov.eg</a></p><p>2. روح لمكتب الجوازات في الموعد</p><p>3. سلّم الجواز القديم وسجّل البيانات الجديدة</p><p>4. ادفع الرسوم (250 جنيه للعادي، 400 للمستعجل)</p><p>5. الاستلام بعد أسبوع للعادي، 3 أيام للمستعجل</p><h3>📄 المستندات</h3><p>• الجواز القديم</p><p>• بطاقة الرقم القومي</p><p>• صورة من البطاقة</p><h3>⏰ إمتى تتجدد؟</h3><p>قبل انتهائه بـ 6 شهور على الأقل، أو لو خلص تماماً</p>`},
+  {id:7,icon:'👴',cat:'تأمينات',title:'إزاي تطلع المعاش؟',excerpt:'دليلك لاستخراج معاش التأمينات الاجتماعية',readTime:'8 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على <a href=\"https://ensani.gov.eg\" target=\"_blank\">ensani.gov.eg</a></p><p>2. اختار \"طلب معاش\"</p><p>3. اكتب رقم التأميني وبياناتك</p><p>4. ارفع المستندات المطلوبة</p><p>5. انتظر الموافقة وصرف المعاش</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• شهادة المؤهل الدراسي</p><p>• إيصال سداد الاشتراكات</p><p>• نموذج طلب المعاش</p><h3>💰 المعلومات</h3><p>المعاش بيتحسب حسب مدة الاشتراك ومتوسط الأجر</p><h3>💡 نصيحة</h3><p>اتأكد إن كل اشتراكاتك مدفوعة قبل ما تقدم على المعاش</p>`},
+  {id:8,icon:'🤱',cat:'أحوال مدنية',title:'إزاي تسجّل مولود جديد؟',excerpt:'خطوات تسجيل المواليد الجدد واستخراج شهادة الميلاد',readTime:'4 دقائق',content:`<h3>📋 الخطوات</h3><p>1. روح لمكتب الأحوال المدنية في منطقتك خلال 30 يوم من الولادة</p><p>2. معاك شهادة الولادة من المستشفى</p><p>3. اكتب استمارة قيد المولود</p><p>4. استلم شهادة الميلاد في نفس اليوم أو اليوم التالي</p><h3>📄 المستندات</h3><p>• شهادة الولادة من المستشفى</p><p>• بطاقة الرقم القومي للأب</p><p>• بطاقة الرقم القومي للأم</p><p>• عقد الزواج</p><h3>⏰ مهم!</h3><p>لازم تسجّل المولود خلال 30 يوم، لو اتأخرت هتدفع غرامة</p>`},
+  {id:9,icon:'🏥',cat:'تأمين صحي',title:'إزاي تسجّل في التأمين الصحي؟',excerpt:'التسجيل في التأمين الصحي للموظفين والعائلة',readTime:'5 دقائق',content:`<h3>📋 الخطوات</h3><p>1. ادخل على موقع التأمين الصحي</p><p>2. اختار \"تسجيل جديد\"</p><p>3. اكتب بياناتك (اسم، رقم قومي، جهة العمل)</p><p>4. ارفع المستندات</p><p>5. استلم كارت التأمين الصحي</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• شهادة العمل أو إيصال المرتب</p><p>• صورة شخصية</p><h3>💰 الرسوم</h3><p>التأمين الصحي بيخصم 1% من المرتب للعامل، 3% من صاحب العمل</p>`},
+  {id:10,icon:'💼',cat:'شركات',title:'إزاي تفتح مشروعك الخاص؟',excerpt:'خطوات تسجيل مشروع صغير أو متوسط في مصر',readTime:'7 دقائق',content:`<h3>📋 الخطوات</h3><p>1. حدد نشاط المشروع (تجاري، صناعي، خدمي)</p><p>2. استخرج السجل التجاري من gafinet.com</p><p>3. سجّل في الضرائب واتجنب الغرامات</p><p>4. استخرج البطاقة الضريبية</p><p>5. افتح حساب بنكي باسم المشروع</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• عقد الإيجار أو ملكية المقر</p><p>• شهادة الميلاد</p><h3>💰 التكاليف</h3><p>السجل التجاري: 50-200 جنيه حسب النشاط | البطاقة الضريبية: مجانية</p><h3>💡 نصائح مهمة</h3><p>• لو مشروعك صغير، ممكن تستفيد من نظام الـ Lump Sum</p><p>• سجّل في صندوق تنمية الصناعة لو مشروعك صناعي</p>`}
 ]
 
 function renderArticles(){
@@ -1204,8 +1209,15 @@ function openArticle(id){
   if(!a)return
   const modal=document.getElementById('articleModal')
   if(!modal)return
-  const shareUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href)+'&quote='+encodeURIComponent(a.title+' — خِدْمَتي AI')
+  const siteUrl=window.location.href
+  const fbShareUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(siteUrl)+'&quote='+encodeURIComponent(a.title+' — خِدْمَتي AI')
+  const waShareUrl='https://wa.me/?text='+encodeURIComponent(a.title+' — خِدْمَتي AI\n\n'+siteUrl)
   document.getElementById('articleModalTitle').textContent=a.title
+  const shareButtons=`<div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+    <a href="${fbShareUrl}" target="_blank" style="background:#1877F2;color:#fff;padding:10px 22px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📘 فيسبوك</a>
+    <a href="${waShareUrl}" target="_blank" style="background:#25D366;color:#fff;padding:10px 22px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📲 واتساب</a>
+    <button onclick="copyArticleLink('${siteUrl}')" style="background:var(--gray);color:var(--text);border:1px solid var(--gray-m);padding:10px 22px;border-radius:30px;cursor:pointer;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">🔗 نسخ الرابط</button>
+  </div>`
   const installBanner=`<div style="margin-top:24px;background:linear-gradient(135deg,#0F1E3D,#1a2d5a);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid rgba(230,194,88,.3)">
     <div style="font-size:32px">📲</div>
     <div style="flex:1;min-width:200px">
@@ -1214,8 +1226,12 @@ function openArticle(id){
     </div>
     <button onclick="installAppFromArticle()" style="background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:12px 22px;border-radius:25px;font-weight:800;font-size:14px;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 4px 14px rgba(212,169,55,.4);white-space:nowrap">📲 ثبّت التطبيق</button>
   </div>`
-  document.getElementById('articleModalBody').innerHTML='<div style="text-align:center;margin-bottom:16px"><a href="'+shareUrl+'" target="_blank" style="background:#1877F2;color:#fff;padding:10px 24px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">📘 مشاركة على فيسبوك</a></div>'+a.content+installBanner
+  document.getElementById('articleModalBody').innerHTML=shareButtons+a.content+installBanner
   openModal('articleModal')
+}
+
+function copyArticleLink(url){
+  navigator.clipboard.writeText(url).then(()=>alert('تم نسخ الرابط! ✅')).catch(()=>alert('انسخ: '+url))
 }
 
 /* ===== Install App from Article (PWA prompt) ===== */

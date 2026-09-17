@@ -1,6 +1,7 @@
 /* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
+const WORKER_URL='https://wispy-pine-7fd2.semohabiby7.workers.dev'
 
 async function loadFromSupabase(){
   try{
@@ -84,7 +85,7 @@ async function callGemini(msg){
   // Using Worker proxy - no key needed
   try{
     const svcContext=services.map(s=>`- ${s.icon} ${s.name} (${s.category}): ${s.desc} | المستندات: ${(s.documents||[]).join(', ')} | الخطوات: ${(s.steps||[]).join(' → ')} | الرسوم: ${s.fees||'غير محدد'} | المدة: ${s.duration||'غير محدد'} | الجهة: ${s.source||'غير محدد'} | الرابط: ${s.link||'غير متاح'}`).join('\n')
-    const res=await fetch('https://wispy-pine-7fd2.semohabiby7.workers.dev/',{
+    const res=await fetch(WORKER_URL+'/',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({message:msg,history:aiHistory,services:svcContext})
@@ -491,40 +492,63 @@ async function handleProvider(e){
   const btn=document.getElementById('provSubmitBtn')
   const original=btn.textContent
   btn.textContent='جاري التسجيل...';btn.disabled=true
+  const providerData={name,type,gov,phone,whatsapp:whatsapp||phone,services}
   try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/providers',{
-      method:'POST',
-      headers:{
-        'apikey':SUPABASE_KEY,
-        'Authorization':'Bearer '+SUPABASE_KEY,
-        'Content-Type':'application/json',
-        'Prefer':'return=representation'
-      },
-      body:JSON.stringify({name,type,gov,rating:0,orders:0,badge:'جديد',verified:false})
-    })
-    if(!res.ok){
-      const err=await res.text()
-      console.error('Provider insert failed:',err)
-      const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
-      pending.push({name,type,gov,phone,whatsapp,services,date:new Date().toISOString()})
-      localStorage.setItem('pendingProviders',JSON.stringify(pending))
-      alert('سجلنا طلبك! ✅ هنتواصل معاك للتوثيق خلال 24 ساعة.')
-      closeModal('providerModal')
-      return false
-    }
-    const data=await res.json()
-    console.log('✅ Provider saved:',data)
-    if(data&&data[0]&&!providers.find(p=>p.id===data[0].id)){
-      providers.push(data[0])
-      renderProviders()
-    }
-    alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
+    // ===== الطريق 1: عبر Cloudflare Worker (يدخل في providers table ويتجاوز RLS) =====
+    let workerOk=false
+    try{
+      const res=await fetch(WORKER_URL+'/register-provider',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(providerData)
+      })
+      if(res.ok){
+        const data=await res.json()
+        if(data.success&&data.provider){
+          if(!providers.find(p=>p.id===data.provider.id)){
+            providers.push(data.provider)
+            renderProviders()
+          }
+          alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
+          closeModal('providerModal')
+          document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
+          workerOk=true
+        }
+      }
+    }catch(workerErr){console.log('Worker route failed, falling back:',workerErr)}
+    if(workerOk)return false
+
+    // ===== الطريق 2: تسجيل في Supabase Auth (بيانات المقدم في user_metadata) =====
+    try{
+      const email=makeEmail(phone)
+      const randomPass=Math.random().toString(36).slice(2,10)+name.slice(0,3)
+      const authRes=await fetch(SUPABASE_URL+'/auth/v1/signup',{
+        method:'POST',
+        headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({
+          email,password:randomPass,
+          data:{...providerData,role:'provider',badge:'جديد'}
+        })
+      })
+      const authData=await authRes.json()
+      if(authData.user||authData.access_token){
+        alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
+        closeModal('providerModal')
+        document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
+        return false
+      }
+    }catch(authErr){console.log('Auth fallback failed:',authErr)}
+
+    // ===== الطريق 3: حفظ محلي (لو النت فشل كله) =====
+    const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
+    pending.push({...providerData,date:new Date().toISOString()})
+    localStorage.setItem('pendingProviders',JSON.stringify(pending))
+    alert('سجلنا طلبك! ✅ هنتواصل معاك للتوثيق خلال 24 ساعة.')
     closeModal('providerModal')
-    document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
   }catch(err){
     console.error('Provider submit error:',err)
     const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
-    pending.push({name,type,gov,phone,whatsapp,services,date:new Date().toISOString()})
+    pending.push({...providerData,date:new Date().toISOString()})
     localStorage.setItem('pendingProviders',JSON.stringify(pending))
     alert('في مشكلة في النت، بس سجلنا طلبك محلياً ✅ هنتواصل معاك.')
     closeModal('providerModal')

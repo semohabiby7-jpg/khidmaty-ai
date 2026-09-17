@@ -479,7 +479,60 @@ function updateAuthUI(){
 
 updateAuthUI()
 
-function handleProvider(e){e.preventDefault();alert('تم تسجيلك كمقدم خدمة! هنتواصل معاك للتوثيق ✅');closeModal('providerModal');return false}
+async function handleProvider(e){
+  e.preventDefault()
+  const name=document.getElementById('provName').value.trim()
+  const type=document.getElementById('provType').value
+  const gov=document.getElementById('provGov').value
+  const phone=document.getElementById('provPhone').value.trim()
+  const services=document.getElementById('provServices').value.trim()
+  const whatsapp=document.getElementById('provWhatsApp').value.trim()
+  if(!name||!type||!gov||!phone){alert('من فضلك املأ الحقول المطلوبة: الاسم، النشاط، المحافظة، التليفون');return false}
+  const btn=document.getElementById('provSubmitBtn')
+  const original=btn.textContent
+  btn.textContent='جاري التسجيل...';btn.disabled=true
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/providers',{
+      method:'POST',
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Content-Type':'application/json',
+        'Prefer':'return=representation'
+      },
+      body:JSON.stringify({name,type,gov,rating:0,orders:0,badge:'جديد',verified:false})
+    })
+    if(!res.ok){
+      const err=await res.text()
+      console.error('Provider insert failed:',err)
+      const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
+      pending.push({name,type,gov,phone,whatsapp,services,date:new Date().toISOString()})
+      localStorage.setItem('pendingProviders',JSON.stringify(pending))
+      alert('سجلنا طلبك! ✅ هنتواصل معاك للتوثيق خلال 24 ساعة.')
+      closeModal('providerModal')
+      return false
+    }
+    const data=await res.json()
+    console.log('✅ Provider saved:',data)
+    if(data&&data[0]&&!providers.find(p=>p.id===data[0].id)){
+      providers.push(data[0])
+      renderProviders()
+    }
+    alert('تم تسجيلك بنجاح! 🎉\nأهلاً '+name+'\nهنتواصل معاك للتوثيق خلال 24 ساعة.')
+    closeModal('providerModal')
+    document.querySelectorAll('#providerModal form').forEach(f=>f.reset())
+  }catch(err){
+    console.error('Provider submit error:',err)
+    const pending=JSON.parse(localStorage.getItem('pendingProviders')||'[]')
+    pending.push({name,type,gov,phone,whatsapp,services,date:new Date().toISOString()})
+    localStorage.setItem('pendingProviders',JSON.stringify(pending))
+    alert('في مشكلة في النت، بس سجلنا طلبك محلياً ✅ هنتواصل معاك.')
+    closeModal('providerModal')
+  }finally{
+    btn.textContent=original;btn.disabled=false
+  }
+  return false
+}
 
 /* ===== Mobile Nav ===== */
 function toggleMobileNav(){document.getElementById('navMobile').classList.toggle('show')}

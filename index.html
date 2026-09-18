@@ -405,6 +405,8 @@
             <input type="tel" id="regPhone" placeholder="رقم الموبايل" required>
             <select id="regGov" required><option value="">اختر المحافظة</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الشرقية</option><option>الدقهلية</option><option>البحيرة</option><option>القليوبية</option><option>الغربية</option><option>المنوفية</option><option>كفر الشيخ</option><option>دمياط</option><option>بورسعيد</option><option>الإسماعيلية</option><option>السويس</option><option>بني سويف</option><option>الفيوم</option><option>المنيا</option><option>أسيوط</option><option>سوهاج</option><option>قنا</option><option>الأقصر</option><option>أسوان</option><option>البحر الأحمر</option><option>الوادي الجديد</option><option>مطروح</option><option>شمال سيناء</option><option>جنوب سيناء</option></select>
             <input type="password" id="regPass" placeholder="كلمة المرور" required>
+            <input type="password" id="regPass2" placeholder="تأكيد كلمة المرور" required>
+            <label class="terms-label"><input type="checkbox" id="regTerms" required> أوافق على <a onclick="closeModal('registerModal');openModal('termsModal')">الشروط والأحكام</a> وسياسة الخصوصية</label>
             <button type="submit" class="btn-submit">إنشاء الحساب</button>
             <p class="auth-switch">عندك حساب؟ <a onclick="closeModal('registerModal');openModal('loginModal')">سجل دخول</a></p>
         </form>

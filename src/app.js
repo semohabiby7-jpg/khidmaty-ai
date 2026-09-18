@@ -204,7 +204,7 @@ function heroSearchLive(val){
 }
 function heroSubmit(){
   const v=document.getElementById('heroSearch').value.trim()
-  if(!v){alert('اكتب طلبك الأول! 😊');return}
+  if(!v){showToast('اكتب طلبك الأول! 😊','error');return}
   document.getElementById('searchDropdown').classList.remove('show')
   let expanded=v
   Object.keys(synMap).forEach(k=>{if(v.includes(k))expanded+=' '+synMap[k]})
@@ -300,7 +300,7 @@ function askAIAbout(name){
 let _aiRec=null,_aiListening=false
 function aiVoiceInput(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition
-  if(!SR){alert('المتصفح مش بيدعم الصوت 🎤\nجرّب Chrome أو Safari');return}
+  if(!SR){showToast('المتصفح مش بيدعم الصوت 🎤<br>جرّب Chrome أو Safari','error');return}
   const micIcon=document.getElementById('aiMicIcon')
   const voiceBtn=document.getElementById('aiVoiceBtn')
   if(_aiListening){if(_aiRec)_aiRec.stop();return}
@@ -391,7 +391,7 @@ function requestProvider(name){
   const token=localStorage.getItem('sb_token')
   const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
   if(!token){
-    alert('سجل دخول الأول عشان تطلب خدمة 👍')
+    showToast('سجل دخول الأول عشان تطلب خدمة 👍','error')
     openModal('loginModal')
     return
   }
@@ -400,7 +400,7 @@ function requestProvider(name){
   const req={id:Date.now(),provider:name,service:'',status:'new',date:new Date().toISOString()}
   myReqs.unshift(req)
   localStorage.setItem('myRequests',JSON.stringify(myReqs))
-  alert('تم إرسال طلبك لـ '+name+'! 🎉\nهيتواصل معاك قريب\nتقدر تتابع طلبك في "مصالحي"')
+  showToast('تم إرسال طلبك لـ '+name+'! 🎉<br>هيتواصل معاك قريب<br>تقدر تتابع طلبك في "مصالحي"')
 }
 
 function shareProvider(name){
@@ -451,7 +451,7 @@ async function handleLogin(e){
   e.preventDefault()
   const phone=document.getElementById('loginPhone').value.trim()
   const pass=document.getElementById('loginPass').value
-  if(!phone||!pass){alert('املأ البيانات!');return false}
+  if(!phone||!pass){showToast('املأ البيانات!','error');return false}
   try{
     const email=makeEmail(phone)
     const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
@@ -465,13 +465,13 @@ async function handleLogin(e){
       const name=user.user_metadata?.name||user.email
       localStorage.setItem('sb_token',data.access_token)
       localStorage.setItem('sb_user',JSON.stringify({name:name,gov:user.user_metadata?.gov||'',phone,email}))
-      alert('أهلاً '+name+' 👋')
+      showToast('أهلاً '+name+' 👋')
       closeModal('loginModal')
       updateAuthUI()
     }else{
-      alert('رقم الموبايل أو كلمة المرور غلط')
+      showToast('رقم الموبايل أو كلمة المرور غلط','error')
     }
-  }catch(err){alert('حصلت مشكلة، جرّب تاني')}
+  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error')}
   return false
 }
 
@@ -479,7 +479,7 @@ function logout(){
   localStorage.removeItem('sb_token')
   localStorage.removeItem('sb_user')
   updateAuthUI()
-  alert('تم تسجيل الخروج 👋')
+  showToast('تم تسجيل الخروج 👋')
 }
 
 function updateAuthUI(){
@@ -693,7 +693,7 @@ function govSearchSubmit(){
 let _govRec=null,_govListening=false
 function govVoiceSearch(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition
-  if(!SR){alert('المتصفح مش بيدعم البحث بالصوت 🎤\nجرّب Chrome أو Safari');return}
+  if(!SR){showToast('المتصفح مش بيدعم البحث بالصوت 🎤<br>جرّب Chrome أو Safari','error');return}
   const micIcon=document.getElementById('govMicIcon')
   if(_govListening){
     if(_govRec)_govRec.stop()

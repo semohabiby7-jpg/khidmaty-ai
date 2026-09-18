@@ -1328,7 +1328,8 @@ function openArticle(id){
     </div>
     <button onclick="installAppFromArticle()" style="background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:12px 22px;border-radius:25px;font-weight:800;font-size:14px;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 4px 14px rgba(212,169,55,.4);white-space:nowrap">📲 ثبّت التطبيق</button>
   </div>`
-  document.getElementById('articleModalBody').innerHTML=shareButtons+a.content+installBanner
+  const articleCTA=`<div style="margin-top:24px;background:linear-gradient(135deg,#0F1E3D,#1a2d5a);border-radius:14px;padding:20px;text-align:center;border:1px solid rgba(230,194,88,.3)"><h3 style="color:#e6c258;font-size:17px;margin-bottom:10px">لسه محتاج مساعدة؟ 🤔</h3><p style="color:rgba(255,255,255,.85);font-size:14px;margin-bottom:16px">خِدْمَتي AI فاهم حالتك وموجّهك خطوة بخطوة</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="#ai" onclick="closeModal('articleModal');setTimeout(function(){var el=document.getElementById('ai');if(el)el.scrollIntoView({behavior:'smooth'})},200);return false" style="background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:12px 24px;border-radius:25px;font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:6px">🤖 اسأل خِدْمَتي AI</a><a href="#providers" onclick="closeModal('articleModal');setTimeout(function(){var el=document.getElementById('providers');if(el)el.scrollIntoView({behavior:'smooth'})},200);return false" style="background:rgba(255,255,255,.1);color:#e6c258;border:1px solid #e6c258;text-decoration:none;padding:12px 24px;border-radius:25px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px">👤 اطلب مقدم خدمة</a></div></div>`
+  document.getElementById('articleModalBody').innerHTML=shareButtons+a.content+articleCTA+installBanner
   openModal('articleModal')
 }
 
@@ -1402,14 +1403,14 @@ document.addEventListener('DOMContentLoaded',renderArticles)
 
 /* ===== FAQ (الأسئلة الشائعة) ===== */
 const faqs=[
-  {q:'هل خِدْمَتي AI منصة حكومية رسمية؟',a:'لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية.'},
-  {q:'هل المنصة مجانية؟',a:'آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم.'},
-  {q:'إزاي أتحدث بالصوت مع الـ AI؟',a:'في خانة الكتابة في الـ AI chat، هتلاقي زر مايك 🎤. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً.'},
-  {q:'هل بياناتي آمنة؟',a:'آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك (localStorage).'},
-  {q:'إزاي أثبت التطبيق على موبايلي؟',a:'اضغط على زر "📲 حمل التطبيق من هنا" في أعلى الموقع، واتبع الخطوات. أو من قائمة المتصفح اختار "Add to Home Screen".'},
-  {q:'إزاي ألاقي خدمة معينة؟',a:'تقدر تبحث في الصفحة الرئيسية، أو في الدليل الحكومي الذكي، أو تسأل الـ AI مباشرة بالعربي المصري.'},
-  {q:'هل تقدروا تساعدوني أخلص معاملاتي؟',a:'خِدْمَتي AI بيساعدك تفهم الخطوات والمستندات المطلوبة. لو محتاج حد يخلصها لك، تقدر تطلب من قسم "مقدمو الخدمات" وتتواصل مع مقدم خدمة.'},
-  {q:'هل المنصة بتشتغل على الكمبيوتر والموبايل؟',a:'آه، خِدْمَتي AI بتشتغل على كل الأجهزة: موبايل، تابلت، كمبيوتر. وتقدر تثبتها كتطبيق على جهازك.'}
+  {q:'هل خِدْمَتي AI منصة حكومية رسمية؟',a:'لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية.<div class="faq-cta"><a href="#services" onclick="closeAndScroll(event)">🏛️ اذهب للخدمات الرسمية</a></div>'},
+  {q:'هل المنصة مجانية؟',a:'آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم.<div class="faq-cta"><a href="#ai" onclick="closeAndScroll(event)">🤖 اسأل خِدْمَتي AI مجاناً</a></div>'},
+  {q:'إزاي أتحدث بالصوت مع الـ AI؟',a:'في خانة الكتابة في الـ AI chat، هتلاقي زر مايك 🎤. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً.<div class="faq-cta"><a href="#ai" onclick="closeAndScroll(event)">🤖 جرّب اسأل خِدْمَتي AI</a></div>'},
+  {q:'هل بياناتي آمنة؟',a:'آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك (localStorage).<div class="faq-cta"><a href="#ai" onclick="closeAndScroll(event)">🤖 اسأل بأمان</a></div>'},
+  {q:'إزاي أثبت التطبيق على موبايلي؟',a:'اضغط على زر "📲 حمل التطبيق من هنا" في أعلى الموقع، واتبع الخطوات. أو من قائمة المتصفح اختار "Add to Home Screen".<div class="faq-cta"><a href="#" onclick="installApp(event)">📲 حمل التطبيق من هنا</a></div>'},
+  {q:'إزاي ألاقي خدمة معينة؟',a:'تقدر تبحث في الصفحة الرئيسية، أو في الدليل الحكومي الذكي، أو تسأل الـ AI مباشرة بالعربي المصري.<div class="faq-cta"><a href="#services" onclick="closeAndScroll(event)">🔍 تصفح دليل الخدمات</a></div>'},
+  {q:'هل تقدروا تساعدوني أخلص معاملاتي؟',a:'خِدْمَتي AI بيساعدك تفهم الخطوات والمستندات المطلوبة. لو محتاج حد يخلصها لك، تقدر تطلب من قسم "مقدمو الخدمات" وتتواصل مع مقدم خدمة.<div class="faq-cta"><a href="#providers" onclick="closeAndScroll(event)">👤 اطلب مقدم خدمة</a></div>'},
+  {q:'هل المنصة بتشتغل على الكمبيوتر والموبايل؟',a:'آه، خِدْمَتي AI بتشتغل على كل الأجهزة: موبايل، تابلت، كمبيوتر. وتقدر تثبتها كتطبيق على جهازك.<div class="faq-cta"><a href="#ai" onclick="closeAndScroll(event)">🤖 جرّب دلوقتي</a></div>'}
 ]
 
 function renderFAQ(){
@@ -1466,3 +1467,14 @@ function renderReviews(){
 }
 
 document.addEventListener('DOMContentLoaded',renderReviews)
+
+/* ===== closeAndScroll (CTA helper) ===== */
+function closeAndScroll(e){
+  e.stopPropagation()
+  const href=e.currentTarget.getAttribute('href')
+  if(href&&href.startsWith('#')){
+    e.preventDefault()
+    const el=document.querySelector(href)
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'})
+  }
+}

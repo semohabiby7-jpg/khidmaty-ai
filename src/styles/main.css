@@ -919,3 +919,9 @@ transition:var(--t)
 [data-theme="dark"] .review-card{background:#1a2d5a;border-color:#2a3d5a}
 [data-theme="dark"] .review-name{color:#fff}
 [data-theme="dark"] .review-text{color:#d0d8e8}
+
+/* ===== FAQ CTA ===== */
+.faq-cta{margin-top:14px;text-align:center}
+.faq-cta a{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);text-decoration:none;padding:10px 24px;border-radius:25px;font-weight:700;font-size:14px;transition:var(--t);box-shadow:0 4px 14px rgba(212,169,55,.3)}
+.faq-cta a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(212,169,55,.4)}
+[data-theme="dark"] .faq-cta a{color:#0F1E3D}

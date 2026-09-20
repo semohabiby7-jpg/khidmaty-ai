@@ -427,13 +427,14 @@ function shareProvider(name){
 function openModal(id){document.getElementById(id).classList.add('show')}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 /* ===== SUPABASE AUTH ===== */
-function makeEmail(phone){return phone.replace(/[^0-9]/g,'')+'@khidmaty.ai'}
+function makeEmail(phone){return 'khidmatyai+'+phone.replace(/[^0-9]/g,'')+'@gmail.com'}
 
 async function handleRegister(e){
   e.preventDefault()
   const name=document.getElementById('regName').value.trim()
   const phone=document.getElementById('regPhone').value.trim()
   const gov=document.getElementById('regGov').value
+  const emailInput=document.getElementById('regEmail')?document.getElementById('regEmail').value.trim():''
   const pass=document.getElementById('regPass').value
   const pass2=document.getElementById('regPass2').value
   const terms=document.getElementById('regTerms').checked
@@ -441,7 +442,7 @@ async function handleRegister(e){
   if(pass!==pass2){showToast('كلمتا المرور مش متطابقتين','error');return false}
   if(!terms){showToast('لازم توافق على الشروط والأحكام','error');return false}
   try{
-    const email=makeEmail(phone)
+    const email=emailInput||makeEmail(phone)
     const res=await fetch(SUPABASE_URL+'/auth/v1/signup',{
       method:'POST',
       headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},

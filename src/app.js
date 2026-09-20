@@ -395,12 +395,26 @@ function requestProvider(name){
     openModal('loginModal')
     return
   }
-  // Save request to localStorage (until requests table is ready)
-  const myReqs=JSON.parse(localStorage.getItem('myRequests')||'[]')
-  const req={id:Date.now(),provider:name,service:'',status:'new',date:new Date().toISOString()}
-  myReqs.unshift(req)
-  localStorage.setItem('myRequests',JSON.stringify(myReqs))
-  showToast('تم إرسال طلبك لـ '+name+'! 🎉<br>هيتواصل معاك قريب<br>تقدر تتابع طلبك في "مصالحي"')
+  // إرسال الطلب لـ Supabase (جدول requests)
+  fetch(SUPABASE_URL+'/rest/v1/requests',{
+    method:'POST',
+    headers:{
+      'apikey':SUPABASE_KEY,
+      'Authorization':'Bearer '+token,
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify({provider_name:name,status:'new',notes:'طلب من الموقع'})
+  }).then(r=>{
+    // تسجيل في localStorage كمان
+    const myReqs=JSON.parse(localStorage.getItem('myRequests')||'[]')
+    myReqs.unshift({id:Date.now(),provider:name,service:'',status:'new',date:new Date().toISOString()})
+    localStorage.setItem('myRequests',JSON.stringify(myReqs))
+    showToast('تم إرسال طلبك لـ '+name+'! 🎉<br>هيتواصل معاك قريب<br>تقدر تتابع طلبك في "مصالحي"')
+    // إرسال إشعار للـ Agent
+    fetch('https://khidmaty-agent.semohabiby7.workers.dev/requests').catch(()=>{})
+  }).catch(()=>{
+    showToast('في خطأ، جرّب تاني','error')
+  })
 }
 
 function shareProvider(name){

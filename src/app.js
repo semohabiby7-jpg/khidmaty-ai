@@ -1463,7 +1463,7 @@ const reviews=[
   {name:'منى رشاد',role:'محاسبة',stars:5,text:'أنصح كل عملائي بالمنصة دي. بتوضّح المعاملات الضريبية بطريقة بسيطة. تحفة فعلاً!',icon:'👩‍💼'}
 ]
 
-function renderReviews(){
+function renderHomeReviews(){
   const grid=document.getElementById('reviewsGrid')
   if(!grid)return
   grid.innerHTML=reviews.map(r=>`
@@ -1481,7 +1481,7 @@ function renderReviews(){
   `).join('')
 }
 
-document.addEventListener('DOMContentLoaded',renderReviews)
+document.addEventListener('DOMContentLoaded',renderHomeReviews)
 
 /* ===== closeAndScroll (CTA helper) ===== */
 function closeAndScroll(e){

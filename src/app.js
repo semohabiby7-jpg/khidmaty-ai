@@ -377,6 +377,7 @@ function renderProviders(){
           <span class="svc-badge badge-off">💼 ${p.orders} عملية</span>
         </div>
         <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
+        <button onclick="openProviderProfile('${p.name.replace(/'/g,"")}')" style="width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;border:none;padding:11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;margin-bottom:8px">👁️ عرض الملف والتواصل</button>
         <div style="display:flex;gap:8px;margin-top:12px">
           <button onclick="requestProvider('${p.name.replace(/'/g,"")}')" style="flex:1;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px">📩 اطلب خدمة</button>
           <button onclick="openReviewModal('${p.name.replace(/'/g,"")}')" style="background:var(--gray);border:1px solid var(--gray-m);padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px" title="قيّم">⭐</button>
@@ -433,6 +434,43 @@ function submitRequest(name){
   fetch('https://khidmaty-agent.semohabiby7.workers.dev/requests').catch(()=>{})
   closeModal('requestModal')
   showToast('تم إرسال طلبك لـ '+name+'! 🎉<br>هيتواصل معاك قريب<br>تقدر تتابع طلبك في "مصالحي"')
+}
+
+function openProviderProfile(name){
+  const p=providers.find(x=>x.name===name)
+  if(!p)return
+  let modal=document.getElementById('providerProfileModal')
+  if(!modal){
+    modal=document.createElement('div')
+    modal.className='modal-overlay'
+    modal.id='providerProfileModal'
+    modal.innerHTML=`<div class="modal modal-lg"><button class="modal-x" onclick="closeModal('providerProfileModal')">✕</button><div id="providerProfileContent"></div></div>`
+    document.body.appendChild(modal)
+  }
+  const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
+  const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
+  const wa=(p.whatsapp||p.phone||'').replace(/[^0-9]/g,'')
+  const waLink=wa?('https://wa.me/'+wa):''
+  const telLink=p.phone?('tel:'+p.phone.replace(/[^0-9+]/g,'')):''
+  const safeName=p.name.replace(/'/g,"")
+  const reviewsHtml=typeof renderReviews==='function'?renderReviews(p.name):''
+  document.getElementById('providerProfileContent').innerHTML=`
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-l));display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 10px">${ic}</div>
+      <h2 style="margin:0 0 4px;color:var(--navy)">${p.name}</h2>
+      <p style="color:var(--text-l);margin:0">${p.type} — ${p.gov}</p>
+      <div style="margin-top:8px"><span style="background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600">${p.badge||'مقدم خدمة'}</span> <span style="background:var(--gray);color:var(--text);padding:4px 12px;border-radius:8px;font-size:12px">💼 ${p.orders||0} عملية</span></div>
+      <p style="margin-top:8px;color:var(--gold);font-size:18px">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
+    </div>
+    ${p.services?`<div style="background:var(--gray);border-radius:10px;padding:12px;margin-bottom:16px"><strong style="font-size:14px">الخدمات:</strong><br><span style="color:var(--text-l);font-size:14px">${p.services}</span></div>`:''}
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      ${waLink?`<a href="${waLink}" target="_blank" style="flex:1;min-width:140px;background:#25D366;color:#fff;text-decoration:none;padding:14px;border-radius:10px;text-align:center;font-weight:700;font-size:14px">📲 واتساب</a>`:''}
+      ${telLink?`<a href="${telLink}" style="flex:1;min-width:140px;background:var(--navy);color:#fff;text-decoration:none;padding:14px;border-radius:10px;text-align:center;font-weight:700;font-size:14px">📞 اتصال</a>`:''}
+    </div>
+    <button onclick="closeModal('providerProfileModal');requestProvider('${safeName}')" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;margin-bottom:16px">📩 اطلب خدمة</button>
+    ${reviewsHtml}
+  `
+  openModal('providerProfileModal')
 }
 
 function shareProvider(name){

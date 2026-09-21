@@ -389,32 +389,50 @@ function renderProviders(){
 
 function requestProvider(name){
   const token=localStorage.getItem('sb_token')
-  const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
   if(!token){
     showToast('سجل دخول الأول عشان تطلب خدمة 👍','error')
     openModal('loginModal')
     return
   }
-  // إرسال الطلب لـ Supabase (جدول requests)
+  // افتح نموذج طلب الخدمة
+  let modal=document.getElementById('requestModal')
+  if(!modal){
+    modal=document.createElement('div')
+    modal.className='modal-overlay'
+    modal.id='requestModal'
+    modal.innerHTML=`<div class="modal"><button class="modal-x" onclick="closeModal('requestModal')">✕</button><h2 class="modal-title">📩 اطلب خدمة</h2><div id="requestContent"></div></div>`
+    document.body.appendChild(modal)
+  }
+  const safeName=name.replace(/'/g,"\\'")
+  document.getElementById('requestContent').innerHTML=`
+    <p style="text-align:center;margin-bottom:16px">من <strong>${name}</strong></p>
+    <input type="text" id="reqService" placeholder="إيه الخدمة اللي محتاجها؟ (مثال: تجديد رخصة)" style="width:100%;padding:12px;border:1px solid var(--gray-m);border-radius:10px;font-family:Cairo,sans-serif;margin-bottom:12px">
+    <textarea id="reqNotes" placeholder="تفاصيل إضافية (اختياري)..." style="width:100%;min-height:90px;padding:12px;border:1px solid var(--gray-m);border-radius:10px;font-family:Cairo,sans-serif;resize:vertical;margin-bottom:12px"></textarea>
+    <button onclick="submitRequest('${safeName}')" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px">📩 إرسال الطلب</button>
+  `
+  openModal('requestModal')
+}
+
+function submitRequest(name){
+  const token=localStorage.getItem('sb_token')
+  if(!token){showToast('سجل دخول الأول 👍','error');return}
+  const svc=document.getElementById('reqService')?.value.trim()||''
+  const notes=document.getElementById('reqNotes')?.value.trim()||''
+  if(!svc){showToast('اكتب الخدمة اللي محتاجها الأول','error');return}
+  // حفظ محلياً (دايماً بيشتغل)
+  const myReqs=JSON.parse(localStorage.getItem('myRequests')||'[]')
+  myReqs.unshift({id:Date.now(),provider:name,service:svc,status:'new',date:new Date().toISOString()})
+  localStorage.setItem('myRequests',JSON.stringify(myReqs))
+  // محاولة إرسال لـ Supabase (best-effort — لو جدول requests موجود)
   fetch(SUPABASE_URL+'/rest/v1/requests',{
     method:'POST',
-    headers:{
-      'apikey':SUPABASE_KEY,
-      'Authorization':'Bearer '+token,
-      'Content-Type':'application/json'
-    },
-    body:JSON.stringify({provider_name:name,status:'new',notes:'طلب من الموقع'})
-  }).then(r=>{
-    // تسجيل في localStorage كمان
-    const myReqs=JSON.parse(localStorage.getItem('myRequests')||'[]')
-    myReqs.unshift({id:Date.now(),provider:name,service:'',status:'new',date:new Date().toISOString()})
-    localStorage.setItem('myRequests',JSON.stringify(myReqs))
-    showToast('تم إرسال طلبك لـ '+name+'! 🎉<br>هيتواصل معاك قريب<br>تقدر تتابع طلبك في "مصالحي"')
-    // إرسال إشعار للـ Agent
-    fetch('https://khidmaty-agent.semohabiby7.workers.dev/requests').catch(()=>{})
-  }).catch(()=>{
-    showToast('في خطأ، جرّب تاني','error')
-  })
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({provider_name:name,service:svc,status:'new',notes})
+  }).catch(()=>{})
+  // إشعار Agent
+  fetch('https://khidmaty-agent.semohabiby7.workers.dev/requests').catch(()=>{})
+  closeModal('requestModal')
+  showToast('تم إرسال طلبك لـ '+name+'! 🎉<br>هيتواصل معاك قريب<br>تقدر تتابع طلبك في "مصالحي"')
 }
 
 function shareProvider(name){

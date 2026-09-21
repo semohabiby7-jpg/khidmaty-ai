@@ -449,9 +449,11 @@ function openProviderProfile(name){
   }
   const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
   const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
-  const wa=(p.whatsapp||p.phone||'').replace(/[^0-9]/g,'')
+  let pPhone=p.phone||'', pWa=p.whatsapp||''
+  if(!pPhone&&!pWa&&p.badge){try{const b=JSON.parse(p.badge);if(b&&typeof b==='object'){pPhone=b.phone||'';pWa=b.whatsapp||''}}catch(e){}}
+  const wa=(pWa||pPhone).replace(/[^0-9]/g,'')
   const waLink=wa?('https://wa.me/'+wa):''
-  const telLink=p.phone?('tel:'+p.phone.replace(/[^0-9+]/g,'')):''
+  const telLink=pPhone?('tel:'+pPhone.replace(/[^0-9+]/g,'')):''
   const safeName=p.name.replace(/'/g,"")
   const reviewsHtml=typeof renderReviews==='function'?renderReviews(p.name):''
   document.getElementById('providerProfileContent').innerHTML=`

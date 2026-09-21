@@ -190,7 +190,7 @@ function toggleChat() {
 }
 
 // ===== Cloudflare Worker (AI) =====
-const AI_WORKER_URL = 'https://wispy-pine-7fd2.semohabiby7.workers.dev';
+const AI_WORKER_URL = 'https://khidmaty-agent.semohabiby7.workers.dev/chat';
 // Keep chat history for context
 let chatHistory = [];
 
@@ -222,12 +222,12 @@ function sendChat() {
     .then(res => res.json())
     .then(data => {
         document.getElementById('typingIndicator')?.remove();
-        const reply = data.reply || 'معلش، حصل خطأ. جرّب تاني 🤔';
+        const reply = data.response || data.reply || 'معلش، حصل خطأ. جرّب تاني 🤔';
         messages.innerHTML += `<div class="chat-msg bot">${reply}</div>`;
         messages.scrollTop = messages.scrollHeight;
         // Save to history
-        chatHistory.push({ role: 'user', parts: [{ text: message }] });
-        chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+        chatHistory.push({ role: 'user', text: message });
+        chatHistory.push({ role: 'model', text: reply });
     })
     .catch(err => {
         document.getElementById('typingIndicator')?.remove();

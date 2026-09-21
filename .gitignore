@@ -1,0 +1,5 @@
+
+# secrets
+.ga-id
+.github-token
+.supabase-secret

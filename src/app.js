@@ -442,25 +442,32 @@ async function handleRegister(e){
   if(pass!==pass2){showToast('كلمتا المرور مش متطابقتين','error');return false}
   if(!terms){showToast('لازم توافق على الشروط والأحكام','error');return false}
   const email=emailInput||makeEmail(phone)
-  // جرّب Supabase الأول
+  // تسجيل في جدول users المخصص (phone + password) — بدل Supabase Auth اللي بيتطلب تأكيد إيميل
   try{
-    const res=await fetch(SUPABASE_URL+'/auth/v1/signup',{
+    // تحقق إن الرقم مش مسجل قبل كده
+    const checkRes=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&select=id',{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+    })
+    const checkData=await checkRes.json()
+    if(checkData&&checkData.length>0){showToast('الرقم ده مسجل قبل كده — سجّل دخول بدلاً من ذلك','error');return false}
+    // أدخل المستخدم الجديد في جدول users
+    const res=await fetch(SUPABASE_URL+'/rest/v1/users',{
       method:'POST',
-      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pass,data:{name,gov,phone}})
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+      body:JSON.stringify({phone,password:pass,name,gov,role:'citizen'})
     })
     const data=await res.json()
-    if(data.access_token){
-      localStorage.setItem('sb_token',data.access_token)
-      localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email}))
+    if(data&&data[0]){
+      localStorage.setItem('sb_token','local_'+Date.now())
+      localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email,role:'citizen'}))
       showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
       closeModal('registerModal')
       updateAuthUI()
       return false
     }
-  }catch(err){}
+  }catch(err){console.log('Supabase users insert error:',err)}
 
-  // Fallback: حفظ في localStorage لو Supabase فشل (rate limit أو أي خطأ)
+  // Fallback: حفظ في localStorage لو النت فشل
   localStorage.setItem('sb_token','local_'+Date.now())
   localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email}))
   showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
@@ -475,19 +482,16 @@ async function handleLogin(e){
   const pass=document.getElementById('loginPass').value
   if(!phone||!pass){showToast('املأ البيانات!','error');return false}
   try{
-    const email=makeEmail(phone)
-    const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
-      method:'POST',
-      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pass})
+    // استعلم جدول users المخصص (phone + password) — بدل Supabase Auth
+    const res=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&password=eq.'+encodeURIComponent(pass)+'&select=*',{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
     })
     const data=await res.json()
-    if(data.access_token){
-      const user=data.user
-      const name=user.user_metadata?.name||user.email
-      localStorage.setItem('sb_token',data.access_token)
-      localStorage.setItem('sb_user',JSON.stringify({name:name,gov:user.user_metadata?.gov||'',phone,email}))
-      showToast('أهلاً '+name+' 👋')
+    if(data&&data.length>0){
+      const u=data[0]
+      localStorage.setItem('sb_token','local_'+Date.now())
+      localStorage.setItem('sb_user',JSON.stringify({name:u.name||u.phone,gov:u.gov||'',phone:u.phone,email:makeEmail(u.phone),role:u.role||'citizen'}))
+      showToast('أهلاً '+(u.name||u.phone)+' 👋')
       closeModal('loginModal')
       updateAuthUI()
     }else{

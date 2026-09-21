@@ -139,27 +139,119 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     });
 });
 
+// ===== Supabase Config =====
+const SUPABASE_URL = 'https://puhdastfiswcmbnczvwx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY';
+const SB_HEADERS = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'Content-Type': 'application/json'
+};
+
 // ===== Form Handlers =====
-function handleLogin(e) {
+async function handleLogin(e) {
     e.preventDefault();
-    alert('سيتم تفعيل تسجيل الدخول عند رفع الموقع على الاستضافة الكاملة ✅');
-    closeLogin();
+    const inputs = e.target.querySelectorAll('input');
+    const phone = inputs[0].value.trim();
+    const password = inputs[1].value;
+    if (!phone || !password) { alert('اكتب رقم الموبايل وكلمة المرور'); return false; }
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/users?phone=eq.${encodeURIComponent(phone)}&password=eq.${encodeURIComponent(password)}&select=*`, { headers: SB_HEADERS });
+        const data = await res.json();
+        if (data && data.length > 0) {
+            const user = data[0];
+            localStorage.setItem('khidmaty_user', JSON.stringify({ id: user.id, name: user.name, phone: user.phone, role: user.role }));
+            closeLogin();
+            alert(`أهلاً بيك يا ${user.name || 'فندم'} 🎉`);
+            updateUIAfterLogin(user);
+        } else {
+            alert('رقم الموبايل أو كلمة المرور غلط');
+        }
+    } catch (err) {
+        alert('حصل خطأ، حاول تاني');
+    }
     return false;
 }
 
-function handleSignup(e) {
+async function handleSignup(e) {
     e.preventDefault();
-    alert('تم إنشاء حسابك بنجاح! مرحباً بك في خِدْمَتي AI 🎉');
-    closeSignup();
+    const inputs = e.target.querySelectorAll('input, select');
+    const name = inputs[0].value.trim();
+    const phone = inputs[1].value.trim();
+    const gov = inputs[2].value;
+    const password = inputs[3].value;
+    const confirm = inputs[4].value;
+    if (!name || !phone || !password) { alert('املأ كل البيانات المطلوبة'); return false; }
+    if (password !== confirm) { alert('كلمتا المرور مش متطابقين'); return false; }
+    const role = document.querySelector('.role-btn.active')?.textContent?.includes('مقدم') ? 'provider' : 'citizen';
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
+            method: 'POST',
+            headers: SB_HEADERS,
+            body: JSON.stringify({ phone, password, name, gov, role })
+        });
+        const data = await res.json();
+        if (data && !data.code) {
+            localStorage.setItem('khidmaty_user', JSON.stringify({ id: data.id, name, phone, role }));
+            closeSignup();
+            alert(`تم إنشاء حسابك بنجاح! مرحباً بك يا ${name} 🎉`);
+            updateUIAfterLogin({ name, role });
+        } else {
+            alert(data.message?.includes('duplicate') ? 'رقم الموبايل ده مسجل قبل كده' : 'حصل خطأ، حاول تاني');
+        }
+    } catch (err) {
+        alert('حصل خطأ في الاتصال، حاول تاني');
+    }
     return false;
 }
 
-function handleProviderSignup(e) {
+// Alias for handleRegister (HTML uses handleRegister)
+const handleRegister = handleSignup;
+
+async function handleProviderSignup(e) {
     e.preventDefault();
-    alert('تم تسجيلك كمقدم خدمة! هنتواصل معاك للتوثيق ✅');
-    closeProviderSignup();
+    const form = e.target;
+    const inputs = form.querySelectorAll('input, select');
+    const name = inputs[0].value.trim();
+    const type = inputs[1].value;
+    const gov = inputs[2].value;
+    const phone = inputs[3].value.trim();
+    if (!name || !type || !gov || !phone) { alert('املأ كل البيانات المطلوبة'); return false; }
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/providers`, {
+            method: 'POST',
+            headers: SB_HEADERS,
+            body: JSON.stringify({ name, type, gov, phone, rating: 0, orders: 0, verified: false, badge: 'New' })
+        });
+        const data = await res.json();
+        if (data && !data.code) {
+            closeProviderSignup();
+            alert(`تم تسجيلك كمقدم خدمة يا ${name}! هنتواصل معاك للتوثيق ✅`);
+        } else {
+            alert('حصل خطأ، حاول تاني');
+        }
+    } catch (err) {
+        alert('حصل خطأ في الاتصال، حاول تاني');
+    }
     return false;
 }
+
+// ===== UI Update After Login =====
+function updateUIAfterLogin(user) {
+    const loginBtn = document.querySelector('.header-actions .btn-ghost');
+    const signupBtn = document.querySelector('.header-actions .btn-gold');
+    if (loginBtn) loginBtn.textContent = `مرحبا، ${user.name || user.phone}`;
+    if (signupBtn) signupBtn.textContent = 'خروج';
+    if (signupBtn) signupBtn.onclick = function() { localStorage.removeItem('khidmaty_user'); location.reload(); };
+}
+
+// Check if user is logged in on page load
+(function() {
+    const saved = localStorage.getItem('khidmaty_user');
+    if (saved) {
+        try { updateUIAfterLogin(JSON.parse(saved)); } catch(e) {}
+    }
+})();
 
 // ===== Hero Actions =====
 function askAI() {

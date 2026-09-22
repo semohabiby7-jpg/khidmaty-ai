@@ -101,14 +101,14 @@ async function callGemini(msg){
     const res=await fetch(WORKER_URL+'/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:msg,history:aiHistory,services:svcContext})
+      body:JSON.stringify({message:msg,history:aiHistory.map(h=>({role:h.role,text:h.parts[0].text}))})
     })
     const data=await res.json()
     if(data.response){
       aiHistory.push({role:'model',parts:[{text:data.response}]})
       return data.response
     }
-    throw new Error('no reply')
+    throw new Error('no response')
   }catch(e){
     aiHistory.pop()
     console.log('Gemini error:',e)

@@ -98,15 +98,15 @@ async function callGemini(msg){
   // Using Worker proxy - no key needed
   try{
     const svcContext=services.map(s=>`- ${s.icon} ${s.name} (${s.category}): ${s.desc} | المستندات: ${(s.documents||[]).join(', ')} | الخطوات: ${(s.steps||[]).join(' → ')} | الرسوم: ${s.fees||'غير محدد'} | المدة: ${s.duration||'غير محدد'} | الجهة: ${s.source||'غير محدد'} | الرابط: ${s.link||'غير متاح'}`).join('\n')
-    const res=await fetch(WORKER_URL+'/',{
+    const res=await fetch(WORKER_URL+'/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({message:msg,history:aiHistory,services:svcContext})
     })
     const data=await res.json()
-    if(data.reply){
-      aiHistory.push({role:'model',parts:[{text:data.reply}]})
-      return data.reply
+    if(data.response){
+      aiHistory.push({role:'model',parts:[{text:data.response}]})
+      return data.response
     }
     throw new Error('no reply')
   }catch(e){

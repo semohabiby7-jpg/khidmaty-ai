@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>المقالات | خِدْمَتي AI</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/styles/main.css">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.articles-hero{text-align:center;padding:60px 20px 40px}
+.articles-hero h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 10px}
+.articles-hero p{font-size:16px;color:#8ea0c4;margin:0}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1100px;margin:0 auto 60px;padding:0 20px}
+.article-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;cursor:pointer;transition:all .3s ease;display:flex;flex-direction:column;gap:12px}
+.article-card:hover{transform:translateY(-4px);border-color:#e6c258;box-shadow:0 12px 30px rgba(230,194,88,.15)}
+.article-icon{font-size:32px}
+.article-cat{color:#e6c258;font-size:12px;font-weight:700;background:rgba(230,194,88,.1);padding:4px 12px;border-radius:20px;display:inline-block;width:fit-content}
+.article-title{font-size:18px;font-weight:800;color:#fff;margin:0;line-height:1.4}
+.article-excerpt{font-size:14px;color:#8ea0c4;margin:0;line-height:1.5}
+.article-readtime{font-size:12px;color:#5a6a8a;margin-top:auto}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:1000;justify-content:center;align-items:center;padding:20px}
+.modal.active{display:flex}
+.modal-content{background:#0F1E3D;border:2px solid #e6c258;border-radius:20px;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;padding:30px;position:relative}
+.modal-close{position:absolute;top:16px;left:16px;background:#e6c258;color:#0F1E3D;border:none;width:36px;height:36px;border-radius:50%;font-size:20px;font-weight:900;cursor:pointer}
+.modal-icon{font-size:40px;margin-bottom:10px}
+.modal-title{font-size:22px;font-weight:900;color:#fff;margin:0 0 20px}
+.modal-body{color:#c0cee0;font-size:15px;line-height:1.8}
+.modal-body h3{color:#e6c258;font-size:17px;margin:20px 0 10px}
+.modal-body p{margin:8px 0}
+.modal-body a{color:#e6c258;text-decoration:none;font-weight:700}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html">← الرجوع للرئيسية</a>
+  <div class="header-logo">
+    <img src="assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+<div class="articles-hero">
+  <h1>📖 دليلك المصري</h1>
+  <p>مقالات ونصائح تساعدك تخلص مصالحك بسهولة</p>
+</div>
+
+<div class="articles-grid" id="articlesGrid"></div>
+
+<div class="modal" id="articleModal" onclick="if(event.target===this)closeArticle()">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeArticle()">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2024 خِدْمَتي AI | <a href="index.html">العودة للرئيسية</a></p>
+</div>
+
+<script>
+var articles=[
+  {id:1,icon:'🪪',cat:'أحوال مدنية',title:'إزاي تتجدد بطاقتك الشخصية؟',excerpt:'تجديد البطاقة الشخصية في 5 خطوات بسيطة',readTime:'4 دقائق',content:'<div class="modal-icon">🪪</div><h2 class="modal-title">إزاي تتجدد بطاقتك الشخصية؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. اذهب لأقرب مكتب مصلحة الأحوال المدنية</p><p>2. اكتب استمارة تجديد البطاقة</p><p>3. استخراج البطاقة بـ 15 جنيه</p><p>4. الاستلام بعد 3 أيام</p><h3>📄 المستندات</h3><p>• البطاقة القديمة</p><p>• بطاقة أحد الوالدين (لو تحت 18)</p><h3>⏰ إمتى لازم تتجدد؟</h3><p>البطاقة بتتجدد كل 7 سنين، أو لو غيرت عنوانك أو حالتك الاجتماعية</p></div>'},
+  {id:2,icon:'🛂',cat:'جوازات',title:'إزاي تستخرج جواز السفر؟',excerpt:'دليلك الكامل لاستخراج جواز سفر مصري جديد',readTime:'6 دقائق',content:'<div class="modal-icon">🛂</div><h2 class="modal-title">إزاي تستخرج جواز السفر؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. احجز موعد من <a href="https://egpassport.gov.eg" target="_blank">egpassport.gov.eg</a></p><p>2. اذهب لمكتب الجوازات في الموعد</p><p>3. تسجيل البيانات وأخذ البصمة</p><p>4. دفع المصاريف (250 جنيه)</p><p>5. الاستلام بعد أسبوع</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• شهادة الميلاد</p><p>• 4 صور شخصية</p><p>• موافقة الزوج (للمرأة المتزوجة)</p></div>'},
+  {id:3,icon:'📄',cat:'أحوال مدنية',title:'إزاي تستخرج صحيفة حالة جنائية؟',excerpt:'دليلك لاستخراج صحيفة الحالة الجنائية أونلاين',readTime:'4 دقائق',content:'<div class="modal-icon">📄</div><h2 class="modal-title">إزاي تستخرج صحيفة حالة جنائية؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://ecriminal.gov.eg" target="_blank">ecriminal.gov.eg</a></p><p>2. سجّل حساب جديد بالرقم القومي</p><p>3. اختار "طلب صحيفة حالة"</p><p>4. ادفع الرسوم (50 جنيه + 13 جنيه خدمة)</p><p>5. استلم الصحيفة إلكترونياً خلال 24 ساعة</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• رقم تليفون للتواصل</p><h3>💡 نصيحة</h3><p>الصحيفة بتستلم للمسافرين والشركات وأي مصلحة تطلبها</p></div>'},
+  {id:4,icon:'🚙',cat:'مرور',title:'إزاي تستخرج رخصة قيادة جديدة؟',excerpt:'دليل شامل لاستخراج رخصة قيادة لأول مرة',readTime:'8 دقائق',content:'<div class="modal-icon">🚙</div><h2 class="modal-title">إزاي تستخرج رخصة قيادة جديدة؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. سجّل في مدرسة قيادة معتمدة</p><p>2. اتعلم القيادة (15 يوم على الأقل)</p><p>3. قدّم الفحص النظري والعملي</p><p>4. ادفع الرسوم في وحدة المرور</p><p>5. استلم الرخصة المؤقتة (3 شهور) وبعدها الرخصة الدائمة</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• 4 صور شخصية</p><p>• شهادة طبية من مستشفى حكومي</p><h3>💰 الرسوم</h3><p>الرخصة العادية: 115 جنيه | الرخصة الدولية: 250 جنيه</p></div>'},
+  {id:5,icon:'📊',cat:'ضرائب',title:'إزاي تسجل في الضريبة؟',excerpt:'خطوات التسجيل في المصلحة الضريبية',readTime:'7 دقائق',content:'<div class="modal-icon">📊</div><h2 class="modal-title">إزاي تسجل في الضريبة؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://eta.gov.eg" target="_blank">eta.gov.eg</a></p><p>2. اختار "تسجيل جديد"</p><p>3. اكتب بياناتك (اسم، سجل تجاري، بطاقة)</p><p>4. ارفع المستندات</p><p>5. استلم رقم التسجيل الضريبي</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي</p><p>• السجل التجاري</p><p>• عقد الإيجار أو ملكية المقر</p><h3>💡 نصيحة</h3><p>لو مشروعك صغير، ممكن تستفيد من نظام الـ Lump Sum (التخمين)</p></div>'},
+  {id:6,icon:'📱',cat:'خدمات عامة',title:'إزاي تسجّل في منصة مصر الرقمية؟',excerpt:'البوابة الوطنية للخدمات الحكومية',readTime:'5 دقائق',content:'<div class="modal-icon">📱</div><h2 class="modal-title">إزاي تسجّل في منصة مصر الرقمية؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. ادخل على <a href="https://digital.gov.eg" target="_blank">digital.gov.eg</a></p><p>2. دوس "إنشاء حساب جديد"</p><p>3. اكتب الرقم القومي وبياناتك</p><p>4. تأكّد من رقم موبايلك بكود OTP</p><p>5. خلّص كلمة السر وادخل على حسابك</p><h3>📄 الخدمات المتاحة</h3><p>• تجديد رخصة سيارة</p><p>• استخراج شهادة ميلاد</p><p>• صحيفة حالة جنائية</p><p>• خدمات الضرائب</p><p>• خدمات التأمينات</p><h3>💡 نصيحة</h3><p>منصة مصر الرقمية بتوفرلك كل الخدمات الحكومية في مكان واحد</p></div>'},
+  {id:7,icon:'🤱',cat:'أحوال مدنية',title:'إزاي تسجّل مولود جديد؟',excerpt:'خطوات تسجيل المواليد الجدد',readTime:'4 دقائق',content:'<div class="modal-icon">🤱</div><h2 class="modal-title">إزاي تسجّل مولود جديد؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. روح لمكتب الأحوال المدنية خلال 30 يوم من الولادة</p><p>2. معاك شهادة الولادة من المستشفى</p><p>3. اكتب استمارة قيد المولود</p><p>4. استلم شهادة الميلاد في نفس اليوم</p><h3>📄 المستندات</h3><p>• شهادة الولادة من المستشفى</p><p>• بطاقة الرقم القومي للأب</p><p>• بطاقة الرقم القومي للأم</p><p>• عقد الزواج</p><h3>⏰ مهم!</h3><p>لازم تسجّل المولود خلال 30 يوم، لو اتأخرت هتدفع غرامة</p></div>'},
+  {id:8,icon:'⚖️',cat:'شهر عقاري',title:'إزاي تسجّل عقد في الشهر العقاري؟',excerpt:'توثيق العقود في الشهر العقاري',readTime:'6 دقائق',content:'<div class="modal-icon">⚖️</div><h2 class="modal-title">إزاي تسجّل عقد في الشهر العقاري؟</h2><div class="modal-body"><h3>📋 الخطوات</h3><p>1. جهّز العقد الأصلي + صورتين منه</p><p>2. روح لمكتب الشهر العقاري التابع لعنوان العقار</p><p>3. قدّم العقد والمستندات</p><p>4. ادفع الرسوم (0.1% من قيمة العقار)</p><p>5. استلم العقد موثّق بعد 7-14 يوم</p><h3>📄 المستندات</h3><p>• بطاقة الرقم القومي (الطرفين)</p><p>• العقد الأصلي</p><p>• كارت معاينة عقارية (لو عقارات)</p><h3>💡 نصيحة</h3><p>سجّل العقد في خلال 6 شهور من تاريخه عشان تتجنب غرامة التأخير</p></div>'}
+];
+
+var grid=document.getElementById('articlesGrid');
+grid.innerHTML=articles.map(function(a){
+  return '<article class="article-card" onclick="openArticle('+a.id+')">'+
+    '<div class="article-icon">'+a.icon+'</div>'+
+    '<span class="article-cat">'+a.cat+'</span>'+
+    '<h3 class="article-title">'+a.title+'</h3>'+
+    '<p class="article-excerpt">'+a.excerpt+'</p>'+
+    '<span class="article-readtime">⏱ '+a.readTime+'</span>'+
+    '</article>';
+}).join('');
+
+function openArticle(id){
+  var a=articles.find(function(x){return x.id===id});
+  if(!a)return;
+  var modal=document.getElementById('articleModal');
+  var body=document.getElementById('modalBody');
+  body.innerHTML=a.content;
+  modal.classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeArticle(){
+  var modal=document.getElementById('articleModal');
+  modal.classList.remove('active');
+  document.body.style.overflow='';
+}
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
-const WORKER_URL='https://wispy-pine-7fd2.semohabiby7.workers.dev'
+const WORKER_URL='https://khidmaty-agent.semohabiby7.workers.dev'
 
 /* ===== TOAST (إشعار نجاح/خطأ) ===== */
 function showToast(msg,type){

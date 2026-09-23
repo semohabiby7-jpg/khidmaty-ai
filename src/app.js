@@ -1198,17 +1198,18 @@ function renderWelcomeBanner(){
     banner.style.display='none'
     return
   }
-  let name=user.name||'صديقي'
-  let html='<div class="welcome-card"><div class="wc-head">👋 أهلاً '+name+'</div>'
   if(reminders.length===0){
-    html+='<div class="wc-body">مفيش تذكيرات دلوقتي — كل حاجة تحت التحكم ✅</div>'
-  }else{
-    html+='<div class="wc-body">عندك <strong>'+reminders.length+'</strong> مصلحة محتاجة متابعة:</div><div class="wc-reminders">'
-    reminders.slice(0,3).forEach(r=>{
-      html+='<div class="wc-reminder" onclick="openService('+r.serviceId+')"><span class="wr-icon">'+r.icon+'</span><div class="wr-info"><strong>'+r.name+'</strong><span class="wr-when">'+reminderLabel(r.days)+'</span></div></div>'
-    })
-    html+='</div><button class="wc-cta" onclick="openDashboard()">📋 شوف كل مصالحي</button>'
+    banner.innerHTML=''
+    banner.style.display='none'
+    return
   }
+  let name=user.name.split(' ')[0]
+  let html='<div class="welcome-card"><div class="wc-head">👋 أهلاً '+name+'</div>'
+  html+='<div class="wc-body">عندك <strong>'+reminders.length+'</strong> مصلحة محتاجة متابعة:</div><div class="wc-reminders">'
+  reminders.slice(0,3).forEach(r=>{
+    html+='<div class="wc-reminder" onclick="openService('+r.serviceId+')"><span class="wr-icon">'+r.icon+'</span><div class="wr-info"><strong>'+r.name+'</strong><span class="wr-when">'+reminderLabel(r.days)+'</span></div></div>'
+  })
+  html+='</div><button class="wc-cta" onclick="openDashboard()">📋 شوف كل مصالحي</button>'
   html+='</div>'
   banner.innerHTML=html
   banner.style.display='block'

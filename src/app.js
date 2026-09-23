@@ -1188,31 +1188,8 @@ function updateReminderBadge(){
   }
 }
 function renderWelcomeBanner(){
-  const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
-  const token=localStorage.getItem('sb_token')
-  const reminders=getReminders()
   const banner=document.getElementById('welcomeBanner')
-  if(!banner)return
-  if(!token||!user.name){
-    banner.innerHTML=''
-    banner.style.display='none'
-    return
-  }
-  if(reminders.length===0){
-    banner.innerHTML=''
-    banner.style.display='none'
-    return
-  }
-  let name=user.name.split(' ')[0]
-  let html='<div class="welcome-card"><div class="wc-head">👋 أهلاً '+name+'</div>'
-  html+='<div class="wc-body">عندك <strong>'+reminders.length+'</strong> مصلحة محتاجة متابعة:</div><div class="wc-reminders">'
-  reminders.slice(0,3).forEach(r=>{
-    html+='<div class="wc-reminder" onclick="openService('+r.serviceId+')"><span class="wr-icon">'+r.icon+'</span><div class="wr-info"><strong>'+r.name+'</strong><span class="wr-when">'+reminderLabel(r.days)+'</span></div></div>'
-  })
-  html+='</div><button class="wc-cta" onclick="openDashboard()">📋 شوف كل مصالحي</button>'
-  html+='</div>'
-  banner.innerHTML=html
-  banner.style.display='block'
+  if(banner){banner.innerHTML='';banner.style.display='none'}
 }
 
 /* ===== WEB NOTIFICATIONS ===== */

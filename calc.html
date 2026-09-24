@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>حاسبة الرسوم | خِدْمَتي AI</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/styles/main.css">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.calc-hero{text-align:center;padding:50px 20px 30px}
+.calc-hero h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 10px}
+.calc-hero p{font-size:16px;color:#8ea0c4;margin:0}
+.calc-box{max-width:600px;margin:0 auto 40px;padding:0 20px}
+.calc-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:28px;margin-bottom:20px}
+.calc-card h2{font-size:20px;font-weight:800;color:#e6c258;margin:0 0 20px;text-align:center}
+.calc-field{margin-bottom:18px}
+.calc-field label{display:block;font-size:14px;color:#8ea0c4;margin-bottom:8px;font-weight:600}
+.calc-field select,.calc-field input{width:100%;padding:12px 16px;background:#0F1E3D;border:1px solid #2a4068;border-radius:10px;color:#fff;font-size:16px;font-family:Cairo,sans-serif;box-sizing:border-box}
+.calc-field select:focus,.calc-field input:focus{outline:none;border-color:#e6c258}
+.calc-field option{background:#0F1E3D;color:#fff}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;font-size:18px;font-weight:900;cursor:pointer;transition:all .3s;font-family:Cairo,sans-serif}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.calc-result{display:none;background:linear-gradient(145deg,#0d1a33,#162847);border:2px solid #e6c258;border-radius:14px;padding:24px;margin-top:20px;text-align:center}
+.calc-result.active{display:block}
+.calc-result-amount{font-size:36px;font-weight:900;color:#e6c258;margin:10px 0}
+.calc-result-label{font-size:14px;color:#8ea0c4;margin-bottom:6px}
+.calc-result-note{font-size:13px;color:#5a6a8a;margin-top:14px;line-height:1.5}
+.calc-extra{display:none;margin-top:12px;padding:14px;background:#0F1E3D;border-radius:10px;border:1px solid #2a4068}
+.calc-extra.active{display:block}
+.calc-extra label{font-size:13px;color:#8ea0c4;margin-bottom:6px;display:block}
+.calc-extra input{width:100%;padding:10px 14px;background:#0F1E3D;border:1px solid #2a4068;border-radius:8px;color:#fff;font-size:15px;font-family:Cairo,sans-serif;box-sizing:border-box}
+.calc-services{max-width:600px;margin:0 auto 40px;padding:0 20px}
+.calc-services h2{font-size:18px;font-weight:800;color:#fff;margin:30px 0 14px;text-align:center}
+.calc-services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.calc-service-tag{background:#162847;border:1px solid #2a4068;border-radius:10px;padding:10px;text-align:center;font-size:13px;color:#8ea0c4;cursor:pointer;transition:all .2s}
+.calc-service-tag:hover{border-color:#e6c258;color:#e6c258}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html">← الرجوع للرئيسية</a>
+  <div class="header-logo">
+    <img src="assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+<div class="calc-hero">
+  <h1>🧮 حاسبة الرسوم</h1>
+  <p>اعرف رسوم أي خدمة حكومية في ثواني</p>
+</div>
+
+<div class="calc-box">
+  <div class="calc-card">
+    <h2>احسب رسوم خدمتك</h2>
+    
+    <div class="calc-field">
+      <label>اختار نوع الخدمة</label>
+      <select id="serviceSelect" onchange="onServiceChange()">
+        <option value="">-- اختار الخدمة --</option>
+        <option value="id_card">بطاقة الرقم القومي (استخراج)</option>
+        <option value="id_card_lost">بدل فاقد بطاقة الرقم القومي</option>
+        <option value="birth_cert">شهادة ميلاد</option>
+        <option value="death_cert">شهادة وفاة</option>
+        <option value="criminal_record">صحيفة حالة جنائية</option>
+        <option value="passport_new">استخراج جواز سفر جديد</option>
+        <option value="passport_renew">تجديد جواز السفر</option>
+        <option value="marriage">توثيق عقد زواج</option>
+        <option value="license_car">رخصة سيارة (تجديد)</option>
+        <option value="license_drive">رخصة قيادة</option>
+        <option value="car_transfer">نقل ملكية سيارة</option>
+        <option value="commercial_reg">سجل تجاري</option>
+        <option value="trade_license">رخصة تجارية</option>
+        <option value="building_permit">تصريح بناء</option>
+        <option value="residence">إقامة لأجنبي</option>
+        <option value="notary">توثيق عقد في الشهر العقاري</option>
+      </select>
+    </div>
+
+    <div class="calc-extra" id="extraField">
+      <label id="extraLabel">قيمة العقار (جنيه)</label>
+      <input type="number" id="extraInput" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="calc-field">
+      <label>نوع الخدمة</label>
+      <select id="speedSelect" onchange="calculate()">
+        <option value="normal">عادي</option>
+        <option value="express">مستعجل</option>
+      </select>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">احسب الرسوم</button>
+
+    <div class="calc-result" id="resultBox">
+      <div class="calc-result-label">الرسوم المطلوبة</div>
+      <div class="calc-result-amount" id="resultAmount">0 جنيه</div>
+      <div class="calc-result-note" id="resultNote"></div>
+    </div>
+  </div>
+</div>
+
+<div class="calc-services">
+  <h2>📋 كل الخدمات المتاحة</h2>
+  <div class="calc-services-grid" id="servicesGrid"></div>
+</div>
+
+<div class="footer">
+  <p>© 2024 خِدْمَتي AI | <a href="index.html">العودة للرئيسية</a> | <a href="articles.html">المقالات</a> | <a href="faq.html">الأسئلة الشائعة</a></p>
+</div>
+
+<script>
+var fees = {
+  id_card: { name: 'بطاقة الرقم القومي', normal: 15, express: 60, note: 'الاستلام بعد 3 أيام للعادي، نفس اليوم للمستعجل' },
+  id_card_lost: { name: 'بدل فاقد بطاقة', normal: 15, express: 60, note: 'لازم تقدم محضر لو البطاقة سرقت' },
+  birth_cert: { name: 'شهادة ميلاد', normal: 15, express: 50, note: 'الاستلام فوري أو خلال 24 ساعة' },
+  death_cert: { name: 'شهادة وفاة', normal: 15, express: 50, note: 'لازم تسجل الوفاة خلال 30 يوم' },
+  criminal_record: { name: 'صحيفة حالة جنائية', normal: 63, express: 113, note: '50 جنيه رسم + 13 جنيه خدمة. استلام خلال 24 ساعة' },
+  passport_new: { name: 'جواز سفر جديد', normal: 250, express: 400, note: 'استلام بعد أسبوع للعادي، 3 أيام للمستعجل' },
+  passport_renew: { name: 'تجديد جواز السفر', normal: 250, express: 400, note: 'نفس رسوم الاستخراج الجديد' },
+  marriage: { name: 'توثيق زواج', normal: 50, express: 100, note: 'الطرفين لازم يكونوا حاضرين' },
+  license_car: { name: 'تجديد رخصة سيارة', normal: 266, express: 266, note: 'تجديد سنة واحدة 266 جنيه | 3 سنوات 798 جنيه. لازم فحص فني' },
+  license_drive: { name: 'رخصة قيادة', normal: 115, express: 250, note: 'العادية 115 جنيه | الدولية 250 جنيه' },
+  car_transfer: { name: 'نقل ملكية سيارة', normal: 100, express: 300, note: 'تتراوح بين 100-500 جنيه حسب سنة الموديل' },
+  commercial_reg: { name: 'سجل تجاري', normal: 50, express: 200, note: '50-200 جنيه حسب النشاط' },
+  trade_license: { name: 'رخصة تجارية', normal: 200, express: 2000, note: 'تختلف حسب النشاط: 200-2000 جنيه' },
+  building_permit: { name: 'تصريح بناء', normal: 500, express: 5000, note: 'تتراوح بين 500-5000 جنيه حسب مساحة المبنى' },
+  residence: { name: 'إقامة لأجنبي', normal: 200, express: 1000, note: 'العادية 200-500 جنيه | الخاصة 1000+ جنيه' },
+  notary: { name: 'توثيق عقد (شهر عقاري)', normal: 0, express: 0, note: '0.1% من قيمة العقار + رسوم إدارية', isPercent: true, percent: 0.001, extraLabel: 'قيمة العقار (جنيه)', needsExtra: true }
+};
+
+var serviceSelect = document.getElementById('serviceSelect');
+var speedSelect = document.getElementById('speedSelect');
+var resultBox = document.getElementById('resultBox');
+var resultAmount = document.getElementById('resultAmount');
+var resultNote = document.getElementById('resultNote');
+var extraField = document.getElementById('extraField');
+var extraLabel = document.getElementById('extraLabel');
+var extraInput = document.getElementById('extraInput');
+
+function onServiceChange() {
+  var key = serviceSelect.value;
+  if (!key) {
+    extraField.classList.remove('active');
+    resultBox.classList.remove('active');
+    return;
+  }
+  var data = fees[key];
+  if (data.needsExtra) {
+    extraField.classList.add('active');
+    extraLabel.textContent = data.extraLabel;
+  } else {
+    extraField.classList.remove('active');
+  }
+  calculate();
+}
+
+function calculate() {
+  var key = serviceSelect.value;
+  if (!key) {
+    resultBox.classList.remove('active');
+    return;
+  }
+  var data = fees[key];
+  var speed = speedSelect.value;
+  var amount;
+  var note = data.note;
+
+  if (data.isPercent) {
+    var propertyValue = parseFloat(extraInput.value) || 0;
+    amount = Math.round(propertyValue * data.percent);
+    if (amount === 0) {
+      resultAmount.textContent = 'ادخل قيمة العقار';
+      resultNote.textContent = data.note;
+      resultBox.classList.add('active');
+      return;
+    }
+    amount = amount + ' جنيه (0.1% من ' + propertyValue + ' جنيه)';
+  } else {
+    amount = (speed === 'express' ? data.express : data.normal) + ' جنيه';
+    if (data.express === data.normal) {
+      note = data.note;
+    } else {
+      note = data.note + ' | المستعجل: ' + data.express + ' جنيه';
+    }
+  }
+
+  resultAmount.textContent = amount;
+  resultNote.textContent = note;
+  resultBox.classList.add('active');
+}
+
+var grid = document.getElementById('servicesGrid');
+var keys = Object.keys(fees);
+var gridHTML = '';
+for (var i = 0; i < keys.length; i++) {
+  var k = keys[i];
+  gridHTML += '<div class="calc-service-tag" onclick="selectService(\'' + k + '\')">' + fees[k].name + '</div>';
+}
+grid.innerHTML = gridHTML;
+
+function selectService(key) {
+  serviceSelect.value = key;
+  onServiceChange();
+  window.scrollTo({ top: 200, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

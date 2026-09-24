@@ -692,12 +692,12 @@ function renderGovLinks(){
   const grid=document.getElementById('govLinksGrid')
   if(!grid)return
   const seen=new Set()
-  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated,names:services.filter(x=>x.link===s.link).map(x=>x.name).join(' ')})).filter(x=>{
-    if(seen.has(x.link))return false
-    seen.add(x.link);return true
+  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated,names:services.filter(x=>x.source===s.source).map(x=>x.name).join(' ')})).filter(x=>{
+    if(seen.has(x.source))return false
+    seen.add(x.source);return true
   })
   const catName=id=>{const c=categories.find(c=>c.id===id);return c?c.icon+' '+c.name:id}
-  const svcCount=link=>services.filter(s=>s.link===link).length
+  const svcCount=source=>services.filter(s=>s.source===source).length
   
   // Search box with voice + search button
   const searchBox=`<div class="gov-search-wrap">
@@ -726,7 +726,7 @@ function renderGovLinks(){
       <p class="svc-desc" style="font-size:12px">${catName(l.cat)}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
         <span style="background:var(--gold);color:var(--navy);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600">✓ موثوق</span>
-        <span style="background:var(--gray);color:var(--text);padding:3px 8px;border-radius:6px;font-size:11px">${svcCount(l.link)} خدمة</span>
+        <span style="background:var(--gray);color:var(--text);padding:3px 8px;border-radius:6px;font-size:11px">${svcCount(l.source)} خدمة</span>
         <span style="background:rgba(15,30,61,.08);color:var(--navy);padding:3px 8px;border-radius:6px;font-size:11px">📅 ${l.updated||'2026'}</span>
       </div>
       <span class="svc-link">زيارة الموقع ←</span>

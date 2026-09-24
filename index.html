@@ -282,7 +282,7 @@
     </div>
 </section>
 
-<!-- ========== ARTICLES LINK ========== -->
+<!-- ========== ARTICLES PREVIEW ========== -->
 <section class="how-section" id="articles">
     <div class="container">
         <div class="section-head">
@@ -290,13 +290,67 @@
             <h2 class="section-title">📖 <span class="gold">دليلك المصري</span></h2>
             <p class="section-desc">مقالات ونصائح تساعدك تخلص مصالحك بسهولة</p>
         </div>
+        <div class="articles-preview">
+            <a href="articles.html" class="article-card-pre">
+                <div class="ap-icon">🚗</div>
+                <span class="ap-cat">مرور</span>
+                <h3 class="ap-title">إزاي تتجدد رخصة سيارتك؟</h3>
+                <p class="ap-excerpt">دليلك الكامل لتجديد رخصة السيارة في مصر — الخطوات والمستندات والمصاريف</p>
+                <span class="ap-time">⏱ 5 دقائق</span>
+            </a>
+            <a href="articles.html" class="article-card-pre">
+                <div class="ap-icon">📊</div>
+                <span class="ap-cat">ضرائب</span>
+                <h3 class="ap-title">إزاي تسجل في الضريبة؟</h3>
+                <p class="ap-excerpt">خطوات التسجيل في المصلحة الضريبية وأهم المستندات المطلوبة</p>
+                <span class="ap-time">⏱ 7 دقائق</span>
+            </a>
+            <a href="articles.html" class="article-card-pre">
+                <div class="ap-icon">🪪</div>
+                <span class="ap-cat">أحوال مدنية</span>
+                <h3 class="ap-title">إزاي تتجدد بطاقتك الشخصية؟</h3>
+                <p class="ap-excerpt">تجديد البطاقة الشخصية في 5 خطوات بسيطة</p>
+                <span class="ap-time">⏱ 4 دقائق</span>
+            </a>
+            <a href="articles.html" class="article-card-pre">
+                <div class="ap-icon">🛂</div>
+                <span class="ap-cat">جوازات</span>
+                <h3 class="ap-title">إزاي تستخرج جواز السفر؟</h3>
+                <p class="ap-excerpt">دليلك الكامل لاستخراج جواز سفر مصري جديد</p>
+                <span class="ap-time">⏱ 6 دقائق</span>
+            </a>
+            <a href="articles.html" class="article-card-pre">
+                <div class="ap-icon">👴</div>
+                <span class="ap-cat">تأمينات</span>
+                <h3 class="ap-title">إزاي تطلع المعاش؟</h3>
+                <p class="ap-excerpt">دليلك لاستخراج معاش التأمينات الاجتماعية</p>
+                <span class="ap-time">⏱ 8 دقائق</span>
+            </a>
+            <a href="articles.html" class="article-card-pre">
+                <div class="ap-icon">📱</div>
+                <span class="ap-cat">خدمات عامة</span>
+                <h3 class="ap-title">إزاي تسجّل في منصة مصر الرقمية؟</h3>
+                <p class="ap-excerpt">البوابة الوطنية للخدمات الحكومية — دليل التسجيل الكامل</p>
+                <span class="ap-time">⏱ 5 دقائق</span>
+            </a>
+        </div>
         <div style="text-align:center;margin-top:30px">
-            <a href="articles.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">📚 كل المقالات</a>
+            <a href="articles.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">📚 كل المقالات (25 مقال)</a>
         </div>
     </div>
 </section>
+<style>
+.articles-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:24px}
+.article-card-pre{display:flex;flex-direction:column;gap:10px;background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:22px;text-decoration:none;transition:all .3s ease}
+.article-card-pre:hover{transform:translateY(-4px);border-color:#e6c258;box-shadow:0 12px 30px rgba(230,194,88,.15)}
+.ap-icon{font-size:30px}
+.ap-cat{color:#e6c258;font-size:12px;font-weight:700;background:rgba(230,194,88,.1);padding:4px 12px;border-radius:20px;display:inline-block;width:fit-content}
+.ap-title{font-size:17px;font-weight:800;color:#fff;margin:0;line-height:1.4}
+.ap-excerpt{font-size:14px;color:#8ea0c4;margin:0;line-height:1.5}
+.ap-time{font-size:12px;color:#5a6a8a;margin-top:auto}
+</style>
 
-<!-- ========== FAQ LINK ========== -->
+<!-- ========== FAQ PREVIEW ========== -->
 <section class="how-section" id="faq">
     <div class="container">
         <div class="section-head">
@@ -304,11 +358,48 @@
             <h2 class="section-title">❓ <span class="gold">الأسئلة الشائعة</span></h2>
             <p class="section-desc">كل اللي محتاج تعرفه عن خِدْمَتي AI في مكان واحد</p>
         </div>
+        <div class="faq-preview">
+            <div class="faq-item-pre" onclick="toggleHomeFAQ(0)">
+                <div class="faqq-pre"><span class="faqq-text">هل خِدْمَتي AI منصة حكومية رسمية؟</span><span class="faqq-icon" id="hficon0">+</span></div>
+                <div class="faqa-pre" id="hfans0">لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية.</div>
+            </div>
+            <div class="faq-item-pre" onclick="toggleHomeFAQ(1)">
+                <div class="faqq-pre"><span class="faqq-text">هل المنصة مجانية؟</span><span class="faqq-icon" id="hficon1">+</span></div>
+                <div class="faqa-pre" id="hfans1">آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم.</div>
+            </div>
+            <div class="faq-item-pre" onclick="toggleHomeFAQ(2)">
+                <div class="faqq-pre"><span class="faqq-text">إزاي أتحدث بالصوت مع الـ AI؟</span><span class="faqq-icon" id="hficon2">+</span></div>
+                <div class="faqa-pre" id="hfans2">في خانة الكتابة في الـ AI chat، هتلاقي زر مايك 🎤. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً.</div>
+            </div>
+            <div class="faq-item-pre" onclick="toggleHomeFAQ(3)">
+                <div class="faqq-pre"><span class="faqq-text">هل بياناتي آمنة؟</span><span class="faqq-icon" id="hficon3">+</span></div>
+                <div class="faqa-pre" id="hfans3">آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك.</div>
+            </div>
+        </div>
         <div style="text-align:center;margin-top:30px">
-            <a href="faq.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">❓ كل الأسئلة الشائعة</a>
+            <a href="faq.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">❓ كل الأسئلة الشائعة (10 أسئلة)</a>
         </div>
     </div>
 </section>
+<style>
+.faq-preview{max-width:700px;margin:24px auto 0}
+.faq-item-pre{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;margin-bottom:14px;overflow:hidden;cursor:pointer;transition:border-color .3s}
+.faq-item-pre:hover{border-color:#e6c258}
+.faqq-pre{display:flex;justify-content:space-between;align-items:center;padding:18px 22px}
+.faqq-text{font-size:16px;font-weight:700;color:#fff}
+.faqq-icon{color:#e6c258;font-size:22px;font-weight:900;transition:transform .3s}
+.faqa-pre{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 22px;color:#c0cee0;font-size:15px;line-height:1.8}
+.faqa-pre.active{max-height:300px;padding:0 22px 20px}
+.faqq-icon.active{transform:rotate(45deg)}
+</style>
+<script>
+function toggleHomeFAQ(i){
+  var ans=document.getElementById('hfans'+i);
+  var icon=document.getElementById('hficon'+i);
+  if(ans.classList.contains('active')){ans.classList.remove('active');icon.classList.remove('active')}
+  else{ans.classList.add('active');icon.classList.add('active')}
+}
+</script>
 
 <!-- ========== REVIEWS (آراء المستخدمين) ========== -->
 <section class="how-section" id="reviews">

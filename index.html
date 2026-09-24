@@ -330,13 +330,19 @@
     </div>
 </section>
 
-<!-- ========== FACEBOOK PAGE PLUGIN ========== -->
+<!-- ========== FACEBOOK & TELEGRAM ========== -->
 <section class="how-section" id="facebook">
     <div class="container">
         <div class="section-head">
             <span class="section-label">تواصل معنا</span>
-            <h2 class="section-title">📘 تابعنا على <span class="gold">فيسبوك</span></h2>
-            <p class="section-desc">آخر الأخبار و الخدمات الجديدة على صفحتنا</p>
+            <h2 class="section-title">📲 تابعنا على <span class="gold">السوشيال</span></h2>
+            <p class="section-desc">آخر الأخبار و الخدمات الجديدة على فيسبوك و تيلجرام</p>
+        </div>
+        <div style="display:flex;justify-content:center;gap:14px;margin:20px 0;flex-wrap:wrap">
+            <a href="https://t.me/khdmatyai" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2AABEE,#229ED9);color:#fff;padding:14px 28px;border-radius:50px;text-decoration:none;font-family:Cairo,sans-serif;font-weight:800;font-size:16px;box-shadow:0 4px 16px rgba(34,158,217,.4);transition:transform .2s">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+                تابعنا على تيلجرام
+            </a>
         </div>
         <div style="display:flex;justify-content:center;margin:20px 0">
             <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61594327147276&tabs=timeline&width=360&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true" width="360" height="500" style="border:none;overflow:hidden;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.15)" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
@@ -371,7 +377,7 @@
                 <a href="#">📧 info@khidmaty.ai</a>
                 <a href="#">📞 19XXX</a>
                 <a href="#">📍 القاهرة، مصر</a>
-                <a href="https://t.me/+ZYqNnOv8dy5kODU0" target="_blank" style="color:#229ED9;font-weight:700">✈️ انضم لجروب تيلجرام</a>
+                <a href="https://t.me/khdmatyai" target="_blank" style="color:#229ED9;font-weight:700">✈️ تابع قناتنا على تيلجرام</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -542,6 +548,19 @@ setTimeout(()=>{
     </div>
 </div>
 
+<!-- ========== FLOATING TELEGRAM BUTTON ========== -->
+<a href="https://t.me/khdmatyai" target="_blank" class="tg-float" aria-label="تابعنا على تيلجرام">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+    <span class="tg-float-text">تابعنا على تيلجرام</span>
+</a>
+<style>
+.tg-float{position:fixed;bottom:80px;left:16px;z-index:999;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2AABEE,#229ED9);color:#fff;padding:12px 18px;border-radius:50px;box-shadow:0 4px 16px rgba(34,158,217,.4);text-decoration:none;font-family:Cairo,sans-serif;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s;animation:tgPulse 2.5s infinite}
+.tg-float:hover{transform:scale(1.06);box-shadow:0 6px 24px rgba(34,158,217,.55)}
+.tg-float svg{flex-shrink:0}
+.tg-float-text{white-space:nowrap}
+@keyframes tgPulse{0%,100%{box-shadow:0 4px 16px rgba(34,158,217,.4)}50%{box-shadow:0 4px 28px rgba(34,158,217,.7)}}
+@media(max-width:600px){.tg-float{bottom:72px;padding:10px 14px;font-size:13px}.tg-float-text{display:none}.tg-float{border-radius:50%;padding:14px}}
+</style>
 <script>
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))})
 </script>

@@ -131,6 +131,8 @@ let currentCat='all', currentSearch=''
 function renderServices(){
   const grid=document.getElementById('servicesGrid')
   let list=currentCat==='all'?services:services.filter(s=>s.category===currentCat)
+  /* الأكثر بحثاً تظهر الأول */
+  list=[...list].sort((a,b)=>(b.popular?1:0)-(a.popular?1:0))
   if(currentSearch){
     let expanded=currentSearch
     Object.keys(synMap).forEach(k=>{if(currentSearch.includes(k))expanded+=' '+synMap[k]})
@@ -145,6 +147,7 @@ function renderServices(){
   if(list.length===0){grid.innerHTML='<p class="no-results">لا توجد نتائج مطابقة 🤷‍♂️</p>';return}
   grid.innerHTML=list.map(s=>`
     <div class="svc-card" onclick="openService(${s.id})">
+      ${s.popular?'<span style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:0 12px 0 12px;font-family:Cairo,sans-serif">🔥 الأكثر بحثاً</span>':''}
       <div class="svc-icon">${s.icon}</div>
       <h3 class="svc-name">${s.name}</h3>
       <p class="svc-desc">${s.desc}</p>
@@ -360,11 +363,14 @@ function renderProviders(){
   const filterHtml=`<div style="margin-bottom:20px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center"><label style="font-weight:600;color:var(--text);font-size:14px">المحافظة:</label><select onchange="filterProviders(this.value)" style="padding:10px 16px;border-radius:8px;border:1px solid var(--gray-m);background:var(--card);color:var(--text);font-family:inherit;font-size:14px;min-width:220px;cursor:pointer"><option value="all" ${selectedGov==='all'?'selected':''}>📍 كل المحافظات</option>${ALL_GOVS.map(g=>`<option value="${g}" ${selectedGov===g?'selected':''}>${g}</option>`).join('')}</select></div>`
   if(filtered.length===0){grid.innerHTML=filterHtml+'<div style="text-align:center;padding:40px;background:var(--gray);border-radius:var(--radius)"><div style="font-size:40px;margin-bottom:12px">🔍</div><p style="color:var(--text-l)">لا توجد مقدمين في هذه المحافظة حالياً</p><p style="font-size:13px;margin-top:8px">كنت أول مقدم خدمة في منطقتك! <button onclick="openModal(\'providerModal\')" style="background:var(--gold);color:var(--navy);border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;margin-top:8px">سجل كمقدم خدمة</button></p></div>';return}
   grid.innerHTML=filterHtml+filtered.map(p=>{
-    const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
-    const bc=p.badge==='Top Provider'||p.badge==='Recommended'?'badge-on':p.badge==='جديد'?'badge-off':'badge-off'
+    const safeRating=typeof p.rating==='number'&&!isNaN(p.rating)?p.rating:0
+    const safeOrders=typeof p.orders==='number'&&!isNaN(p.orders)?p.orders:0
+    const safeBadge=typeof p.badge==='string'&&p.badge.length<=30&&!p.badge.includes('{')?p.badge:'مقدم خدمة'
+    const stars='★'.repeat(Math.floor(safeRating))+'☆'.repeat(5-Math.floor(safeRating))
+    const bc=safeBadge==='Top Provider'||safeBadge==='Recommended'?'badge-on':safeBadge==='جديد'?'badge-off':'badge-off'
     const verifiedIcon=p.verified?'✓':''
     const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
-    const servicesList=p.services||p.type
+    const servicesList=typeof p.services==='string'&&p.services.length<200?p.services:p.type
     return `
       <div class="prv-card" style="position:relative">
         ${p.verified?'<div style="position:absolute;top:10px;left:10px;background:var(--success);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700" title="موثوق">✓</div>':''}
@@ -373,10 +379,10 @@ function renderProviders(){
           <div class="prv-info"><h4>${p.name}</h4><span>${p.type} — ${p.gov}</span></div>
         </div>
         <div class="prv-badges">
-          <span class="svc-badge ${bc}">${p.badge}</span>
-          <span class="svc-badge badge-off">💼 ${p.orders} عملية</span>
+          <span class="svc-badge ${bc}">${safeBadge}</span>
+          <span class="svc-badge badge-off">💼 ${safeOrders} عملية</span>
         </div>
-        <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
+        <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${safeRating})</span></p>
         <button onclick="openProviderProfile('${p.name.replace(/'/g,"")}')" style="width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;border:none;padding:11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;margin-bottom:8px">👁️ عرض الملف والتواصل</button>
         <div style="display:flex;gap:8px;margin-top:12px">
           <button onclick="requestProvider('${p.name.replace(/'/g,"")}')" style="flex:1;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px">📩 اطلب خدمة</button>
@@ -448,9 +454,12 @@ function openProviderProfile(name){
     document.body.appendChild(modal)
   }
   const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
-  const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
+  const pRating=typeof p.rating==='number'&&!isNaN(p.rating)?p.rating:0
+  const pOrders=typeof p.orders==='number'&&!isNaN(p.orders)?p.orders:0
+  const pBadgeText=typeof p.badge==='string'&&p.badge.length<=30&&!p.badge.includes('{')?p.badge:'مقدم خدمة'
+  const stars='★'.repeat(Math.floor(pRating))+'☆'.repeat(5-Math.floor(pRating))
   let pPhone=p.phone||'', pWa=p.whatsapp||''
-  if(!pPhone&&!pWa&&p.badge){try{const b=JSON.parse(p.badge);if(b&&typeof b==='object'){pPhone=b.phone||'';pWa=b.whatsapp||''}}catch(e){}}
+  if(!pPhone&&!pWa&&p.badge){try{const b=JSON.parse(p.badge);if(b&&typeof b==='object'){pPhone=b.phone||'';pWa=b.whatsapp||'';if(b.services&&typeof b.services==='string'&&b.services.length<200)p.services=b.services}}catch(e){}}
   const wa=(pWa||pPhone).replace(/[^0-9]/g,'')
   const waLink=wa?('https://wa.me/'+wa):''
   const telLink=pPhone?('tel:'+pPhone.replace(/[^0-9+]/g,'')):''
@@ -461,8 +470,8 @@ function openProviderProfile(name){
       <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-l));display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 10px">${ic}</div>
       <h2 style="margin:0 0 4px;color:var(--navy)">${p.name}</h2>
       <p style="color:var(--text-l);margin:0">${p.type} — ${p.gov}</p>
-      <div style="margin-top:8px"><span style="background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600">${p.badge||'مقدم خدمة'}</span> <span style="background:var(--gray);color:var(--text);padding:4px 12px;border-radius:8px;font-size:12px">💼 ${p.orders||0} عملية</span></div>
-      <p style="margin-top:8px;color:var(--gold);font-size:18px">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
+      <div style="margin-top:8px"><span style="background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600">${pBadgeText}</span> <span style="background:var(--gray);color:var(--text);padding:4px 12px;border-radius:8px;font-size:12px">💼 ${pOrders} عملية</span></div>
+      <p style="margin-top:8px;color:var(--gold);font-size:18px">${stars} <span style="font-size:14px;color:var(--text-l)">(${pRating})</span></p>
     </div>
     ${p.services?`<div style="background:var(--gray);border-radius:10px;padding:12px;margin-bottom:16px"><strong style="font-size:14px">الخدمات:</strong><br><span style="color:var(--text-l);font-size:14px">${p.services}</span></div>`:''}
     <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">

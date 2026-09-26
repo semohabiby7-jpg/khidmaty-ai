@@ -57,6 +57,23 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <p>راسلنا على: khidmatya1@gmail.com — و إحنا هنرد عليك في أقرب وقت.</p>
   </div>
   <div class="section">
+    <h2>📝 ابعت اقتراح أو شكوى</h2>
+    <p style="margin-bottom:16px">عندك اقتراح لخدمة جديدة؟ أو لقيت خطأ في الموقع؟ ابعتلنا و إحنا هنسمعك.</p>
+    <form id="feedbackForm" style="display:flex;flex-direction:column;gap:12px;max-width:500px;margin:0 auto">
+      <select id="fbType" required style="padding:12px;border-radius:10px;border:1px solid #1e3556;background:#0d1a33;color:#fff;font-family:Cairo;font-size:15px">
+        <option value="">اختر النوع...</option>
+        <option value="اقتراح">💡 اقتراح خدمة جديدة</option>
+        <option value="شكوى">⚠️ شكوى</option>
+        <option value="خطأ">🐛 إبلاغ عن خطأ</option>
+      </select>
+      <input id="fbName" type="text" placeholder="الاسم (اختياري)" style="padding:12px;border-radius:10px;border:1px solid #1e3556;background:#0d1a33;color:#fff;font-family:Cairo;font-size:15px">
+      <input id="fbContact" type="text" placeholder="إيميل أو واتساب (اختياري)" style="padding:12px;border-radius:10px;border:1px solid #1e3556;background:#0d1a33;color:#fff;font-family:Cairo;font-size:15px">
+      <textarea id="fbMessage" required placeholder="اكتب رسالتك هنا..." rows="4" style="padding:12px;border-radius:10px;border:1px solid #1e3556;background:#0d1a33;color:#fff;font-family:Cairo;font-size:15px;resize:vertical"></textarea>
+      <button type="submit" style="padding:14px;border-radius:30px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;font-weight:800;font-size:16px;font-family:Cairo;cursor:pointer">إرسال ✓</button>
+    </form>
+    <div id="fbResult" style="margin-top:14px;font-size:14px;text-align:center"></div>
+  </div>
+  <div class="section">
     <h2>🤖 المساعد الذكي</h2>
     <p>تقدر تسأل المساعد الذكي على الصفحة الرئيسية و هيرد عليك فوراً بالعربي. ده أسرع طريقة تحصل بها على إجابة.</p>
   </div>
@@ -77,5 +94,35 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <div class="footer">
   <p>© 2024 خِدْمَتي AI | <a href="index.html">الرئيسية</a> | <a href="services.html">الخدمات</a> | <a href="articles.html">المقالات</a> | <a href="calc.html">حاسبة الرسوم</a> | <a href="about.html">عنا</a> | <a href="privacy.html">الخصوصية</a> | <a href="terms.html">الشروط</a> | <a href="contact.html">تواصل</a></p>
 </div>
+<script>
+// نموذج اقتراح/شكوى — بيخزن محلياً + بيفتح تيلجرام برسالة جاهزة
+document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var type = document.getElementById('fbType').value;
+  var name = document.getElementById('fbName').value || 'مجهول';
+  var contact = document.getElementById('fbContact').value || 'مفيش';
+  var message = document.getElementById('fbMessage').value;
+  var result = document.getElementById('fbResult');
+
+  // نطمن إن المستخدم بعت
+  result.innerHTML = '<span style="color:#e6c258">جاري الإرسال...</span>';
+
+  // نخزن في المتصفح كـ backup
+  try {
+    var stored = JSON.parse(localStorage.getItem('khidmaty_feedback') || '[]');
+    stored.push({ type: type, name: name, contact: contact, message: message, date: new Date().toISOString() });
+    localStorage.setItem('khidmaty_feedback', JSON.stringify(stored));
+  } catch (err) {}
+
+  // نبني رسالة تيلجرام جاهزة و نفتحها في تبويب جديد
+  var text = '📝 ' + type + '\n👤 ' + name + '\n📞 ' + contact + '\n\n' + message;
+  var url = 'https://t.me/khidmaty_ai_bot?start=' + encodeURIComponent('feedback_' + text);
+  window.open(url, '_blank');
+
+  result.innerHTML = '<span style="color:#4ade80">✅ تم حفظ رسالتك! تفتح تيلجرام عشان تبعتها لينا 🙏</span>';
+  document.getElementById('feedbackForm').reset();
+  setTimeout(function(){ result.innerHTML = '<span style="color:#5a6a8a">شكراً ليك، رسالتك وصلتنا 🤍</span>'; }, 4000);
+});
+</script>
 </body>
 </html>

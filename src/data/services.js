@@ -28,7 +28,7 @@ const services = [
     documents: ['بطاقة الرقم القومي','رخصة المركبة الحالية','تأمين ساري'],
     steps: ['تجهيز المستندات','سداد المخالفات','الفحص الفني','سداد الرسوم','استلام الرخصة'],
     fees: 'تختلف حسب نوع المركبة', duration: 'نفس اليوم' },
-  { id: 3, category: 'traffic', icon: '🚓', name: 'الاستعلام عن المخالفات المرورية', desc: 'الاستعلام عن المخالفات المرورية والغرامات', online: true, link: 'https://traffic.moi.gov.eg/', source: 'بوابة مرور مصر', updated: '2026-09',
+  { id: 3, category: 'traffic', icon: '🚓', name: 'الاستعلام عن المخالفات المرورية', desc: 'الاستعلام عن المخالفات المرورية والغرامات', online: true, link: 'https://traffic.moi.gov.eg/', source: 'بوابة مرور مصر', updated: '2026-09', popular: true,
     tags: ['مخالفة','مخالفات','غرامة','غرامات','violation','fine'],
     eligibility: 'أي مواطن',
     documents: ['رقم اللوحة المعدنية'],
@@ -124,7 +124,7 @@ const services = [
     documents: ['بطاقة الرقم القومي','عقد الإيصال'],
     steps: ['التقديم على شركة الكهرباء','سداد الرسوم','التوصيل'],
     fees: 'حسب الخدمة', duration: 'أيام' },
-  { id: 19, category: 'education', icon: '🎓', name: 'الاستعلام عن نتيجة', desc: 'الاستعلام عن نتائج المدارس والثانوية العامة', online: true, link: 'https://moe.gov.eg/', source: 'وزارة التربية والتعليم', updated: '2026-09',
+  { id: 19, category: 'education', icon: '🎓', name: 'الاستعلام عن نتيجة', desc: 'الاستعلام عن نتائج المدارس والثانوية العامة', online: true, link: 'https://moe.gov.eg/', source: 'وزارة التربية والتعليم', updated: '2026-09', popular: true,
     tags: ['تعليم','نتيجة','مدرسة','ثانوية','education'],
     eligibility: 'الطلاب',
     documents: ['رقم الجلوس'],
@@ -196,7 +196,7 @@ const services = [
     tags: ['دعوى','جديدة','قضية','محكمة','lawsuit','filing'], eligibility: 'أي مواطن', documents: ['بطاقة الرقم القومي','صحيفة الدعوى','المستندات الداعمة'], steps: ['تجهيز صحيفة الدعوى','التقديم في المحكمة','سداد الرسوم','تحديد الجلسة'], fees: 'حسب نوع الدعوى', duration: 'أسابيع' },
   { id: 49, category: 'courts', icon: '📄', name: 'استخراج صورة رسمية من حكم', desc: 'استخراج صورة رسمية من حكم قضائي', online: true, link: 'https://moj.gov.eg/', source: 'وزارة العدل', updated: '2026-09',
     tags: ['حكم','صورة','رسمية','قضائي','judgment','copy'], eligibility: 'أطراف الدعوى', documents: ['بطاقة الرقم القومي','رقم الدعوى وتاريخ الحكم'], steps: ['التقديم في المحكمة','سداد الرسوم','استلام الصورة الرسمية'], fees: 'رسوم رمزية', duration: 'أيام' },
-  { id: 50, category: 'companies', icon: '🔄', name: 'تجديد السجل التجاري', desc: 'تجديد السجل التجاري للمنشأة', online: true, link: 'https://www.gafi.gov.eg/', source: 'الهيئة العامة للاستثمار (GAFI)', updated: '2026-09',
+  { id: 50, category: 'companies', icon: '🔄', name: 'تجديد السجل التجاري', desc: 'تجديد السجل التجاري للمنشأة', online: true, link: 'https://www.gafi.gov.eg/', source: 'الهيئة العامة للاستثمار (GAFI)', updated: '2026-09', popular: true,
     tags: ['تجديد','سجل','تجاري','renew','commercial'], eligibility: 'أصحاب المنشآت', documents: ['السجل التجاري الحالي','البطاقة الضريبية','بطاقة الرقم القومي'], steps: ['الدخول على GAFI','تقديم طلب التجديد','سداد الرسوم','استلام السجل'], fees: 'حسب نوع المنشأة', duration: 'أيام' },
   { id: 51, category: 'companies', icon: '✏️', name: 'تعديل بيانات شركة', desc: 'تعديل بيانات شركة مسجلة', online: true, link: 'https://www.gafi.gov.eg/', source: 'الهيئة العامة للاستثمار (GAFI)', updated: '2026-09',
     tags: ['تعديل','بيانات','شركة','update','company'], eligibility: 'أصحاب الشركات', documents: ['السجل التجاري','قرار الجمعية العامة','البطاقة الضريبية'], steps: ['تقديم طلب التعديل','رفع المستندات','المراجعة','تأكيد التعديل'], fees: 'حسب نوع التعديل', duration: 'أيام' },
@@ -212,8 +212,21 @@ const services = [
     tags: ['أطفال','بطاقة','رقم قومي','child','minor'], eligibility: 'الأطفال المصريون تحت 16 سنة', documents: ['شهادة ميلاد الطفل','بطاقة الرقم القومي للولي','صورة شخصية للطفل'], steps: ['التقديم في السجل المدني','تصوير البيانات','استلام البطاقة'], fees: 'مجاناً', duration: 'أيام' },
   { id: 57, category: 'insurance', icon: '👤', name: 'تعديل بيانات مؤمن عليه', desc: 'تعديل بيانات المؤمن عليه في التأمينات', online: true, link: 'https://www.nosi.gov.eg/', source: 'الهيئة القومية للتأمين الاجتماعي', updated: '2026-09',
     tags: ['تعديل','بيانات','مؤمن','تأمين','update'], eligibility: 'المؤمن عليهم', documents: ['بطاقة الرقم القومي','إثبات البيان الجديد'], steps: ['تقديم الطلب','رفع المستندات','المراجعة','تأكيد التعديل'], fees: 'مجاناً', duration: 'أيام' },
-  { id: 58, category: 'travel', icon: '🇪🇬', name: 'إثبات الجنسية المصرية', desc: 'استخراج شهادة إثبات جنسية', online: true, link: 'https://emoves.moi.gov.eg/', source: 'الإدارة العامة للجوازات والهجرة والجنسية', updated: '2026-09',
-    tags: ['جنسية','مصرية','إثبات','citizenship','nationality'], eligibility: 'المواطن المصري', documents: ['بطاقة الرقم القومي','شهادة ميلاد','وثائق الأبوين'], steps: ['تقديم الطلب','رفع المستندات','المراجعة','استلام الشهادة'], fees: 'رسوم رمزية', duration: 'أيام' }
+  { id: 58, category: 'travel', icon: '🇪🇬', name: 'إثبات الجنسية المصرية', desc: 'استخراج شهادة إثبات جنسية', online: true, link: 'https://emoves.moi.gov.eg/', source: 'الإدارة العامة للجوازات والهجرة والجنسية', updated: '2026-09', popular: false,
+    tags: ['جنسية','مصرية','إثبات','citizenship','nationality'], eligibility: 'المواطن المصري', documents: ['بطاقة الرقم القومي','شهادة ميلاد','وثائق الأبوين'], steps: ['تقديم الطلب','رفع المستندات','المراجعة','استلام الشهادة'], fees: 'رسوم رمزية', duration: 'أيام' },
+  /* ===== خدمات الأكثر بحثاً — مضافة 2026-09 ===== */
+  { id: 59, category: 'insurance', icon: '🧾', name: 'شهادة براءة الذمة', desc: 'استخراج شهادة براءة ذمة من التأمينات الاجتماعية (إثبات عدم وجود مديونية)', online: true, link: 'https://www.nosi.gov.eg/', source: 'الهيئة القومية للتأمين الاجتماعي', updated: '2026-09', popular: true,
+    tags: ['براءة ذمة','تأمينات','مديونية','clearance','nosi','شهادة'], eligibility: 'المؤمن عليهم وأصحاب المعاشات', documents: ['بطاقة الرقم القومي','الرقم التأميني'], steps: ['الدخول على NOSI','اختيار خدمة براءة الذمة','تقديم الطلب','استلام الشهادة'], fees: 'مجاناً', duration: 'فوري' },
+  { id: 60, category: 'social', icon: '🍞', name: 'الاستعلام عن صرف التموين', desc: 'الاستعلام عن صرف التموين على البطاقة التموينية وكشف الرصيد', online: true, link: 'https://digitaleg.gov.eg/', source: 'وزارة التموين والتجارة الداخلية', updated: '2026-09', popular: true,
+    tags: ['تموين','بطاقة تموينية','صرف','رصيد','دعم','subsidy','ration'], eligibility: 'المستفيدون من البطاقة التموينية', documents: ['الرقم القومي','رقم البطاقة التموينية'], steps: ['الدخول على بوابة التموين','إدخال رقم البطاقة','عرض الرصيد والصرف'], fees: 'مجاناً', duration: 'فوري' },
+  { id: 61, category: 'notary', icon: '📅', name: 'حجز ميعاد مكاتب التوثيق', desc: 'حجز موعد إلكتروني بمكاتب الشهر العقاري والتوثيق', online: true, link: 'https://digital.gov.eg/', source: 'مصلحة الشهر العقاري والتوثيق', updated: '2026-09', popular: true,
+    tags: ['حجز','موعد','توثيق','شهر عقاري','ميعاد','booking','appointment'], eligibility: 'أي مواطن', documents: ['بطاقة الرقم القومي','نوع المعاملة'], steps: ['الدخول على بوابة مصر الرقمية','اختيار نوع المعاملة','اختيار المكتب والموعد','تأكيد الحجز'], fees: 'مجاناً', duration: 'فوري' },
+  { id: 62, category: 'courts', icon: '🔖', name: 'صحيفة حالة جنائية مميكنة', desc: 'استخراج صحيفة حالة جنائية مميكنة من النيابة العامة', online: true, link: 'https://ppo.gov.eg/', source: 'النيابة العامة', updated: '2026-09', popular: true,
+    tags: ['صحيفة','حالة جنائية','نيابة','criminal record','case','مميكنة'], eligibility: 'أي مواطن', documents: ['بطاقة الرقم القومي'], steps: ['الدخول على بوابة النيابة العامة','إنشاء حساب','تقديم الطلب','استلام الصحيفة إلكترونياً'], fees: 'مجاناً', duration: 'فوري' },
+  { id: 63, category: 'companies', icon: '📄', name: 'طلب مستخرج سجل تجاري', desc: 'استخراج نسخة (مستخرج) من السجل التجاري للمنشأة', online: true, link: 'https://www.gafi.gov.eg/', source: 'الهيئة العامة للاستثمار (GAFI)', updated: '2026-09', popular: true,
+    tags: ['مستخرج','سجل تجاري','نسخة','extract','commercial','register'], eligibility: 'أصحاب المنشآت', documents: ['السجل التجاري','البطاقة الضريبية','بطاقة الرقم القومي'], steps: ['الدخول على GAFI','اختيار استخراج مستخرج','سداد الرسوم','استلام المستخرج'], fees: 'رسوم رمزية', duration: 'فوري' },
+  { id: 64, category: 'utilities', icon: '⚡', name: 'شحن عداد كهرباء مسبق', desc: 'شحن عداد الكهرباء مسبق الدفع بكود الشحن', online: true, link: 'https://www.moee.gov.eg/', source: 'وزارة الكهرباء والطاقة المتجددة', updated: '2026-09', popular: true,
+    tags: ['شحن','عداد','كهرباء','مسبق','كود','prepaid','recharge'], eligibility: 'أي مواطن صاحب عداد مسبق', documents: ['رقم العداد أو رقم الحساب'], steps: ['الدخول على موقع شركة الكهرباء','إدخال رقم العداد','المبلغ','سداد الشحن','استلام كود الشحن'], fees: 'حسب المبلغ', duration: 'فوري' }
 ];
 
 const providers = [

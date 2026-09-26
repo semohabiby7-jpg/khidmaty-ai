@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>خريطة مكاتب الخدمات الحكومية | خِدْمَتي AI</title>
+<meta name="description" content="خريطة مكاتب الخدمات الحكومية في مصر — مكاتب المرور، السجل المدني، التأمينات الاجتماعية. اعرف أقرب مكتب ليك.">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:18px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.map-hero{text-align:center;padding:30px 20px 10px}
+.map-hero h1{font-size:24px;font-weight:900;color:#fff;margin:0 0 8px}
+.map-hero p{font-size:14px;color:#8ea0c4;margin:0 0 20px}
+.filter-bar{max-width:800px;margin:0 auto 16px;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.filter-btn{background:#1a2d5a;border:1px solid #2a3f6a;color:#e8eef8;padding:10px 18px;border-radius:30px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;transition:all .3s}
+.filter-btn:hover,.filter-btn.active{background:#e6c258;color:#0F1E3D;border-color:#e6c258}
+#map{height:500px;width:100%;max-width:800px;margin:0 auto 40px;border-radius:16px;border:2px solid #1e3556;z-index:1}
+.leaflet-popup-content-wrapper{background:#0F1E3D;color:#e8eef8;border-radius:12px;border:1px solid #e6c258}
+.leaflet-popup-tip{background:#0F1E3D}
+.leaflet-popup-content{font-family:Cairo,sans-serif;margin:14px}
+.leaflet-popup-content h4{margin:0 0 6px;color:#e6c258;font-size:15px}
+.leaflet-popup-content p{margin:0 0 4px;font-size:13px;color:#c8d4e8}
+.leaflet-container a.leaflet-popup-close-button{color:#e6c258}
+.office-count{text-align:center;color:#8ea0c4;font-size:13px;margin-bottom:10px}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html">← الرجوع للرئيسية</a>
+  <div class="header-logo">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+<div class="map-hero">
+  <h1>🗺️ مكاتب الخدمات الحكومية</h1>
+  <p>اعرف أقرب مكتب ليك — مرور، سجل مدني، تأمينات، شهر عقاري</p>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterOffices('all', this)">📍 الكل</button>
+  <button class="filter-btn" onclick="filterOffices('traffic', this)">🚗 المرور</button>
+  <button class="filter-btn" onclick="filterOffices('civil', this)">🪪 السجل المدني</button>
+  <button class="filter-btn" onclick="filterOffices('insurance', this)">👴 التأمينات</button>
+  <button class="filter-btn" onclick="filterOffices('notary', this)">📄 الشهر العقاري</button>
+</div>
+
+<div class="office-count" id="officeCount"></div>
+<div id="map"></div>
+
+<div class="footer">
+  <p>© 2024 خِدْمَتي AI | <a href="index.html">الرئيسية</a> | <a href="services.html">الخدمات</a> | <a href="contact.html">تواصل معنا</a></p>
+  <p style="font-size:12px;margin-top:8px">⚠️ خِدْمَتي AI منصة مستقلة وليست جهة حكومية. المواقع تقريبية و قد تتغير.</p>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var OFFICES = [
+  // ===== مرور - القاهرة =====
+  {type:'traffic',name:'وحدة المرور الإلكترونية - مول سيتي ستارز',gov:'القاهرة',addr:'مول سيتي ستارز - الطابق السابع - مدينة نصر',lat:30.0780,lng:31.3440},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - ميفيدا',gov:'القاهرة',addr:'ميفيدا - القاهرة الجديدة',lat:30.0250,lng:31.4910},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - أفينيو مول',gov:'القاهرة',addr:'أفينيو مول - الرحاب',lat:30.0480,lng:31.4920},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - ايست هب',gov:'القاهرة',addr:'ايست هب - مدينتي',lat:30.0360,lng:31.4950},
+  {type:'traffic',name:'مجمع تراخيص القاهرة الجديدة',gov:'القاهرة',addr:'التجمع الثالث - القاهرة الجديدة',lat:30.0200,lng:31.4900},
+  {type:'traffic',name:'نيابة مرور مدينة نصر',gov:'القاهرة',addr:'شارع الطيران - مدينة نصر',lat:30.0750,lng:31.3380},
+  {type:'traffic',name:'نيابة مرور العباسية',gov:'القاهرة',addr:'ميدان العباسية',lat:30.0720,lng:31.3100},
+  {type:'traffic',name:'إدارة مرور حدائق القبة',gov:'القاهرة',addr:'ميدان الحدائق - أمام القصر الجمهوري',lat:30.0950,lng:31.2700,phone:'0226032808'},
+  {type:'traffic',name:'إدارة مرور المعادي',gov:'القاهرة',addr:'خلف بيتشو أمريكان سيتي - زهراء المعادي',lat:29.9450,lng:31.2550,phone:'0229179977'},
+  {type:'traffic',name:'إدارة مرور مصر الجديدة',gov:'القاهرة',addr:'3 شارع المنصور - ميدان الجامع',lat:30.0850,lng:31.3230,phone:'0226344531'},
+  {type:'traffic',name:'إدارة مرور مدينة نصر',gov:'القاهرة',addr:'طريق النصر',lat:30.0750,lng:31.3400,phone:'0224017979'},
+  // ===== مرور - الجيزة =====
+  {type:'traffic',name:'وحدة المرور الإلكترونية - داندي مول',gov:'الجيزة',addr:'داندي مول - طريق القاهرة الإسكندرية الصحراوي',lat:30.0975,lng:31.0075},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - الحصري',gov:'الجيزة',addr:'موقف الحافلات - الحصري - 6 أكتوبر',lat:29.9750,lng:31.0630},
+  {type:'traffic',name:'إدارة مرور 6 أكتوبر',gov:'الجيزة',addr:'الحى السادس - ميدان فودافون - بجوار مستشفى 6 أكتوبر',lat:29.9750,lng:31.0650,phone:'0238331266'},
+  {type:'traffic',name:'إدارة مرور فيصل',gov:'الجيزة',addr:'أسفل كوبرى فيصل',lat:30.0200,lng:31.1700,phone:'0235699990'},
+  {type:'traffic',name:'إدارة مرور العجوزة',gov:'الجيزة',addr:'شارع السودان',lat:30.0500,lng:31.1950,phone:'0237482500'},
+  {type:'traffic',name:'إدارة مرور الدقي',gov:'الجيزة',addr:'شارع أحمد الزيات - بين السرايات',lat:30.0460,lng:31.2050,phone:'0233371055'},
+  {type:'traffic',name:'إدارة مرور الهرم',gov:'الجيزة',addr:'أسفل محور الليبنى - الهرم',lat:29.9900,lng:31.1300},
+  // ===== مرور - الإسكندرية =====
+  {type:'traffic',name:'وحدة المرور الإلكترونية - كارفور سيتي سنتر',gov:'الإسكندرية',addr:'كارفور - سيتي سنتر',lat:31.2410,lng:29.9690},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - نادي سموحة',gov:'الإسكندرية',addr:'نادي سموحة',lat:31.2130,lng:29.9540},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - نادي سبورتنج',gov:'الإسكندرية',addr:'نادي سبورتنج',lat:31.2300,lng:29.9450},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - سان ستيفانو',gov:'الإسكندرية',addr:'مول سان ستيفانو',lat:31.2400,lng:29.9550},
+  // ===== مرور - محافظات =====
+  {type:'traffic',name:'وحدة المرور الإلكترونية - طنطا',gov:'الغربية',addr:'نادي طنطا',lat:30.7800,lng:31.0000},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - الغردقة',gov:'البحر الأحمر',addr:'سيتي سنتر - الغردقة',lat:27.1200,lng:33.8400},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - مرسى مطروح',gov:'مطروح',addr:'مرسى مطروح',lat:31.3500,lng:27.2300},
+  {type:'traffic',name:'وحدة المرور الإلكترونية - بورسعيد',gov:'بورسعيد',addr:'الحي الإماراتي',lat:31.2600,lng:32.3000},
+  // ===== سجل مدني - القاهرة =====
+  {type:'civil',name:'السجل المدني - البساتين',gov:'القاهرة',addr:'شارع مهران - بجوار قسم شرطة البساتين',lat:29.9920,lng:31.2580,phone:'16582'},
+  {type:'civil',name:'السجل المدني - المعادي',gov:'القاهرة',addr:'37 شارع 77 - متفرع من شارع علي عبد العزيز',lat:29.9450,lng:31.2550,phone:'0227514993'},
+  {type:'civil',name:'السجل المدني - الساحل',gov:'القاهرة',addr:'شارع أحمد حلمي - ميدان فيكتوريا',lat:30.1100,lng:31.2400,phone:'0222242619'},
+  {type:'civil',name:'السجل المدني - النزهة',gov:'القاهرة',addr:'90 شارع عبد العزيز فهمي - ميدان هليوبوليس',lat:30.0850,lng:31.3230,phone:'0226369602'},
+  {type:'civil',name:'السجل المدني - مصر الجديدة',gov:'القاهرة',addr:'7 شارع الروضة - قريب من قسم شرطة مصر الجديدة',lat:30.0850,lng:31.3200},
+  {type:'civil',name:'السجل المدني - مدينة نصر أول',gov:'القاهرة',addr:'طريق النصر - داخل قسم شرطة أول مدينة نصر',lat:30.0750,lng:31.3400},
+  {type:'civil',name:'قطاع الأحوال المدنية - العباسية',gov:'القاهرة',addr:'امتداد شارع رمسيس - بجوار وزارة الكهرباء',lat:30.0720,lng:31.3100,phone:'0224025852'},
+  {type:'civil',name:'السجل المدني - مول سيتي ستارز',gov:'القاهرة',addr:'مول سيتي ستارز - مدينة نصر',lat:30.0780,lng:31.3440},
+  {type:'civil',name:'السجل المدني - مول مكسيم',gov:'القاهرة',addr:'مول مكسيم - التجمع الخامس',lat:30.0200,lng:31.4900},
+  {type:'civil',name:'السجل المدني - سيتي سنتر المعادي',gov:'القاهرة',addr:'مول سيتي سنتر المعادي',lat:29.9500,lng:31.2500},
+  // ===== سجل مدني - الجيزة =====
+  {type:'civil',name:'السجل المدني - العجوزة',gov:'الجيزة',addr:'3 شارع نوال - قريب من قسم شرطة العجوزة',lat:30.0560,lng:31.1910,phone:'16582'},
+  {type:'civil',name:'السجل المدني - الدقي',gov:'الجيزة',addr:'شارع المساحة - ميدان الجلاء - داخل قسم شرطة الدقي',lat:30.0460,lng:31.2050,phone:'0237485501'},
+  {type:'civil',name:'السجل المدني - الجيزة',gov:'الجيزة',addr:'شارع البحر الأعظم - بجوار قسم شرطة الجيزة',lat:30.0500,lng:31.1900,phone:'0235721365'},
+  {type:'civil',name:'السجل المدني - الشيخ زايد',gov:'الجيزة',addr:'الحي العاشر - الشيخ زايد - داخل إدارة المرور',lat:29.9750,lng:31.0630},
+  {type:'civil',name:'إدارة الأحوال المدنية - الهرم',gov:'الجيزة',addr:'281 شارع الهرم - بجوار كايرو مول',lat:29.9900,lng:31.1300,phone:'0235830309'},
+  {type:'civil',name:'السجل المدني - مول العرب',gov:'الجيزة',addr:'مول العرب - السادس من أكتوبر',lat:29.9700,lng:31.0550},
+  {type:'civil',name:'السجل المدني - مول مصر',gov:'الجيزة',addr:'مول مصر - طريق الفيوم',lat:29.9300,lng:31.1200},
+  {type:'civil',name:'السجل المدني - 6 أكتوبر',gov:'الجيزة',addr:'المحور المركزي - ميدان فودافون - الحي السادس',lat:29.9750,lng:31.0650},
+  {type:'civil',name:'السجل المدني - امبابة',gov:'الجيزة',addr:'كورنيش النيل - بجوار قسم شرطة امبابة',lat:30.0900,lng:31.2200},
+  // ===== سجل مدني - الإسكندرية =====
+  {type:'civil',name:'السجل المدني - المنتزة',gov:'الإسكندرية',addr:'طوسون - المنتزة - داخل قسم شرطة المنتزة ثاني',lat:31.2800,lng:29.9600,phone:'16582'},
+  {type:'civil',name:'السجل المدني - محرم بك',gov:'الإسكندرية',addr:'مساكن الغيط الصعيدي - شارع بدر الجمال',lat:31.1900,lng:29.9400,phone:'034294851'},
+  {type:'civil',name:'السجل المدني - سيتي سنتر الإسكندرية',gov:'الإسكندرية',addr:'مول سيتي سنتر - الإسكندرية',lat:31.2410,lng:29.9690},
+  {type:'civil',name:'السجل المدني - كامب شيزار',gov:'الإسكندرية',addr:'كامب شيزار - الإسكندرية',lat:31.2300,lng:29.9500},
+  // ===== سجل مدني - محافظات =====
+  {type:'civil',name:'السجل المدني - المنصورة',gov:'الدقهلية',addr:'شارع الجيش - قريب من جهاز شئون البيئة',lat:31.0400,lng:31.3800,phone:'0502750008'},
+  {type:'civil',name:'إدارة الأحوال المدنية - الزقازيق',gov:'الشرقية',addr:'شارع فاروق - قريب من مكتب بريد - سوق الجملة',lat:30.5800,lng:31.5000,phone:'0552268283'},
+  {type:'civil',name:'السجل المدني - العبور',gov:'القليوبية',addr:'محلية 5 - الحي الأول - داخل قسم شرطة العبور',lat:30.2500,lng:31.4700},
+  // ===== تأمينات اجتماعية =====
+  {type:'insurance',name:'الهيئة القومية للتأمين الاجتماعي - القاهرة',gov:'القاهرة',addr:'الإدارة العامة للتأمين الاجتماعي - القاهرة',lat:30.0600,lng:31.2400},
+  {type:'insurance',name:'الهيئة القومية للتأمين الاجتماعي - الجيزة',gov:'الجيزة',addr:'إدارة التأمين الاجتماعي - الجيزة',lat:30.0500,lng:31.2000},
+  {type:'insurance',name:'الهيئة القومية للتأمين الاجتماعي - الإسكندرية',gov:'الإسكندرية',addr:'إدارة التأمين الاجتماعي - الإسكندرية',lat:31.2000,lng:29.9500},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - طنطا',gov:'الغربية',addr:'فرع التأمين الاجتماعي - طنطا',lat:30.7800,lng:31.0000},
+  // ===== شهر عقاري =====
+  {type:'notary',name:'مكتب الشهر العقاري - القاهرة',gov:'القاهرة',addr:'مصلحة الشهر العقاري والتوثيق - القاهرة',lat:30.0500,lng:31.2400},
+  {type:'notary',name:'مكتب الشهر العقاري - الجيزة',gov:'الجيزة',addr:'مصلحة الشهر العقاري والتوثيق - الجيزة',lat:30.0500,lng:31.2000},
+  {type:'notary',name:'مكتب الشهر العقاري - الإسكندرية',gov:'الإسكندرية',addr:'مصلحة الشهر العقاري والتوثيق - الإسكندرية',lat:31.2000,lng:29.9500}
+];
+
+var ICONS = {
+  traffic: '🚗', civil: '🪪', insurance: '👴', notary: '📄'
+};
+var COLORS = {
+  traffic: '#3b82f6', civil: '#8b5cf6', insurance: '#10b981', notary: '#6366f1'
+};
+
+var map = L.map('map').setView([30.05, 31.25], 10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap | خِدْمَتي AI',
+  maxZoom: 18
+}).addTo(map);
+
+var markers = [];
+var currentFilter = 'all';
+
+function createIcon(type) {
+  return L.divIcon({
+    html: '<div style="background:' + COLORS[type] + ';width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)"><span style="transform:rotate(45deg);font-size:16px">' + ICONS[type] + '</span></div>',
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
+  });
+}
+
+function renderOffices(filter) {
+  for (var i = 0; i < markers.length; i++) {
+    map.removeLayer(markers[i]);
+  }
+  markers = [];
+  var count = 0;
+  for (var i = 0; i < OFFICES.length; i++) {
+    var o = OFFICES[i];
+    if (filter !== 'all' && o.type !== filter) continue;
+    var marker = L.marker([o.lat, o.lng], { icon: createIcon(o.type) }).addTo(map);
+    var popupHtml = '<h4>' + ICONS[o.type] + ' ' + o.name + '</h4>' +
+      '<p>📍 ' + o.gov + '</p>' +
+      '<p>🗺️ ' + o.addr + '</p>' +
+      (o.phone ? '<p>📞 ' + o.phone + '</p>' : '') +
+      '<p style="margin-top:8px;font-size:12px;color:#8ea0c4">⚠️ الموقع تقريبي — تأكد قبل الذهاب</p>';
+    marker.bindPopup(popupHtml);
+    markers.push(marker);
+    count++;
+  }
+  document.getElementById('officeCount').innerHTML = 'عرض <strong style="color:#e6c258">' + count + '</strong> مكتب على الخريطة';
+}
+
+function filterOffices(filter, btn) {
+  currentFilter = filter;
+  var btns = document.querySelectorAll('.filter-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  btn.classList.add('active');
+  renderOffices(filter);
+}
+
+renderOffices('all');
+</script>
+
+</body>
+</html>

@@ -91,6 +91,13 @@
   gtag('js', new Date());
   gtag('config', 'G-W7WT8KN8P9');
 </script>
+<style>
+.hero-members{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;padding:12px 22px;background:rgba(230,194,88,.08);border:1px solid rgba(230,194,88,.25);border-radius:40px;max-width:fit-content;margin-left:auto;margin-right:auto;animation:fadeIn .6s ease}
+.members-avatars{font-size:22px}
+.members-text{font-size:15px;color:#c0cee0;font-weight:500}
+.members-text b{color:#e6c258;font-size:18px;font-weight:800;margin:0 2px}
+@media(max-width:600px){.members-text{font-size:13px}.members-text b{font-size:16px}}
+</style>
 </head>
 <body>
 
@@ -163,6 +170,10 @@
             <button class="btn-help" onclick="needHelp()">
                 <span>👤</span> محتاج حد يخلصهالي
             </button>
+        </div>
+        <div class="hero-members">
+            <span class="members-avatars">👥</span>
+            <span class="members-text"><b class="user-count">0</b> مستخدم مسجّل في خِدْمَتي AI</span>
         </div>
     </div>
 </section>

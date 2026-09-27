@@ -240,11 +240,86 @@ create trigger trg_orders_updated_at
   for each row execute function public.set_updated_at();
 
 -- ============================================================
+-- 7) RPC function: user_count() — عدّاد المسجلين الظاهر في الصفحة الرئيسية
+--    الـ app بينادي client.rpc('user_count') فلازم تكون موجودة
+--    security definer عشان auth.users محمي ومينفعش anon يقراه مباشرة
+-- ============================================================
+create or replace function public.user_count()
+returns bigint
+language sql
+security definer
+set search_path = public
+as $$
+  select count(*)::bigint from auth.users;
+$$;
+
+-- اسمح لـ anon و authenticated يستدعوا الدالة (عشان العداد يظهر للكل)
+grant execute on function public.user_count() to anon, authenticated;
+
+-- ============================================================
+-- 8) جدول profiles (اختياري) — بيانات إضافية لكل مستخدم مسجّل
+--    الـ app دلوقتي بيخزن الاسم/المحافظة في auth.user_metadata،
+--    بس الجدول ده مفيد لو حبيت تضيف حقول بعدين (آخر دخول، صورة، الخ)
+-- ============================================================
+create table if not exists public.profiles (
+  id          uuid primary key references auth.users(id) on delete cascade,
+  name        text,
+  phone       text,
+  gov         text,
+  email       text,
+  role        text not null default 'citizen',
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+
+drop policy if exists "profiles select own" on public.profiles;
+create policy "profiles select own" on public.profiles
+  for select using (auth.uid() = id);
+drop policy if exists "profiles insert own" on public.profiles;
+create policy "profiles insert own" on public.profiles
+  for insert with check (auth.uid() = id);
+drop policy if exists "profiles update own" on public.profiles;
+create policy "profiles update own" on public.profiles
+  for update using (auth.uid() = id) with check (auth.uid() = id);
+
+-- trigger: لما يتسجّل مستخدم جديد تلقائياً يعمل سطر في profiles
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  insert into public.profiles (id, name, phone, gov, email, role)
+  values (
+    new.id,
+    new.raw_user_meta_data->>'name',
+    new.raw_user_meta_data->>'phone',
+    new.raw_user_meta_data->>'gov',
+    new.email,
+    coalesce(new.raw_user_meta_data->>'role','citizen')
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
+drop trigger if exists trg_profiles_updated_at on public.profiles;
+create trigger trg_profiles_updated_at
+  before update on public.profiles
+  for each row execute function public.set_updated_at();
+
+-- ============================================================
 -- تم ✅ — لما تشغّل ده، هتبقى عندك:
 --   - جدول categories (13 قسم) + سياسة قراءة عامة
 --   - جدول services (58 خدمة) + سياسة قراءة عامة
 --   - جدول providers (6 مقدمين) + سياسة قراءة عامة
 --   - جدول user_services + RLS (كل مستخدم يشوف تذكيراته)
 --   - جدول orders جاهز للخطوة 4
+--   - دالة user_count() لعداد المسجلين + grants
+--   - جدول profiles + trigger إنشاء تلقائي عند التسجيل
 -- الـ app هيقرا من Supabase تلقائياً، ولو فشل بيرجع للـ static data
 -- ============================================================

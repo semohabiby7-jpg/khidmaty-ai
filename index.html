@@ -589,6 +589,7 @@ function toggleHomeFAQ(i){
 
 
 <script src="src/data/services.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="src/app.js"></script>
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settingsModal">
@@ -693,6 +694,12 @@ setTimeout(()=>{
 @keyframes tgPulse{0%,100%{box-shadow:0 4px 16px rgba(34,158,217,.4)}50%{box-shadow:0 4px 28px rgba(34,158,217,.7)}}
 @media(max-width:600px){.tg-float{bottom:72px;padding:10px 14px;font-size:13px}.tg-float-text{display:none}.tg-float{border-radius:50%;padding:14px}}
 </style>
+<script>
+/* لما المستخدم يفتح index.html#login → افتح loginModal تلقائيًا (من auth-guard redirect) */
+window.addEventListener('hashchange',checkHashLogin)
+function checkHashLogin(){if(location.hash==='#login'){if(typeof openModal==='function')openModal('loginModal');history.replaceState(null,'',location.pathname)}}
+checkHashLogin()
+</script>
 <script>
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))})
 </script>

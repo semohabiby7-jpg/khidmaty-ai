@@ -3,6 +3,29 @@ const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
 const WORKER_URL='https://khidmaty-agent.semohabiby7.workers.dev'
 
+/* ===== SUPABASE AUTH CLIENT (للـ Auth الحقيقي + الجلسة المحفوظة) ===== */
+let sb=null
+function ensureSB(){
+  if(sb) return sb
+  if(typeof window.supabase!=='undefined' && window.supabase.createClient){
+    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+  }
+  return sb
+}
+ensureSB()
+
+/* عداد المسجلين (يقرأ من auth.users عبر RPC function) */
+async function loadUserCount(){
+  try{
+    const client=ensureSB()
+    if(!client) return
+    const {data,error}=await client.rpc('user_count')
+    if(!error && data!==null && data!==undefined){
+      document.querySelectorAll('.user-count').forEach(el=>el.textContent=data)
+    }
+  }catch(e){console.log('count err',e)}
+}
+
 /* ===== TOAST (إشعار نجاح/خطأ) ===== */
 function showToast(msg,type){
   type=type||'success'
@@ -509,75 +532,92 @@ async function handleRegister(e){
   if(pass!==pass2){showToast('كلمتا المرور مش متطابقتين','error');return false}
   if(!terms){showToast('لازم توافق على الشروط والأحكام','error');return false}
   const email=emailInput||makeEmail(phone)
-  // تسجيل في جدول users المخصص (phone + password) — بدل Supabase Auth اللي بيتطلب تأكيد إيميل
+  const client=ensureSB()
+  if(!client){showToast('مشكلة في تحميل نظام الدخول، حدّث الصفحة','error');return false}
+  const btn=document.querySelector('#registerModal .btn-submit')
+  if(btn){btn.textContent='جاري إنشاء الحساب...';btn.disabled=true}
   try{
-    // تحقق إن الرقم مش مسجل قبل كده
-    const checkRes=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&select=id',{
-      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+    // تسجيل حقيقي عبر Supabase Auth (email + password) — الباسورد متشفّر تلقائياً
+    const {data,error}=await client.auth.signUp({
+      email,
+      password:pass,
+      options:{data:{name,phone,gov,role:'citizen'}}
     })
-    const checkData=await checkRes.json()
-    if(checkData&&checkData.length>0){showToast('الرقم ده مسجل قبل كده — سجّل دخول بدلاً من ذلك','error');return false}
-    // أدخل المستخدم الجديد في جدول users
-    const res=await fetch(SUPABASE_URL+'/rest/v1/users',{
-      method:'POST',
-      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
-      body:JSON.stringify({phone,password:pass,name,gov,role:'citizen'})
-    })
-    const data=await res.json()
-    if(data&&data[0]){
-      localStorage.setItem('sb_token','local_'+Date.now())
+    if(btn){btn.textContent='إنشاء الحساب';btn.disabled=false}
+    if(error){
+      showToast(error.message||'حصلت مشكلة في التسجيل','error')
+      return false
+    }
+    // لو session اتعمل (email confirmation معطّل) → المستخدم logged in فوراً
+    if(data.session){
+      localStorage.setItem('sb_token',data.session.access_token)
       localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email,role:'citizen'}))
       showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
       closeModal('registerModal')
       updateAuthUI()
-      return false
+      loadUserCount()
+    }else{
+      // email confirmation متفعّل — نوجّه المستخدم لتسجيل الدخول
+      showToast('تم إنشاء الحساب! جرّب تسجيل الدخول','success')
+      closeModal('registerModal')
+      const lp=document.getElementById('loginPhone'); if(lp)lp.value=phone
+      setTimeout(()=>openModal('loginModal'),300)
     }
-  }catch(err){console.log('Supabase users insert error:',err)}
-
-  // Fallback: حفظ في localStorage لو النت فشل
-  localStorage.setItem('sb_token','local_'+Date.now())
-  localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email}))
-  showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
-  closeModal('registerModal')
-  updateAuthUI()
+  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error');if(btn){btn.textContent='إنشاء الحساب';btn.disabled=false}}
   return false
 }
 
 async function handleLogin(e){
   e.preventDefault()
-  const phone=document.getElementById('loginPhone').value.trim()
+  const id=document.getElementById('loginPhone').value.trim()
   const pass=document.getElementById('loginPass').value
-  if(!phone||!pass){showToast('املأ البيانات!','error');return false}
+  if(!id||!pass){showToast('املأ البيانات!','error');return false}
+  // لو فيه @ → إيميل، لو رقم موبايل → نولّد الإيميل منه
+  const email=id.includes('@')?id:makeEmail(id)
+  const client=ensureSB()
+  if(!client){showToast('مشكلة في تحميل نظام الدخول، حدّث الصفحة','error');return false}
+  const btn=document.querySelector('#loginModal .btn-submit')
+  if(btn){btn.textContent='جاري الدخول...';btn.disabled=true}
   try{
-    // استعلم جدول users المخصص (phone + password) — بدل Supabase Auth
-    const res=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&password=eq.'+encodeURIComponent(pass)+'&select=*',{
-      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
-    })
-    const data=await res.json()
-    if(data&&data.length>0){
-      const u=data[0]
-      localStorage.setItem('sb_token','local_'+Date.now())
-      localStorage.setItem('sb_user',JSON.stringify({name:u.name||u.phone,gov:u.gov||'',phone:u.phone,email:makeEmail(u.phone),role:u.role||'citizen'}))
-      showToast('أهلاً '+(u.name||u.phone)+' 👋')
-      closeModal('loginModal')
-      updateAuthUI()
-    }else{
-      showToast('رقم الموبايل أو كلمة المرور غلط','error')
+    const {data,error}=await client.auth.signInWithPassword({email,password:pass})
+    if(btn){btn.textContent='دخول';btn.disabled=false}
+    if(error){
+      showToast(error.message||'بيانات الدخول غلط','error')
+      return false
     }
-  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error')}
+    // حفظ الجلسة عشان auth-guard يسيب المستخدم يكمّل + يفضل فاكره
+    if(data.session){localStorage.setItem('sb_token',data.session.access_token)}
+    const u=data.user
+    const um=u.user_metadata||{}
+    localStorage.setItem('sb_user',JSON.stringify({name:um.name||um.phone||id,gov:um.gov||'',phone:um.phone||id,email:u.email,role:um.role||'citizen'}))
+    showToast('أهلاً '+(um.name||id)+' 👋')
+    closeModal('loginModal')
+    updateAuthUI()
+    // لو فيه صفحة محفوظة قبل الدخول، ارجع ليها
+    const red=sessionStorage.getItem('redirect_after_login')
+    if(red){sessionStorage.removeItem('redirect_after_login');window.location.href=red}
+  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error');if(btn){btn.textContent='دخول';btn.disabled=false}}
   return false
 }
 
-function logout(){
+async function logout(){
+  const client=ensureSB()
+  if(client){try{await client.auth.signOut()}catch(e){}}
   localStorage.removeItem('sb_token')
   localStorage.removeItem('sb_user')
   updateAuthUI()
   showToast('تم تسجيل الخروج 👋')
 }
 
-function updateAuthUI(){
-  const token=localStorage.getItem('sb_token')
+async function updateAuthUI(){
+  const client=ensureSB()
   const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
+  let token=null
+  if(client){
+    try{const {data}=await client.auth.getSession(); if(data&&data.session) token=data.session.access_token}catch(e){}
+  }else{
+    token=localStorage.getItem('sb_token')
+  }
   const btns=document.querySelector('.header-btns')
   if(token&&user.name){
     if(btns)btns.innerHTML='<span style="color:var(--navy);font-weight:600;font-size:14px">👋 '+user.name+'</span><button class="btn-gold" onclick="logout()">خروج</button>'
@@ -589,6 +629,18 @@ function updateAuthUI(){
 }
 
 updateAuthUI()
+loadUserCount()
+
+/* listener لتحديث الواجهة عند تغيّر الـ session (تسجيل دخول/خروج) */
+;(function(){
+  const c=ensureSB()
+  if(c){
+    c.auth.onAuthStateChange((event,session)=>{
+      updateAuthUI()
+      loadUserCount()
+    })
+  }
+})()
 
 async function handleProvider(e){
   e.preventDefault()

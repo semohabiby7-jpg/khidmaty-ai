@@ -91,13 +91,6 @@
   gtag('js', new Date());
   gtag('config', 'G-W7WT8KN8P9');
 </script>
-<style>
-.hero-members{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;padding:12px 22px;background:rgba(230,194,88,.08);border:1px solid rgba(230,194,88,.25);border-radius:40px;max-width:fit-content;margin-left:auto;margin-right:auto;animation:fadeIn .6s ease}
-.members-avatars{font-size:22px}
-.members-text{font-size:15px;color:#c0cee0;font-weight:500}
-.members-text b{color:#e6c258;font-size:18px;font-weight:800;margin:0 2px}
-@media(max-width:600px){.members-text{font-size:13px}.members-text b{font-size:16px}}
-</style>
 </head>
 <body>
 
@@ -171,10 +164,7 @@
                 <span>👤</span> محتاج حد يخلصهالي
             </button>
         </div>
-        <div class="hero-members">
-            <span class="members-avatars">👥</span>
-            <span class="members-text"><b class="user-count">0</b> مستخدم مسجّل في خِدْمَتي AI</span>
-        </div>
+        <p class="members-line" id="membersLine" style="display:none;margin-top:16px;font-size:14px;color:rgba(255,255,255,.75);font-weight:600">👥 انضم لـ <span id="membersCount" style="color:var(--gold);font-weight:800">0</span> مستخدم على خِدْمَتي AI</p>
     </div>
 </section>
 
@@ -207,22 +197,6 @@
         <div id="serviceContent"></div>
     </div>
 </div>
-
-<!-- ========== HOW IT WORKS ========== -->
-<section class="how-section" id="how">
-    <div class="container">
-        <div class="section-head">
-            <span class="section-label">إزاي بنشتغل</span>
-            <h2 class="section-title">بساطة <span class="gold">إنجاز مصلحتك</span></h2>
-        </div>
-        <div class="steps-grid">
-            <div class="step-card"><div class="step-num">١</div><div class="step-icon">🔍</div><h3>اكتب طلبك</h3><p>قولّي المصلحة اللي محتاجها بالعربي</p></div>
-            <div class="step-card"><div class="step-num">٢</div><div class="step-icon">🤖</div><h3>AI يوجّهك</h3><p>المساعد الذكي يحدد الخدمة والمستندات</p></div>
-            <div class="step-card"><div class="step-num">٣</div><div class="step-icon">✅</div><h3>ابدأ الخدمة</h3><p>اتبع الخطوات وخلّص مصلحتك</p></div>
-            <div class="step-card"><div class="step-num">٤</div><div class="step-icon">👤</div><h3>أو اطلب حد</h3><p>لو مش فاضي، نرشحلك مقدم خدمة</p></div>
-        </div>
-    </div>
-</section>
 
 <!-- ========== ASK AI SECTION ========== -->
 <section class="ai-section" id="ask-ai">
@@ -281,6 +255,30 @@
     </div>
 </section>
 
+<!-- ========== HOW IT WORKS ========== -->
+<section class="how-section" id="how">
+    <div class="container">
+        <div class="section-head">
+            <span class="section-label">إزاي بنشتغل</span>
+            <h2 class="section-title">بساطة <span class="gold">إنجاز مصلحتك</span></h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card"><div class="step-num">١</div><div class="step-icon">🔍</div><h3>اكتب طلبك</h3><p>قولّي المصلحة اللي محتاجها بالعربي</p></div>
+            <div class="step-card"><div class="step-num">٢</div><div class="step-icon">🤖</div><h3>AI يوجّهك</h3><p>المساعد الذكي يحدد الخدمة والمستندات</p></div>
+            <div class="step-card"><div class="step-num">٣</div><div class="step-icon">✅</div><h3>ابدأ الخدمة</h3><p>اتبع الخطوات وخلّص مصلحتك</p></div>
+            <div class="step-card"><div class="step-num">٤</div><div class="step-icon">👤</div><h3>أو اطلب حد</h3><p>لو مش فاضي، نرشحلك مقدم خدمة</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== DISCLAIMER ========== -->
+<section class="disclaimer">
+    <div class="container">
+        <p>⚠️ <strong>خِدْمَتي AI</strong> منصة مستقلة وليست جهة حكومية. المعلومات من مصادر رسمية ومحددة بتاريخ آخر تحديث.</p>
+    </div>
+</section>
+
+
 <!-- ========== MY DASHBOARD (مصالحي) ========== -->
 <section class="how-section" id="account" style="display:none">
     <div class="container">
@@ -293,7 +291,7 @@
     </div>
 </section>
 
-<!-- ========== ARTICLES PREVIEW ========== -->
+<!-- ========== ARTICLES LINK ========== -->
 <section class="how-section" id="articles">
     <div class="container">
         <div class="section-head">
@@ -301,67 +299,13 @@
             <h2 class="section-title">📖 <span class="gold">دليلك المصري</span></h2>
             <p class="section-desc">مقالات ونصائح تساعدك تخلص مصالحك بسهولة</p>
         </div>
-        <div class="articles-preview">
-            <a href="articles.html" class="article-card-pre">
-                <div class="ap-icon">🚗</div>
-                <span class="ap-cat">مرور</span>
-                <h3 class="ap-title">إزاي تتجدد رخصة سيارتك؟</h3>
-                <p class="ap-excerpt">دليلك الكامل لتجديد رخصة السيارة في مصر — الخطوات والمستندات والمصاريف</p>
-                <span class="ap-time">⏱ 5 دقائق</span>
-            </a>
-            <a href="articles.html" class="article-card-pre">
-                <div class="ap-icon">📊</div>
-                <span class="ap-cat">ضرائب</span>
-                <h3 class="ap-title">إزاي تسجل في الضريبة؟</h3>
-                <p class="ap-excerpt">خطوات التسجيل في المصلحة الضريبية وأهم المستندات المطلوبة</p>
-                <span class="ap-time">⏱ 7 دقائق</span>
-            </a>
-            <a href="articles.html" class="article-card-pre">
-                <div class="ap-icon">🪪</div>
-                <span class="ap-cat">أحوال مدنية</span>
-                <h3 class="ap-title">إزاي تتجدد بطاقتك الشخصية؟</h3>
-                <p class="ap-excerpt">تجديد البطاقة الشخصية في 5 خطوات بسيطة</p>
-                <span class="ap-time">⏱ 4 دقائق</span>
-            </a>
-            <a href="articles.html" class="article-card-pre">
-                <div class="ap-icon">🛂</div>
-                <span class="ap-cat">جوازات</span>
-                <h3 class="ap-title">إزاي تستخرج جواز السفر؟</h3>
-                <p class="ap-excerpt">دليلك الكامل لاستخراج جواز سفر مصري جديد</p>
-                <span class="ap-time">⏱ 6 دقائق</span>
-            </a>
-            <a href="articles.html" class="article-card-pre">
-                <div class="ap-icon">👴</div>
-                <span class="ap-cat">تأمينات</span>
-                <h3 class="ap-title">إزاي تطلع المعاش؟</h3>
-                <p class="ap-excerpt">دليلك لاستخراج معاش التأمينات الاجتماعية</p>
-                <span class="ap-time">⏱ 8 دقائق</span>
-            </a>
-            <a href="articles.html" class="article-card-pre">
-                <div class="ap-icon">📱</div>
-                <span class="ap-cat">خدمات عامة</span>
-                <h3 class="ap-title">إزاي تسجّل في منصة مصر الرقمية؟</h3>
-                <p class="ap-excerpt">البوابة الوطنية للخدمات الحكومية — دليل التسجيل الكامل</p>
-                <span class="ap-time">⏱ 5 دقائق</span>
-            </a>
-        </div>
         <div style="text-align:center;margin-top:30px">
-            <a href="articles.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">📚 كل المقالات (35 مقال)</a>
+            <a href="articles.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">📚 كل المقالات</a>
         </div>
     </div>
 </section>
-<style>
-.articles-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:24px}
-.article-card-pre{display:flex;flex-direction:column;gap:10px;background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:22px;text-decoration:none;transition:all .3s ease}
-.article-card-pre:hover{transform:translateY(-4px);border-color:#e6c258;box-shadow:0 12px 30px rgba(230,194,88,.15)}
-.ap-icon{font-size:30px}
-.ap-cat{color:#e6c258;font-size:12px;font-weight:700;background:rgba(230,194,88,.1);padding:4px 12px;border-radius:20px;display:inline-block;width:fit-content}
-.ap-title{font-size:17px;font-weight:800;color:#fff;margin:0;line-height:1.4}
-.ap-excerpt{font-size:14px;color:#8ea0c4;margin:0;line-height:1.5}
-.ap-time{font-size:12px;color:#5a6a8a;margin-top:auto}
-</style>
 
-<!-- ========== FAQ PREVIEW ========== -->
+<!-- ========== FAQ LINK ========== -->
 <section class="how-section" id="faq">
     <div class="container">
         <div class="section-head">
@@ -369,51 +313,14 @@
             <h2 class="section-title">❓ <span class="gold">الأسئلة الشائعة</span></h2>
             <p class="section-desc">كل اللي محتاج تعرفه عن خِدْمَتي AI في مكان واحد</p>
         </div>
-        <div class="faq-preview">
-            <div class="faq-item-pre" onclick="toggleHomeFAQ(0)">
-                <div class="faqq-pre"><span class="faqq-text">هل خِدْمَتي AI منصة حكومية رسمية؟</span><span class="faqq-icon" id="hficon0">+</span></div>
-                <div class="faqa-pre" id="hfans0">لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية.</div>
-            </div>
-            <div class="faq-item-pre" onclick="toggleHomeFAQ(1)">
-                <div class="faqq-pre"><span class="faqq-text">هل المنصة مجانية؟</span><span class="faqq-icon" id="hficon1">+</span></div>
-                <div class="faqa-pre" id="hfans1">آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم.</div>
-            </div>
-            <div class="faq-item-pre" onclick="toggleHomeFAQ(2)">
-                <div class="faqq-pre"><span class="faqq-text">إزاي أتحدث بالصوت مع الـ AI؟</span><span class="faqq-icon" id="hficon2">+</span></div>
-                <div class="faqa-pre" id="hfans2">في خانة الكتابة في الـ AI chat، هتلاقي زر مايك 🎤. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً.</div>
-            </div>
-            <div class="faq-item-pre" onclick="toggleHomeFAQ(3)">
-                <div class="faqq-pre"><span class="faqq-text">هل بياناتي آمنة؟</span><span class="faqq-icon" id="hficon3">+</span></div>
-                <div class="faqa-pre" id="hfans3">آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك.</div>
-            </div>
-        </div>
         <div style="text-align:center;margin-top:30px">
-            <a href="faq.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">❓ كل الأسئلة الشائعة (10 أسئلة)</a>
+            <a href="faq.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;text-decoration:none;padding:16px 40px;border-radius:30px;font-weight:800;font-size:18px;font-family:Cairo,sans-serif;box-shadow:0 6px 20px rgba(230,194,88,.3)">❓ كل الأسئلة الشائعة</a>
         </div>
     </div>
 </section>
-<style>
-.faq-preview{max-width:700px;margin:24px auto 0}
-.faq-item-pre{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;margin-bottom:14px;overflow:hidden;cursor:pointer;transition:border-color .3s}
-.faq-item-pre:hover{border-color:#e6c258}
-.faqq-pre{display:flex;justify-content:space-between;align-items:center;padding:18px 22px}
-.faqq-text{font-size:16px;font-weight:700;color:#fff}
-.faqq-icon{color:#e6c258;font-size:22px;font-weight:900;transition:transform .3s}
-.faqa-pre{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 22px;color:#c0cee0;font-size:15px;line-height:1.8}
-.faqa-pre.active{max-height:300px;padding:0 22px 20px}
-.faqq-icon.active{transform:rotate(45deg)}
-</style>
-<script>
-function toggleHomeFAQ(i){
-  var ans=document.getElementById('hfans'+i);
-  var icon=document.getElementById('hficon'+i);
-  if(ans.classList.contains('active')){ans.classList.remove('active');icon.classList.remove('active')}
-  else{ans.classList.add('active');icon.classList.add('active')}
-}
-</script>
 
-<!-- ========== REVIEWS (آراء المستخدمين) — مخفي مؤقتاً لحد ما يبقى فيه آراء حقيقية ========== -->
-<section class="how-section" id="reviews" style="display:none">
+<!-- ========== REVIEWS (آراء المستخدمين) ========== -->
+<section class="how-section" id="reviews">
     <div class="container">
         <div class="section-head">
             <span class="section-label">آراء المستخدمين</span>
@@ -421,62 +328,6 @@ function toggleHomeFAQ(i){
             <p class="section-desc">آراء حقيقية من ناس استخدمت خِدْمَتي AI</p>
         </div>
         <div class="reviews-grid" id="reviewsGrid"></div>
-    </div>
-</section>
-
-<!-- ========== SITE MAP ========== -->
-<section class="how-section" id="sitemap">
-    <div class="container">
-        <div class="section-head">
-            <span class="section-label">دليل سريع</span>
-            <h2 class="section-title">🗂️ <span class="gold">كل صفحات الموقع</span></h2>
-            <p class="section-desc">روح لأي صفحة مباشرة من هنا</p>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;max-width:900px;margin:0 auto">
-            <a href="index.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">🏠</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">الرئيسية</span>
-            </a>
-            <a href="services.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">🛠️</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">الخدمات</span>
-            </a>
-            <a href="articles.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">📖</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">المقالات</span>
-            </a>
-            <a href="calc.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">🧮</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">حاسبة الرسوم</span>
-            </a>
-            <a href="offices.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">🗺️</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">مكاتب الخدمات</span>
-            </a>
-            <a href="faq.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">❓</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">الأسئلة الشائعة</span>
-            </a>
-            <a href="about.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">ℹ️</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">عنا</span>
-            </a>
-            <a href="contact.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">📞</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">تواصل معانا</span>
-            </a>
-            <a href="privacy.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">🔒</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">الخصوصية</span>
-            </a>
-            <a href="terms.html" style="background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:20px 14px;text-align:center;text-decoration:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px">
-                <div style="font-size:28px">📋</div>
-                <span style="color:#fff;font-weight:700;font-size:15px;font-family:Cairo,sans-serif">الشروط</span>
-            </a>
-        </div>
-        <style>
-        .how-section a:hover{transform:translateY(-4px);border-color:#e6c258 !important;box-shadow:0 8px 20px rgba(230,194,88,.15)}
-        </style>
     </div>
 </section>
 
@@ -498,29 +349,23 @@ function toggleHomeFAQ(i){
             <div class="footer-col">
                 <h4>روابط سريعة</h4>
                 <a href="#home">الرئيسية</a>
-                <a href="#services">الخدمات</a>
+                <a href="services.html">كل الخدمات</a>
                 <a href="#ask-ai">اسأل AI</a>
                 <a href="#providers">مقدمو الخدمات</a>
-                <a href="#links">الدليل الحكومي</a>
-                <a href="articles.html">المقالات</a>
             </div>
             <div class="footer-col">
-                <h4>المنصة</h4>
-                <a href="about.html">من نحن</a>
-                <a href="contact.html">تواصل معنا</a>
-                <a href="faq.html">الأسئلة الشائعة</a>
-                <a href="privacy.html">سياسة الخصوصية</a>
-                <a href="terms.html">الشروط والأحكام</a>
+                <h4>أدوات ومصادر</h4>
+                <a href="calc.html">🧮 حاسبة الرسوم</a>
+                <a href="articles.html">📚 المقالات</a>
+                <a href="services.html">📋 دليل الخدمات</a>
             </div>
             <div class="footer-col">
-                <h4>تابعنا</h4>
-                <a href="https://t.me/khdmatyai" target="_blank" style="color:#229ED9;font-weight:700">✈️ تيلجرام</a>
-                <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" style="color:#25D366;font-weight:700">📲 واتساب</a>
-                <a href="https://t.me/khidmaty_ai_bot" target="_blank" style="color:#229ED9;font-weight:700">🤖 بوت تيلجرام</a>
-                <a href="https://youtube.com/@khidmatyai" target="_blank" style="color:#FF0000;font-weight:700">▶️ يوتيوب</a>
-                <a href="https://www.facebook.com/profile.php?id=61594327147276" target="_blank" style="color:#1877F2;font-weight:700">📘 فيسبوك</a>
-                <a href="mailto:khidmatyai@gmail.com" style="font-weight:700">📧 khidmatyai@gmail.com</a>
-                <a href="contact.html" style="font-weight:700">📍 القاهرة، مصر</a>
+                <h4>عن الموقع</h4>
+                <a href="about.html">ℹ️ من نحن</a>
+                <a href="privacy.html">🔒 الخصوصية</a>
+                <a href="terms.html">📜 الشروط</a>
+                <a href="contact.html">📞 تواصل معنا</a>
+                <a href="https://t.me/+ZYqNnOv8dy5kODU0" target="_blank" style="color:#229ED9;font-weight:700">✈️ جروب تيلجرام</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -600,8 +445,13 @@ function toggleHomeFAQ(i){
 
 
 <script src="src/data/services.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="src/app.js"></script>
+<!-- افتح loginModal تلقائياً لو #login في URL (من auth-guard.js) -->
+<script>
+if(window.location.hash === '#login'){
+  setTimeout(function(){ if(typeof openModal==='function'){ openModal('loginModal'); } }, 300);
+}
+</script>
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal">
@@ -692,25 +542,6 @@ setTimeout(()=>{
     </div>
 </div>
 
-<!-- ========== FLOATING TELEGRAM BUTTON ========== -->
-<a href="https://t.me/khdmatyai" target="_blank" class="tg-float" aria-label="تابعنا على تيلجرام">
-    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
-    <span class="tg-float-text">تابعنا على تيلجرام</span>
-</a>
-<style>
-.tg-float{position:fixed;bottom:80px;left:16px;z-index:999;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2AABEE,#229ED9);color:#fff;padding:12px 18px;border-radius:50px;box-shadow:0 4px 16px rgba(34,158,217,.4);text-decoration:none;font-family:Cairo,sans-serif;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s;animation:tgPulse 2.5s infinite}
-.tg-float:hover{transform:scale(1.06);box-shadow:0 6px 24px rgba(34,158,217,.55)}
-.tg-float svg{flex-shrink:0}
-.tg-float-text{white-space:nowrap}
-@keyframes tgPulse{0%,100%{box-shadow:0 4px 16px rgba(34,158,217,.4)}50%{box-shadow:0 4px 28px rgba(34,158,217,.7)}}
-@media(max-width:600px){.tg-float{bottom:72px;padding:10px 14px;font-size:13px}.tg-float-text{display:none}.tg-float{border-radius:50%;padding:14px}}
-</style>
-<script>
-/* لما المستخدم يفتح index.html#login → افتح loginModal تلقائيًا (من auth-guard redirect) */
-window.addEventListener('hashchange',checkHashLogin)
-function checkHashLogin(){if(location.hash==='#login'){if(typeof openModal==='function')openModal('loginModal');history.replaceState(null,'',location.pathname)}}
-checkHashLogin()
-</script>
 <script>
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))})
 </script>

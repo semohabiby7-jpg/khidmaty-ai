@@ -17,6 +17,12 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .map-hero{text-align:center;padding:30px 20px 10px}
 .map-hero h1{font-size:24px;font-weight:900;color:#fff;margin:0 0 8px}
 .map-hero p{font-size:14px;color:#8ea0c4;margin:0 0 20px}
+.search-bar{max-width:800px;margin:0 auto 16px;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap}
+.search-bar input{flex:1;min-width:200px;background:#1a2d5a;border:1px solid #2a3f6a;color:#e8eef8;padding:12px 16px;border-radius:30px;font-family:inherit;font-size:14px;outline:none}
+.search-bar input::placeholder{color:#5a6a8a}
+.search-bar input:focus{border-color:#e6c258}
+.gps-btn{background:#e6c258;color:#0F1E3D;border:none;padding:12px 18px;border-radius:30px;cursor:pointer;font-family:inherit;font-weight:700;font-size:14px;white-space:nowrap}
+.gps-btn:hover{background:#f0d068}
 .filter-bar{max-width:800px;margin:0 auto 16px;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .filter-btn{background:#1a2d5a;border:1px solid #2a3f6a;color:#e8eef8;padding:10px 18px;border-radius:30px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;transition:all .3s}
 .filter-btn:hover,.filter-btn.active{background:#e6c258;color:#0F1E3D;border-color:#e6c258}
@@ -44,6 +50,11 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <div class="map-hero">
   <h1>🗺️ مكاتب الخدمات الحكومية</h1>
   <p>اعرف أقرب مكتب ليك — مرور، سجل مدني، تأمينات، شهر عقاري</p>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="🔎 اكتب اسم البلد أو المحافظة (مثلاً: المنصورة، أسيوط، أسوان)..." oninput="searchOffices()">
+  <button class="gps-btn" onclick="findNearest()">📍 موقعي الحالي</button>
 </div>
 
 <div class="filter-bar">
@@ -133,7 +144,68 @@ var OFFICES = [
   // ===== شهر عقاري =====
   {type:'notary',name:'مكتب الشهر العقاري - القاهرة',gov:'القاهرة',addr:'مصلحة الشهر العقاري والتوثيق - القاهرة',lat:30.0500,lng:31.2400},
   {type:'notary',name:'مكتب الشهر العقاري - الجيزة',gov:'الجيزة',addr:'مصلحة الشهر العقاري والتوثيق - الجيزة',lat:30.0500,lng:31.2000},
-  {type:'notary',name:'مكتب الشهر العقاري - الإسكندرية',gov:'الإسكندرية',addr:'مصلحة الشهر العقاري والتوثيق - الإسكندرية',lat:31.2000,lng:29.9500}
+  {type:'notary',name:'مكتب الشهر العقاري - الإسكندرية',gov:'الإسكندرية',addr:'مصلحة الشهر العقاري والتوثيق - الإسكندرية',lat:31.2000,lng:29.9500},
+  // ===== مرور - محافظات إضافية =====
+  {type:'traffic',name:'إدارة مرور المنوفية',gov:'المنوفية',addr:'شبين الكوم - المنوفية',lat:30.6000,lng:30.9900},
+  {type:'traffic',name:'إدارة مرور البحيرة',gov:'البحيرة',addr:'دمنهور - البحيرة',lat:31.0300,lng:30.4700},
+  {type:'traffic',name:'إدارة مرور كفر الشيخ',gov:'كفر الشيخ',addr:'كفر الشيخ - المركز',lat:31.1100,lng:30.8000},
+  {type:'traffic',name:'إدارة مرور دمياط',gov:'دمياط',addr:'دمياط - المركز',lat:31.4200,lng:31.8100},
+  {type:'traffic',name:'إدارة مرور الإسماعيلية',gov:'الإسماعيلية',addr:'الإسماعيلية - المركز',lat:30.6000,lng:32.2700},
+  {type:'traffic',name:'إدارة مرور السويس',gov:'السويس',addr:'السويس - المركز',lat:29.9700,lng:32.5300},
+  {type:'traffic',name:'إدارة مرور شمال سيناء',gov:'شمال سيناء',addr:'العريش - شمال سيناء',lat:31.1200,lng:33.8000},
+  {type:'traffic',name:'إدارة مرور جنوب سيناء',gov:'جنوب سيناء',addr:'الطور - جنوب سيناء',lat:28.2400,lng:33.6200},
+  {type:'traffic',name:'إدارة مرور الفيوم',gov:'الفيوم',addr:'الفيوم - المركز',lat:29.3100,lng:30.8400},
+  {type:'traffic',name:'إدارة مرور بني سويف',gov:'بني سويف',addr:'بني سويف - المركز',lat:29.0700,lng:31.1000},
+  {type:'traffic',name:'إدارة مرور المنيا',gov:'المنيا',addr:'المنيا - المركز',lat:28.0900,lng:30.7500},
+  {type:'traffic',name:'إدارة مرور أسيوط',gov:'أسيوط',addr:'أسيوط - المركز',lat:27.1800,lng:31.1800},
+  {type:'traffic',name:'إدارة مرور سوهاج',gov:'سوهاج',addr:'سوهاج - المركز',lat:26.5600,lng:31.7000},
+  {type:'traffic',name:'إدارة مرور قنا',gov:'قنا',addr:'قنا - المركز',lat:26.1500,lng:32.7200},
+  {type:'traffic',name:'إدارة مرور الأقصر',gov:'الأقصر',addr:'الأقصر - المركز',lat:25.6900,lng:32.6400},
+  {type:'traffic',name:'إدارة مرور أسوان',gov:'أسوان',addr:'أسوان - المركز',lat:24.0900,lng:32.9000},
+  {type:'traffic',name:'إدارة مرور الوادي الجديد',gov:'الوادي الجديد',addr:'الخارجة - الوادي الجديد',lat:25.4500,lng:30.5500},
+  // ===== سجل مدني - محافظات إضافية =====
+  {type:'civil',name:'السجل المدني - شبين الكوم',gov:'المنوفية',addr:'شبين الكوم - المنوفية',lat:30.6000,lng:30.9900,phone:'16582'},
+  {type:'civil',name:'السجل المدني - دمنهور',gov:'البحيرة',addr:'دمنهور - البحيرة',lat:31.0300,lng:30.4700,phone:'16582'},
+  {type:'civil',name:'السجل المدني - كفر الشيخ',gov:'كفر الشيخ',addr:'كفر الشيخ - المركز',lat:31.1100,lng:30.8000,phone:'16582'},
+  {type:'civil',name:'السجل المدني - دمياط',gov:'دمياط',addr:'دمياط - المركز',lat:31.4200,lng:31.8100,phone:'16582'},
+  {type:'civil',name:'السجل المدني - الإسماعيلية',gov:'الإسماعيلية',addr:'الإسماعيلية - المركز',lat:30.6000,lng:32.2700,phone:'16582'},
+  {type:'civil',name:'السجل المدني - السويس',gov:'السويس',addr:'السويس - المركز',lat:29.9700,lng:32.5300,phone:'16582'},
+  {type:'civil',name:'السجل المدني - العريش',gov:'شمال سيناء',addr:'العريش - شمال سيناء',lat:31.1200,lng:33.8000,phone:'16582'},
+  {type:'civil',name:'السجل المدني - الطور',gov:'جنوب سيناء',addr:'الطور - جنوب سيناء',lat:28.2400,lng:33.6200,phone:'16582'},
+  {type:'civil',name:'السجل المدني - الفيوم',gov:'الفيوم',addr:'الفيوم - المركز',lat:29.3100,lng:30.8400,phone:'16582'},
+  {type:'civil',name:'السجل المدني - بني سويف',gov:'بني سويف',addr:'بني سويف - المركز',lat:29.0700,lng:31.1000,phone:'16582'},
+  {type:'civil',name:'السجل المدني - المنيا',gov:'المنيا',addr:'المنيا - المركز',lat:28.0900,lng:30.7500,phone:'16582'},
+  {type:'civil',name:'السجل المدني - أسيوط',gov:'أسيوط',addr:'أسيوط - المركز',lat:27.1800,lng:31.1800,phone:'16582'},
+  {type:'civil',name:'السجل المدني - سوهاج',gov:'سوهاج',addr:'سوهاج - المركز',lat:26.5600,lng:31.7000,phone:'16582'},
+  {type:'civil',name:'السجل المدني - قنا',gov:'قنا',addr:'قنا - المركز',lat:26.1500,lng:32.7200,phone:'16582'},
+  {type:'civil',name:'السجل المدني - الأقصر',gov:'الأقصر',addr:'الأقصر - المركز',lat:25.6900,lng:32.6400,phone:'16582'},
+  {type:'civil',name:'السجل المدني - أسوان',gov:'أسوان',addr:'أسوان - المركز',lat:24.0900,lng:32.9000,phone:'16582'},
+  {type:'civil',name:'السجل المدني - الخارجة',gov:'الوادي الجديد',addr:'الخارجة - الوادي الجديد',lat:25.4500,lng:30.5500,phone:'16582'},
+  // ===== تأمينات - محافظات إضافية =====
+  {type:'insurance',name:'فرع التأمين الاجتماعي - المنوفية',gov:'المنوفية',addr:'شبين الكوم - المنوفية',lat:30.6000,lng:30.9900},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - البحيرة',gov:'البحيرة',addr:'دمنهور - البحيرة',lat:31.0300,lng:30.4700},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - دمياط',gov:'دمياط',addr:'دمياط - المركز',lat:31.4200,lng:31.8100},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - الإسماعيلية',gov:'الإسماعيلية',addr:'الإسماعيلية - المركز',lat:30.6000,lng:32.2700},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - السويس',gov:'السويس',addr:'السويس - المركز',lat:29.9700,lng:32.5300},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - الفيوم',gov:'الفيوم',addr:'الفيوم - المركز',lat:29.3100,lng:30.8400},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - بني سويف',gov:'بني سويف',addr:'بني سويف - المركز',lat:29.0700,lng:31.1000},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - المنيا',gov:'المنيا',addr:'المنيا - المركز',lat:28.0900,lng:30.7500},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - أسيوط',gov:'أسيوط',addr:'أسيوط - المركز',lat:27.1800,lng:31.1800},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - سوهاج',gov:'سوهاج',addr:'سوهاج - المركز',lat:26.5600,lng:31.7000},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - قنا',gov:'قنا',addr:'قنا - المركز',lat:26.1500,lng:32.7200},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - الأقصر',gov:'الأقصر',addr:'الأقصر - المركز',lat:25.6900,lng:32.6400},
+  {type:'insurance',name:'فرع التأمين الاجتماعي - أسوان',gov:'أسوان',addr:'أسوان - المركز',lat:24.0900,lng:32.9000},
+  // ===== شهر عقاري - محافظات إضافية =====
+  {type:'notary',name:'مكتب الشهر العقاري - المنوفية',gov:'المنوفية',addr:'شبين الكوم - المنوفية',lat:30.6000,lng:30.9900},
+  {type:'notary',name:'مكتب الشهر العقاري - البحيرة',gov:'البحيرة',addr:'دمنهور - البحيرة',lat:31.0300,lng:30.4700},
+  {type:'notary',name:'مكتب الشهر العقاري - الفيوم',gov:'الفيوم',addr:'الفيوم - المركز',lat:29.3100,lng:30.8400},
+  {type:'notary',name:'مكتب الشهر العقاري - بني سويف',gov:'بني سويف',addr:'بني سويف - المركز',lat:29.0700,lng:31.1000},
+  {type:'notary',name:'مكتب الشهر العقاري - المنيا',gov:'المنيا',addr:'المنيا - المركز',lat:28.0900,lng:30.7500},
+  {type:'notary',name:'مكتب الشهر العقاري - أسيوط',gov:'أسيوط',addr:'أسيوط - المركز',lat:27.1800,lng:31.1800},
+  {type:'notary',name:'مكتب الشهر العقاري - سوهاج',gov:'سوهاج',addr:'سوهاج - المركز',lat:26.5600,lng:31.7000},
+  {type:'notary',name:'مكتب الشهر العقاري - قنا',gov:'قنا',addr:'قنا - المركز',lat:26.1500,lng:32.7200},
+  {type:'notary',name:'مكتب الشهر العقاري - الأقصر',gov:'الأقصر',addr:'الأقصر - المركز',lat:25.6900,lng:32.6400},
+  {type:'notary',name:'مكتب الشهر العقاري - أسوان',gov:'أسوان',addr:'أسوان - المركز',lat:24.0900,lng:32.9000}
 ];
 
 var ICONS = {
@@ -151,6 +223,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markers = [];
 var currentFilter = 'all';
+var searchTerm = '';
+var userMarker = null;
 
 function createIcon(type) {
   return L.divIcon({
@@ -167,9 +241,14 @@ function renderOffices(filter) {
   }
   markers = [];
   var count = 0;
+  var bounds = [];
   for (var i = 0; i < OFFICES.length; i++) {
     var o = OFFICES[i];
     if (filter !== 'all' && o.type !== filter) continue;
+    if (searchTerm) {
+      var st = searchTerm.toLowerCase();
+      if (o.gov.toLowerCase().indexOf(st) === -1 && o.addr.toLowerCase().indexOf(st) === -1 && o.name.toLowerCase().indexOf(st) === -1) continue;
+    }
     var marker = L.marker([o.lat, o.lng], { icon: createIcon(o.type) }).addTo(map);
     var popupHtml = '<h4>' + ICONS[o.type] + ' ' + o.name + '</h4>' +
       '<p>📍 ' + o.gov + '</p>' +
@@ -179,17 +258,78 @@ function renderOffices(filter) {
       '<p style="margin-top:6px;font-size:11px;color:#8ea0c4;text-align:center">⚠️ الموقع تقريبي — تأكد قبل الذهاب</p>';
     marker.bindPopup(popupHtml);
     markers.push(marker);
+    bounds.push([o.lat, o.lng]);
     count++;
   }
+  if (count > 0 && bounds.length > 0) {
+    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+  }
   document.getElementById('officeCount').innerHTML = 'عرض <strong style="color:#e6c258">' + count + '</strong> مكتب على الخريطة';
+}
+
+function searchOffices() {
+  searchTerm = document.getElementById('searchInput').value.trim();
+  renderOffices(currentFilter);
 }
 
 function filterOffices(filter, btn) {
   currentFilter = filter;
   var btns = document.querySelectorAll('.filter-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
   renderOffices(filter);
+}
+
+function findNearest() {
+  if (!navigator.geolocation) {
+    alert('المتصفح بتاعك مش بيدعم تحديد الموقع');
+    return;
+  }
+  document.getElementById('officeCount').innerHTML = '📍 بتحديد موقعك الحالي...';
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var myLat = pos.coords.latitude;
+    var myLng = pos.coords.longitude;
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([myLat, myLng], {
+      icon: L.divIcon({
+        html: '<div style="background:#e6c258;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 0 10px rgba(230,194,88,.6)"><span style="font-size:14px">📍</span></div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+        popupAnchor: [0, -14]
+      })
+    }).addTo(map);
+    userMarker.bindPopup('<h4 style="color:#e6c258;margin:0">أنت هنا 📍</h4>');
+    var distances = [];
+    for (var i = 0; i < OFFICES.length; i++) {
+      var o = OFFICES[i];
+      var dist = Math.sqrt(Math.pow(o.lat - myLat, 2) + Math.pow(o.lng - myLng, 2)) * 111;
+      distances.push({ office: o, dist: dist });
+    }
+    distances.sort(function(a, b) { return a.dist - b.dist; });
+    for (var i = 0; i < markers.length; i++) map.removeLayer(markers[i]);
+    markers = [];
+    var bounds = [[myLat, myLng]];
+    var showCount = Math.min(5, distances.length);
+    for (var i = 0; i < showCount; i++) {
+      var o = distances[i].office;
+      var distKm = distances[i].dist.toFixed(1);
+      var marker = L.marker([o.lat, o.lng], { icon: createIcon(o.type) }).addTo(map);
+      var popupHtml = '<h4>' + ICONS[o.type] + ' ' + o.name + '</h4>' +
+        '<p>📍 ' + o.gov + '</p>' +
+        '<p>🗺️ ' + o.addr + '</p>' +
+        '<p>📏 على بعد ~' + distKm + ' كم منك</p>' +
+        (o.phone ? '<p>📞 ' + o.phone + '</p>' : '') +
+        '<a href="https://www.google.com/maps/dir/?api=1&origin=' + myLat + ',' + myLng + '&destination=' + o.lat + ',' + o.lng + '" target="_blank" style="display:block;margin-top:10px;padding:10px 16px;background:#e6c258;color:#0F1E3D;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;text-align:center">📍 الاتجاهات من موقعك (GPS)</a>';
+      marker.bindPopup(popupHtml);
+      markers.push(marker);
+      bounds.push([o.lat, o.lng]);
+    }
+    userMarker.openPopup();
+    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+    document.getElementById('officeCount').innerHTML = 'عرض <strong style="color:#e6c258">' + markers.length + '</strong> أقرب مكتب لموقعك الحالي 📍';
+  }, function(err) {
+    document.getElementById('officeCount').innerHTML = '❌ ما قدرناش نحدد موقعك — تأكد إن GPS شغال و اسمح بالوصول للموقع';
+  }, { enableHighAccuracy: true, timeout: 10000 });
 }
 
 renderOffices('all');

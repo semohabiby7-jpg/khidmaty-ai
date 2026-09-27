@@ -38,3 +38,17 @@ as $$
 $$;
 
 grant execute on function public.get_members_count() to anon;
+
+-- ============================================================
+-- إصلاح تكرار البوستات في قناة التيلجرام (البوت كان بينزل 3 مرات)
+-- جدول agent_logs مقفول كان RLS فحماية التكرار (dedup) مكانتش تشتغل
+-- ============================================================
+alter table public.agent_logs enable row level security;
+
+drop policy if exists "agent_logs insert anon" on public.agent_logs;
+create policy "agent_logs insert anon" on public.agent_logs
+  for insert to anon with check (true);
+
+drop policy if exists "agent_logs read anon" on public.agent_logs;
+create policy "agent_logs read anon" on public.agent_logs
+  for select to anon using (true);

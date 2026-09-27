@@ -3,29 +3,6 @@ const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
 const WORKER_URL='https://khidmaty-agent.semohabiby7.workers.dev'
 
-/* ===== SUPABASE AUTH CLIENT (للـ Auth الحقيقي + الجلسة المحفوظة) ===== */
-let sb=null
-function ensureSB(){
-  if(sb) return sb
-  if(typeof window.supabase!=='undefined' && window.supabase.createClient){
-    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
-  }
-  return sb
-}
-ensureSB()
-
-/* عداد المسجلين (يقرأ من auth.users عبر RPC function) */
-async function loadUserCount(){
-  try{
-    const client=ensureSB()
-    if(!client) return
-    const {data,error}=await client.rpc('user_count')
-    if(!error && data!==null && data!==undefined){
-      document.querySelectorAll('.user-count').forEach(el=>el.textContent=data)
-    }
-  }catch(e){console.log('count err',e)}
-}
-
 /* ===== TOAST (إشعار نجاح/خطأ) ===== */
 function showToast(msg,type){
   type=type||'success'
@@ -154,8 +131,6 @@ let currentCat='all', currentSearch=''
 function renderServices(){
   const grid=document.getElementById('servicesGrid')
   let list=currentCat==='all'?services:services.filter(s=>s.category===currentCat)
-  /* الأكثر بحثاً تظهر الأول */
-  list=[...list].sort((a,b)=>(b.popular?1:0)-(a.popular?1:0))
   if(currentSearch){
     let expanded=currentSearch
     Object.keys(synMap).forEach(k=>{if(currentSearch.includes(k))expanded+=' '+synMap[k]})
@@ -170,7 +145,6 @@ function renderServices(){
   if(list.length===0){grid.innerHTML='<p class="no-results">لا توجد نتائج مطابقة 🤷‍♂️</p>';return}
   grid.innerHTML=list.map(s=>`
     <div class="svc-card" onclick="openService(${s.id})">
-      ${s.popular?'<span style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:0 12px 0 12px;font-family:Cairo,sans-serif">🔥 الأكثر بحثاً</span>':''}
       <div class="svc-icon">${s.icon}</div>
       <h3 class="svc-name">${s.name}</h3>
       <p class="svc-desc">${s.desc}</p>
@@ -386,14 +360,11 @@ function renderProviders(){
   const filterHtml=`<div style="margin-bottom:20px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center"><label style="font-weight:600;color:var(--text);font-size:14px">المحافظة:</label><select onchange="filterProviders(this.value)" style="padding:10px 16px;border-radius:8px;border:1px solid var(--gray-m);background:var(--card);color:var(--text);font-family:inherit;font-size:14px;min-width:220px;cursor:pointer"><option value="all" ${selectedGov==='all'?'selected':''}>📍 كل المحافظات</option>${ALL_GOVS.map(g=>`<option value="${g}" ${selectedGov===g?'selected':''}>${g}</option>`).join('')}</select></div>`
   if(filtered.length===0){grid.innerHTML=filterHtml+'<div style="text-align:center;padding:40px;background:var(--gray);border-radius:var(--radius)"><div style="font-size:40px;margin-bottom:12px">🔍</div><p style="color:var(--text-l)">لا توجد مقدمين في هذه المحافظة حالياً</p><p style="font-size:13px;margin-top:8px">كنت أول مقدم خدمة في منطقتك! <button onclick="openModal(\'providerModal\')" style="background:var(--gold);color:var(--navy);border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;margin-top:8px">سجل كمقدم خدمة</button></p></div>';return}
   grid.innerHTML=filterHtml+filtered.map(p=>{
-    const safeRating=typeof p.rating==='number'&&!isNaN(p.rating)?p.rating:0
-    const safeOrders=typeof p.orders==='number'&&!isNaN(p.orders)?p.orders:0
-    const safeBadge=typeof p.badge==='string'&&p.badge.length<=30&&!p.badge.includes('{')?p.badge:'مقدم خدمة'
-    const stars='★'.repeat(Math.floor(safeRating))+'☆'.repeat(5-Math.floor(safeRating))
-    const bc=safeBadge==='Top Provider'||safeBadge==='Recommended'?'badge-on':safeBadge==='جديد'?'badge-off':'badge-off'
+    const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
+    const bc=p.badge==='Top Provider'||p.badge==='Recommended'?'badge-on':p.badge==='جديد'?'badge-off':'badge-off'
     const verifiedIcon=p.verified?'✓':''
     const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
-    const servicesList=typeof p.services==='string'&&p.services.length<200?p.services:p.type
+    const servicesList=p.services||p.type
     return `
       <div class="prv-card" style="position:relative">
         ${p.verified?'<div style="position:absolute;top:10px;left:10px;background:var(--success);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700" title="موثوق">✓</div>':''}
@@ -402,10 +373,10 @@ function renderProviders(){
           <div class="prv-info"><h4>${p.name}</h4><span>${p.type} — ${p.gov}</span></div>
         </div>
         <div class="prv-badges">
-          <span class="svc-badge ${bc}">${safeBadge}</span>
-          <span class="svc-badge badge-off">💼 ${safeOrders} عملية</span>
+          <span class="svc-badge ${bc}">${p.badge}</span>
+          <span class="svc-badge badge-off">💼 ${p.orders} عملية</span>
         </div>
-        <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${safeRating})</span></p>
+        <p class="prv-stars">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
         <button onclick="openProviderProfile('${p.name.replace(/'/g,"")}')" style="width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;border:none;padding:11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;margin-bottom:8px">👁️ عرض الملف والتواصل</button>
         <div style="display:flex;gap:8px;margin-top:12px">
           <button onclick="requestProvider('${p.name.replace(/'/g,"")}')" style="flex:1;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px">📩 اطلب خدمة</button>
@@ -477,12 +448,9 @@ function openProviderProfile(name){
     document.body.appendChild(modal)
   }
   const ic=p.type.includes('محام')?'⚖️':p.type.includes('محاسب')?'📊':p.type.includes('مرور')?'🚗':p.type.includes('شرك')?'🏢':p.type.includes('تأمين')?'👴':'📋'
-  const pRating=typeof p.rating==='number'&&!isNaN(p.rating)?p.rating:0
-  const pOrders=typeof p.orders==='number'&&!isNaN(p.orders)?p.orders:0
-  const pBadgeText=typeof p.badge==='string'&&p.badge.length<=30&&!p.badge.includes('{')?p.badge:'مقدم خدمة'
-  const stars='★'.repeat(Math.floor(pRating))+'☆'.repeat(5-Math.floor(pRating))
+  const stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating))
   let pPhone=p.phone||'', pWa=p.whatsapp||''
-  if(!pPhone&&!pWa&&p.badge){try{const b=JSON.parse(p.badge);if(b&&typeof b==='object'){pPhone=b.phone||'';pWa=b.whatsapp||'';if(b.services&&typeof b.services==='string'&&b.services.length<200)p.services=b.services}}catch(e){}}
+  if(!pPhone&&!pWa&&p.badge){try{const b=JSON.parse(p.badge);if(b&&typeof b==='object'){pPhone=b.phone||'';pWa=b.whatsapp||''}}catch(e){}}
   const wa=(pWa||pPhone).replace(/[^0-9]/g,'')
   const waLink=wa?('https://wa.me/'+wa):''
   const telLink=pPhone?('tel:'+pPhone.replace(/[^0-9+]/g,'')):''
@@ -493,8 +461,8 @@ function openProviderProfile(name){
       <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-l));display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 10px">${ic}</div>
       <h2 style="margin:0 0 4px;color:var(--navy)">${p.name}</h2>
       <p style="color:var(--text-l);margin:0">${p.type} — ${p.gov}</p>
-      <div style="margin-top:8px"><span style="background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600">${pBadgeText}</span> <span style="background:var(--gray);color:var(--text);padding:4px 12px;border-radius:8px;font-size:12px">💼 ${pOrders} عملية</span></div>
-      <p style="margin-top:8px;color:var(--gold);font-size:18px">${stars} <span style="font-size:14px;color:var(--text-l)">(${pRating})</span></p>
+      <div style="margin-top:8px"><span style="background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600">${p.badge||'مقدم خدمة'}</span> <span style="background:var(--gray);color:var(--text);padding:4px 12px;border-radius:8px;font-size:12px">💼 ${p.orders||0} عملية</span></div>
+      <p style="margin-top:8px;color:var(--gold);font-size:18px">${stars} <span style="font-size:14px;color:var(--text-l)">(${p.rating})</span></p>
     </div>
     ${p.services?`<div style="background:var(--gray);border-radius:10px;padding:12px;margin-bottom:16px"><strong style="font-size:14px">الخدمات:</strong><br><span style="color:var(--text-l);font-size:14px">${p.services}</span></div>`:''}
     <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
@@ -519,6 +487,42 @@ function closeModal(id){document.getElementById(id).classList.remove('show')}
 /* ===== SUPABASE AUTH ===== */
 function makeEmail(phone){return 'khidmatyai+'+phone.replace(/[^0-9]/g,'')+'@gmail.com'}
 
+/* redirect للصفحة اللي كان عايزها بعد تسجيل الدخول (من auth-guard.js) */
+function redirectAfterLogin(){
+  var r=sessionStorage.getItem('redirect_after_login');
+  if(r){sessionStorage.removeItem('redirect_after_login');setTimeout(function(){window.location.href=r},1000)}
+}
+
+/* ===== عداد المسجلين (من Supabase) ===== */
+async function loadMembersCount(){
+  let n=-1
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/get_members_count',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+      body:'{}'
+    })
+    const d=await res.json()
+    if(typeof d==='number')n=d
+  }catch(e){console.log('rpc count error:',e)}
+  // fallback: عدّ بالـ content-range لو الدالة مش متطبقة لسه
+  if(n<0){
+    try{
+      const res=await fetch(SUPABASE_URL+'/rest/v1/users?select=id',{
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'count=exact','Range':'0-0'}
+      })
+      const cr=res.headers.get('content-range') // الصيغة: "0-0/العدد"
+      if(cr){const p=parseInt(cr.split('/')[1],10);if(!isNaN(p))n=p}
+    }catch(e){console.log('members count error:',e)}
+  }
+  if(n>0){
+    const line=document.getElementById('membersLine')
+    const cnt=document.getElementById('membersCount')
+    if(line)line.style.display='block'
+    if(cnt)cnt.textContent=n.toLocaleString('ar-EG')
+  }
+}
+
 async function handleRegister(e){
   e.preventDefault()
   const name=document.getElementById('regName').value.trim()
@@ -532,92 +536,110 @@ async function handleRegister(e){
   if(pass!==pass2){showToast('كلمتا المرور مش متطابقتين','error');return false}
   if(!terms){showToast('لازم توافق على الشروط والأحكام','error');return false}
   const email=emailInput||makeEmail(phone)
-  const client=ensureSB()
-  if(!client){showToast('مشكلة في تحميل نظام الدخول، حدّث الصفحة','error');return false}
-  const btn=document.querySelector('#registerModal .btn-submit')
-  if(btn){btn.textContent='جاري إنشاء الحساب...';btn.disabled=true}
+  const submitBtn=e.target.querySelector('button[type="submit"]')
+  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='جاري التسجيل...'}
+  let ok=false, dup=false
+  // 1) دالة التسجيل الآمنة (register_user) — بتتجاوز RLS وبتمنع تكرار الرقم
   try{
-    // تسجيل حقيقي عبر Supabase Auth (email + password) — الباسورد متشفّر تلقائياً
-    const {data,error}=await client.auth.signUp({
-      email,
-      password:pass,
-      options:{data:{name,phone,gov,role:'citizen'}}
+    const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/register_user',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_phone:phone,p_password:pass,p_name:name,p_gov:gov})
     })
-    if(btn){btn.textContent='إنشاء الحساب';btn.disabled=false}
-    if(error){
-      showToast(error.message||'حصلت مشكلة في التسجيل','error')
-      return false
-    }
-    // لو session اتعمل (email confirmation معطّل) → المستخدم logged in فوراً
-    if(data.session){
-      localStorage.setItem('sb_token',data.session.access_token)
-      localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email,role:'citizen'}))
-      showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
-      closeModal('registerModal')
-      updateAuthUI()
-      loadUserCount()
-    }else{
-      // email confirmation متفعّل — نوجّه المستخدم لتسجيل الدخول
-      showToast('تم إنشاء الحساب! جرّب تسجيل الدخول','success')
-      closeModal('registerModal')
-      const lp=document.getElementById('loginPhone'); if(lp)lp.value=phone
-      setTimeout(()=>openModal('loginModal'),300)
-    }
-  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error');if(btn){btn.textContent='إنشاء الحساب';btn.disabled=false}}
+    const data=await res.json()
+    if(data&&data.ok===true)ok=true
+    else if(data&&data.error==='duplicate')dup=true
+  }catch(err){console.log('rpc register error:',err)}
+  // 2) fallback قديم (لو SQL لسه مش متطبق): insert مباشر في جدول users
+  if(!ok&&!dup){
+    try{
+      const checkRes=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&select=id',{
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+      })
+      const checkData=await checkRes.json()
+      if(checkData&&checkData.length>0){dup=true}
+      else{
+        const res=await fetch(SUPABASE_URL+'/rest/v1/users',{
+          method:'POST',
+          headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+          body:JSON.stringify({phone,password:pass,name,gov,role:'citizen'})
+        })
+        const data=await res.json()
+        if(data&&data[0])ok=true
+      }
+    }catch(err){console.log('Supabase users insert error:',err)}
+  }
+  if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='إنشاء الحساب'}
+  if(dup){showToast('الرقم ده مسجل قبل كده — سجّل دخول بدلاً من ذلك','error');return false}
+  // 3) تسجيل الجلسة على الجهاز + تحديث العداد
+  localStorage.setItem('sb_token','local_'+Date.now())
+  localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email,role:'citizen'}))
+  showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
+  closeModal('registerModal')
+  updateAuthUI()
+  loadMembersCount()
+  redirectAfterLogin()
   return false
 }
 
 async function handleLogin(e){
   e.preventDefault()
-  const id=document.getElementById('loginPhone').value.trim()
+  const phone=document.getElementById('loginPhone').value.trim()
   const pass=document.getElementById('loginPass').value
-  if(!id||!pass){showToast('املأ البيانات!','error');return false}
-  // لو فيه @ → إيميل، لو رقم موبايل → نولّد الإيميل منه
-  const email=id.includes('@')?id:makeEmail(id)
-  const client=ensureSB()
-  if(!client){showToast('مشكلة في تحميل نظام الدخول، حدّث الصفحة','error');return false}
-  const btn=document.querySelector('#loginModal .btn-submit')
-  if(btn){btn.textContent='جاري الدخول...';btn.disabled=true}
+  if(!phone||!pass){showToast('املأ البيانات!','error');return false}
+  const submitBtn=e.target.querySelector('button[type="submit"]')
+  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='جاري الدخول...'}
+  let user=null
+  // 1) دالة الدخول الآمنة (login_user)
   try{
-    const {data,error}=await client.auth.signInWithPassword({email,password:pass})
-    if(btn){btn.textContent='دخول';btn.disabled=false}
-    if(error){
-      showToast(error.message||'بيانات الدخول غلط','error')
-      return false
+    const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/login_user',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_phone:phone,p_password:pass})
+    })
+    const data=await res.json()
+    if(data&&data.ok===true){
+      user={name:data.name||data.phone,gov:data.gov||'',phone:data.phone,email:makeEmail(data.phone),role:data.role||'citizen'}
     }
-    // حفظ الجلسة عشان auth-guard يسيب المستخدم يكمّل + يفضل فاكره
-    if(data.session){localStorage.setItem('sb_token',data.session.access_token)}
-    const u=data.user
-    const um=u.user_metadata||{}
-    localStorage.setItem('sb_user',JSON.stringify({name:um.name||um.phone||id,gov:um.gov||'',phone:um.phone||id,email:u.email,role:um.role||'citizen'}))
-    showToast('أهلاً '+(um.name||id)+' 👋')
+  }catch(err){console.log('rpc login error:',err)}
+  // 2) fallback قديم (لو SQL لسه مش متطبق): استعلم جدول users مباشرة
+  if(!user){
+    try{
+      const res=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&password=eq.'+encodeURIComponent(pass)+'&select=*',{
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+      })
+      const data=await res.json()
+      if(data&&data.length>0){
+        const u=data[0]
+        user={name:u.name||u.phone,gov:u.gov||'',phone:u.phone,email:makeEmail(u.phone),role:u.role||'citizen'}
+      }
+    }catch(err){console.log('legacy login error:',err)}
+  }
+  if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='دخول'}
+  if(user){
+    localStorage.setItem('sb_token','local_'+Date.now())
+    localStorage.setItem('sb_user',JSON.stringify(user))
+    showToast('أهلاً '+user.name+' 👋')
     closeModal('loginModal')
     updateAuthUI()
-    // لو فيه صفحة محفوظة قبل الدخول، ارجع ليها
-    const red=sessionStorage.getItem('redirect_after_login')
-    if(red){sessionStorage.removeItem('redirect_after_login');window.location.href=red}
-  }catch(err){showToast('حصلت مشكلة، جرّب تاني','error');if(btn){btn.textContent='دخول';btn.disabled=false}}
+    loadMembersCount()
+    redirectAfterLogin()
+  }else{
+    showToast('رقم الموبايل أو كلمة المرور غلط','error')
+  }
   return false
 }
 
-async function logout(){
-  const client=ensureSB()
-  if(client){try{await client.auth.signOut()}catch(e){}}
+function logout(){
   localStorage.removeItem('sb_token')
   localStorage.removeItem('sb_user')
   updateAuthUI()
   showToast('تم تسجيل الخروج 👋')
 }
 
-async function updateAuthUI(){
-  const client=ensureSB()
+function updateAuthUI(){
+  const token=localStorage.getItem('sb_token')
   const user=JSON.parse(localStorage.getItem('sb_user')||'{}')
-  let token=null
-  if(client){
-    try{const {data}=await client.auth.getSession(); if(data&&data.session) token=data.session.access_token}catch(e){}
-  }else{
-    token=localStorage.getItem('sb_token')
-  }
   const btns=document.querySelector('.header-btns')
   if(token&&user.name){
     if(btns)btns.innerHTML='<span style="color:var(--navy);font-weight:600;font-size:14px">👋 '+user.name+'</span><button class="btn-gold" onclick="logout()">خروج</button>'
@@ -629,18 +651,7 @@ async function updateAuthUI(){
 }
 
 updateAuthUI()
-loadUserCount()
-
-/* listener لتحديث الواجهة عند تغيّر الـ session (تسجيل دخول/خروج) */
-;(function(){
-  const c=ensureSB()
-  if(c){
-    c.auth.onAuthStateChange((event,session)=>{
-      updateAuthUI()
-      loadUserCount()
-    })
-  }
-})()
+loadMembersCount()
 
 async function handleProvider(e){
   e.preventDefault()
@@ -753,12 +764,12 @@ function renderGovLinks(){
   const grid=document.getElementById('govLinksGrid')
   if(!grid)return
   const seen=new Set()
-  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated,names:services.filter(x=>x.source===s.source).map(x=>x.name).join(' ')})).filter(x=>{
-    if(seen.has(x.source))return false
-    seen.add(x.source);return true
+  const links=services.map(s=>({link:s.link,source:s.source,icon:s.icon,cat:s.category,updated:s.updated,names:services.filter(x=>x.link===s.link).map(x=>x.name).join(' ')})).filter(x=>{
+    if(seen.has(x.link))return false
+    seen.add(x.link);return true
   })
   const catName=id=>{const c=categories.find(c=>c.id===id);return c?c.icon+' '+c.name:id}
-  const svcCount=source=>services.filter(s=>s.source===source).length
+  const svcCount=link=>services.filter(s=>s.link===link).length
   
   // Search box with voice + search button
   const searchBox=`<div class="gov-search-wrap">
@@ -787,7 +798,7 @@ function renderGovLinks(){
       <p class="svc-desc" style="font-size:12px">${catName(l.cat)}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
         <span style="background:var(--gold);color:var(--navy);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600">✓ موثوق</span>
-        <span style="background:var(--gray);color:var(--text);padding:3px 8px;border-radius:6px;font-size:11px">${svcCount(l.source)} خدمة</span>
+        <span style="background:var(--gray);color:var(--text);padding:3px 8px;border-radius:6px;font-size:11px">${svcCount(l.link)} خدمة</span>
         <span style="background:rgba(15,30,61,.08);color:var(--navy);padding:3px 8px;border-radius:6px;font-size:11px">📅 ${l.updated||'2026'}</span>
       </div>
       <span class="svc-link">زيارة الموقع ←</span>

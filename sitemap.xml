@@ -22,13 +22,19 @@
     <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/offices.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/calc.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/social.html</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/faq.html</loc>
@@ -52,13 +58,13 @@
     <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/privacy.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/terms.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/services/traffic.html</loc>
@@ -247,13 +253,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/services/health-insurance.html</loc>
+    <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/services/health-insurance-card.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/services/health-insurance-card.html</loc>
+    <loc>https://semohabiby7-jpg.github.io/khidmaty-ai/services/health-insurance.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -1,4 +1,4 @@
-const CACHE='khidmaty-v2'
+const CACHE='khidmaty-v3'
 const ASSETS=[
   './',
   './index.html',
@@ -20,20 +20,20 @@ self.addEventListener('activate',e=>{
 })
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return
+  const isHTML=e.request.mode==='navigate'||(e.request.destination==='document')||(e.request.url.endsWith('.html'))
   e.respondWith(
-    caches.match(e.request).then(cached=>{
-      const fetched=fetch(e.request).then(res=>{
-        if(res&&res.status===200){
-          const clone=res.clone()
-          caches.open(CACHE).then(c=>c.put(e.request,clone))
-        }
-        return res
-      }).catch(()=>{
-        if(cached)return cached
-        if(e.request.mode==='navigate')return caches.match('./index.html')
-        return new Response('Offline', {status:503})
-      })
-      return cached||fetched
+    (isHTML?fetch(e.request):caches.match(e.request).then(cached=>cached||fetch(e.request)))
+    .then(res=>{
+      if(res&&res.status===200){
+        const clone=res.clone()
+        caches.open(CACHE).then(c=>c.put(e.request,clone))
+      }
+      return res
     })
+    .catch(()=>caches.match(e.request).then(cached=>{
+      if(cached)return cached
+      if(e.request.mode==='navigate')return caches.match('./index.html')
+      return new Response('Offline',{status:503})
+    }))
   )
 })

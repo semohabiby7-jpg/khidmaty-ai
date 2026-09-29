@@ -48,7 +48,7 @@
 ---
 
 ## 🔗 روابط مهمة
-- **الموقع:** https://semohabiby7-jpg.github.io/khidmaty-ai/
+- **الموقع:** https://khidmatyai.com/
 - **GitHub:** https://github.com/semohabiby7-jpg/khidmaty-ai
 - **Supabase:** https://puhdastfiswcmbnczvwx.supabase.co
 - **Cloudflare Worker:** https://wispy-pine-7fd2.semohabiby7.workers.dev/

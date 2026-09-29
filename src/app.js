@@ -477,7 +477,7 @@ function openProviderProfile(name){
 
 function shareProvider(name){
   const text='شوف '+name+' على خِدْمَتي AI — مقدم خدمة موثوق 🔗'
-  const url='https://semohabiby7-jpg.github.io/khidmaty-ai/#providers'
+  const url='https://khidmatyai.com/#providers'
   window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+url),'_blank')
 }
 
@@ -1182,7 +1182,7 @@ function copyLink(url){
 }
 function shareSite(){
   const text='خِدْمَتي AI - مصلحتك في مكان واحد! 🎯'
-  const url='https://semohabiby7-jpg.github.io/khidmaty-ai/'
+  const url='https://khidmatyai.com/'
   const full=text+'\n'+url
   if(navigator.share){
     navigator.share({title:'خِدْمَتي AI',text:text,url:url}).catch(()=>{})
@@ -1479,7 +1479,7 @@ function copyArticleLink(url){
 /* ===== Share Site Menu (footer) ===== */
 function shareSiteMenu(e){
   e.stopPropagation()
-  const url='https://semohabiby7-jpg.github.io/khidmaty-ai/'
+  const url='https://khidmatyai.com/'
   const title='خِدْمَتي AI - مصلحتك في مكان واحد!'
   if(navigator.share){
     navigator.share({title:'خِدْمَتي AI',text:title,url:url}).catch(()=>{})

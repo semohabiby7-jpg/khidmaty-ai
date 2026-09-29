@@ -73,7 +73,7 @@
 
 ## 🔑 المفاتيح والروابط (محفوظة)
 
-- **الموقع:** https://semohabiby7-jpg.github.io/khidmaty-ai/
+- **الموقع:** https://khidmatyai.com/
 - **GitHub:** https://github.com/semohabiby7-jpg/khidmaty-ai
 - **Supabase URL:** https://puhdastfiswcmbnczvwx.supabase.co
 - **Supabase anon key:** [محفوظ في الـ workspace]

@@ -1,4 +1,4 @@
-const CACHE='khidmaty-v3'
+const CACHE='khidmaty-v4'
 const ASSETS=[
   './',
   './index.html',

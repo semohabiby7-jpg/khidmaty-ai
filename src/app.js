@@ -296,11 +296,25 @@ function askAIAbout(name){
   },400)
 }
 
+/* ===== Voice errors → clear Arabic guidance ===== */
+function micErrToast(err){
+  const tips={
+    'not-allowed':'إذن المايك مرفوض 🎤<br>افتح الموقع في متصفح Chrome مباشرة (مش من جوه تليجرام) واسمح للمايك من علامة القفل 🔒 جنب العنوان',
+    'service-not-allowed':'خدمة التعرف على الصوت مش متاحة على الجهاز<br>جرّب متصفح Chrome أو حدّث خدمات Google',
+    'audio-capture':'المايك مش متاح دلوقتي 🎤<br>اتأكد إن المايك شغال على الجهاز',
+    'network':'التسجيل الصوتي محتاج إنترنت ثابت<br>شيك على اتصالك واضغط تاني',
+    'no-speech':'مسمعتكش اتكلمت 🎤<br>اضغط تاني واتكلم بصوت واضح',
+    'aborted':''
+  }
+  const m=tips[err]||('حصل خطأ في التسجيل الصوتي: '+(err||'غير معروف')+'<br>جرّب تاني')
+  if(m)showToast(m,'error')
+}
+
 /* ===== AI Voice Input (Web Speech API) ===== */
 let _aiRec=null,_aiListening=false
 function aiVoiceInput(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition
-  if(!SR){showToast('المتصفح مش بيدعم الصوت 🎤<br>جرّب Chrome أو Safari','error');return}
+  if(!SR){showToast('المتصفح مش بيدعم الصوت 🎤<br>افتح الموقع في متصفح Chrome مباشرة (مش من جوه تليجرام) وحاول تاني','error');return}
   const micIcon=document.getElementById('aiMicIcon')
   const voiceBtn=document.getElementById('aiVoiceBtn')
   if(_aiListening){if(_aiRec)_aiRec.stop();return}
@@ -323,7 +337,7 @@ function aiVoiceInput(){
       _aiListening=false
       if(micIcon){micIcon.textContent='🎤';micIcon.style.animation=''}
       if(voiceBtn)voiceBtn.classList.remove('recording')
-      if(e.error!=='no-speech'&&e.error!=='aborted')console.log('ai voice error:',e.error)
+      if(e.error!=='aborted'){console.log('ai voice error:',e.error);micErrToast(e.error)}
     }
     _aiRec.onresult=(e)=>{
       let txt=''
@@ -849,7 +863,7 @@ function govSearchSubmit(){
 let _govRec=null,_govListening=false
 function govVoiceSearch(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition
-  if(!SR){showToast('المتصفح مش بيدعم البحث بالصوت 🎤<br>جرّب Chrome أو Safari','error');return}
+  if(!SR){showToast('المتصفح مش بيدعم البحث بالصوت 🎤<br>افتح الموقع في متصفح Chrome مباشرة (مش من جوه تليجرام) وحاول تاني','error');return}
   const micIcon=document.getElementById('govMicIcon')
   if(_govListening){
     if(_govRec)_govRec.stop()
@@ -871,7 +885,7 @@ function govVoiceSearch(){
     _govRec.onerror=(e)=>{
       _govListening=false
       if(micIcon){micIcon.textContent='🎤';micIcon.style.animation=''}
-      if(e.error!=='no-speech'&&e.error!=='aborted')console.log('voice error:',e.error)
+      if(e.error!=='aborted'){console.log('voice error:',e.error);micErrToast(e.error)}
     }
     _govRec.onresult=(e)=>{
       let txt=''

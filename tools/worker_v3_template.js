@@ -25,7 +25,7 @@
 
 const SUPABASE_URL = 'https://puhdastfiswcmbnczvwx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'; // مفتاح عام — موجود أصلًا في كود الموقع
-const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent';
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent';
 const CHANNEL_USERNAME = '@khdmatyai';
 const SITE_URL = 'https://khidmatyai.com/';
 

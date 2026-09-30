@@ -598,7 +598,7 @@ async function callGemini(prompt, env, retries) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 500, thinkingConfig: { thinkingBudget: 0 } }
+          generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
         })
       });
       var data = await res.json();
@@ -624,7 +624,7 @@ async function callGeminiChat(contents, env, retries) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: contents,
-          generationConfig: { temperature: 0.5, maxOutputTokens: 1000, thinkingConfig: { thinkingBudget: 0 } }
+          generationConfig: { temperature: 0.5, maxOutputTokens: 1000 }
         })
       });
       var data = await res.json();

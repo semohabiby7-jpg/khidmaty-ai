@@ -327,6 +327,7 @@ function aiVoiceInput(){
       _aiListening=true
       if(micIcon){micIcon.textContent='🔴';micIcon.style.animation='pulse 1s infinite'}
       if(voiceBtn)voiceBtn.classList.add('recording')
+      showToast('🔴 اتكلم دلوقتي... أنا سامعك 🎤','success')
     }
     _aiRec.onend=()=>{
       _aiListening=false
@@ -364,6 +365,9 @@ function goToAI(){
 }
 function needHelp(){
   document.getElementById('providers').scrollIntoView({behavior:'smooth'})
+}
+function goToGovLinks(){
+  document.getElementById('links').scrollIntoView({behavior:'smooth'})
 }
 
 /* ===== Render Providers ===== */
@@ -877,6 +881,7 @@ function govVoiceSearch(){
     _govRec.onstart=()=>{
       _govListening=true
       if(micIcon){micIcon.textContent='🔴';micIcon.style.animation='pulse 1s infinite'}
+      showToast('🔴 اتكلم... هندوّر على الخدمة 🎤','success')
     }
     _govRec.onend=()=>{
       _govListening=false

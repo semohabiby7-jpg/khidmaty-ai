@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>رحلات الخدمة — اشرحها لي أو اعملها معايا خطوة بخطوة | خِدْمَتي AI</title>
+<meta name="description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: بدل فاقد للرقم القومي، استخراج معاش التأمينات، بطاقة أول مرة لبلوغ 15 سنة.">
+<meta name="keywords" content="رحلات الخدمة, خطوات الخدمات الحكومية, بدل فاقد, معاش التأمينات, بطاقة الرقم القومي, خِدْمَتي">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.wrap{max-width:900px;margin:0 auto 50px;padding:0 20px}
+.hero{text-align:center;padding:34px 0 26px}
+.hero .emoji{font-size:56px;margin-bottom:10px}
+.hero h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 10px}
+.hero p{font-size:15px;color:#8ea0c4;margin:0 auto;max-width:560px;line-height:1.7}
+.badge2{display:inline-block;font-size:12px;font-weight:800;color:#0F1E3D;background:linear-gradient(135deg,#e6c258,#d4a843);padding:4px 14px;border-radius:20px;margin-bottom:14px}
+.grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.jcard{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:22px;display:flex;flex-direction:column;transition:all .3s;text-decoration:none;color:inherit}
+.jcard:hover{transform:translateY(-4px);border-color:#e6c258;box-shadow:0 10px 26px rgba(230,194,88,.12)}
+.jcard .emoji{font-size:40px;margin-bottom:10px}
+.jcard h3{font-size:17px;font-weight:800;color:#fff;margin:0 0 6px}
+.jcard .sub{font-size:13px;color:#8ea0c4;line-height:1.6;margin:0 0 14px}
+.jcard .meta{font-size:12px;color:#5a6a8a;margin-bottom:4px;display:flex;gap:6px;align-items:center}
+.jcard .meta b{color:#c0cee0;font-weight:600}
+.jcard .cta{margin-top:auto;padding-top:16px;font-size:14px;font-weight:800;color:#e6c258}
+.section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 16px;display:flex;align-items:center;gap:8px}
+.svc-header{text-align:center;padding:26px 0 18px}
+.svc-header .emoji{font-size:56px;margin-bottom:10px}
+.svc-header h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px}
+.svc-header p{font-size:15px;color:#8ea0c4;margin:0 0 14px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.info-item{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:10px;padding:14px}
+.info-label{font-size:12px;color:#8ea0c4;margin-bottom:6px;font-weight:600}
+.info-value{font-size:14px;color:#fff;font-weight:600}
+.official-link{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px}
+.official-link:hover{background:rgba(59,130,246,.25)}
+.warn-banner{background:rgba(230,194,88,.08);border:1px solid rgba(230,194,88,.45);border-radius:12px;padding:13px 16px;font-size:13.5px;color:#e6c258;font-weight:600;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+.tabs{display:flex;border:1px solid #1e3556;border-radius:14px;overflow:hidden;margin-bottom:22px;background:rgba(15,30,61,.4)}
+.tab{flex:1;padding:14px 8px;text-align:center;cursor:pointer;font-weight:800;font-size:15px;color:#8ea0c4;background:transparent;border:none;font-family:Cairo,sans-serif;transition:all .25s}
+.tab.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D}
+.path-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.path-chip{padding:10px 18px;border-radius:12px;border:1px solid #1e3556;background:rgba(15,30,61,.5);color:#c0cee0;cursor:pointer;font-weight:700;font-size:14px;font-family:Cairo,sans-serif;transition:all .2s}
+.path-chip.active{border-color:#e6c258;color:#e6c258;background:rgba(230,194,88,.08)}
+.best-for{font-size:13px;color:#8ea0c4;margin:0 0 18px;background:rgba(15,30,61,.4);border-radius:10px;padding:10px 14px;border:1px dashed #1e3556}
+.wiz-progress{position:sticky;top:74px;z-index:60;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:12px;padding:12px 16px;margin-bottom:18px;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.wiz-progress .pct{font-size:13px;font-weight:900;color:#e6c258;min-width:44px;text-align:center}
+.wiz-progress .cnt{font-size:12px;color:#8ea0c4;font-weight:700;white-space:nowrap}
+.bar{flex:1;height:9px;background:#0d1a33;border:1px solid #1e3556;border-radius:6px;overflow:hidden;display:block}
+.bar-fill{height:100%;background:linear-gradient(90deg,#d4a843,#e6c258,#10b981);width:0%;transition:width .35s ease;border-radius:6px;display:block}
+.step-row{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid #1e3556;align-items:flex-start;transition:opacity .25s}
+.step-row:last-child{border-bottom:none}
+.check{width:34px;height:34px;min-width:34px;border-radius:50%;border:2px solid #3a4f77;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:transparent;transition:all .25s;font-family:Cairo,sans-serif;margin-top:2px}
+.check:hover{border-color:#e6c258}
+.step-row.done .check{background:#10b981;border-color:#10b981;color:#fff}
+.step-body{flex:1}
+.step-t{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.step-row.done .step-t{color:#5a6a8a}
+.step-d{font-size:13px;color:#8ea0c4;line-height:1.6;margin-bottom:8px}
+.step-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.time-chip{font-size:11px;color:#10b981;background:rgba(16,185,129,.12);padding:3px 10px;border-radius:12px;font-weight:700}
+.chip{font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(59,130,246,.12);color:#7ea6f7;border:1px solid rgba(59,130,246,.25);font-weight:600}
+.celebrate{text-align:center;padding:30px 20px;border:1px solid #10b981;border-radius:16px;background:rgba(16,185,129,.07);margin-bottom:18px}
+.celebrate .big{font-size:48px;margin-bottom:8px}
+.celebrate h3{font-size:19px;font-weight:900;color:#10b981;margin:0 0 6px}
+.celebrate p{font-size:13.5px;color:#c0cee0;margin:0 0 16px;line-height:1.6}
+.btn-gold{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;padding:12px 28px;border-radius:28px;font-weight:800;font-size:14.5px;text-decoration:none;font-family:Cairo,sans-serif;cursor:pointer;transition:all .3s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.btn-ghost{background:transparent;border:1px solid #3a4f77;color:#8ea0c4;padding:11px 22px;border-radius:26px;cursor:pointer;font-weight:700;font-size:13.5px;font-family:Cairo,sans-serif;transition:all .2s}
+.btn-ghost:hover{border-color:#e6c258;color:#e6c258}
+.wiz-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.docs-list{list-style:none;padding:0;margin:0}
+.docs-list li{padding:10px 0 10px 28px;position:relative;border-bottom:1px solid #1e3556;font-size:14px;color:#c0cee0;line-height:1.6}
+.docs-list li:last-child{border-bottom:none}
+.docs-list li::before{content:'📄';position:absolute;right:0;top:10px}
+.fees-table{width:100%;border-collapse:collapse}
+.fees-table th{font-size:13px;color:#e6c258;font-weight:800;text-align:right;padding:11px 12px;border-bottom:2px solid #1e3556;background:rgba(15,30,61,.5)}
+.fees-table td{font-size:14px;color:#c0cee0;padding:11px 12px;border-bottom:1px solid #1e3556;font-weight:600}
+.fees-table tr:last-child td{border-bottom:none}
+.fees-table td:first-child{color:#fff;font-weight:700}
+details.acc{border:1px solid #1e3556;border-radius:12px;padding:0 16px;margin-bottom:10px;background:rgba(15,30,61,.4)}
+details.acc summary{cursor:pointer;font-weight:700;color:#fff;padding:14px 22px 14px 0;font-size:14.5px;list-style:none;position:relative}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:'+';color:#e6c258;font-size:20px;font-weight:900;position:absolute;left:0;top:12px}
+details.acc[open] summary::after{content:'−'}
+details.acc .acc-a{font-size:13.5px;color:#8ea0c4;line-height:1.7;padding:0 0 15px}
+.clarify{display:flex;gap:8px;flex-wrap:wrap}
+.clarify .q{font-size:13px;color:#7ea6f7;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);padding:8px 14px;border-radius:12px;font-weight:600}
+.hint{font-size:12.5px;color:#5a6a8a;text-align:center;margin:26px 0 0;line-height:1.7}
+.hint b{color:#8ea0c4}
+.ask-cta{text-align:center;padding:30px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin:26px 0 20px}
+.ask-cta h3{font-size:20px;font-weight:800;color:#fff;margin:0 0 8px}
+.ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+@media(max-width:700px){.grid-cards{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}.wiz-progress{top:68px;flex-wrap:wrap}.bar{min-width:100%;order:3}}
+</style>
+<link rel="canonical" href="https://khidmatyai.com/journeys.html">
+</head>
+<body>
+<div class="header">
+  <a href="index.html">← الرئيسية</a>
+  <div class="header-logo">
+    <img src="assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+<div class="breadcrumb" id="bc"><a href="index.html">الرئيسية</a> › رحلات الخدمة</div>
+<div class="wrap" id="app">
+  <div class="hero">
+    <div class="emoji">🗺️</div>
+    <div class="badge2">خِدْمَتي 2.0 — محرك رحلات الخدمة</div>
+    <h1>خدمتك الحكومية… خطوة بخطوة لحد ما تخلصها</h1>
+    <p>اختار خدمتك واعرف كل حاجة عنها في تاب «اشرحها لي» — أو كمّلها فعليًا معانا في تاب «اعملها معايا» بتشيك ليست بتحفظ مكانك على جهازك، وترجع تكمّل من حيث وقفت.</p>
+  </div>
+  <div class="grid-cards" id="cards"></div>
+  <p class="hint">💾 تقدمك بيتحفظ على جهازك بس (LocalStorage) — من غير حساب ومن غير بيانات شخصية. <b>جرّب تيجي تاني في أي وقت، هتلاقي خطواتك مستنية.</b></p>
+</div>
+<script>
+var DATA=null,svc=null,tab='explain',curPath=null,done=new Set();
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function $(id){return document.getElementById(id)}
+
+async function init(){
+  try{
+    var r=await fetch('journeys.json',{cache:'no-cache'});
+    DATA=await r.json();
+  }catch(e){
+    $('cards').innerHTML='<div class="section" style="grid-column:1/-1"><h2>⚠️ تعذر تحميل البيانات</h2><p style="color:#8ea0c4;font-size:14px">حدث خطأ في تحميل الرحلات — جرّب تحديث الصفحة مرة تانية.</p></div>';
+    return;
+  }
+  var p=new URLSearchParams(location.search);
+  var id=p.get('service');
+  svc=(DATA.services||[]).filter(function(s){return s.id===id})[0];
+  if(!svc){renderChooser();return}
+  curPath=svc.paths[0];
+  tab=(p.get('mode')==='do')?'do':'explain';
+  renderService();
+}
+
+function renderChooser(){
+  var h='';
+  (DATA.services||[]).forEach(function(s){
+    h+='<a class="jcard" href="journeys.html?service='+encodeURIComponent(s.id)+'">'
+      +'<div class="emoji">'+s.emoji+'</div>'
+      +'<h3>'+esc(s.title)+'</h3>'
+      +'<p class="sub">'+esc(s.subtitle)+'</p>'
+      +'<div class="meta">🏛️ <b>'+esc(s.authority)+'</b></div>'
+      +'<div class="meta">⏱️ <b>'+esc(s.duration)+'</b></div>'
+      +'<div class="cta">ابدأ الرحلة ←</div>'
+      +'</a>';
+  });
+  $('cards').innerHTML=h;
+}
+
+function renderService(){
+  document.title=svc.title+' — رحلة خطوة بخطوة | خِدْمَتي AI';
+  $('bc').innerHTML='<a href="index.html">الرئيسية</a> › <a href="journeys.html">رحلات الخدمة</a> › '+esc(svc.title);
+  var h='<div class="svc-header"><div class="emoji">'+svc.emoji+'</div>'
+    +'<h1>'+esc(svc.title)+'</h1><p>'+esc(svc.subtitle)+'</p></div>'
+    +'<div class="info-grid">'
+    +'<div class="info-item"><div class="info-label">🏛️ الجهة المسؤولة</div><div class="info-value">'+esc(svc.authority)+'</div></div>'
+    +'<div class="info-item"><div class="info-label">⏱️ مدة التنفيذ</div><div class="info-value">'+esc(svc.duration)+'</div></div>'
+    +'<div class="info-item"><div class="info-label">🌐 التقديم</div><div class="info-value">'+(svc.online?'متاح أونلاين':'من الجهة مباشرة')+'</div></div>'
+    +'<div class="info-item"><div class="info-label">🔗 الموقع الرسمي</div><div class="info-value"><a class="official-link" target="_blank" rel="noopener" href="'+esc(svc.official_url)+'">'+esc(svc.official_label)+' ↗</a></div></div>'
+    +'</div>';
+  if(svc.warning)h+='<div class="warn-banner"><span>⚠️</span><span>'+esc(svc.warning)+'</span></div>';
+  h+='<div class="tabs">'
+    +'<button class="tab" id="tab-explain" onclick="setTab(\'explain\')">📖 اشرحها لي</button>'
+    +'<button class="tab" id="tab-do" onclick="setTab(\'do\')">🚀 اعملها معايا</button>'
+    +'</div>'
+    +'<div id="panel"></div>'
+    +'<div class="ask-cta"><h3>🤖 محتاج مساعدة؟</h3><p>اسأل خِدْمَتي AI — احكيلي حالتك بالعربي و هقولك تعمل إيه</p><a href="index.html#ask-ai" class="btn-gold">اسأل خِدْمَتي AI ←</a></div>';
+  $('app').innerHTML=h;
+  setTab(tab);
+}
+
+function setTab(t){
+  tab=t;
+  $('tab-explain').className='tab'+(t==='explain'?' active':'');
+  $('tab-do').className='tab'+(t==='do'?' active':'');
+  if(t==='explain')renderExplain();else renderWizard();
+}
+
+function renderExplain(){
+  var h='';
+  if(svc.requirements&&svc.requirements.length){
+    h+='<div class="section"><h2>✅ شروط الخدمة</h2><ul class="docs-list">'
+      +svc.requirements.map(function(r){return'<li>'+esc(r)+'</li>'}).join('')
+      +'</ul></div>';
+  }
+  if(svc.fees&&svc.fees.length){
+    h+='<div class="section"><h2>💳 الرسوم والفئات</h2><table class="fees-table"><tr><th>الفئة</th><th>الرسوم</th><th>مدة التنفيذ</th></tr>'
+      +svc.fees.map(function(f){return'<tr><td>'+esc(f.tier)+'</td><td>'+esc(f.price)+'</td><td>'+esc(f.time)+'</td></tr>'}).join('')
+      +'</table><p style="font-size:12px;color:#5a6a8a;margin:12px 0 0">الرسوم قابلة للتغيير — راجع الجهة وقت التقديم.</p></div>';
+  }
+  if(svc.troubleshooting&&svc.troubleshooting.length){
+    h+='<div class="section"><h2>🛠️ لو حصلت مشكلة</h2>'
+      +svc.troubleshooting.map(function(t){return'<details class="acc"><summary>'+esc(t.q)+'</summary><div class="acc-a">'+esc(t.a)+'</div></details>'}).join('')
+      +'</div>';
+  }
+  if(svc.clarifying&&svc.clarifying.length){
+    h+='<div class="section"><h2>💬 أسئلة تظبط طريقك</h2><div class="clarify">'
+      +svc.clarifying.map(function(q){return'<span class="q">'+esc(q)+'</span>'}).join('')
+      +'</div><p style="font-size:12.5px;color:#5a6a8a;margin:14px 0 0">عرفت إجاباتك؟ كمّل في تاب «🚀 اعملها معايا» وهتخلص أسرع.</p></div>';
+  }
+  h+='<div style="text-align:center;margin-top:6px"><button class="btn-gold" onclick="setTab(\'do\')">🚀 خلّينا نعملها مع بعض</button></div>';
+  $('panel').innerHTML=h;
+}
+
+function wizKey(){return'kh_wiz_'+svc.id+'_'+curPath.id}
+
+function renderWizard(){
+  try{done=new Set(JSON.parse(localStorage.getItem(wizKey())||'[]'))}catch(e){done=new Set()}
+  var h='';
+  if((svc.paths||[]).length>1){
+    h+='<div class="path-tabs">'+svc.paths.map(function(p){
+      return'<button class="path-chip'+(p.id===curPath.id?' active':'')+'" onclick="setPath(\''+p.id+'\')">'+esc(p.label)+'</button>'
+    }).join('')+'</div>';
+  }
+  if(curPath.best_for)h+='<div class="best-for">🎯 المسار ده مناسب: '+esc(curPath.best_for)+'</div>';
+  h+='<div class="wiz-progress" id="wprog"><span class="cnt" id="wcnt"></span><span class="bar"><span class="bar-fill" id="wbar"></span></span><span class="pct" id="wpct"></span></div>';
+  h+='<div class="section" id="stepsbox"><h2>👣 خطوات الرحلة — دوس على الدايرة وانت تخلّص</h2>';
+  curPath.steps.forEach(function(s,i){
+    h+='<div class="step-row" id="st'+i+'"><button class="check" onclick="toggleStep('+i+')" aria-label="تمت الخطوة">✓</button><div class="step-body">'
+      +'<div class="step-t">'+(i+1)+'. '+esc(s.title)+'</div>'
+      +'<div class="step-d">'+esc(s.desc)+'</div>'
+      +'<div class="step-meta"><span class="time-chip">⏱ '+esc(s.time)+'</span>'
+      +(s.docs||[]).map(function(d){return'<span class="chip">📄 '+esc(d)+'</span>'}).join('')
+      +'</div></div></div>';
+  });
+  h+='</div><div class="wiz-actions"><button class="btn-ghost" onclick="resetWiz()">↻ ابدأ من الأول</button></div>';
+  h+='<div id="cel"></div>';
+  $('panel').innerHTML=h;
+  updateProg();
+}
+
+function setPath(pid){
+  var p=svc.paths.filter(function(x){return x.id===pid})[0];
+  if(!p)return;
+  curPath=p;renderWizard();
+}
+
+function toggleStep(i){
+  if(done.has(i))done.delete(i);else done.add(i);
+  try{localStorage.setItem(wizKey(),JSON.stringify(Array.from(done)))}catch(e){}
+  updateProg();
+}
+
+function updateProg(){
+  var n=curPath.steps.length,c=done.size,pc=n?Math.round(c/n*100):0;
+  var bar=$('wbar'),pct=$('wpct'),cnt=$('wcnt');
+  if(bar)bar.style.width=pc+'%';
+  if(pct)pct.textContent=pc+'%';
+  if(cnt)cnt.textContent=c+' من '+n;
+  curPath.steps.forEach(function(s,i){
+    var row=$('st'+i);
+    if(row)row.className='step-row'+(done.has(i)?' done':'');
+  });
+  var cel=$('cel');
+  if(cel){
+    if(n&&c===n){
+      cel.innerHTML='<div class="celebrate"><div class="big">🎉</div><h3>مبروك! خلصت كل الخطوات</h3>'
+        +'<p>خلاص، كمّلت رحلة «'+esc(svc.title)+'» كاملة. لو لسه في أي خطوة محتاجة مساعدة، احكيلي للبوت وهيساعدك.</p>'
+        +'<a class="btn-gold" href="index.html#ask-ai">اسأل خِدْمَتي AI ←</a> '
+        +'<button class="btn-ghost" onclick="resetWiz()">↻ امسح التقدم</button></div>';
+    }else{cel.innerHTML=''}
+  }
+}
+
+function resetWiz(){
+  try{localStorage.removeItem(wizKey())}catch(e){}
+  done=new Set();renderWizard();
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+<div class="footer">
+  <p>© 2026 خِدْمَتي AI | <a href="index.html">الرئيسية</a> | <a href="services.html">الخدمات</a> | <a href="articles.html">المقالات</a> | <a href="calc.html">حاسبة الرسوم</a></p>
+</div>
+</body>
+</html>

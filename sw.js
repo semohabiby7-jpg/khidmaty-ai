@@ -1,4 +1,4 @@
-const CACHE='khidmaty-v4'
+const CACHE='khidmaty-v5'
 const ASSETS=[
   './',
   './index.html',
@@ -18,13 +18,14 @@ self.addEventListener('install',e=>{
 self.addEventListener('activate',e=>{
   e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))
 })
+// Network-first for ALL GET requests: online users always get the latest version,
+// cache is only a fallback when offline. Fixes stale app.js served to returning visitors.
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return
-  const isHTML=e.request.mode==='navigate'||(e.request.destination==='document')||(e.request.url.endsWith('.html'))
   e.respondWith(
-    (isHTML?fetch(e.request):caches.match(e.request).then(cached=>cached||fetch(e.request)))
+    fetch(e.request)
     .then(res=>{
-      if(res&&res.status===200){
+      if(res&&(res.status===200||res.type==='opaque')){
         const clone=res.clone()
         caches.open(CACHE).then(c=>c.put(e.request,clone))
       }

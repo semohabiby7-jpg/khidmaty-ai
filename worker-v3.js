@@ -27,7 +27,8 @@
 
 const SUPABASE_URL = 'https://puhdastfiswcmbnczvwx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'; // مفتاح عام — موجود أصلًا في كود الموقع
-const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent';
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
+const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest']; // سلسلة احتياطية: الحصة اليومية لكل موديل مستقلة — لو واحد وقع بيجرب التاني تلقائيًا
 const CHANNEL_USERNAME = '@khdmatyai';
 const SITE_URL = 'https://khidmatyai.com/';
 
@@ -590,25 +591,27 @@ async function logAgentAction(taskId, action, details, success, error) {
 // GEMINI (المفتاح من متغير البيئة GEMINI_KEY)
 // ============================================
 async function callGemini(prompt, env, retries) {
-  if (retries === undefined) retries = 2;
+  if (retries === undefined) retries = 1;
   var apiKey = env && env.GEMINI_KEY;
   if (!apiKey) return 'مش قادر أرد دلوقتي، حاول تاني بعد شوية';
-  for (var attempt = 0; attempt < retries; attempt++) {
-    try {
-      var res = await fetch(GEMINI_URL + '?key=' + apiKey, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
-        })
-      });
-      var data = await res.json();
-      var text = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
-      if (text) return text;
-      if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
-    } catch (err) {
-      if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
+  for (var m = 0; m < GEMINI_MODELS.length; m++) {
+    for (var attempt = 0; attempt < retries; attempt++) {
+      try {
+        var res = await fetch(GEMINI_BASE + GEMINI_MODELS[m] + ':generateContent?key=' + apiKey, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
+          })
+        });
+        var data = await res.json();
+        var text = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
+        if (text) return text;
+        if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
+      } catch (err) {
+        if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
+      }
     }
   }
   return 'مش قادر أرد دلوقتي، حاول تاني بعد شوية';
@@ -616,25 +619,27 @@ async function callGemini(prompt, env, retries) {
 
 // محادثة كاملة (system prompt + history) — للردود الجرونديد
 async function callGeminiChat(contents, env, retries) {
-  if (retries === undefined) retries = 2;
+  if (retries === undefined) retries = 1;
   var apiKey = env && env.GEMINI_KEY;
   if (!apiKey) return null;
-  for (var attempt = 0; attempt < retries; attempt++) {
-    try {
-      var res = await fetch(GEMINI_URL + '?key=' + apiKey, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: contents,
-          generationConfig: { temperature: 0.5, maxOutputTokens: 1000 }
-        })
-      });
-      var data = await res.json();
-      var text = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
-      if (text) return text;
-      if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
-    } catch (err) {
-      if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
+  for (var m = 0; m < GEMINI_MODELS.length; m++) {
+    for (var attempt = 0; attempt < retries; attempt++) {
+      try {
+        var res = await fetch(GEMINI_BASE + GEMINI_MODELS[m] + ':generateContent?key=' + apiKey, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: contents,
+            generationConfig: { temperature: 0.5, maxOutputTokens: 1000 }
+          })
+        });
+        var data = await res.json();
+        var text = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
+        if (text) return text;
+        if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
+      } catch (err) {
+        if (attempt < retries - 1) await new Promise(function(r) { setTimeout(r, 3000); });
+      }
     }
   }
   return null;

@@ -6,3 +6,4 @@
 .zoho-secret
 .mcp-tokens
 .mcp-pkce
+.cloudflare-token

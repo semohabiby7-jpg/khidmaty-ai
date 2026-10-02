@@ -1,6 +1,7 @@
 /* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
+async function khSha256(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('khidmaty-v1:'+t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 const WORKER_URL='https://khidmaty-agent.semohabiby7.workers.dev'
 
 /* ===== TOAST (إشعار نجاح/خطأ) ===== */
@@ -562,7 +563,7 @@ async function handleRegister(e){
     const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/register_user',{
       method:'POST',
       headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({p_phone:phone,p_password:pass,p_name:name,p_gov:gov})
+      body:JSON.stringify({p_phone:phone,p_password:await khSha256(pass),p_name:name,p_gov:gov})
     })
     const data=await res.json()
     if(data&&data.ok===true)ok=true
@@ -580,7 +581,7 @@ async function handleRegister(e){
         const res=await fetch(SUPABASE_URL+'/rest/v1/users',{
           method:'POST',
           headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
-          body:JSON.stringify({phone,password:pass,name,gov,role:'citizen'})
+          body:JSON.stringify({phone,password:await khSha256(pass),name,gov,role:'citizen'})
         })
         const data=await res.json()
         if(data&&data[0])ok=true
@@ -613,7 +614,7 @@ async function handleLogin(e){
     const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/login_user',{
       method:'POST',
       headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({p_phone:phone,p_password:pass})
+      body:JSON.stringify({p_phone:phone,p_password:await khSha256(pass)})
     })
     const data=await res.json()
     if(data&&data.ok===true){
@@ -623,7 +624,7 @@ async function handleLogin(e){
   // 2) fallback قديم (لو SQL لسه مش متطبق): استعلم جدول users مباشرة
   if(!user){
     try{
-      const res=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&password=eq.'+encodeURIComponent(pass)+'&select=*',{
+      const res=await fetch(SUPABASE_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(phone)+'&password=eq.'+encodeURIComponent(await khSha256(pass))+'&select=*',{
         headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
       })
       const data=await res.json()

@@ -3,3 +3,6 @@
 .ga-id
 .github-token
 .supabase-secret
+.zoho-secret
+.mcp-tokens
+.mcp-pkce

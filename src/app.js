@@ -374,6 +374,8 @@ function goToGovLinks(){
 /* ===== Render Providers ===== */
 function renderProviders(){
   const grid=document.getElementById('providersGrid')
+  const psec=document.getElementById('providers')
+  if(psec)psec.style.display=providers.length===0?'none':''
   const filtered=selectedGov==='all'?providers:providers.filter(p=>p.gov===selectedGov)
   const ALL_GOVS=['القاهرة','الجيزة','الإسكندرية','الشرقية','الدقهلية','البحيرة','القليوبية','الغربية','المنوفية','كفر الشيخ','دمياط','بورسعيد','الإسماعيلية','السويس','بني سويف','الفيوم','المنيا','أسيوط','سوهاج','قنا','الأقصر','أسوان','البحر الأحمر','الوادي الجديد','مطروح','شمال سيناء','جنوب سيناء']
   const filterHtml=`<div style="margin-bottom:20px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center"><label style="font-weight:600;color:var(--text);font-size:14px">المحافظة:</label><select onchange="filterProviders(this.value)" style="padding:10px 16px;border-radius:8px;border:1px solid var(--gray-m);background:var(--card);color:var(--text);font-family:inherit;font-size:14px;min-width:220px;cursor:pointer"><option value="all" ${selectedGov==='all'?'selected':''}>📍 كل المحافظات</option>${ALL_GOVS.map(g=>`<option value="${g}" ${selectedGov===g?'selected':''}>${g}</option>`).join('')}</select></div>`
@@ -534,7 +536,7 @@ async function loadMembersCount(){
       if(cr){const p=parseInt(cr.split('/')[1],10);if(!isNaN(p))n=p}
     }catch(e){console.log('members count error:',e)}
   }
-  if(n>0){
+  if(n>=50){
     const line=document.getElementById('membersLine')
     const cnt=document.getElementById('membersCount')
     if(line)line.style.display='block'

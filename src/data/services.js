@@ -229,13 +229,6 @@ const services = [
     tags: ['شحن','عداد','كهرباء','مسبق','كود','prepaid','recharge'], eligibility: 'أي مواطن صاحب عداد مسبق', documents: ['رقم العداد أو رقم الحساب'], steps: ['الدخول على موقع شركة الكهرباء','إدخال رقم العداد','المبلغ','سداد الشحن','استلام كود الشحن'], fees: 'حسب المبلغ', duration: 'فوري' }
 ];
 
-const providers = [
-  { name: 'مكتب الأهرام للخدمات', type: 'مخلص معاملات', gov: 'القاهرة', rating: 4.8, orders: 156, badge: 'Top Provider', verified: true },
-  { name: 'أ. محمد عبد الله', type: 'محاسب', gov: 'الجيزة', rating: 4.7, orders: 89, badge: 'Recommended', verified: true },
-  { name: 'مكتب النيل للاستشارات', type: 'محامي', gov: 'الإسكندرية', rating: 4.9, orders: 203, badge: 'Top Provider', verified: true },
-  { name: 'أ. سارة أحمد', type: 'متخصص تأمينات', gov: 'القاهرة', rating: 4.6, orders: 67, badge: 'Verified', verified: true },
-  { name: 'مكتب المستقبل', type: 'تأسيس شركات', gov: 'الجيزة', rating: 4.5, orders: 112, badge: 'Recommended', verified: true },
-  { name: 'أ. خالد مصطفى', type: 'متخصص مرور', gov: 'الشرقية', rating: 4.4, orders: 45, badge: 'Verified', verified: true }
-];
+const providers = [];
 
 if (typeof module !== 'undefined') module.exports = { categories, services, providers };

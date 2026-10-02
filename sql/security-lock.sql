@@ -1,5 +1,6 @@
 create extension if not exists pgcrypto;
 alter table public.users enable row level security;
+delete from public.users a using public.users b where a.phone = b.phone and a.id < b.id;
 update public.users set password = encode(digest('khidmaty-v1:' || password, 'sha256'), 'hex') where length(password) <> 64;
 alter table public.users drop constraint if exists users_password_hash_shape;
 alter table public.users add constraint users_password_hash_shape check (length(password) = 64);

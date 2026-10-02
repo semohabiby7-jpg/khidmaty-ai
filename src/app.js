@@ -96,6 +96,11 @@ function buildSystemPrompt(){
 
 async function callGemini(msg){
   aiHistory.push({role:'user',parts:[{text:msg}]})
+  fetch(SUPABASE_URL+'/rest/v1/chat_questions',{
+    method:'POST',
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({question:msg})
+  }).catch(()=>{})
   // Using Worker proxy - no key needed
   try{
     const svcContext=services.map(s=>`- ${s.icon} ${s.name} (${s.category}): ${s.desc} | المستندات: ${(s.documents||[]).join(', ')} | الخطوات: ${(s.steps||[]).join(' → ')} | الرسوم: ${s.fees||'غير محدد'} | المدة: ${s.duration||'غير محدد'} | الجهة: ${s.source||'غير محدد'} | الرابط: ${s.link||'غير متاح'}`).join('\n')

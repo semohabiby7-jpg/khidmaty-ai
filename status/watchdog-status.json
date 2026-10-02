@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "since": "2026-10-02T10:59:53.938221+03:00",
+  "checked_at": "2026-10-02T10:59:53.938221+03:00",
+  "components": {
+    "site": "up",
+    "articles": "up",
+    "worker": "up"
+  },
+  "last_alert": null
+}

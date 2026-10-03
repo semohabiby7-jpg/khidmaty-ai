@@ -1,0 +1,8 @@
+name = "khidmaty-probe"
+main = "probe-worker.js"
+compatibility_date = "2024-01-01"
+account_id = "2ecca5a2aafc2abbc50e0e5fb30cad5b"
+
+[[services]]
+binding = "BRAIN"
+service = "khidmaty-agent"

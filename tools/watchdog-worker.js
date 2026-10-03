@@ -32,13 +32,16 @@ async function checkHttp(name,url){
 async function checkBrain(name,url,env){
   if(env&&env.BRAIN){
     const t0=Date.now()
-    try{
-      const res=await env.BRAIN.fetch('https://khidmaty-agent.semohabiby7.workers.dev/requests')
-      if(res.status!==200)return{name,up:false,detail:'HTTP '+res.status}
-      const data=JSON.parse(await res.text())
-      if(data.ok)return{name,up:true,detail:'سليم عبر ربط داخلي ('+(Date.now()-t0)+'ms)'}
-      return{name,up:false,detail:'استجابة غير سليمة من العقل'}
-    }catch(e){return{name,up:false,detail:(e&&e.name)||'BindingError'}}
+    for(const h of ['https://brain.internal','https://khidmaty-agent.semohabiby7.workers.dev']){
+      try{
+        const res=await env.BRAIN.fetch(h+'/requests')
+        if(res.status===200){
+          const data=JSON.parse(await res.text())
+          if(data.ok)return{name,up:true,detail:'سليم عبر ربط داخلي ('+(Date.now()-t0)+'ms)'}
+        }
+      }catch(e){}
+    }
+    return{name,up:false,detail:'الربط الداخلي فشل مرتين'}
   }
   const r=await hit(url)
   if(!r.ok)return{name,up:false,detail:r.err}
@@ -63,7 +66,7 @@ async function checkTelegram(env){
 }
 
 async function runChecks(env){
-  const results=[await checkHttp('الموقع الرئيسي',SITE_URL),await checkHttp('صفحة المقالات',ARTICLES_URL),await checkBrain('عقل البوت',WORKER_URL)]
+  const results=[await checkHttp('الموقع الرئيسي',SITE_URL),await checkHttp('صفحة المقالات',ARTICLES_URL),await checkBrain('عقل البوت',WORKER_URL,env)]
   const tg=await checkTelegram(env)
   if(tg)results.push(tg)
   const ups=results.filter(r=>r.up).length
@@ -108,13 +111,28 @@ async function runWatchdog(env){
   return{status,results,alerted:!!alertText}
 }
 
+function cairoHM(){
+  try{
+    const s=new Date().toLocaleString('en-GB',{timeZone:'Africa/Cairo',hour12:false,hour:'2-digit',minute:'2-digit'})
+    const p=s.split(':')
+    return{h:parseInt(p[0],10),m:parseInt(p[1],10)}
+  }catch(e){return{h:-1,m:-1}}
+}
+
+async function nightCheckin(env,status){
+  if(status!=='ok'||!env.TELEGRAM_BOT_TOKEN||!env.TELEGRAM_CHAT_ID)return
+  const t=cairoHM()
+  if(t.h!==23||t.m>=30)return
+  await hit('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:'🌙 طمنة من ساهر: كل أنظمة خِدْمَتي شغالة تمام — نام مرتاح يا محمد.\n— ساهر، حارس الليل 🌙'})})
+}
+
 export default{
-  async scheduled(event,env,ctx){ctx.waitUntil(runWatchdog(env))},
+  async scheduled(event,env,ctx){ctx.waitUntil(runWatchdog(env).then(r=>nightCheckin(env,r.status).then(()=>r)))},
   async fetch(request,env,ctx){
     const url=new URL(request.url)
     if(url.pathname==='/check'){
       const {results,status}=await runChecks(env)
-      return new Response(JSON.stringify({status,results,checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})
+      return new Response(JSON.stringify({v4_sig:'WD4-9F3A',status,results,brain_binding:!!(env&&env.BRAIN),checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})
     }
     const prev=await getState()
     return new Response(JSON.stringify({ok:true,name:'khidmaty-watchdog',last_state:prev,hint:'افتح /check للفحص الفوري'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})

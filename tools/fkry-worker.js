@@ -14,25 +14,29 @@ async function tgSend(env,text){
   }catch(e){return{sent:false,reason:(e&&e.name)||'Error'}}
 }
 
+async function brainFetch(env,path){
+  for(const h of ['https://brain.internal',BRAIN_HOST]){
+    try{
+      const r=await env.BRAIN.fetch(h+path)
+      if(r.status===200)return await r.json()
+    }catch(e){}
+  }
+  return null
+}
+
 async function buildReport(env){
   let rep=''
-  try{
-    const r=await env.BRAIN.fetch(BRAIN_HOST+'/report')
-    const j=await r.json()
-    rep=(j&&j.report)||''
-  }catch(e){}
+  const jr=await brainFetch(env,'/report')
+  if(jr&&jr.report)rep=jr.report
   let stats=''
-  try{
-    const r=await env.BRAIN.fetch(BRAIN_HOST+'/stats')
-    const j=await r.json()
-    const s=j&&j.stats
-    if(s&&s.website){
-      stats='📈 زيارات النهاردة: '+s.website.visitsToday+' | الإجمالي: '+s.website.visitsTotal
-      stats+='\n👤 مسجلين النهاردة: '+s.website.usersToday+' | الإجمالي: '+s.website.usersTotal
-      stats+='\n💼 مقدمي الخدمات: '+s.website.providersTotal
-      stats+='\n✈️ رسائل التليجرام النهاردة: '+(s.total||0)
-    }
-  }catch(e){}
+  const js=await brainFetch(env,'/stats')
+  const s=js&&js.stats
+  if(s&&s.website){
+    stats='📈 زيارات النهاردة: '+s.website.visitsToday+' | الإجمالي: '+s.website.visitsTotal
+    stats+='\n👤 مسجلين النهاردة: '+s.website.usersToday+' | الإجمالي: '+s.website.usersTotal
+    stats+='\n💼 مقدمي الخدمات: '+s.website.providersTotal
+    stats+='\n✈️ رسائل التليجرام النهاردة: '+(s.total||0)
+  }
   let text='صباح الخير يا محمد ☕\nصباحية خِدْمَتي AI — فكري 📊\n==========\n'
   if(stats)text+=stats+'\n\n'
   if(rep)text+='📋 التقرير الكامل:\n'+rep+'\n\n'

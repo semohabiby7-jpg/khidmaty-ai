@@ -103,12 +103,14 @@ async function runWatchdog(env){
   }else if(prev&&prev.last_status&&prev.last_status!=='ok'){
     alertText=buildMessage(status,results)
   }
+  let send=null
   if(alertText&&env.TELEGRAM_BOT_TOKEN&&env.TELEGRAM_CHAT_ID){
-    await hit('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:alertText})})
+    send=await hit('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:alertText})})
   }
-  const newAlertAt=alertText?new Date().toISOString():(prev&&prev.last_alert_at)||null
+  const sent=!!(send&&send.ok&&send.status===200)
+  const newAlertAt=(alertText&&sent)?new Date().toISOString():(prev&&prev.last_alert_at)||null
   await setState(newAlertAt,status)
-  return{status,results,alerted:!!alertText}
+  return{status,results,alerted:!!alertText,sent,shttp:send?send.status:0}
 }
 
 function cairoHM(){
@@ -133,6 +135,11 @@ export default{
     if(url.pathname==='/check'){
       const {results,status}=await runChecks(env)
       return new Response(JSON.stringify({v4_sig:'WD4-9F3A',status,results,brain_binding:!!(env&&env.BRAIN),checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})
+    }
+    if(url.pathname==='/run'){
+      const r=await runWatchdog(env)
+      await nightCheckin(env,r.status)
+      return new Response(JSON.stringify({v4_sig:'WD4-9F3A',ran:true,status:r.status,alerted:r.alerted,sent:r.sent,shttp:r.shttp,results:r.results,checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})
     }
     const prev=await getState()
     return new Response(JSON.stringify({ok:true,name:'khidmaty-watchdog',last_state:prev,hint:'افتح /check للفحص الفوري'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})

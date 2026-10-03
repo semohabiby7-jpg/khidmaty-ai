@@ -1,11 +1,10 @@
-const WRITING_HOUR_UTC=null
-const WRITING_TEXT='✍️ ساعة الكتب يا محمد — اقعد واكتب، أنا شايلة عنك الباقي.\n— سامية 🎀'
+const WRITING_TEXT='✍️ الساعة 11 بليل يا محمد — ساعة الكتب! اقعد واكتب، أنا شايلة عنك الباقي.\n— سامية 🎀'
 
 const FIXED=[
-  {utc_hour:6,text:'صباح الخير يا محمد ☀️ أنا سامية 🎀 — سكرتيرتك الشخصية.\nبرنامج النهاردة باختصار:\n1. دفعة المكاتب الجديدة نازلة على المنصة\n2. صباحية الأرقام واصلاك من فكري 📊\n3. ساعة كتبك — قولي الساعة اللي تناسبك وهحجزها\nيوم سعيد يا صاحب الشركة 🐝'}
+  {cairo_hour:9,text:'صباح الخير يا محمد ☀️ أنا سامية 🎀 — سكرتيرتك الشخصية.\nبرنامج النهاردة باختصار:\n1. متابعة دفعة المكاتب الجديدة (فتحي شغال عليها)\n2. صباحية الأرقام واصلاك من فكري 📊\n3. ساعة كتبك البليلة 11م — متنساش\nيوم سعيد يا صاحب الشركة 🐝'}
 ]
 const DATED=[
-  {utc_date:'2026-10-04',utc_hour:7,text:'🔔 تذكير مهم من سامية: متابعة رجوع الـ10,000ج من بنك مصر (كارت 2528) — النهاردة الأحد. لو لسه مارجعتش كلم البنك.\n— سامية 🎀'}
+  {date:'2026-10-04',cairo_hour:10,text:'🔔 تذكير مهم من سامية: متابعة رجوع الـ10,000ج من بنك مصر (كارت 2528) — النهاردة الأحد. لو لسه مارجعتش كلم البنك.\n— سامية 🎀'}
 ]
 
 async function tgSend(env,text){
@@ -17,17 +16,24 @@ async function tgSend(env,text){
   }catch(e){return{sent:false,reason:(e&&e.name)||'Error'}}
 }
 
+function cairoHour(){
+  try{return parseInt(new Date().toLocaleString('en-GB',{timeZone:'Africa/Cairo',hour12:false,hour:'2-digit'}),10)}catch(e){return -1}
+}
+
+function cairoDate(){
+  try{return new Date().toLocaleString('en-CA',{timeZone:'Africa/Cairo',year:'numeric',month:'2-digit',day:'2-digit'})}catch(e){return new Date().toISOString().slice(0,10)}
+}
+
 async function matchAndSend(env){
-  const now=new Date()
-  const h=now.getUTCHours()
-  const day=now.toISOString().slice(0,10)
+  const h=cairoHour()
+  const day=cairoDate()
   const out=[]
-  for(const f of FIXED){if(f.utc_hour===h)out.push(f.text)}
-  for(const d of DATED){if(d.utc_date===day&&d.utc_hour===h)out.push(d.text)}
-  if(WRITING_HOUR_UTC!==null&&WRITING_HOUR_UTC===h)out.push(WRITING_TEXT)
+  for(const f of FIXED){if(f.cairo_hour===h)out.push(f.text)}
+  for(const d of DATED){if(d.date===day&&d.cairo_hour===h)out.push(d.text)}
+  if(h===23)out.push(WRITING_TEXT)
   let sent=0
   for(const t of out){const r=await tgSend(env,t);if(r.sent)sent++}
-  return{hour_utc:h,date:day,messages:out.length,sent:sent}
+  return{cairo_hour:h,date:day,messages:out.length,sent:sent}
 }
 
 export default{

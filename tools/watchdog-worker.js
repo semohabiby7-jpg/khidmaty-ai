@@ -122,8 +122,8 @@ function cairoHM(){
 async function nightCheckin(env,status){
   if(status!=='ok'||!env.TELEGRAM_BOT_TOKEN||!env.TELEGRAM_CHAT_ID)return
   const t=cairoHM()
-  if(t.h!==23||t.m>=30)return
-  await hit('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:'🌙 طمنة من ساهر: كل أنظمة خِدْمَتي شغالة تمام — نام مرتاح يا محمد.\n— ساهر، حارس الليل 🌙'})})
+  if(t.h!==0||t.m>=30)return
+  await hit('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:'🌙 طمنة من ساهر: كل أنظمة خِدْمَتي شغالة تمام — خلصت كتابتك النهاردة؟ نام مرتاح يا محمد.\n— ساهر، حارس الليل 🌙'})})
 }
 
 export default{

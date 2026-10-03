@@ -29,7 +29,17 @@ async function checkHttp(name,url){
   return{name,up:false,detail:r.err}
 }
 
-async function checkBrain(name,url){
+async function checkBrain(name,url,env){
+  if(env&&env.BRAIN){
+    const t0=Date.now()
+    try{
+      const res=await env.BRAIN.fetch('https://khidmaty-agent.semohabiby7.workers.dev/requests')
+      if(res.status!==200)return{name,up:false,detail:'HTTP '+res.status}
+      const data=JSON.parse(await res.text())
+      if(data.ok)return{name,up:true,detail:'سليم عبر ربط داخلي ('+(Date.now()-t0)+'ms)'}
+      return{name,up:false,detail:'استجابة غير سليمة من العقل'}
+    }catch(e){return{name,up:false,detail:(e&&e.name)||'BindingError'}}
+  }
   const r=await hit(url)
   if(!r.ok)return{name,up:false,detail:r.err}
   if(r.status!==200)return{name,up:false,detail:'HTTP '+r.status}

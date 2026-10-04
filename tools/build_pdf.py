@@ -1,17 +1,8 @@
 import os
 import re
-from PIL import Image
-import arabic_reshaper
-from bidi.algorithm import get_display
-from reportlab.lib.units import inch
-from reportlab.lib.enums import TA_RIGHT, TA_CENTER
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib import colors
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfbase.pdfmetrics import registerFontFamily
-from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, PageBreak, NextPageTemplate
-from reportlab.platypus.tableofcontents import TableOfContents
+from PIL import Image, ImageDraw
+from weasyprint import HTML
+from pypdf import PdfReader
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(TOOLS)
@@ -20,144 +11,104 @@ BOOK = os.path.join(REPO, "books", "mind-power")
 FONTS = os.path.join(WS, "fonts")
 OUT = os.path.join(BOOK, "Mind-Power-AR.pdf")
 COVER_WEBP = os.path.join(BOOK, "cover.webp")
-COVER_JPG = "/tmp/mind-power-cover.jpg"
-PAGE_W = 5 * inch
-PAGE_H = 8 * inch
+COVER_PAD = "/tmp/mind-power-cover-padded.jpg"
 
-pdfmetrics.registerFont(TTFont("Amiri", os.path.join(FONTS, "Amiri-Regular.ttf")))
-pdfmetrics.registerFont(TTFont("Amiri-Bold", os.path.join(FONTS, "Amiri-Bold.ttf")))
-pdfmetrics.registerFont(TTFont("Cairo", os.path.join(FONTS, "Cairo.ttf")))
-registerFontFamily("Amiri", normal="Amiri", bold="Amiri-Bold", italic="Amiri", boldItalic="Amiri-Bold")
-registerFontFamily("Cairo", normal="Cairo", bold="Cairo", italic="Cairo", boldItalic="Cairo")
+im = Image.open(COVER_WEBP).convert("RGB")
+IW, IH = im.size
+TH = int(IW / 0.625)
 
-img = Image.open(COVER_WEBP).convert("RGB")
-img.save(COVER_JPG, "JPEG", quality=92)
-IW, IH = img.size
-DRAW_H = PAGE_W * IH / IW
-Y0 = (PAGE_H - DRAW_H) / 2
-
-def band(y):
-    xs = list(range(0, IW, max(1, IW // 24)))
-    px = [img.getpixel((x, y)) for x in xs]
+def row_color(y):
+    px = [im.getpixel((x, y)) for x in range(0, IW, max(1, IW // 24))]
     return tuple(sum(c[i] for c in px) // len(px) for i in range(3))
 
-TOP_C = band(0)
-BOT_C = band(IH - 1)
-
-reshaper = arabic_reshaper.ArabicReshaper()
-
-def shape(t):
-    return get_display(reshaper.reshape(t))
+TOP_C = row_color(0)
+BOT_C = row_color(IH - 1)
+canvas = Image.new("RGB", (IW, TH))
+PAD_T = (TH - IH) // 2
+canvas.paste(im, (0, PAD_T))
+d = ImageDraw.Draw(canvas)
+d.rectangle([0, 0, IW, PAD_T], fill=TOP_C)
+d.rectangle([0, TH - (TH - IH - PAD_T), IW, TH], fill=BOT_C)
+canvas.save(COVER_PAD, "JPEG", quality=92)
 
 def esc(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def rich(t):
-    parts = re.split(r"(\*\*.+?\*\*)", t.strip())
-    out = []
-    for p in parts:
-        if p.startswith("**") and p.endswith("**") and len(p) > 4:
-            out.append("<b>" + esc(shape(p[2:-2])) + "</b>")
-        else:
-            if p:
-                out.append(esc(shape(p)))
-    return "".join(reversed(out))
+    s = esc(t.strip())
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    return s
 
-NAVY = colors.HexColor("#14213D")
-INK = colors.HexColor("#1a1a1a")
-st_h1 = ParagraphStyle("H1", fontName="Cairo", fontSize=16.5, leading=25, alignment=TA_RIGHT, textColor=NAVY, spaceAfter=14, wordWrap="RTL")
-st_h2 = ParagraphStyle("H2", fontName="Cairo", fontSize=12.5, leading=18, alignment=TA_RIGHT, textColor=NAVY, spaceBefore=12, spaceAfter=6, wordWrap="RTL")
-st_h3 = ParagraphStyle("H3", fontName="Cairo", fontSize=11, leading=16, alignment=TA_RIGHT, textColor=INK, spaceBefore=10, spaceAfter=4, wordWrap="RTL")
-st_body = ParagraphStyle("Body", fontName="Amiri", fontSize=11.5, leading=17.6, alignment=TA_RIGHT, textColor=INK, spaceAfter=7, wordWrap="RTL")
-st_bullet = ParagraphStyle("Bullet", parent=st_body, leftIndent=16, spaceAfter=4)
-st_bullet2 = ParagraphStyle("Bullet2", parent=st_body, leftIndent=32, spaceAfter=4)
-st_num = ParagraphStyle("Num", parent=st_body, leftIndent=16, spaceAfter=5)
-st_center = ParagraphStyle("Center", parent=st_body, alignment=TA_CENTER)
-st_sep = ParagraphStyle("Sep", parent=st_center, spaceBefore=10, spaceAfter=10, textColor=colors.HexColor("#777777"))
-st_title = ParagraphStyle("Title", fontName="Cairo", fontSize=30, leading=42, alignment=TA_CENTER, textColor=NAVY)
-st_title_e = ParagraphStyle("TitleE", fontName="Cairo", fontSize=13, leading=18, alignment=TA_CENTER, textColor=NAVY, spaceBefore=4)
-st_sub = ParagraphStyle("Sub", fontName="Amiri", fontSize=11.5, leading=18, alignment=TA_CENTER, textColor=INK, spaceBefore=16)
-st_auth = ParagraphStyle("Auth", fontName="Cairo", fontSize=12.5, leading=18, alignment=TA_CENTER, textColor=INK, spaceBefore=26)
-st_copy = ParagraphStyle("Copy", parent=st_body, fontSize=9.5, leading=14, spaceAfter=4)
-st_toc_h = ParagraphStyle("TocH", fontName="Cairo", fontSize=16.5, leading=24, alignment=TA_RIGHT, textColor=NAVY, spaceAfter=14)
-st_toc = ParagraphStyle("TOC0", fontName="Amiri", fontSize=11.5, leading=22, alignment=TA_RIGHT, textColor=INK, wordWrap="RTL")
+CSS = """
+@font-face { font-family: Amiri; src: url('file://%(fonts)s/Amiri-Regular.ttf'); }
+@font-face { font-family: AmiriB; src: url('file://%(fonts)s/Amiri-Bold.ttf'); }
+@font-face { font-family: Cairo; src: url('file://%(fonts)s/Cairo.ttf'); }
+@page { size: 5in 8in; margin: 0.68in 0.65in 0.78in 0.65in;
+  @bottom-center { content: counter(page); font-family: Amiri; font-size: 9.5pt; color: #666666; } }
+@page cover { margin: 0; @bottom-center { content: none; } }
+html { direction: rtl; }
+body { font-family: Amiri; font-size: 11.5pt; line-height: 1.55; color: #1a1a1a; text-align: right; }
+h1 { font-family: Cairo; font-size: 16.5pt; color: #14213D; page-break-before: always; margin: 0 0 13pt 0; line-height: 1.45; }
+h2 { font-family: Cairo; font-size: 12.5pt; color: #14213D; margin: 13pt 0 6pt 0; page-break-after: avoid; line-height: 1.45; }
+h3 { font-family: Cairo; font-size: 11pt; color: #1a1a1a; margin: 10pt 0 4pt 0; page-break-after: avoid; line-height: 1.45; }
+p { margin: 0 0 6pt 0; }
+p.num { margin: 0 0 4.5pt 1em; }
+p.li { margin: 0 0 3pt 1.2em; }
+p.li2 { margin: 0 0 3pt 2.4em; }
+p.sig { text-align: center; margin: 10pt 0; }
+.sep { text-align: center; color: #777777; margin: 10pt 0; letter-spacing: 6pt; }
+strong { font-family: AmiriB; font-weight: bold; }
+.coverpage { page: cover; }
+.coverpage img { width: 5in; height: 8in; object-fit: cover; display: block; }
+.titlepage { text-align: center; padding-top: 1.1in; page-break-after: always; }
+.tt { font-family: Cairo; font-size: 30pt; color: #14213D; line-height: 1.3; }
+.te { font-family: Cairo; font-size: 13pt; color: #14213D; margin-top: 4pt; letter-spacing: 2pt; }
+.tsub { font-size: 11.5pt; color: #1a1a1a; margin-top: 16pt; line-height: 1.6; }
+.tauth { font-family: Cairo; font-size: 12.5pt; color: #1a1a1a; margin-top: 52pt; }
+.tauth2 { font-family: Cairo; font-size: 11pt; color: #333333; margin-top: 2pt; letter-spacing: 1pt; }
+.copyright { page-break-after: always; margin-top: 3.5in; font-size: 9.5pt; line-height: 1.6; }
+.copyright p { margin: 0 0 3pt 0; }
+.tocpage { page-break-after: always; }
+.toch { font-family: Cairo; font-size: 16.5pt; color: #14213D; margin: 0 0 14pt 0; }
+.tocline { display: block; text-decoration: none; color: #1a1a1a; margin: 8pt 0; font-size: 11.5pt; }
+.tocline::after { content: leader(". ") target-counter(attr(href), page); }
+""" % {"fonts": FONTS}
 
-def on_cover(c, doc):
-    c.saveState()
-    c.setFillColorRGB(TOP_C[0] / 255, TOP_C[1] / 255, TOP_C[2] / 255)
-    c.rect(0, Y0 + DRAW_H, PAGE_W, PAGE_H - (Y0 + DRAW_H), stroke=0, fill=1)
-    c.setFillColorRGB(BOT_C[0] / 255, BOT_C[1] / 255, BOT_C[2] / 255)
-    c.rect(0, 0, PAGE_W, Y0, stroke=0, fill=1)
-    c.drawImage(COVER_JPG, 0, Y0, width=PAGE_W, height=DRAW_H)
-    c.restoreState()
-
-def on_main(c, doc):
-    c.setFont("Amiri", 9)
-    c.setFillColor(colors.HexColor("#666666"))
-    c.drawCentredString(PAGE_W / 2, 0.42 * inch, str(doc.page))
-
-class BookDoc(BaseDocTemplate):
-    def afterFlowable(self, fl):
-        if isinstance(fl, Paragraph) and fl.style.name == "H1":
-            self.notify("TOCEntry", (0, fl.getPlainText(), self.page))
-
-story = []
-story.append(NextPageTemplate("Cover"))
-story.append(Spacer(1, 1))
-story.append(NextPageTemplate("Main"))
-story.append(PageBreak())
-
-story.append(Spacer(1, 1.0 * inch))
-story.append(Paragraph(shape("قوة العقل"), st_title))
-story.append(Paragraph(shape("POWER OF MIND"), st_title_e))
-story.append(Paragraph(shape("كيف تتحكم في أفكارك، بإعادة برمجة عقلك، وتبني عاداتك لتقودك لحياة أقوى"), st_sub))
-story.append(Spacer(1, 1.6 * inch))
-story.append(Paragraph(shape("M. ISMAIL"), st_auth))
-story.append(Paragraph(shape("MIND POWER AUTHOR"), st_title_e))
-
-story.append(PageBreak())
-story.append(Spacer(1, 4.3 * inch))
-story.append(Paragraph(rich("قوة العقل — كيف تتحكم في أفكارك، بإعادة برمجة عقلك، وتبني عاداتك لتقودك لحياة أقوى"), st_copy))
-story.append(Spacer(1, 0.12 * inch))
-story.append(Paragraph(rich("الطبعة الأولى — 2026"), st_copy))
-story.append(Paragraph(rich("© 2026 محمد إسماعيل عبد العزيز — جميع الحقوق محفوظة"), st_copy))
-story.append(Paragraph(rich("يحظر إعادة نشر أي جزء من هذا الكتاب أو اقتباسه بأي وسيلة دون إذن كتابي مسبق من المؤلف، باستثناء الاقتباسات القصيرة في المراجعات"), st_copy))
-story.append(Paragraph(rich("khidmatyai.com"), st_copy))
-
-story.append(PageBreak())
-story.append(Paragraph(shape("المحتويات"), st_toc_h))
-toc = TableOfContents()
-toc.levelStyles = [st_toc]
-toc.dotsMinLevel = 0
-story.append(toc)
-
-FILES = ["00-intro.md", "01-عقلك-مش-إنت.md", "02-استرد-دماغك.md", "03-الكلام-اللي-بتقوله-لنفسك.md", "04-دماغك-بيصدق-اللي-بيتكرر.md", "05-قاعدة-الدقيقة-الواحدة.md", "06-مين-اللي-بيشحن-مين.md", "07-قصص-واقعية.md", "08-النهاية.md"]
+chapters = []
 words = 0
 
-def emit(ln):
+def emit_h1(title, cid):
+    chapters.append('<h1 id="%s">%s</h1>' % (cid, rich(title)))
+
+def emit_line(ln):
     s = ln.rstrip()
     if not s.strip():
         return
     if s.startswith("### "):
-        story.append(Paragraph(rich(s[4:]), st_h3))
+        chapters.append("<h3>%s</h3>" % rich(s[4:]))
     elif s.startswith("## "):
-        story.append(Paragraph(rich(s[3:]), st_h2))
+        chapters.append("<h2>%s</h2>" % rich(s[3:]))
     elif s.startswith("# "):
-        story.append(PageBreak())
-        story.append(Paragraph(rich(s[2:]), st_h1))
+        cid = "ch%d" % len(chs)
+        t = re.sub(r"\*\*", "", s[2:].strip())
+        chapters.append('<h1 id="%s">%s</h1>' % (cid, rich(s[2:])))
+        chs.append((cid, t))
     elif s.strip() == "---":
-        story.append(Paragraph(shape("• • •"), st_sep))
+        chapters.append('<div class="sep">•••</div>')
     elif re.match(r"^\s*- ", ln):
         indent = len(ln) - len(ln.lstrip())
-        st = st_bullet2 if indent >= 2 else st_bullet
+        cls = "li2" if indent >= 2 else "li"
         mark = "– " if indent >= 2 else "• "
-        story.append(Paragraph(mark + rich(ln.strip()[2:]), st))
+        chapters.append('<p class="%s">%s%s</p>' % (cls, mark, rich(ln.strip()[2:])))
     elif re.match(r"^\d+\. ", s.strip()):
-        story.append(Paragraph(rich(s.strip()), st_num))
+        chapters.append('<p class="num">%s</p>' % rich(s.strip()))
     elif s.startswith("—") and len(s.strip()) < 45:
-        story.append(Paragraph(rich(s.strip()), st_center))
+        chapters.append('<p class="sig">%s</p>' % rich(s.strip()))
     else:
-        story.append(Paragraph(rich(s), st_body))
+        chapters.append("<p>%s</p>" % rich(s))
+
+FILES = ["00-intro.md", "01-عقلك-مش-إنت.md", "02-استرد-دماغك.md", "03-الكلام-اللي-بتقوله-لنفسك.md", "04-دماغك-بيصدق-اللي-بيتكرر.md", "05-قاعدة-الدقيقة-الواحدة.md", "06-مين-اللي-بيشحن-مين.md", "07-قصص-واقعية.md", "08-النهاية.md"]
+chs = []
 
 for fn in FILES:
     path = os.path.join(BOOK, fn)
@@ -166,25 +117,31 @@ for fn in FILES:
     lines = txt.split("\n")
     if fn.startswith("00-"):
         lines = lines[lines.index("## مقدمة"):]
-        story.append(Paragraph(shape("المقدمة"), st_h1))
+        emit_h1("المقدمة", "ch0")
+        chs.append(("ch0", "المقدمة"))
         lines = lines[1:]
     for ln in lines:
-        emit(ln)
+        emit_line(ln)
 
-doc = BookDoc(OUT, pagesize=(PAGE_W, PAGE_H),
-              title="قوة العقل — POWER OF MIND",
-              author="محمد إسماعيل عبد العزيز",
-              subject="كيف تتحكم في أفكارك، بإعادة برمجة عقلك، وتبني عاداتك لتقودك لحياة أقوى",
-              creator="M. ISMAIL — MIND POWER AUTHOR")
-cover_frame = Frame(0, 0, PAGE_W, PAGE_H, id="CF")
-main_frame = Frame(0.65 * inch, 0.72 * inch, PAGE_W - 1.3 * inch, PAGE_H - 1.35 * inch, id="MF")
-doc.addPageTemplates([
-    PageTemplate(id="Cover", frames=[cover_frame], onPage=on_cover),
-    PageTemplate(id="Main", frames=[main_frame], onPage=on_main),
-])
-doc.multiBuild(story)
+toc_lines = "".join('<a class="tocline" href="#%s">%s</a>' % (cid, esc(t)) for cid, t in chs)
 
-from pypdf import PdfReader
+html = """<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><style>%s</style></head><body>
+<div class="coverpage"><img src="file://%s"></div>
+<div class="titlepage"><div class="tt">قوة العقل</div><div class="te">POWER OF MIND</div>
+<div class="tsub">كيف تتحكم في أفكارك، بإعادة برمجة عقلك، وتبني عاداتك لتقودك لحياة أقوى</div>
+<div class="tauth">M. ISMAIL</div><div class="tauth2">MIND POWER AUTHOR</div></div>
+<div class="copyright">
+<p>قوة العقل — كيف تتحكم في أفكارك، بإعادة برمجة عقلك، وتبني عاداتك لتقودك لحياة أقوى</p>
+<p>الطبعة الأولى — 2026</p>
+<p>© 2026 محمد إسماعيل عبد العزيز — جميع الحقوق محفوظة</p>
+<p>يحظر إعادة نشر أي جزء من هذا الكتاب أو اقتباسه بأي وسيلة دون إذن كتابي مسبق من المؤلف، باستثناء الاقتباسات القصيرة في المراجعات.</p>
+<p>khidmatyai.com</p>
+</div>
+<div class="tocpage"><div class="toch">المحتويات</div>%s</div>
+%s
+</body></html>""" % (CSS, COVER_PAD, toc_lines, "".join(chapters))
+
+HTML(string=html).write_pdf(OUT)
 r = PdfReader(OUT)
 print("WORDS", words)
 print("PAGES", len(r.pages))

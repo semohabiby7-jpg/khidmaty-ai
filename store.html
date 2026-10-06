@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>المتجر | خِدْمَتي AI — كتب المؤلف الرسمية</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/styles/main.css">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://khidmatyai.com/store.html">
+<meta name="description" content="متجر خِدْمَتي الرسمي — كتب محمد إسماعيل عبد العزيز: «قوة العقل» و«POWER OF MIND» بصيغة PDF مباشرة من المؤلف. الدفع على إنستاباي واستلام الكتاب على واتساب فورًا.">
+<meta property="og:title" content="متجر خِدْمَتي AI — كتب المؤلف الرسمية">
+<meta property="og:description" content="«قوة العقل» و«POWER OF MIND» PDF مباشرة من المؤلف — الدفع على إنستاباي والاستلام فورًا على واتساب.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://khidmatyai.com/store.html">
+<meta property="og:image" content="https://khidmatyai.com/books/mind-power/cover.webp">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:locale" content="ar_EG">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.store-hero{text-align:center;padding:44px 20px 24px}
+.store-hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 10px}
+.store-hero p{font-size:15px;color:#8ea0c4;margin:0;line-height:1.7}
+.store-hero .gold{color:#e6c258;font-weight:800}
+.products{max-width:900px;margin:0 auto;padding:10px 20px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.product-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px 20px;text-align:center;transition:all .3s}
+.product-card.selected{border-color:#e6c258;box-shadow:0 0 24px rgba(230,194,88,.15)}
+.cover-wrap{display:flex;justify-content:center;margin-bottom:16px}
+.cover-img{width:100%;max-width:210px;border-radius:10px;border:2px solid rgba(230,194,88,.4);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.cover-en{width:100%;max-width:210px;aspect-ratio:2/3;border-radius:10px;border:2px solid #e6c258;box-shadow:0 10px 30px rgba(0,0,0,.45);background:linear-gradient(160deg,#1a2d5a,#0d1a33);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box}
+.cover-en .brain{font-size:34px}
+.cover-en .t1{font-size:30px;font-weight:900;color:#e6c258;letter-spacing:2px;line-height:1.05}
+.cover-en .t2{font-size:13px;color:#fff;font-weight:700;letter-spacing:1px;margin-top:6px}
+.cover-en .t3{font-size:9px;color:#8ea0c4;letter-spacing:2px;margin-top:auto}
+.product-card h2{font-size:21px;font-weight:900;color:#fff;margin:0 0 6px}
+.product-card .lang-tag{display:inline-block;background:#0F1E3D;border:1px solid #2a4068;color:#8ea0c4;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.product-card .desc{font-size:13.5px;color:#c0cee0;line-height:1.8;margin:0 0 14px;min-height:66px}
+.product-card .price{font-size:32px;font-weight:900;color:#e6c258;margin-bottom:14px}
+.product-card .price small{font-size:15px;font-weight:700;color:#8ea0c4}
+.buy-btn{width:100%;padding:13px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;font-size:16px;font-weight:900;cursor:pointer;transition:all .3s;font-family:Cairo,sans-serif}
+.buy-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.buy-box{max-width:700px;margin:10px auto 36px;padding:0 20px}
+.buy-card{background:linear-gradient(145deg,#162847,#0d1a33);border:2px solid #e6c258;border-radius:16px;padding:26px 22px}
+.buy-card h2{font-size:20px;font-weight:900;color:#e6c258;margin:0 0 4px;text-align:center}
+.buy-card .buy-sub{font-size:13px;color:#8ea0c4;text-align:center;margin:0 0 18px}
+.sel-line{background:#0F1E3D;border:1px dashed #2a4068;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700;color:#c0cee0;text-align:center;margin-bottom:18px}
+.sel-line b{color:#e6c258}
+.step{display:flex;gap:12px;align-items:flex-start;background:#0F1E3D;border:1px solid #1e3556;border-radius:12px;padding:14px;margin-bottom:10px}
+.step-num{min-width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center}
+.step-body{font-size:14px;color:#c0cee0;line-height:1.7}
+.step-body b{color:#fff}
+.ip-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.ip-num{direction:ltr;font-size:22px;font-weight:900;color:#e6c258;letter-spacing:1px}
+.copy-btn{background:#162847;border:1px solid #2a4068;color:#e8eef8;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif}
+.copy-btn:hover{border-color:#e6c258;color:#e6c258}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:14px;background:linear-gradient(135deg,#25D366,#1da851);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:900;cursor:pointer;text-decoration:none;font-family:Cairo,sans-serif}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.3)}
+.trust{font-size:12.5px;color:#8ea0c4;text-align:center;margin-top:12px;line-height:1.7}
+.soon{max-width:700px;margin:0 auto 30px;padding:14px 20px}
+.soon-inner{background:#162847;border:1px dashed #2a4068;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#8ea0c4;font-weight:700}
+.soon-inner .gold{color:#e6c258}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"ItemList",
+  "itemListElement":[
+    {"@type":"Product","name":"قوة العقل — النسخة العربية PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"POWER OF MIND — English Edition PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
+  ]
+}
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7WT8KN8P9"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js',new Date());
+  gtag('config','G-W7WT8KN8P9');
+</script>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html">← الرجوع للرئيسية</a>
+  <div class="header-logo">
+    <img src="assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+<div class="store-hero">
+  <h1>🛒 متجر خِدْمَتي</h1>
+  <p>كتب <span class="gold">محمد إسماعيل عبد العزيز</span> الرسمية — نسختك PDF مباشرة من المؤلف، من غير وسطاء.<br>الدفع على إنستاباي، والاستلام فورًا على واتساب.</p>
+</div>
+
+<div class="products">
+  <div class="product-card selected" id="card-ar">
+    <div class="cover-wrap"><img class="cover-img" src="books/mind-power/cover.webp" alt="غلاف كتاب قوة العقل"></div>
+    <h2>قوة العقل</h2>
+    <span class="lang-tag">العربية</span>
+    <p class="desc">النسخة العربية الكاملة من الكتاب: اعرف إزاي عقلك بيشتغل عليك، وخد الدليل العملي إنك تستردّ دماغك — خطوة بخطوة.</p>
+    <div class="price">75 <small>جنيه</small></div>
+    <button class="buy-btn" onclick="selectProduct('ar')">اشترِ دلوقتي</button>
+  </div>
+  <div class="product-card" id="card-en">
+    <div class="cover-wrap">
+      <div class="cover-en">
+        <div class="brain">🧠</div>
+        <div class="t1">POWER<br>OF<br>MIND</div>
+        <div class="t2">MOHAMED ISMAIL ABDELAZIZ</div>
+        <div class="t3">A KHIDMATY AI PUBLICATION</div>
+      </div>
+    </div>
+    <h2>POWER OF MIND</h2>
+    <span class="lang-tag">English</span>
+    <p class="desc">The complete English edition — 96 pages with a full Contents index. The same mind-reclaiming journey, for readers everywhere.</p>
+    <div class="price">100 <small>جنيه</small></div>
+    <button class="buy-btn" onclick="selectProduct('en')">اشترِ دلوقتي</button>
+  </div>
+</div>
+
+<div class="buy-box" id="buy">
+  <div class="buy-card">
+    <h2>الشراء في 3 خطوات</h2>
+    <p class="buy-sub">دفع آمن على إنستاباي — والكتاب بيوصل على واتساب</p>
+    <div class="sel-line" id="selLine">المشتري حاليًا: <b id="selName">كتاب «قوة العقل» — 75 جنيه</b></div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><b>حوّل على إنستاباي</b> أو من تطبيق بنكك على الرقم ده:<div class="ip-row"><span class="ip-num" id="ipNum">01553720957</span><button class="copy-btn" onclick="copyIP()">📋 نسخ</button></div></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><b>صوّر إيصال التحويل</b> (سكرين شوت من إيصال إنستاباي بيكفي)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><b>ابعت الإيصال على واتساب</b> واستلم لينك تحميل الـPDF فورًا — مباشرة من المؤلف</div>
+    </div>
+    <a class="wa-btn" id="waLink" href="#" target="_blank" rel="noopener">📲 ابعت الإيصال على واتساب</a>
+    <div class="trust">بعد التحويل ابعت الإيصال في رسالة وحدة واحدة، والملف بيوصلك في نفس الجلسة. أي استفسار — نفس الواتساب.</div>
+  </div>
+</div>
+
+<div class="soon">
+  <div class="soon-inner">🚚 <span class="gold">منتجات جاية قريب:</span> كورسات وملفات ودعم المحتوى — المتجر بيكبر معاكوا</div>
+</div>
+
+<div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;max-width:900px;margin:0 auto">
+  <span style="font-size:13px;color:#8ea0c4;font-weight:700">تابعنا 👇</span>
+  <a href="https://t.me/khdmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">✈️ تيلجرام</a>
+  <a href="https://youtube.com/@khidmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #ff0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">▶️ يوتيوب</a>
+  <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #25D366;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">📲 واتساب</a>
+</div>
+
+<div class="footer">
+  <p>© 2026 خِدْمَتي AI | <a href="index.html">العودة للرئيسية</a> | <a href="articles.html">المقالات</a> | <a href="faq.html">الأسئلة الشائعة</a></p>
+</div>
+
+<script>
+var WA="201553720957";
+var products={ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'}};
+var current='ar';
+function selectProduct(k){
+  current=k;
+  document.getElementById('card-ar').classList.toggle('selected',k==='ar');
+  document.getElementById('card-en').classList.toggle('selected',k==='en');
+  document.getElementById('selName').textContent=products[k].name;
+  document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[k].msg);
+  document.getElementById('buy').scrollIntoView({behavior:'smooth'});
+}
+function copyIP(){
+  var t=document.getElementById('ipNum').textContent;
+  function done(){var b=document.querySelector('.copy-btn');var o=b.textContent;b.textContent='✓ اتنسخ';setTimeout(function(){b.textContent=o;},1500);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fallback);}else{fallback();}
+  function fallback(){var i=document.createElement('input');i.value=t;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);done();}
+}
+document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[current].msg);
+</script>
+</body>
+</html>

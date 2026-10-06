@@ -266,7 +266,7 @@ function openService(id){
     </div>
     <div class="sd-actions">
       <a href="${s.link}" target="_blank" class="sd-link-btn">🔗 الموقع الرسمي</a>
-      <button class="sd-ai-btn" onclick="askAIAbout('${s.name}')">🤖 اسأل AI عنها</button>
+      <button class="sd-ai-btn" onclick="askAIAbout('${s.name}')">🤖 اسأل خِدْمَتي عنها</button>
       <button class="sd-help-btn" onclick="closeModal('serviceModal');needHelp()">👤 محتاج حد يخلصهالي</button>
     </div>
     <p class="sd-source">المصدر: ${s.source} | آخر تحديث: ${s.updated}</p>
@@ -993,7 +993,7 @@ function openServicePage(id){
               <h3>إجرائات</h3>
               <div class="sp-actions">
                 <a href="${s.link}" target="_blank" class="btn-help">🔗 الموقع الرسمي</a>
-                <button class="btn-primary" onclick="askAIAbout('${s.name}')">🤖 اسأل AI عنها</button>
+                <button class="btn-primary" onclick="askAIAbout('${s.name}')">🤖 اسأل خِدْمَتي عنها</button>
                 <button class="btn-ghost" onclick="needHelp()" style="border:2px solid var(--navy);padding:14px;border-radius:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--navy)">👤 محتاج حد يخلصهالي</button>
               </div>
               <p class="sp-source">المصدر: ${s.source}<br>آخر تحديث: ${s.updated}</p>

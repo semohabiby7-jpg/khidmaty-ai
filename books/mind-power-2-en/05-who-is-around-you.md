@@ -23,7 +23,7 @@ When Omar counted it in numbers, he found something stunning:
 
 The gathering he loves... eats his whole dream and has 20 hours left over.
 
-The storm — as we agreed in the last chapter, comes without asking permission — came this time as a layoff at the firm. Omar left the job in one day. The gathering gave its opinion the same day in the group chat: "Rejoice, man! The whole system is corrupt. Come sit with us... what has a God gives him."
+The storm — as we agreed in the last chapter, comes without asking permission — came this time as a layoff at the firm. Omar left the job in one day. The gathering gave its opinion the same day in the group chat: "Rejoice, man! The whole system is corrupt. Come sit with us... whatever God has, He gives him."
 
 And on that same day exactly, a message came from a completely different kind of people. Khaled — an old friend, not from the crowd, who writes to him from time to time and asks about his road seriously. The message: "I heard the news. I'm taking on a project the whole of next month and I don't have a developer... the code isn't urgent. Come, I'll see you tomorrow morning."
 

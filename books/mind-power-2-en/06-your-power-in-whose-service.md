@@ -94,7 +94,7 @@ Write it and put it in front of you. All week, every time you feel your power �
 
 ## Before We Close the Chapter...
 
-Mostafa is now thirty-four. The workshop became three workshops in three neighbourhoods — and the cardboard with the Friday offer written on it is still there above the counter in all three, in the same hand. And Madame Zeinab has become telling the story in the salon as an example of «the lovely people in the neighbourhood»... and she never knew she was the one who started the whole story.
+Mostafa is now thirty-four. The workshop became three workshops in three neighbourhoods — and the cardboard with the Friday offer written on it is still there above the counter in all three, in the same hand. And Madame Zeinab has begun telling the story in the salon as an example of «the lovely people in the neighbourhood»... and she never knew she was the one who started the whole story.
 
 The ladder is done. Destination... decision... watering... storms... people... and impact. That's the whole ladder. But before we reach the end and hand you the 90-day plan... there's one last thing in the book: **stories.**
 

@@ -48,6 +48,15 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .product-card .price small{font-size:15px;font-weight:700;color:#8ea0c4}
 .buy-btn{width:100%;padding:13px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;font-size:16px;font-weight:900;cursor:pointer;transition:all .3s;font-family:Cairo,sans-serif}
 .buy-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.part-divider{grid-column:1/-1;text-align:center;margin:6px 0 2px;padding:8px 0}
+.part-divider span{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:15px;font-weight:900;padding:6px 22px;border-radius:20px}
+.bundle-box{max-width:700px;margin:0 auto 30px;padding:0 20px}
+.bundle-card{background:linear-gradient(145deg,#1a2d5a,#0d1a33);border:2px dashed #e6c258;border-radius:14px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.bundle-card .b-text{text-align:right}
+.bundle-card .b-text h3{font-size:17px;font-weight:900;color:#e6c258;margin:0 0 4px}
+.bundle-card .b-text p{font-size:13px;color:#c0cee0;margin:0}
+.bundle-card .b-price{font-size:28px;font-weight:900;color:#fff}
+.bundle-card .b-price small{font-size:14px;color:#8ea0c4;font-weight:700}
 .buy-box{max-width:700px;margin:10px auto 36px;padding:0 20px}
 .buy-card{background:linear-gradient(145deg,#162847,#0d1a33);border:2px solid #e6c258;border-radius:16px;padding:26px 22px}
 .buy-card h2{font-size:20px;font-weight:900;color:#e6c258;margin:0 0 4px;text-align:center}
@@ -76,7 +85,9 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
   "@context":"https://schema.org","@type":"ItemList",
   "itemListElement":[
     {"@type":"Product","name":"قوة العقل — النسخة العربية PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
-    {"@type":"Product","name":"POWER OF MIND — English Edition PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
+    {"@type":"Product","name":"POWER OF MIND — English Edition PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"قوة العقل ٢ — رايح فين؟ PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"POWER OF MIND 2 — Where To? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
   ]
 }
 </script>
@@ -100,10 +111,11 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 
 <div class="store-hero">
   <h1>🛒 متجر خِدْمَتي</h1>
-  <p>كتب <span class="gold">محمد إسماعيل عبد العزيز</span> الرسمية — نسختك PDF مباشرة من المؤلف، من غير وسطاء.<br>الدفع على إنستاباي، والاستلام فورًا على واتساب.</p>
+  <p>كتب <span class="gold">محمد إسماعيل عبد العزيز</span> الرسمية — نسختك PDF مباشرة من المؤلف، من غير وسطاء.<br>الجزء الأول والثاني متوفرين الآن — الدفع على إنستاباي والاستلام فورًا على واتساب.</p>
 </div>
 
 <div class="products">
+  <div class="part-divider"><span>الجزء الأول</span></div>
   <div class="product-card selected" id="card-ar">
     <div class="cover-wrap"><img class="cover-img" src="books/mind-power/cover.webp" alt="غلاف كتاب قوة العقل"></div>
     <h2>قوة العقل</h2>
@@ -127,6 +139,23 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <div class="price">100 <small>جنيه</small></div>
     <button class="buy-btn" onclick="selectProduct('en')">اشترِ دلوقتي</button>
   </div>
+    <div class="part-divider"><span>الجزء الثاني</span></div>
+    <div class="product-card" id="card-ar2">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-2/cover.webp" alt="غلاف كتاب قوة العقل 2"></div>
+      <h2>قوة العقل ٢</h2>
+      <span class="lang-tag">العربية</span>
+      <p class="desc">الجزء الثاني: «رايح فين؟» — بعد ما استردت دماغك في الجزء الأول، تعالى تعرف إزاي تحوّل القوة دي لاتجاه. وجهة، قرار، صبر، عواصف، ناس، وأثر.</p>
+      <div class="price">75 <small>جنيه</small></div>
+      <button class="buy-btn" onclick="selectProduct('ar2')">اشترِ دلوقتي</button>
+    </div>
+    <div class="product-card" id="card-en2">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-2-en/cover.webp" alt="POWER OF MIND 2 cover"></div>
+      <h2>POWER OF MIND 2</h2>
+      <span class="lang-tag">English</span>
+      <p class="desc">Part Two: "Where To?" — You took back your mind. Now turn that power into a direction. Destination, decision, patience, storms, people, and impact.</p>
+      <div class="price">100 <small>جنيه</small></div>
+      <button class="buy-btn" onclick="selectProduct('en2')">اشترِ دلوقتي</button>
+    </div>
 </div>
 
 <div class="buy-box" id="buy">
@@ -168,12 +197,19 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 
 <script>
 var WA="201005305955";
-var products={ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'}};
+var products={
+ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
+en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
+ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل ٢» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
+en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND 2» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'}
+};
 var current='ar';
 function selectProduct(k){
   current=k;
   document.getElementById('card-ar').classList.toggle('selected',k==='ar');
   document.getElementById('card-en').classList.toggle('selected',k==='en');
+  document.getElementById('card-ar2').classList.toggle('selected',k==='ar2');
+  document.getElementById('card-en2').classList.toggle('selected',k==='en2');
   document.getElementById('selName').textContent=products[k].name;
   document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[k].msg);
   document.getElementById('buy').scrollIntoView({behavior:'smooth'});

@@ -1,0 +1,8 @@
+name = "khidmaty-nagi"
+main = "nagi-worker.js"
+compatibility_date = "2024-01-01"
+account_id = "2ecca5a2aafc2abbc50e0e5fb30cad5b"
+
+[triggers]
+# DST-safe: كرون كل ساعة + الكود بيتحقق من توقيت القاهرة
+crons = ["0 * * * *"]

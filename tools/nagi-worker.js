@@ -185,6 +185,48 @@ async function weeklyOps(env){
   await tgSend(env,text);
 }
 
+// ============ حملة إعلانية كاملة ============
+
+async function cmdCampaign(env,goal){
+  const prompt='جهّزي حملة إعلانية كاملة لمنصة خِدْمَتي AI (خدمات حكومية مصرية). الهدف: '+(goal||'زيادة الوعي والزيارات')+'.\n\nاكتبي:\n1. اسم الحملة + المدة (أسبوعين)\n2. الميزانية الكلية + اليومية (بالجنيه)\n3. المنصات: فيسبوك + انستجرام + جوجل + تيلجرام\n4. 10 نصوص إعلانية متنوعة (5 قصيرة + 5 طويلة) جاهزة للنسخ\n5. 15 هاشتاج متناسق\n6. الجمهور المستهدف (3 شرائح)\n7. جدول النشر (أيام + مواعيد)\n8. KPIs واضحة\n\nردك بالمصري، منظّم، النصوص جاهزة للنسخ فورًا بدون تعديل.';
+  const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🛠️';
+}
+
+async function cmdSocialPosts(env,platform){
+  const plat=platform||'facebook';
+  const prompt='جهّزي 7 بوستات جاهزة للنشر على '+plat+' لمنصة خِدْمَتي AI (خدمات حكومية مصرية).\n\nمتطلبات '+plat+':\n- لو فيسبوك: نص متوسط + emoji + CTA + هاشتاج\n- لو انستجرام: نص قصير + 10 هاشتاج\n- لو تيلجرام: مختصر ودود + لينك\n- لو جوجل: عنوان 30 حرف + وصف 90 حرف\n- لو X (تويتر): أقل من 280 حرف\n\nكل بوست يركز على خدمة مختلفة (مرور/أحوال مدنية/جوازات/تأمينات/ضرائب/شركات/شهر عقاري).\nردك بالمصري، كل بوست في بلوك منفصل جاهز للنسخ.';
+  const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🛠️';
+}
+
+async function cmdAdCalendar(env){
+  const prompt='جهّزي تقويم نشر إعلاني لمدة أسبوع لمنصة خِدْمَتي AI.\n\nلكل يوم (السبت لالجمعة):\n- المنصة (فيسبوك/انستجرام/جوجل/تيلجرام)\n- نوع البوست (خدمة/تذكير/عرض/قصة نجاح)\n- الوقت الأمثل\n- الهدف\n\nالجدول في شكل منظّم. ردك بالمصري.';
+  const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🛠️';
+}
+
+// ============ خطة إعلانية أسبوعية (تُرسل تلقائيًا) ============
+
+async function weeklyAdPlan(env){
+  const stats=await brainGet('/stats');
+  let dataLine='مفيش بيانات.';
+  if(stats&&stats.stats&&stats.stats.website){
+    const s=stats.stats.website;
+    dataLine='زيارات الأسبوع: '+s.visitsTotal+'\nمسجلين: '+s.usersTotal;
+  }
+  let text='📣 <b>خطة إعلانية أسبوعية — ناجية 🛠️</b>\n';
+  text+='═══════════════\n';
+  text+='📊 الأوضاع الحالية:\n'+dataLine+'\n\n';
+  if(env.GEMINI_KEY){
+    const prompt='بيانات:\n'+dataLine+'\n\nجهّزي خطة إعلانية مختصرة للأسبوع الجاي:\n1. أهم 3 رسائل إعلانية\n2. المنصات المُوصى بها\n3. ميزانية مقترحة\n4. هدف الأسبوع\nردك بالمصري، قصير (8-10 أسطر)، قابل للتنفيذ.';
+    const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+    if(ai){text+='🎯 <b>الخطة:</b>\n'+ai+'\n\n'}
+  }
+  text+='نبدأ النشر يا ملك 🚀\n— ناجية 🛠️ | '+stamp();
+  await tgSend(env,text);
+}
+
 // ============ Export ============
 
 export default{
@@ -195,6 +237,8 @@ export default{
     if(h===6){ctx.waitUntil(morningBriefing(env));return}
     // تقرير أسبوعي يوم السبت الساعة 8 الصبح
     if(day==='Sat'&&h===8){ctx.waitUntil(weeklyOps(env));return}
+    // خطة إعلانية أسبوعية يوم الأحد الساعة 9 الصبح
+    if(day==='Sun'&&h===9){ctx.waitUntil(weeklyAdPlan(env));return}
   },
   async fetch(request,env,ctx){
     const url=new URL(request.url);
@@ -215,6 +259,28 @@ export default{
     if(path==='/adtarget'){
       const r=await cmdAdTarget(env);
       return new Response(JSON.stringify({ok:true,guardian:'nagi',ad_target:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/campaign'){
+      const goal=url.searchParams.get('goal')||'';
+      const r=await cmdCampaign(env,goal);
+      return new Response(JSON.stringify({ok:true,guardian:'nagi',campaign:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/social'){
+      const platform=url.searchParams.get('platform')||'facebook';
+      const r=await cmdSocialPosts(env,platform);
+      return new Response(JSON.stringify({ok:true,guardian:'nagi',platform,posts:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/ad-calendar'){
+      const r=await cmdAdCalendar(env);
+      return new Response(JSON.stringify({ok:true,guardian:'nagi',calendar:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/weekly-ad'){
+      await weeklyAdPlan(env);
+      return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
     if(path==='/adreport'){
@@ -251,6 +317,6 @@ export default{
       return new Response(JSON.stringify({ok:true,guardian:'nagi',version:'1.0',scripts_count:SCRIPTS.length,checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    return new Response(JSON.stringify({ok:true,guardian:'nagi',version:'1.0',hint:'/ads خطة إعلانية | /adcopy نصوص إعلانية | /adtarget استهداف | /adreport تقرير | /scripts قائمة السكريبتات | /script-advice نصائح | /morning صباحية | /weekly أسبوعي | /health حالة'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    return new Response(JSON.stringify({ok:true,guardian:'nagi',version:'1.0',hint:'/campaign حملة كاملة | /social?platform=facebook بوستات | /ad-calendar تقويم نشر | /ads خطة | /adcopy نصوص | /adtarget استهداف | /adreport تقرير | /scripts سكريبتات | /morning صباحية | /weekly أسبوعي | /weekly-ad خطة إعلانية | /health حالة'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
 };

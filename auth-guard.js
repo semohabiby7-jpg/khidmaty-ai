@@ -1,60 +1,70 @@
-/* ===== AUTH GUARD — نسخة SEO-آمنة ===== */
-/* مش بيمنع المحتوى (عشان جوجل يفهرس كل الصفحات) — بس بيذكّر الزائر بالتسجيل بلطف */
-/* الأفعال الحساسة (طلب خدمة / تقييم / الحاسبة) محمية من داخل app.js نفسه */
+/* ===== AUTH GUARD — قفل كامل للموقع ===== */
+/* الزائر لازم يسجل اسم + رقم موبايل قبل ما يتصفح */
+/* المحتوى يفضل في DOM (عشان SEO) بس overlay كامل بيغطيه لحد التسجيل */
+/* التسجيل مجاني 100٪ */
 (function(){
-  // لو مسجل دخول، مفيش حاجة
-  if(localStorage.getItem('sb_token')) return;
+  if(localStorage.getItem('sb_token') || sessionStorage.getItem('kg_registered')) return;
 
-  // بانر ناعم أسفل الشاشة — مش بيمنع التصفح وممكن يقفل
-  function showSoftPrompt(){
-    if(sessionStorage.getItem('reg_prompt_closed')) return;
-    if(document.getElementById('regSoftPrompt')) return;
+  document.documentElement.style.overflow='hidden';
 
+  function createGate(){
+    if(document.getElementById('kgGate')) return;
     var inServices = window.location.pathname.indexOf('/services/') !== -1;
     var prefix = inServices ? '../' : '';
 
-    var bar = document.createElement('div');
-    bar.id = 'regSoftPrompt';
-    bar.dir = 'rtl';
-    bar.style.cssText = 'position:fixed;bottom:76px;left:12px;right:12px;z-index:9998;background:linear-gradient(135deg,#0F1E3D,#1a2d5a);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 24px rgba(0,0,0,.35);border-radius:14px;font-family:Cairo,system-ui,sans-serif;border:1px solid rgba(230,194,88,.35);max-width:560px;margin:0 auto';
+    var gate=document.createElement('div');
+    gate.id='kgGate';
+    gate.dir='rtl';
+    gate.style.cssText='position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#0F1E3D,#1a2d5a);display:flex;align-items:center;justify-content:center;padding:20px;font-family:Cairo,system-ui,sans-serif;overflow-y:auto';
 
-    var txt = document.createElement('span');
-    txt.style.cssText = 'font-size:13.5px;line-height:1.5';
-    txt.innerHTML = '👋 <b>أنشئ حسابك المجاني</b><br><span style="opacity:.8;font-size:12.5px">احفظ مصالحك وتابعها من مكان واحد</span>';
+    gate.innerHTML=
+      '<div style="max-width:420px;width:100%;text-align:center;direction:rtl">'+
+        '<div style="font-size:3em;margin-bottom:12px">🔐</div>'+
+        '<h1 style="color:#e6c258;font-size:1.7em;margin:0 0 6px;font-weight:800">خِدْمَتي AI</h1>'+
+        '<p style="color:#3fb950;font-size:1.05em;margin:0 0 8px;font-weight:700">التسجيل مجاني 100٪ 🆓</p>'+
+        '<p style="color:#fff;opacity:.85;font-size:0.9em;margin:0 0 22px;line-height:1.6">سجّل دلوقتي وافتح كل الخدمات الحكومية المصرية<br>خطوة واحدة بس وأنت جوه 👇</p>'+
+        '<form id="kgForm" style="display:flex;flex-direction:column;gap:12px">'+
+          '<input id="kgName" type="text" placeholder="الاسم بالكامل" required maxlength="60" style="padding:14px 16px;border-radius:12px;border:2px solid rgba(230,194,88,.3);background:#fff;color:#0F1E3D;font-size:15px;font-family:inherit;text-align:right;direction:rtl">'+
+          '<input id="kgPhone" type="tel" placeholder="رقم الموبايل (01xxxxxxxxx)" required pattern="01[0-9]{9}" maxlength="11" style="padding:14px 16px;border-radius:12px;border:2px solid rgba(230,194,88,.3);background:#fff;color:#0F1E3D;font-size:15px;font-family:inherit;text-align:right;direction:rtl;letter-spacing:1px">'+
+          '<button type="submit" id="kgBtn" style="padding:15px;border-radius:12px;border:none;background:#e6c258;color:#0F1E3D;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit">🚀 ادخل مجانًا</button>'+
+        '</form>'+
+        '<p style="color:rgba(255,255,255,.5);font-size:0.72em;margin:16px 0 0;line-height:1.5">بتسجيلك بتوافق على <a href="'+prefix+'terms.html" style="color:#e6c258">شروط الاستخدام</a> و<a href="'+prefix+'privacy.html" style="color:#e6c258">الخصوصية</a><br>متنشرش بياناتك لأي حد 🔒</p>'+
+        '<div id="kgErr" style="color:#f87171;font-size:0.85em;margin-top:12px;display:none"></div>'+
+      '</div>';
 
-    var btns = document.createElement('div');
-    btns.style.cssText = 'display:flex;gap:8px;align-items:center;flex-shrink:0';
+    document.body.appendChild(gate);
 
-    var reg = document.createElement('button');
-    reg.textContent = 'إنشاء حساب';
-    reg.style.cssText = 'background:#e6c258;color:#0F1E3D;border:none;padding:9px 16px;border-radius:9px;font-weight:800;cursor:pointer;font-size:13px;font-family:inherit';
-    reg.onclick = function(){
-      try{ sessionStorage.setItem('redirect_after_login', window.location.href); }catch(e){}
-      window.location.href = prefix + 'index.html#login';
-    };
+    var form=document.getElementById('kgForm');
+    var btn=document.getElementById('kgBtn');
+    var err=document.getElementById('kgErr');
 
-    var x = document.createElement('button');
-    x.textContent = '✕';
-    x.setAttribute('aria-label', 'إغلاق');
-    x.style.cssText = 'background:none;border:none;color:rgba(255,255,255,.55);cursor:pointer;font-size:15px;padding:6px;font-family:inherit';
-    x.onclick = function(){
-      try{ sessionStorage.setItem('reg_prompt_closed', '1'); }catch(e){}
-      bar.remove();
-    };
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var name=document.getElementById('kgName').value.trim();
+      var phone=document.getElementById('kgPhone').value.trim();
+      if(name.length<3){err.textContent='اكتب اسمك صح يا فندم';err.style.display='block';return;}
+      if(!/^01[0-9]{9}$/.test(phone)){err.textContent='رقم الموبايل غلط — لازم 01xxxxxxxxx';err.style.display='block';return;}
+      err.style.display='none';
+      btn.textContent='⏳ ثواني...';
+      btn.disabled=true;
 
-    btns.appendChild(reg);
-    btns.appendChild(x);
-    bar.appendChild(txt);
-    bar.appendChild(btns);
-    document.body.appendChild(bar);
+      // إرسال لـSupabase
+      fetch('https://puhdastfiswcmbnczvwx.supabase.co/rest/v1/users',{
+        method:'POST',
+        headers:{'apikey':'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY','Authorization':'Bearer sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY','Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({name:name,phone:phone,source:'gate',page:window.location.pathname,created_at:new Date().toISOString()})
+      }).then(function(){done();}).catch(function(){done();});
 
-    // اختفاء تلقائي بعد 12 ثانية
-    setTimeout(function(){ if(bar.parentNode) bar.remove(); }, 12000);
+      function done(){
+        try{localStorage.setItem('sb_token','gate_'+Date.now());sessionStorage.setItem('kg_registered','1');sessionStorage.setItem('kg_name',name);sessionStorage.setItem('kg_phone',phone);}catch(e){}
+        gate.style.transition='opacity .4s';gate.style.opacity='0';
+        setTimeout(function(){gate.remove();document.documentElement.style.overflow='';},400);
+      }
+      // fallback لو Supabase بطيء
+      setTimeout(function(){if(document.getElementById('kgGate'))done();},3000);
+    });
   }
 
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', function(){ setTimeout(showSoftPrompt, 2000); });
-  }else{
-    setTimeout(showSoftPrompt, 2000);
-  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',createGate);}
+  else{createGate();}
 })();

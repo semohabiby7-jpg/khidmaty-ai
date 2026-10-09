@@ -227,6 +227,56 @@ async function weeklyAdPlan(env){
   await tgSend(env,text);
 }
 
+// ============ بوستات يومية جاهزة للنشر (واتس + فيس) ============
+
+async function dailyContent(env){
+  const services=['المرور','الأحوال المدنية','الجوازات','التأمينات الاجتماعية','الضرائب','الشركات','الشهر العقاري','النقابات','الصحة','التعليم'];
+  const today=new Date().toLocaleDateString('en-CA',{timeZone:'Africa/Cairo'});
+  const dayIdx=new Date().getDay()%services.length;
+  const svc1=services[dayIdx];
+  const svc2=services[(dayIdx+1)%services.length];
+
+  let text='📣 <b>بوستات النهاردة الجاهزة للنشر — ناجية 🛠️</b>\n';
+  text+='═══════════════\n';
+  text+='📅 '+stamp()+'\n\n';
+
+  if(env.GEMINI_KEY){
+    // بوست واتس
+    const waPrompt='جهّزي بوست واتساب احترافي ومبهر لمنصة خِدْمَتي AI عن "'+svc1+'".\n\nمتطلبات واتساب:\n- نص متوسط (3-5 أسطر)\n- إيموجي متكامل وجذاب\n- لينك الموقع https://khidmaty.ai\n- خاتمة دعوة للتفاعل\n- بدون هاشتاج (واتساب مفيهوش هاشتاج)\n- مكتوب بطريقة بتجذب القارئ يكمل ويضغط اللينك\n\nردّي بالبوست فقط، جاهز للنسخ فورًا. بالمصري.';
+    const wa=await callGemini(env,NAGI_SYSTEM,waPrompt);
+    if(wa){
+      text+='🟢 <b>بوست واتساب — '+svc1+'</b>\n';
+      text+='─────────────\n';
+      text+=wa+'\n\n';
+    }
+
+    // بوست فيس
+    const fbPrompt='جهّزي بوست فيسبوك احترافي ومبهر لمنصة خِدْمَتي AI عن "'+svc2+'".\n\nمتطلبات فيسبوك:\n- نص جذاب (4-6 أسطر)\n- إيموجي متناسق\n- لينك الموقع https://khidmaty.ai\n- 5-7 هاشتاج متناسق\n- سؤال تفاعل في الآخر\n- مكتوب بطريقة بتوقف السكرول\n\nردّي بالبوست فقط، جاهز للنسخ فورًا. بالمصري.';
+    const fb=await callGemini(env,NAGI_SYSTEM,fbPrompt);
+    if(fb){
+      text+='📘 <b>بوست فيسبوك — '+svc2+'</b>\n';
+      text+='─────────────\n';
+      text+=fb+'\n\n';
+    }
+
+    // بوست تليجرام (لو في قناة)
+    if(env.TELEGRAM_CHANNEL_ID){
+      const tgPrompt='جهّزي بوست تليجرام قصير ومبهر لمنصة خِدْمَتي AI عن "'+svc1+'".\n\nمتطلبات تليجرام:\n- مختصر (2-3 أسطر)\n- إيموجي قوي\n- لينك الموقع\n- جاهز للنشر على قناة\n\nردّي بالبوست فقط. بالمصري.';
+      const tg=await callGemini(env,NAGI_SYSTEM,tgPrompt);
+      if(tg){
+        text+='✈️ <b>بوست تليجرام — '+svc1+'</b>\n';
+        text+='─────────────\n';
+        text+=tg+'\n\n';
+        // نشر تلقائي في القناة
+        await tgSend(env,tg,env.TELEGRAM_CHANNEL_ID);
+      }
+    }
+  }
+
+  text+='انسخ والصق يا ملك 👆\n— ناجية 🛠️ | '+stamp();
+  await tgSend(env,text);
+}
+
 // ============ Export ============
 
 export default{
@@ -235,6 +285,8 @@ export default{
     const day=cairoDay();
     // صباحية عمليات يومية الساعة 6 الصبح
     if(h===6){ctx.waitUntil(morningBriefing(env));return}
+    // بوستات يومية جاهزة 10 الصبح
+    if(h===10){ctx.waitUntil(dailyContent(env));return}
     // تقرير أسبوعي يوم السبت الساعة 8 الصبح
     if(day==='Sat'&&h===8){ctx.waitUntil(weeklyOps(env));return}
     // خطة إعلانية أسبوعية يوم الأحد الساعة 9 الصبح
@@ -280,6 +332,11 @@ export default{
 
     if(path==='/weekly-ad'){
       await weeklyAdPlan(env);
+      return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/daily'){
+      await dailyContent(env);
       return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 

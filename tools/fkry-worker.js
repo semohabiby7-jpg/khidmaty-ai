@@ -1,58 +1,253 @@
-const BRAIN_HOST='https://khidmaty-agent.semohabiby7.workers.dev'
+// ============================================================
+// فكري — المستشار الاستراتيجي لخِدْمَتي AI
+// Cloudflare Worker — تحليل بيانات + تنبؤ + خطط نمو بـGemini AI
+// النشر: wrangler deploy --config tools/fkry-wrangler.toml
+// المتغيرات المطلوبة في Cloudflare:
+//   GEMINI_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, SUPABASE_SECRET (اختياري)
+// ============================================================
+
+const BRAIN_URL    = 'https://khidmaty-agent.semohabiby7.workers.dev';
+const SITE_URL     = 'https://khidmatyai.com/';
+const ARTICLES_URL = 'https://khidmatyai.com/articles.html';
+const OFFICES_URL  = 'https://khidmatyai.com/offices.html';
+const SUPABASE_URL = 'https://puhdastfiswcmbnczvwx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY';
+const GEMINI_BASE  = 'https://generativelanguage.googleapis.com/v1beta/models/';
+const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
+
+const FKRY_SYSTEM = `أنت فكري، المستشار الاستراتيجي لمحمد إسماعيل مؤسس منصة خِدْمَتي AI.
+بتتكلم بالمصري الدارج بذكاء وحزم وثقة. محمد بيناديك "يا فكري" وانت تناديه "يا ملك".
+دورك:
+1. تحليل البيانات — زيارات، مستخدمين، مقالات، مكاتب، أداء المحتوى
+2. التنبؤ — اتجاهات النمو، فرص جديدة، مخاطر محتملة
+3. خطط النمو — SEO، محتوى، تسويق، شراكات، توسّع
+4. متابعة المنافسين — مواقع خدمات حكومية مماثلة، نقاط قوّة وضعف
+5. التوصيات — خطوات عملية واضحة للمضي قدّام
+منصة خِدْمَتي AI بتقدّم خدمات حكومية مصرية. الموقع فيه 40 مقال + 913 مكتب حكومي.
+ردودك منظّمة وواضحة، بنقاط مرقّمة وخطوات تنفيذية. استخدم الإيموجي باعتدال (🧠 📊 🎯 📈).`;
+
+// ============ أدوات مساعدة ============
 
 function stamp(){
   try{return new Date().toLocaleString('ar-EG',{timeZone:'Africa/Cairo',weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})+' بتوقيت القاهرة'}catch(e){return new Date().toISOString()}
 }
+function cairoHour(){try{return parseInt(new Date().toLocaleString('en-GB',{timeZone:'Africa/Cairo',hour12:false,hour:'2-digit'}),10)}catch(e){return -1}}
+function cairoDay(){try{return new Date().toLocaleString('en-GB',{timeZone:'Africa/Cairo',weekday:'short'})}catch(e){return ''}}
+function cairoDate(){try{return new Date().toLocaleString('en-CA',{timeZone:'Africa/Cairo',year:'numeric',month:'2-digit',day:'2-digit'})}catch(e){return new Date().toISOString().slice(0,10)}}
 
-async function tgSend(env,text){
-  if(!env.TELEGRAM_BOT_TOKEN||!env.TELEGRAM_CHAT_ID)return{sent:false,reason:'no_secrets'}
+async function tgSend(env,text,chatId){
+  const cid=chatId||env.TELEGRAM_CHAT_ID;
+  if(!env.TELEGRAM_BOT_TOKEN||!cid)return{sent:false,reason:'no_secrets'};
   try{
-    const t=text.length>3800?text.slice(0,3800)+'…':text
-    const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:t})})
-    const j=await r.json()
-    return{sent:!!j.ok}
+    const t=text.length>3800?text.slice(0,3800)+'…':text;
+    const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:cid,text:t,parse_mode:'HTML',disable_web_page_preview:true})});
+    const j=await r.json();
+    return{sent:!!j.ok};
   }catch(e){return{sent:false,reason:(e&&e.name)||'Error'}}
 }
 
-async function brainFetch(env,path){
-  for(const h of ['https://brain.internal',BRAIN_HOST]){
+// ============ Gemini AI ============
+
+async function callGemini(env,systemPrompt,userMessage){
+  for(const model of GEMINI_MODELS){
     try{
-      const r=await env.BRAIN.fetch(h+path)
-      if(r.status===200)return await r.json()
+      const r=await fetch(GEMINI_BASE+model+':generateContent?key='+env.GEMINI_KEY,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          systemInstruction:{parts:[{text:systemPrompt}]},
+          contents:[{role:'user',parts:[{text:userMessage}]}],
+          generationConfig:{temperature:0.6,maxOutputTokens:900}
+        })
+      });
+      const j=await r.json();
+      if(j.candidates&&j.candidates[0]&&j.candidates[0].content){
+        return j.candidates[0].content.parts[0].text;
+      }
     }catch(e){}
   }
-  return null
+  return null;
 }
 
-async function buildReport(env){
-  let rep=''
-  const jr=await brainFetch(env,'/report')
-  if(jr&&jr.report)rep=jr.report
-  let stats=''
-  const js=await brainFetch(env,'/stats')
-  const s=js&&js.stats
-  if(s&&s.website){
-    stats='📈 زيارات النهاردة: '+s.website.visitsToday+' | الإجمالي: '+s.website.visitsTotal
-    stats+='\n👤 مسجلين النهاردة: '+s.website.usersToday+' | الإجمالي: '+s.website.usersTotal
-    stats+='\n💼 مقدمي الخدمات: '+s.website.providersTotal
-    stats+='\n✈️ رسائل التليجرام النهاردة: '+(s.total||0)
-  }
-  let text='صباح الخير يا محمد ☕\nصباحية خِدْمَتي AI — فكري 📊\n==========\n'
-  if(stats)text+=stats+'\n\n'
-  if(rep)text+='📋 التقرير الكامل:\n'+rep+'\n\n'
-  text+='— فكري 📊 | '+stamp()
-  return text
+// ============ Brain Worker ============
+
+async function brainGet(path){
+  try{
+    const r=await fetch(BRAIN_URL+path);
+    if(r.status===200)return await r.json();
+  }catch(e){}
+  return null;
 }
+
+// ============ جمع البيانات ============
+
+async function gatherData(env){
+  const data={site:'ن/م',articles:40,offices:913,visitsToday:0,visitsTotal:0,usersToday:0,usersTotal:0,providers:0,tgMessages:0,report:''};
+  // إحصائيات Brain
+  const stats=await brainGet('/stats');
+  if(stats&&stats.stats&&stats.stats.website){
+    const s=stats.stats.website;
+    data.visitsToday=s.visitsToday||0;
+    data.visitsTotal=s.visitsTotal||0;
+    data.usersToday=s.usersToday||0;
+    data.usersTotal=s.usersTotal||0;
+    data.providers=s.providersTotal||0;
+    data.tgMessages=s.total||0;
+  }
+  // تقرير Brain
+  const rep=await brainGet('/report');
+  if(rep&&rep.report)data.report=rep.report.slice(0,600);
+  return data;
+}
+
+function dataSummary(d){
+  let s='';
+  s+='📊 زيارات النهاردة: '+d.visitsToday+' | الإجمالي: '+d.visitsTotal+'\n';
+  s+='👤 مسجلين النهاردة: '+d.usersToday+' | الإجمالي: '+d.usersTotal+'\n';
+  s+='💼 مقدمين: '+d.providers+'\n';
+  s+='📄 مقالات: '+d.articles+' | 🗺️ مكاتب: '+d.offices+'\n';
+  s+='✈️ رسائل تيلجرام النهاردة: '+d.tgMessages;
+  return s;
+}
+
+// ============ أوامر HTTP ============
+
+async function cmdStrategy(env){
+  const d=await gatherData(env);
+  const prompt='بيانات النهاردة:\n'+dataSummary(d)+'\n\nاكتب استراتيجية النهاردة لمنصة خِدْمَتي AI:\n1. تقييم الأداء الحالي\n2. أهم 3 فرص نمو\n3. أكبر خطر وازاي نتجنّبه\nردك بالمصري، منظّم بنقاط، قابل للتنفيذ.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  return ai||'ما قدرتش أحلّل دلوقتي يا ملك، Gemini مش متاح 🧠';
+}
+
+async function cmdGrowth(env){
+  const d=await gatherData(env);
+  const prompt='بيانات:\n'+dataSummary(d)+'\n\nاقترح خطة نمو عملية لمدة 30 يوم لمنصة خِدْمَتي AI:\n- محتوى (مقالات، SEO)\n- تسويق (سوشيال، إعلانات)\n- شراكات\nردك بالمصري، كل نقطة بسطر، خطوات تنفيذية.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🧠';
+}
+
+async function cmdCompetitors(env){
+  const prompt='حلّل المنافسين المحتملين لمنصة خِدْمَتي AI (خدمات حكومية مصرية على الإنترنت):\n1. أهم 3 منافسين أو بدائل (مواقع حكومية رسمية، بوابات)\n2. نقاط قوّتهم وضعفهم\n3. ميزتنا التنافسية\nردك بالمصري، منظّم.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🧠';
+}
+
+async function cmdPredict(env){
+  const d=await gatherData(env);
+  const prompt='بيانات:\n'+dataSummary(d)+'\n\nتنبّأ بمسار منصة خِدْمَتي AI لـ3 شهور جايين:\n1. لو استمر الأداء الحالي، فين هنكون؟\n2. لو طبّقنا خطة نمو، فين ممكن نوصل؟\n3. نقاط حرجة لازم نراقبها\nردك بالمصري، واقعي ومباشر.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🧠';
+}
+
+async function cmdAnalysis(env,topic){
+  const d=await gatherData(env);
+  const prompt='بيانات:\n'+dataSummary(d)+'\n\nالموضوع المطلوب تحليله: "'+topic+'"\n\nحلّل الموضوع بعمق واقترح توصيات عملية. ردك بالمصري، منظّم بنقاط.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🧠';
+}
+
+// ============ الصباحية الاستراتيجية ============
+
+async function morningStrategy(env){
+  const d=await gatherData(env);
+  let text='🧠 <b>صباح الاستراتيجية يا ملك</b>\nصباحية فكري — خِدْمَتي AI\n';
+  text+='═══════════════\n';
+  text+=dataSummary(d)+'\n\n';
+
+  // تحليل AI
+  if(env.GEMINI_KEY){
+    const prompt='بيانات الصباح:\n'+dataSummary(d)+'\n\nاكتب صباحية استراتيجية قصيرة:\n1. تقييم سريع لأداء النهاردة\n2. توصية واحدة مهمة للمضي\n3. فرصة محتوى أو نمو لليوم\nردك بالمصري، قصير (5-8 أسطر)، قابل للتنفيذ.';
+    const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+    if(ai){
+      text+='🎯 <b>توصية فكري:</b>\n'+ai+'\n\n';
+    }
+  }
+
+  text+='نفوّق المنصة بأمان يا ملك 🚀\n— فكري 🧠 | '+stamp();
+  await tgSend(env,text);
+}
+
+// ============ التقرير الأسبوعي (الجمعة) ============
+
+async function weeklyReview(env){
+  const d=await gatherData(env);
+  let text='📊 <b>تقرير استراتيجي أسبوعي — فكري 🧠</b>\n';
+  text+='═══════════════\n';
+  text+=dataSummary(d)+'\n\n';
+
+  if(env.GEMINI_KEY){
+    const prompt='بيانات الأسبوع:\n'+dataSummary(d)+'\n\nاكتب تقرير استراتيجي أسبوعي لمنصة خِدْمَتي AI:\n1. ملخص الأداء\n2. أهم 3 إنجازات\n3. أكبر 3 تحديات\n4. أهداف الأسبوع الجاي\n5. توصية استراتيجية واحدة\nردك بالمصري، منظّم، قابل للتنفيذ.';
+    const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+    if(ai){
+      text+='📋 <b>التحليل الاستراتيجي:</b>\n'+ai+'\n\n';
+    }
+  }
+
+  text+='أسبوع متوّج بالنجاح يا ملك 👑\n— فكري 🧠 | '+stamp();
+  await tgSend(env,text);
+}
+
+// ============ Export ============
 
 export default{
-  async scheduled(event,env,ctx){ctx.waitUntil(buildReport(env).then(t=>tgSend(env,t)))},
+  async scheduled(event,env,ctx){
+    const h=cairoHour();
+    const day=cairoDay();
+    // صباحية استراتيجية يومية الساعة 7 الصبح
+    if(h===7){ctx.waitUntil(morningStrategy(env));return}
+    // تقرير أسبوعي يوم الجمعة الساعة 8 الصبح
+    if(day==='Fri'&&h===8){ctx.waitUntil(weeklyReview(env));return}
+  },
   async fetch(request,env,ctx){
-    const path=new URL(request.url).pathname
-    if(path==='/test'){
-      const text=await buildReport(env)
-      const r=await tgSend(env,text)
-      return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})
+    const url=new URL(request.url);
+    const path=url.pathname;
+
+    if(path==='/strategy'){
+      const r=await cmdStrategy(env);
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',strategy:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
-    return new Response(JSON.stringify({ok:true,name:'khidmaty-fkry',hint:'افتح /test ليبعت الصباحية فورًا'}),{headers:{'Content-Type':'application/json; charset=utf-8'}})
+
+    if(path==='/growth'){
+      const r=await cmdGrowth(env);
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',growth:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/competitors'){
+      const r=await cmdCompetitors(env);
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',competitors:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/predict'){
+      const r=await cmdPredict(env);
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',prediction:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path.startsWith('/analyze/')){
+      const topic=decodeURIComponent(path.slice(9));
+      const r=await cmdAnalysis(env,topic);
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',topic,analysis:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/morning'){
+      await morningStrategy(env);
+      return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/weekly'){
+      await weeklyReview(env);
+      return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/test'){
+      const r=await tgSend(env,'فكري جاهز يا ملك 🧠\nالاستراتيجية في راسي، اسألني أي وقت.',undefined);
+      return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/health'){
+      const d=await gatherData(env);
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'1.0',data:d,checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'1.0',hint:'/strategy استراتيجية | /growth خطة نمو | /competitors منافسين | /predict تنبؤ | /analyze/موضوع تحليل | /morning صباحية | /weekly أسبوعي | /health بيانات'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
-}
+};

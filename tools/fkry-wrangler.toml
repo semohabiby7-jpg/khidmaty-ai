@@ -4,8 +4,4 @@ compatibility_date = "2024-01-01"
 account_id = "2ecca5a2aafc2abbc50e0e5fb30cad5b"
 
 [triggers]
-crons = ["0 5 * * *"]
-
-[[services]]
-binding = "BRAIN"
-service = "khidmaty-agent"
+crons = ["0 7,8 * * *"]

@@ -4,4 +4,5 @@ compatibility_date = "2024-01-01"
 account_id = "2ecca5a2aafc2abbc50e0e5fb30cad5b"
 
 [triggers]
-crons = ["0 7,8 * * *"]
+# DST-safe: كرون كل ساعة + الكود بيتحقق من توقيت القاهرة (cairoHour)
+crons = ["0 * * * *"]

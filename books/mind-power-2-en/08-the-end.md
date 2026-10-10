@@ -33,7 +33,7 @@ The plan is three phases, thirty days each. And it's built entirely on the book'
 
 ### Phase Two: Immunity (Days 31 → 60)
 
-- **Days 31-32:** the five tally — five names, weekly hours, charger/drainter/neutral. (Chapter 5)
+- **Days 31-32:** the five tally — five names, weekly hours, charger/drainer/neutral. (Chapter 5)
 - **Day 33:** the one decision for the dose + the chargers list.
 - **Days 34-39:** add one charger: a message, a sitting, a group.
 - **Day 40:** the return-day plan — three habits and the smallest degree for each, hanging next to the watering page. (Chapter 4)

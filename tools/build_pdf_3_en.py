@@ -1,0 +1,154 @@
+import os
+import re
+from PIL import Image, ImageDraw
+from weasyprint import HTML
+from pypdf import PdfReader
+
+TOOLS = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(TOOLS)
+WS = os.path.dirname(REPO)
+BOOK = os.path.join(REPO, "books", "mind-power-3-en")
+AR_BOOK = os.path.join(REPO, "books", "mind-power-3")
+FONTS = os.path.join(WS, "fonts")
+OUT = os.path.join(BOOK, "Mind-Power-3-EN.pdf")
+COVER_WEBP = os.path.join(AR_BOOK, "cover.webp")
+COVER_PAD = "/tmp/mind-power-3-en-cover-padded.jpg"
+
+im = Image.open(COVER_WEBP).convert("RGB")
+IW, IH = im.size
+TH = int(IW / 0.625)
+
+def row_color(y):
+    px = [im.getpixel((x, y)) for x in range(0, IW, max(1, IW // 24))]
+    return tuple(sum(c[i] for c in px) // len(px) for i in range(3))
+
+TOP_C = row_color(0)
+BOT_C = row_color(IH - 1)
+canvas = Image.new("RGB", (IW, TH))
+PAD_T = (TH - IH) // 2
+canvas.paste(im, (0, PAD_T))
+d = ImageDraw.Draw(canvas)
+d.rectangle([0, 0, IW, PAD_T], fill=TOP_C)
+d.rectangle([0, TH - (TH - IH - PAD_T), IW, TH], fill=BOT_C)
+canvas.save(COVER_PAD, "JPEG", quality=92)
+
+def esc(t):
+    return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+def rich(t):
+    s = esc(t.strip())
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    return s
+
+CSS = """
+@page { size: 5in 8in; margin: 0.68in 0.65in 0.78in 0.65in;
+  @bottom-center { content: counter(page); font-family: Georgia; font-size: 9.5pt; color: #666666; } }
+@page cover { margin: 0; @bottom-center { content: none; } }
+body { font-family: Georgia; font-size: 11.5pt; line-height: 1.55; color: #1a1a1a; text-align: left; }
+h1 { font-size: 16.5pt; color: #14213D; page-break-before: always; margin: 0 0 13pt 0; line-height: 1.45; }
+h2 { font-size: 12.5pt; color: #14213D; margin: 13pt 0 6pt 0; page-break-after: avoid; line-height: 1.45; }
+h3 { font-size: 11pt; color: #1a1a1a; margin: 10pt 0 4pt 0; page-break-after: avoid; line-height: 1.45; }
+p { margin: 0 0 6pt 0; }
+p.num { margin: 0 0 4.5pt 1em; }
+p.li { margin: 0 0 3pt 1.2em; }
+p.li2 { margin: 0 0 3pt 2.4em; }
+p.sig { text-align: center; margin: 10pt 0; }
+.sep { text-align: center; color: #777777; margin: 10pt 0; letter-spacing: 6pt; }
+strong { font-weight: bold; }
+table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 10pt; }
+th { background: #14213D; color: #fff; padding: 6pt 8pt; text-align: left; }
+td { border: 1px solid #ddd; padding: 5pt 8pt; text-align: left; }
+.coverpage { page: cover; }
+.coverpage img { width: 5in; height: 8in; object-fit: cover; display: block; }
+.titlepage { text-align: center; padding-top: 1.1in; page-break-after: always; }
+.tt { font-size: 26pt; color: #14213D; line-height: 1.3; font-weight: bold; }
+.te { font-size: 13pt; color: #14213D; margin-top: 4pt; letter-spacing: 2pt; }
+.tsub { font-size: 11.5pt; color: #1a1a1a; margin-top: 16pt; line-height: 1.6; }
+.tauth { font-size: 12.5pt; color: #1a1a1a; margin-top: 52pt; font-weight: bold; }
+.tauth2 { font-size: 11pt; color: #333333; margin-top: 2pt; letter-spacing: 1pt; }
+.copyright { page-break-after: always; margin-top: 3.5in; font-size: 9.5pt; line-height: 1.6; }
+.copyright p { margin: 0 0 3pt 0; }
+.tocpage { page-break-after: always; }
+.toch { font-size: 16.5pt; color: #14213D; margin: 0 0 14pt 0; font-weight: bold; }
+.tocline { display: block; text-decoration: none; color: #1a1a1a; margin: 8pt 0; font-size: 11.5pt; }
+.tocline::after { content: leader(". ") target-counter(attr(href), page); }
+"""
+
+chapters = []
+words = 0
+
+def emit_h1(title, cid):
+    chapters.append('<h1 id="%s">%s</h1>' % (cid, rich(title)))
+
+def emit_line(ln):
+    s = ln.rstrip()
+    if not s.strip():
+        return
+    if s.startswith("### "):
+        chapters.append("<h3>%s</h3>" % rich(s[4:]))
+    elif s.startswith("## "):
+        chapters.append("<h2>%s</h2>" % rich(s[3:]))
+    elif s.startswith("# "):
+        cid = "ch%d" % len(chs)
+        t = re.sub(r"\*\*", "", s[2:].strip())
+        chapters.append('<h1 id="%s">%s</h1>' % (cid, rich(s[2:])))
+        chs.append((cid, t))
+    elif s.strip() == "---":
+        chapters.append('<div class="sep">•••</div>')
+    elif re.match(r"^\s*- ", ln):
+        indent = len(ln) - len(ln.lstrip())
+        cls = "li2" if indent >= 2 else "li"
+        mark = "– " if indent >= 2 else "• "
+        chapters.append('<p class="%s">%s%s</p>' % (cls, mark, rich(ln.strip()[2:])))
+    elif re.match(r"^\d+\. ", s.strip()):
+        chapters.append('<p class="num">%s</p>' % rich(s.strip()))
+    elif s.startswith("—") and len(s.strip()) < 45:
+        chapters.append('<p class="sig">%s</p>' % rich(s.strip()))
+    else:
+        chapters.append("<p>%s</p>" % rich(s))
+
+FILES = ["00-introduction.md", "01-i-determined.md", "02-i-arrived.md", "03-i-evaluated-and-believed.md", "04-i-benefited.md", "05-i-led.md", "06-i-benefited-others.md", "07-the-stories.md", "08-the-end.md"]
+chs = []
+
+for fn in FILES:
+    path = os.path.join(BOOK, fn)
+    txt = open(path, encoding="utf-8").read()
+    words += len(txt.split())
+    lines = txt.split("\n")
+    if fn.startswith("00-"):
+        idx = None
+        for i, l in enumerate(lines):
+            if l.strip().startswith("# "):
+                idx = i
+                break
+        if idx is not None:
+            lines = lines[idx:]
+            emit_h1("Introduction", "ch0")
+            chs.append(("ch0", "Introduction"))
+            lines = lines[1:]
+    for ln in lines:
+        emit_line(ln)
+
+toc_lines = "".join('<a class="tocline" href="#%s">%s</a>' % (cid, esc(t)) for cid, t in chs)
+
+html = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><style>%s</style></head><body>
+<div class="coverpage"><img src="file://%s"></div>
+<div class="titlepage"><div class="tt">WHAT DO I GAIN FROM WHAT I REACHED?</div><div class="te">MIND POWER 3</div>
+<div class="tsub">From arrival to value, from value to giving</div>
+<div class="tauth">MOHAMED ISMAIL</div><div class="tauth2">MIND POWER AUTHOR</div></div>
+<div class="copyright">
+<p>What Do I Gain from What I Reached? — Mind Power 3</p>
+<p>First Edition — 2026</p>
+<p>© 2026 Khidmaty AI — All Rights Reserved</p>
+<p>No part of this book may be reproduced or quoted by any means without prior written permission from the author.</p>
+<p>khidmatyai.com</p>
+</div>
+<div class="tocpage"><div class="toch">Contents</div>%s</div>
+%s
+</body></html>""" % (CSS, COVER_PAD, toc_lines, "".join(chapters))
+
+HTML(string=html).write_pdf(OUT)
+r = PdfReader(OUT)
+print("WORDS", words)
+print("PAGES", len(r.pages))
+print("KB", os.path.getsize(OUT) // 1024)

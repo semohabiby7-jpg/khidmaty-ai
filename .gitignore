@@ -1,4 +1,7 @@
 
+# no PDFs on the public site — delivered via WhatsApp only
+*.pdf
+
 # secrets
 .ga-id
 .github-token

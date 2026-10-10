@@ -49,6 +49,30 @@ EN_BOOK = {
     "cover": "cover-kindle.jpg",
 }
 
+
+EN2_BOOK = {
+    "dir": "mind-power-2-en",
+    "out": "Power-Of-Mind-2-EN.epub",
+    "title": "POWER OF MIND 2",
+    "lang": "en",
+    "dir_attr": "ltr",
+    "description": "After you reclaimed your mind — how to lead your life: destination, decision, endurance, impact. The second part of Power of Mind by Mohamed Ismail Abdelaziz.",
+    "author": "MOHAMED ISMAIL ABDELAZIZ",
+    "publisher": "KHIDMATY AI",
+    "files": [
+        "00-introduction.md",
+        "01-where-to.md",
+        "02-one-decision.md",
+        "03-patience-is-continuation.md",
+        "04-storm-time.md",
+        "05-who-is-around-you.md",
+        "06-your-power-in-whose-service.md",
+        "07-stories-of-part-two.md",
+        "08-the-end.md",
+    ],
+    "cover": "cover-kindle.jpg",
+}
+
 def esc(t):
     return html.escape(t, quote=False)
 
@@ -239,6 +263,6 @@ def build(book):
     return out_path, len(chapters)
 
 if __name__ == "__main__":
-    for book in (AR_BOOK, EN_BOOK):
+    for book in (AR_BOOK, EN_BOOK, EN2_BOOK):
         path, n = build(book)
         print("built:", path, "chapters:", n, "size KB:", round(os.path.getsize(path) / 1024))

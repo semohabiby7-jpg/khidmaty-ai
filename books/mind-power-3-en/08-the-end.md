@@ -65,5 +65,5 @@ Begin.
 ---
 
 **Mohamed Ismail**
-Author of the "Mind Power" series
+Author of the "Mind Power and Self-Development" series
 khidmatyai.com

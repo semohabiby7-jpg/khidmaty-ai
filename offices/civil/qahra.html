@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>مكاتب السجل المدني في القاهرة — 28 مكتب | خِدْمَتي AI</title>
+<meta name="description" content="كل مكاتب السجل المدني في محافظة القاهرة — 28 مكتب بالعناوين والمواعيد والخدمات. اعرف أقرب مكتب ليك.">
+<meta name="keywords" content="مكاتب السجل المدني القاهرة, السجل المدني القاهرة, عنوان السجل المدني القاهرة, مواعيد السجل المدني, خِدْمَتي AI">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/styles/main.css">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:800px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{color:#8ea0c4}
+.office-hero{max-width:800px;margin:0 auto;padding:10px 20px 20px;text-align:center}
+.office-hero .office-emoji{font-size:42px;margin-bottom:8px}
+.office-hero h1{font-size:22px;font-weight:900;color:#fff;margin:0 0 6px;line-height:1.3}
+.office-hero p{font-size:14px;color:#8ea0c4;margin:0}
+.office-info{max-width:800px;margin:0 auto;padding:0 20px 20px}
+.info-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:20px;margin-bottom:16px}
+.info-card h3{font-size:15px;font-weight:800;color:#e6c258;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.info-card p{font-size:14px;color:#c8d4e8;margin:4px 0;line-height:1.6}
+.info-row{display:flex;gap:10px;align-items:flex-start;margin:6px 0}
+.info-row .label{color:#8ea0c4;font-size:13px;min-width:70px;font-weight:600}
+.info-row .value{color:#e8eef8;font-size:14px;flex:1}
+.map-embed{max-width:800px;margin:0 auto 20px;padding:0 20px}
+.map-embed iframe{width:100%;height:300px;border:0;border-radius:16px;border:2px solid #1e3556;filter:invert(0.92) hue-rotate(180deg)}
+.cta-section{max-width:800px;margin:0 auto 30px;padding:0 20px}
+.cta-card{background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;padding:24px;text-align:center}
+.cta-card h3{font-size:17px;font-weight:800;color:#fff;margin:0 0 8px}
+.cta-card p{font-size:14px;color:#8ea0c4;margin:0 0 14px}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;padding:12px 28px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo,sans-serif;cursor:pointer;transition:all .3s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.related-section{max-width:800px;margin:0 auto 30px;padding:0 20px}
+.related-section h3{font-size:16px;font-weight:800;color:#fff;margin:0 0 12px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.related-link{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:12px 16px;text-decoration:none;color:#e8eef8;font-size:13px;font-weight:600;transition:all .3s;display:block}
+.related-link:hover{border-color:#e6c258;color:#e6c258;transform:translateY(-2px)}
+.list-section{max-width:800px;margin:0 auto 30px;padding:0 20px}
+.office-list-item{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:16px;margin-bottom:10px;text-decoration:none;color:inherit;display:block;transition:all .3s}
+.office-list-item:hover{border-color:#e6c258;transform:translateY(-2px)}
+.office-list-item h4{font-size:15px;font-weight:800;color:#fff;margin:0 0 4px}
+.office-list-item p{font-size:13px;color:#8ea0c4;margin:0}
+.office-list-item .office-meta{font-size:12px;color:#5a6a8a;margin-top:4px}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:10px}
+.footer-links a{font-size:13px;color:#8ea0c4}
+.footer-links a:hover{color:#e6c258}
+.gov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-width:800px;margin:0 auto 30px;padding:0 20px}
+.gov-card{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:14px 16px;text-decoration:none;color:#e8eef8;font-size:13px;font-weight:600;transition:all .3s;text-align:center}
+.gov-card:hover{border-color:#e6c258;transform:translateY(-2px)}
+.gov-card .count{display:block;font-size:11px;color:#8ea0c4;margin-top:4px}
+</style>
+<link rel="canonical" href="https://khidmatyai.com/offices/civil/qahra.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "مكاتب السجل المدني في القاهرة",
+  "description": "كل مكاتب السجل المدني في محافظة القاهرة — 28 مكتب بالعناوين والمواعيد والخدمات. اعرف أقرب مكتب ليك.",
+  "url": "https://khidmatyai.com/offices/civil/qahra.html",
+  "inLanguage": "ar-EG",
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": 28,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "السجل المدني - عين شمس",
+        "url": "https://khidmatyai.com/offices/civil/qahra/ayn-shms.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "السجل المدني - روض الفرج",
+        "url": "https://khidmatyai.com/offices/civil/qahra/rwd-alfrg.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "السجل المدني - المطريه",
+        "url": "https://khidmatyai.com/offices/civil/qahra/mtrya.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "السجل المدني - مدينة نصر الأول",
+        "url": "https://khidmatyai.com/offices/civil/qahra/mdyna-nsr.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "السجل المدني - الزيتون",
+        "url": "https://khidmatyai.com/offices/civil/qahra/zytwn.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "السجل المدني - المرج",
+        "url": "https://khidmatyai.com/offices/civil/qahra/mrg.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "السجل المدني - الوايلي",
+        "url": "https://khidmatyai.com/offices/civil/qahra/wayly.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "name": "السجل المدني - الزاوية الحمراء",
+        "url": "https://khidmatyai.com/offices/civil/qahra/zawya-alhmra.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "name": "السجل المدني - شبرا",
+        "url": "https://khidmatyai.com/offices/civil/qahra/shbra.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "name": "السجل المدني - الأزبكية",
+        "url": "https://khidmatyai.com/offices/civil/qahra/azbkya.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "name": "السجل المدني - السلام ثان",
+        "url": "https://khidmatyai.com/offices/civil/qahra/slam.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 12,
+        "name": "السجل المدني - حلوان",
+        "url": "https://khidmatyai.com/offices/civil/qahra/hlwan.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 13,
+        "name": "السجل المدني - حدائق القبة",
+        "url": "https://khidmatyai.com/offices/civil/qahra/hdaaq-alqba.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 14,
+        "name": "السجل المدني - الظاهر",
+        "url": "https://khidmatyai.com/offices/civil/qahra/zahr.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 15,
+        "name": "السجل المدني - عابدين",
+        "url": "https://khidmatyai.com/offices/civil/qahra/aabdyn.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 16,
+        "name": "السجل المدني - العتبة",
+        "url": "https://khidmatyai.com/offices/civil/qahra/atba.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 17,
+        "name": "السجل المدني - بولاق",
+        "url": "https://khidmatyai.com/offices/civil/qahra/bwlaq.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 18,
+        "name": "السجل المدني - بولاق الدكرور",
+        "url": "https://khidmatyai.com/offices/civil/qahra/bwlaq-2.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 19,
+        "name": "السجل المدني - الدرب الأحمر",
+        "url": "https://khidmatyai.com/offices/civil/qahra/drb-alahmr.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 20,
+        "name": "السجل المدني - الخليفة",
+        "url": "https://khidmatyai.com/offices/civil/qahra/khlyfa.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 21,
+        "name": "السجل المدني - الشرابية",
+        "url": "https://khidmatyai.com/offices/civil/qahra/shrabya.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 22,
+        "name": "السجل المدني - التبين",
+        "url": "https://khidmatyai.com/offices/civil/qahra/tbyn.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 23,
+        "name": "السجل المدني - جاردن سيتي",
+        "url": "https://khidmatyai.com/offices/civil/qahra/gardn-syty.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 24,
+        "name": "السجل المدني - منشأة ناصر",
+        "url": "https://khidmatyai.com/offices/civil/qahra/mnshaa-nasr.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 25,
+        "name": "السجل المدني - مدينة نصر الثان",
+        "url": "https://khidmatyai.com/offices/civil/qahra/mdyna-nsr-2.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 26,
+        "name": "السجل المدني - القاهرة الجديدة 3",
+        "url": "https://khidmatyai.com/offices/civil/qahra/qahra-algdyda.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 27,
+        "name": "السجل المدني - القاهرة الجديدة 1",
+        "url": "https://khidmatyai.com/offices/civil/qahra/qahra-algdyda-2.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 28,
+        "name": "السجل المدني - طره",
+        "url": "https://khidmatyai.com/offices/civil/qahra/trh.html"
+      }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="header">
+  <a href="../index.html">← الرئيسية</a>
+  <div class="header-logo">
+    <img src="../assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+
+<div class="breadcrumb">
+  <a href="../index.html">الرئيسية</a> ›
+  <a href="../offices.html">المكاتب</a> ›
+  <a href="../offices/civil.html">السجل المدني</a> ›
+  <span>القاهرة</span>
+</div>
+<div class="office-hero">
+  <div class="office-emoji">🪪</div>
+  <h1>مكاتب السجل المدني في القاهرة</h1>
+  <p>28 مكتب — اعرف العنوان والمواعيد والخدمات</p>
+</div>
+<div class="list-section">
+  <h3 style="font-size:16px;font-weight:800;color:#fff;margin:0 0 12px">📋 قائمة المكاتب</h3>
+<a href="ayn-shms.html" class="office-list-item">
+  <h4>🪪 السجل المدني - عين شمس</h4>
+  <p>📍 شارع جسر السويس - داخل قسم شرطة عين شمس...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | عين شمس</div>
+</a>
+<a href="rwd-alfrg.html" class="office-list-item">
+  <h4>🪪 السجل المدني - روض الفرج</h4>
+  <p>📍 38 شارع نشاتي تقاطع شارع بديعة - داخل قسم شرطة روض الفرج...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | روض الفرج</div>
+</a>
+<a href="mtrya.html" class="office-list-item">
+  <h4>🪪 السجل المدني - المطريه</h4>
+  <p>📍 شارع طه قنديل - بجوار مستشفى المطريه التعليمي...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | المطرية</div>
+</a>
+<a href="mdyna-nsr.html" class="office-list-item">
+  <h4>🪪 السجل المدني - مدينة نصر الأول</h4>
+  <p>📍 شارع النصر - داخل قسم شرطة مدينة نصر الأول...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | مدينة نصر</div>
+</a>
+<a href="zytwn.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الزيتون</h4>
+  <p>📍 شارع زغلول تقاطع تومانباي...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الزيتون</div>
+</a>
+<a href="mrg.html" class="office-list-item">
+  <h4>🪪 السجل المدني - المرج</h4>
+  <p>📍 شارع الترعة السلتوسية - داخل قسم شرطة المرج...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | المرج</div>
+</a>
+<a href="wayly.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الوايلي</h4>
+  <p>📍 شارع الجيش - العباسية - داخل قسم شرطة الوايلي...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الوايلي</div>
+</a>
+<a href="zawya-alhmra.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الزاوية الحمراء</h4>
+  <p>📍 شارع منشية الجمال - خلف قسم شرطة الزاوية الحمراء...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الزاوية الحمراء</div>
+</a>
+<a href="shbra.html" class="office-list-item">
+  <h4>🪪 السجل المدني - شبرا</h4>
+  <p>📍 شارع أرض الطويل تقاطع الترعة البولاقية - داخل قسم شرطة شبرا...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | شبرا</div>
+</a>
+<a href="azbkya.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الأزبكية</h4>
+  <p>📍 90 شارع الجلاء - ميدان رمسيس - داخل قسم شرطة الأزبكية...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الأزبكية</div>
+</a>
+<a href="slam.html" class="office-list-item">
+  <h4>🪪 السجل المدني - السلام ثان</h4>
+  <p>📍 شارع المداق - مدينة النهضة - داخل قسم شرطة السلام ثان...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | السلام</div>
+</a>
+<a href="hlwan.html" class="office-list-item">
+  <h4>🪪 السجل المدني - حلوان</h4>
+  <p>📍 مبنى الضرائب - شارع محمد سيد أحمد...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | حلوان</div>
+</a>
+<a href="hdaaq-alqba.html" class="office-list-item">
+  <h4>🪪 السجل المدني - حدائق القبة</h4>
+  <p>📍 شارع ترعة الجندى - بجوار قسم شرطة حدائق القبة...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | حدائق القبة</div>
+</a>
+<a href="zahr.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الظاهر</h4>
+  <p>📍 12 شارع السكاكيني - ميدان السكاكيني - داخل قسم شرطة الظاهر...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الظاهر</div>
+</a>
+<a href="aabdyn.html" class="office-list-item">
+  <h4>🪪 السجل المدني - عابدين</h4>
+  <p>📍 شارع الجامعة - شارع باب الباريس - داخل قسم شرطة عابدين...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | عابدين</div>
+</a>
+<a href="atba.html" class="office-list-item">
+  <h4>🪪 السجل المدني - العتبة</h4>
+  <p>📍 2 ميدان العتبة - بجوار قسم شرطة الموسكي...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | العتبة</div>
+</a>
+<a href="bwlaq.html" class="office-list-item">
+  <h4>🪪 السجل المدني - بولاق</h4>
+  <p>📍 وكالة الخرنوب - تقاطع كورنيش النيل - داخل قسم شرطة بولاق...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | بولاق</div>
+</a>
+<a href="bwlaq-2.html" class="office-list-item">
+  <h4>🪪 السجل المدني - بولاق الدكرور</h4>
+  <p>📍 كورنيش النيل - ماسبيرو - مبنى الإذاعة والتلفزيون الدور الثان...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | بولاق</div>
+</a>
+<a href="drb-alahmr.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الدرب الأحمر</h4>
+  <p>📍 شارع الدرب الأحمر - بجوار نقطة شرطة المتولي...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الدرب الأحمر</div>
+</a>
+<a href="khlyfa.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الخليفة</h4>
+  <p>📍 شارع الخضيري - ميدان صلاح الدين - بجوار قسم شرطة الخليفة...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الخليفة</div>
+</a>
+<a href="shrabya.html" class="office-list-item">
+  <h4>🪪 السجل المدني - الشرابية</h4>
+  <p>📍 شارع الشركات - بجوار قسم شرطة الشرابية...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | الشرابية</div>
+</a>
+<a href="tbyn.html" class="office-list-item">
+  <h4>🪪 السجل المدني - التبين</h4>
+  <p>📍 قطعة 56 - عمارات شركة الحديد والصلب...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | التبين</div>
+</a>
+<a href="gardn-syty.html" class="office-list-item">
+  <h4>🪪 السجل المدني - جاردن سيتي</h4>
+  <p>📍 11 شارع عائشة التيمورية - داخل قسم شرطة قصر النيل...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | جاردن سيتي</div>
+</a>
+<a href="mnshaa-nasr.html" class="office-list-item">
+  <h4>🪪 السجل المدني - منشأة ناصر</h4>
+  <p>📍 24 عمارات سوزان مبارك - الدويقة...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | منشأة ناصر</div>
+</a>
+<a href="mdyna-nsr-2.html" class="office-list-item">
+  <h4>🪪 السجل المدني - مدينة نصر الثان</h4>
+  <p>📍 شارع المخيم الدائم - داخل قسم شرطة مدينة نصر الثان...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | مدينة نصر</div>
+</a>
+<a href="qahra-algdyda.html" class="office-list-item">
+  <h4>🪪 السجل المدني - القاهرة الجديدة 3</h4>
+  <p>📍 محلية 7 - التجمع الثالث - داخل قسم شرطة القاهرة الجديدة 3...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | القاهرة الجديدة</div>
+</a>
+<a href="qahra-algdyda-2.html" class="office-list-item">
+  <h4>🪪 السجل المدني - القاهرة الجديدة 1</h4>
+  <p>📍 شارع 1 - المنطقة الرابعة - داخل قسم شرطة القاهرة الجديدة 1...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | القاهرة الجديدة</div>
+</a>
+<a href="trh.html" class="office-list-item">
+  <h4>🪪 السجل المدني - طره</h4>
+  <p>📍 80 عمارات امتداد الأمل - كورنيش الأوتوستراد...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–3م، الجمعة إجازة | طره</div>
+</a>
+</div>
+<div class="cta-section">
+  <div class="cta-card">
+    <h3>🗺️ خريطة كل المكاتب</h3>
+    <p>شوف كل مكاتب السجل المدني على الخريطة التفاعلية</p>
+    <a href="../offices.html" class="cta-btn">افتح الخريطة</a>
+  </div>
+</div>
+
+<div class="footer">
+  <p>خِدْمَتي AI — دليلك الذكي للخدمات الحكومية في مصر</p>
+  <div class="footer-links">
+    <a href="../index.html">الرئيسية</a>
+    <a href="../articles.html">المقالات</a>
+    <a href="../offices.html">خريطة المكاتب</a>
+    <a href="../store.html">المتجر</a>
+    <a href="../contact.html">تواصل معنا</a>
+  </div>
+</div>
+</body>
+</html>

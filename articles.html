@@ -175,12 +175,35 @@ grid.innerHTML=articles.map(function(a){
     '</article>';
 }).join('');
 
+
+// === Internal Linking: مقالات → مكاتب ===
+function getRelatedOfficesHTML(cat) {
+  var catToType = {
+    'أحوال مدنية': 'civil', 'مرور': 'traffic', 'شهر عقاري': 'notary', 'عقاري': 'notary',
+    'تأمينات': 'insurance', 'تأمين صحي': 'insurance', 'صحة': 'insurance',
+    'جوازات': 'civil', 'بريد': 'insurance', 'خدمات عامة': 'civil'
+  };
+  var typ = catToType[cat];
+  if (!typ) return '';
+  var typeNames = {civil:'السجل المدني',traffic:'المرور',notary:'الشهر العقاري',insurance:'التأمينات الاجتماعية'};
+  var typeEmojis = {civil:'🪪',traffic:'🚗',notary:'🏛️',insurance:'🛡️'};
+  var tn = typeNames[typ] || typ;
+  var te = typeEmojis[typ] || '🏛️';
+  return '<div style="margin:20px 0;padding:18px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;text-align:center">'+
+    '<h3 style="font-size:17px;font-weight:800;color:#fff;margin:0 0 8px">'+te+' اعرف أقرب مكتب '+tn+' ليك</h3>'+
+    '<p style="font-size:14px;color:#8ea0c4;margin:0 0 14px">اختر محافظتك وشوف العنوان والمواعيد والخدمات</p>'+
+    '<a href="offices/'+typ+'.html" style="display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:12px 28px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none">📍 تصفح مكاتب '+tn+'</a>'+
+    ' &nbsp; <a href="offices.html" style="display:inline-block;background:#1a2d5a;color:#e6c258;border:1px solid #e6c258;padding:12px 28px;border-radius:30px;font-weight:700;font-size:15px;text-decoration:none">🗺️ الخريطة التفاعلية</a>'+
+    '</div>';
+}
+// === End Internal Linking ===
+
 function openArticle(id){
   var a=articles.find(function(x){return x.id===id});
   if(!a)return;
   var modal=document.getElementById('articleModal');
   var body=document.getElementById('modalBody');
-  body.innerHTML=(a.infographic?a.infographic:'')+a.content;
+  body.innerHTML=(a.infographic?a.infographic:'')+a.content+getRelatedOfficesHTML(a.cat);
   modal.classList.add('active');
   document.body.style.overflow='hidden';
 }

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>لوحة القيادة — خِدْمَتي AI</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0a0f1e;color:#e8eef8;min-height:100vh}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header h1{font-size:20px;font-weight:900;color:#e6c258}
+.header span{font-size:12px;color:#8ea0c4}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.section{margin-bottom:28px}
+.section-title{font-size:16px;font-weight:800;color:#e6c258;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:18px;transition:all .3s}
+.card:hover{border-color:#e6c258;transform:translateY(-2px)}
+.card-label{font-size:12px;color:#8ea0c4;font-weight:700;margin-bottom:6px}
+.card-value{font-size:28px;font-weight:900;color:#fff}
+.card-sub{font-size:11px;color:#5a6a8a;margin-top:4px}
+.card-value.gold{color:#e6c258}
+.card-value.green{color:#3fb950}
+.card-value.red{color:#f87171}
+table{width:100%;border-collapse:collapse;background:#0d1a33;border-radius:12px;overflow:hidden}
+th{background:#14213D;color:#e6c258;padding:10px 12px;text-align:right;font-size:12px;font-weight:800}
+td{padding:8px 12px;border-top:1px solid #1e3556;font-size:13px;color:#c0cee0}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block}
+.badge.done{background:rgba(63,185,80,.15);color:#3fb950}
+.badge.progress{background:rgba(230,194,88,.15);color:#e6c258}
+.badge.pending{background:rgba(138,144,170,.15);color:#8a90aa}
+.badge.locked{background:rgba(248,113,113,.15);color:#f87171}
+.progress-bar{background:#1e3556;border-radius:20px;height:8px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#e6c258,#d4af37);transition:width .5s}
+.footer{text-align:center;padding:24px;color:#5a6a8a;font-size:12px}
+@media(max-width:600px){.cards{grid-template-columns:1fr 1fr}.card-value{font-size:22px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>📊 لوحة قيادة خِدْمَتي AI</h1>
+    <span>داخلي — للفريق فقط</span>
+  </div>
+  <span id="lastUpdate"></span>
+</div>
+
+<div class="container">
+
+  <!-- ===== المؤشرات ===== -->
+  <div class="section">
+    <div class="section-title">📈 المؤشرات الحالية</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">المسجلين</div>
+        <div class="card-value gold" id="regCount">7</div>
+        <div class="card-sub">الهدف: آلاف</div>
+      </div>
+      <div class="card">
+        <div class="card-label">زيارات (إجمالي)</div>
+        <div class="card-value" id="totalVisits">459</div>
+        <div class="card-sub">آخر 7 أيام: 66</div>
+      </div>
+      <div class="card">
+        <div class="card-label">المقالات</div>
+        <div class="card-value">60</div>
+        <div class="card-sub">كلها كاملة</div>
+      </div>
+      <div class="card">
+        <div class="card-label">صفحات الخدمات</div>
+        <div class="card-value">72</div>
+        <div class="card-sub">13 تصنيف</div>
+      </div>
+      <div class="card">
+        <div class="card-label">الكتب</div>
+        <div class="card-value">6</div>
+        <div class="card-sub">3 أجزاء × 2 لغة</div>
+      </div>
+      <div class="card">
+        <div class="card-label">المفاتيح</div>
+        <div class="card-value">8</div>
+        <div class="card-sub">في الخزنة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== حالة الموقع ===== -->
+  <div class="section">
+    <div class="section-title">🌐 حالة الموقع</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">المقالات والخدمات</div>
+        <div class="card-value green">مفتوح</div>
+        <div class="card-sub">بدون قفل — SEO</div>
+      </div>
+      <div class="card">
+        <div class="card-label">المتجر</div>
+        <div class="card-value red">مقفول</div>
+        <div class="card-sub">overlay كامل</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Google Analytics</div>
+        <div class="card-value green">شغّال</div>
+        <div class="card-sub">conversions + UTM</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Search Console</div>
+        <div class="card-value gold">جاري</div>
+        <div class="card-sub">request indexing</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sitemap</div>
+        <div class="card-value green">85 صفحة</div>
+        <div class="card-sub">محدّث 11/10</div>
+      </div>
+      <div class="card">
+        <div class="card-label">PDFs في المكتبة</div>
+        <div class="card-value">6</div>
+        <div class="card-sub">خارج git</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== خطة 30 يوم ===== -->
+  <div class="section">
+    <div class="section-title">📅 خطة 30 يوم</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">أسبوع 1 (12-18/10)</div>
+        <div class="card-value gold">جاري</div>
+        <div class="card-sub">فتح محتوى + GA + Dashboard + واتساب</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-label">أسبوع 2 (19-25/10)</div>
+        <div class="card-value" style="color:#5a6a8a">بانتظار</div>
+        <div class="card-sub">مقالات + باقة 129ج + تجربة بيع</div>
+      </div>
+      <div class="card">
+        <div class="card-label">أسبوع 3 (26/10-1/11)</div>
+        <div class="card-value" style="color:#5a6a8a">بانتظار</div>
+        <div class="card-sub">إعلانات 50→200ج + خدمات مدفوعة</div>
+      </div>
+      <div class="card">
+        <div class="card-label">أسبوع 4 (2-11/11)</div>
+        <div class="card-value" style="color:#5a6a8a">بانتظار</div>
+        <div class="card-sub">تحليل + إحالة + توسعة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== مهام بكرة ===== -->
+  <div class="section">
+    <div class="section-title">✅ مهام اليوم (11/10)</div>
+    <table>
+      <tr><th>#</th><th>المهمة</th><th>الحالة</th></tr>
+      <tr><td>1</td><td>فتح المقالات والخدمات بدون قفل</td><td><span class="badge done">✅ خلص</span></td></tr>
+      <tr><td>2</td><td>GA — conversions + UTM على كل الصفحات</td><td><span class="badge done">✅ خلص</span></td></tr>
+      <tr><td>3</td><td>لوحة قيادة (Dashboard)</td><td><span class="badge done">✅ خلص</span></td></tr>
+      <tr><td>4</td><td>تحديث sitemap — 85 صفحة</td><td><span class="badge done">✅ خلص</span></td></tr>
+      <tr><td>5</td><td>سكريبت واتساب للـ7 مسجلين</td><td><span class="badge done">✅ خلص</span></td></tr>
+      <tr><td>6</td><td>Search Console — request indexing</td><td><span class="badge progress">⏳ جاري</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ===== المقترحات حسب الأولوية ===== -->
+  <div class="section">
+    <div class="section-title">📋 المقترحات حسب الأولوية</div>
+    <table>
+      <tr><th>الأولوية</th><th>المرحلة</th><th>عدد المهام</th><th>الحالة</th></tr>
+      <tr><td>P0</td><td>بكرة (11/10)</td><td>6</td><td><span class="badge progress">5/6 خلصوا</span></td></tr>
+      <tr><td>P1</td><td>هذا الأسبوع (12-15/10)</td><td>4</td><td><span class="badge pending">⬜ بانتظار</span></td></tr>
+      <tr><td>P2</td><td>أسبوع 2-3 (16-25/10)</td><td>5</td><td><span class="badge pending">⬜ بانتظار</span></td></tr>
+      <tr><td>P3</td><td>أسبوع 3-4 (26/10+)</td><td>6</td><td><span class="badge pending">⬜ بانتظار</span></td></tr>
+      <tr><td>P4</td><td>لاحقًا / مؤجل</td><td>12</td><td><span class="badge pending">⬜ مؤجل</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ===== الفريق ===== -->
+  <div class="section">
+    <div class="section-title">👥 الفريق</div>
+    <div class="cards">
+      <div class="card"><div class="card-label">📝 رانيا</div><div class="card-value" style="font-size:14px;color:#e8eef8">مديرة محتوى</div></div>
+      <div class="card"><div class="card-label">🧠 فكري</div><div class="card-value" style="font-size:14px;color:#e8eef8">مستشار استراتيجي</div></div>
+      <div class="card"><div class="card-label">🛠️ ناجية</div><div class="card-value" style="font-size:14px;color:#e8eef8">إعلانات + سكريبتات</div></div>
+      <div class="card"><div class="card-label">👁️ ساهر</div><div class="card-value" style="font-size:14px;color:#e8eef8">مراقب 24/7</div></div>
+      <div class="card"><div class="card-label">🤖 Brain</div><div class="card-value" style="font-size:14px;color:#e8eef8">رد الاستفسارات</div></div>
+      <div class="card"><div class="card-label">👑 المديرة</div><div class="card-value" style="font-size:14px;color:#e8eef8">تنفيذية</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>لوحة قيادة داخلية — خِدْمَتي AI — تحديث 11/10/2026</p>
+  <p style="margin-top:4px">هذه الصفحة غير مفهرسة — للفريق فقط</p>
+</div>
+
+<script>
+document.getElementById('lastUpdate').textContent='آخر تحديث: ' + new Date().toLocaleDateString('ar-EG') + ' ' + new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+</script>
+</body>
+</html>

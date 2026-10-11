@@ -553,17 +553,15 @@ async function handleRegister(e){
   e.preventDefault()
   const name=document.getElementById('regName').value.trim()
   const phone=document.getElementById('regPhone').value.trim()
-  const gov=document.getElementById('regGov').value
-  const emailInput=document.getElementById('regEmail')?document.getElementById('regEmail').value.trim():''
-  const pass=document.getElementById('regPass').value
-  const pass2=document.getElementById('regPass2').value
   const terms=document.getElementById('regTerms').checked
-  if(!name||!phone||!gov||!pass){showToast('املأ كل البيانات!','error');return false}
-  if(pass!==pass2){showToast('كلمتا المرور مش متطابقتين','error');return false}
+  if(!name||!phone){showToast('املأ اسمك ورقم موبايلك!','error');return false}
+  if(!/^01[0-9]{9}$/.test(phone)){showToast('رقم الموبايل غلط — لازم 01xxxxxxxxx','error');return false}
   if(!terms){showToast('لازم توافق على الشروط والأحكام','error');return false}
-  const email=emailInput||makeEmail(phone)
+  const gov='غير محدد'
+  const pass=phone
+  const email=makeEmail(phone)
   const submitBtn=e.target.querySelector('button[type="submit"]')
-  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='جاري التسجيل...'}
+  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='⏳ ثواني...'}
   let ok=false, dup=false
   // 1) دالة التسجيل الآمنة (register_user) — بتتجاوز RLS وبتمنع تكرار الرقم
   try{
@@ -597,6 +595,8 @@ async function handleRegister(e){
   }
   if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='إنشاء الحساب'}
   if(dup){showToast('الرقم ده مسجل قبل كده — سجّل دخول بدلاً من ذلك','error');return false}
+  // GA conversion event
+  if(typeof gtag==='function'){gtag('event','sign_up',{method:'website',event_category:'engagement',event_label:'register_modal'})}
   // 3) تسجيل الجلسة على الجهاز + تحديث العداد
   localStorage.setItem('sb_token','local_'+Date.now())
   localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email,role:'citizen'}))

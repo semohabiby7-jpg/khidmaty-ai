@@ -3,6 +3,31 @@
 /* الصفحات التانية = overlay كامل لحد التسجيل */
 /* المحتوى يفضل في DOM (عشان SEO) بس overlay بيغطيه لحد التسجيل في الصفحات المقفولة */
 /* التسجيل مجاني 100٪ */
+
+/* ===== Google Analytics — تتبع كل الصفحات ===== */
+var GA_ID='G-W7WT8KN8P9';
+if(typeof gtag==='undefined'){
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){dataLayer.push(arguments);};
+  var ga=document.createElement('script');
+  ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+  document.head.appendChild(ga);
+  gtag('js',new Date());
+  gtag('config',GA_ID,{page_path:window.location.pathname});
+  /* UTM capture */
+  var params=new URLSearchParams(window.location.search);
+  var utm={};
+  ['source','medium','campaign','term','content'].forEach(function(k){
+    var v=params.get('utm_'+k);
+    if(v){utm['utm_'+k]=v;sessionStorage.setItem('utm_'+k,v);}
+  });
+  if(Object.keys(utm).length){gtag('event','utm_capture',{event_category:'traffic_source',event_label:JSON.stringify(utm)});}
+}
+/* GA conversion helper */
+function kgGaConvert(label){
+  if(typeof gtag==='function'){gtag('event','sign_up',{method:'website',event_category:'engagement',event_label:label||'auth_guard'});}
+}
+
 (function(){
   if(localStorage.getItem('sb_token') || sessionStorage.getItem('kg_registered')) return;
 
@@ -68,6 +93,7 @@
         }).then(function(){done();}).catch(function(){done();});
         function done(){
           try{localStorage.setItem('sb_token','gate_'+Date.now());sessionStorage.setItem('kg_registered','1');sessionStorage.setItem('kg_name',name);sessionStorage.setItem('kg_phone',phone);}catch(e){}
+          kgGaConvert('banner_gate');
           gate.style.transition='opacity .4s';gate.style.opacity='0';
           setTimeout(function(){gate.remove();document.documentElement.style.overflow='';},400);
         }
@@ -130,6 +156,7 @@
 
       function done(){
         try{localStorage.setItem('sb_token','gate_'+Date.now());sessionStorage.setItem('kg_registered','1');sessionStorage.setItem('kg_name',name);sessionStorage.setItem('kg_phone',phone);}catch(e){}
+        kgGaConvert('locked_gate');
         gate.style.transition='opacity .4s';gate.style.opacity='0';
         setTimeout(function(){gate.remove();document.documentElement.style.overflow='';},400);
       }

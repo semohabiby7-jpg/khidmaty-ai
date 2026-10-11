@@ -142,7 +142,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <span class="lang-tag">العربية</span>
     <p class="desc">النسخة العربية الكاملة من الكتاب: اعرف إزاي عقلك بيشتغل عليك، وخد الدليل العملي إنك تستردّ دماغك — خطوة بخطوة.</p>
     <div class="price">75 <small>جنيه</small></div>
-    <button class="buy-btn" onclick="selectProduct('ar')">اشترِ دلوقتي</button>
+    <button class="buy-btn" onclick="orderProduct('ar')">اطلب نسختك بـ75ج</button>
   </div>
   <div class="product-card" id="card-en">
     <div class="cover-wrap"><img class="cover-img" src="books/mind-power-en/cover.webp" alt="POWER OF MIND cover"></div>
@@ -150,7 +150,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <span class="lang-tag">English</span>
     <p class="desc">The complete English edition — 96 pages with a full Contents index. The same mind-reclaiming journey, for readers everywhere.</p>
     <div class="price">100 <small>جنيه</small></div>
-    <button class="buy-btn" onclick="selectProduct('en')">اشترِ دلوقتي</button>
+    <button class="buy-btn" onclick="orderProduct('en')">اطلب نسختك بـ100ج</button>
   </div>
     <div class="part-divider"><span>الجزء الثاني</span></div>
     <div class="product-card" id="card-ar2">
@@ -159,7 +159,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <span class="lang-tag">العربية</span>
       <p class="desc">الجزء الثاني: «رايح فين؟» — بعد ما استردت دماغك في الجزء الأول، تعالى تعرف إزاي تحوّل القوة دي لاتجاه. وجهة، قرار، صبر، عواصف، ناس، وأثر.</p>
       <div class="price">75 <small>جنيه</small></div>
-      <button class="buy-btn" onclick="selectProduct('ar2')">اشترِ دلوقتي</button>
+      <button class="buy-btn" onclick="orderProduct('ar2')">اطلب نسختك بـ75ج</button>
     </div>
     <div class="product-card" id="card-en2">
       <div class="cover-wrap"><img class="cover-img" src="books/mind-power-2-en/cover.webp" alt="POWER OF MIND 2 cover"></div>
@@ -167,7 +167,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <span class="lang-tag">English</span>
       <p class="desc">Part Two: "Where To?" — You took back your mind. Now turn that power into a direction. Destination, decision, patience, storms, people, and impact.</p>
       <div class="price">100 <small>جنيه</small></div>
-      <button class="buy-btn" onclick="selectProduct('en2')">اشترِ دلوقتي</button>
+      <button class="buy-btn" onclick="orderProduct('en2')">اطلب نسختك بـ100ج</button>
     </div>
     <div class="part-divider"><span>الجزء الثالث</span></div>
     <div class="product-card" id="card-ar3">
@@ -176,7 +176,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <span class="lang-tag">العربية</span>
       <p class="desc">الجزء الثالث: «هستفيد إيه؟» — بعد ما عرفت رايح فين، تعالى أعرف قيمة اللي وصلت له. ست درجات: حدّدت، وصلت، قيّمت، استفدت، قُدت، أفدت. قصص حقيقية + استعارات + تمارين.</p>
       <div class="price">75 <small>جنيه</small></div>
-      <button class="buy-btn" onclick="selectProduct('ar3')">اشترِ دلوقتي</button>
+      <button class="buy-btn" onclick="orderProduct('ar3')">اطلب نسختك بـ75ج</button>
     </div>
     <div class="product-card" id="card-en3">
       <div class="cover-wrap"><img class="cover-img" src="books/mind-power-3/cover.webp" alt="MIND POWER 3 cover"></div>
@@ -184,7 +184,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <span class="lang-tag">English</span>
       <p class="desc">Part Three: "What Do I Gain?" — You arrived. Now discover the value of what you reached. Six rungs: determined, arrived, evaluated, benefited, led, benefited others. Real stories + metaphors + exercises.</p>
       <div class="price">100 <small>جنيه</small></div>
-      <button class="buy-btn" onclick="selectProduct('en3')">اشترِ دلوقتي</button>
+      <button class="buy-btn" onclick="orderProduct('en3')">اطلب نسختك بـ100ج</button>
     </div>
 </div>
 
@@ -228,12 +228,12 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <script>
 var WA="201005305955";
 var products={
-ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
-en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
-ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل ٢» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
-en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND 2» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
-ar3:{name:'كتاب «قوة العقل ٣» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل ٣» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
-en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «MIND POWER 3» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'}
+ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل» — النسخة العربية\n💰 السعر: 75 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
+en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND» — English Edition\n💰 السعر: 100 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
+ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٢» — النسخة العربية\n💰 السعر: 75 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
+en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 2» — English Edition\n💰 السعر: 100 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
+ar3:{name:'كتاب «قوة العقل ٣» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٣» — النسخة العربية\n💰 السعر: 75 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
+en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «MIND POWER 3» — English Edition\n💰 السعر: 100 جنيه\n\nإيه طريقة الدفع؟ 🙏'}
 };
 var current='ar';
 function selectProduct(k){
@@ -247,6 +247,10 @@ function selectProduct(k){
   document.getElementById('selName').textContent=products[k].name;
   document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[k].msg);
   document.getElementById('buy').scrollIntoView({behavior:'smooth'});
+}
+function orderProduct(k){
+  var msg=products[k].msg;
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
 }
 function copyIP(){
   var t=document.getElementById('ipNum').textContent;

@@ -111,16 +111,16 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 
 <div class="store-hero">
   <h1>🛒 متجر خِدْمَتي</h1>
-  <p>كتب خِدْمَتي الرسمية — نسختك PDF مباشرة من المؤلف، من غير وسطاء.<br>الجزء الأول والثاني متوفرين الآن — الدفع على إنستاباي والاستلام فورًا على واتساب.<br><span class="gold">مع تحياتي — M. Ismail</span></p>
+  <p>كتب خِدْمَتي الرسمية — نسختك PDF مباشرة من المؤلف، من غير وسطاء.<br>الأجزاء الثلاثة متوفرة الآن — الدفع على إنستاباي والاستلام فورًا على واتساب.<br><span class="gold">مع تحياتي — M. Ismail</span></p>
 </div>
 
 
 <div class="mega-banner">
   <div class="banner-inner">
     <div class="banner-badge">🎉 جديد</div>
-    <h2>الجزء الثاني من قوة العقل وصل!</h2>
-    <p>«رايح فين؟» — بعد ما استردت دماغك، تعالى تعرف إزاي تحوّل القوة لاتجاه.<br>الكتابين عربي وإنجليزي — عربي ٧٥ج / إنجليزي ١٠٠ج</p>
-    <a href="#card-ar2" onclick="document.getElementById('card-ar2').scrollIntoView({behavior:'smooth'})" class="banner-btn">اطلب نسختك دلوقتي ←</a>
+    <h2>الجزء الثالث من قوة العقل وصل!</h2>
+    <p>«هستفيد إيه؟» — بعد ما عرفت رايح فين، تعالى أعرف قيمة اللي وصلت له وإزاي تستفيد وتفيد غيرك.<br>الكتابين عربي وإنجليزي — عربي ٧٥ج / إنجليزي ١٠٠ج</p>
+    <a href="#card-ar3" onclick="document.getElementById('card-ar3').scrollIntoView({behavior:'smooth'})" class="banner-btn">اطلب نسختك دلوقتي ←</a>
   </div>
 </div>
 
@@ -169,6 +169,23 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <div class="price">100 <small>جنيه</small></div>
       <button class="buy-btn" onclick="selectProduct('en2')">اشترِ دلوقتي</button>
     </div>
+    <div class="part-divider"><span>الجزء الثالث</span></div>
+    <div class="product-card" id="card-ar3">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-3/cover.webp" alt="غلاف كتاب قوة العقل 3"></div>
+      <h2>قوة العقل ٣</h2>
+      <span class="lang-tag">العربية</span>
+      <p class="desc">الجزء الثالث: «هستفيد إيه؟» — بعد ما عرفت رايح فين، تعالى أعرف قيمة اللي وصلت له. ست درجات: حدّدت، وصلت، قيّمت، استفدت، قُدت، أفدت. قصص حقيقية + استعارات + تمارين.</p>
+      <div class="price">75 <small>جنيه</small></div>
+      <button class="buy-btn" onclick="selectProduct('ar3')">اشترِ دلوقتي</button>
+    </div>
+    <div class="product-card" id="card-en3">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-3/cover.webp" alt="MIND POWER 3 cover"></div>
+      <h2>MIND POWER 3</h2>
+      <span class="lang-tag">English</span>
+      <p class="desc">Part Three: "What Do I Gain?" — You arrived. Now discover the value of what you reached. Six rungs: determined, arrived, evaluated, benefited, led, benefited others. Real stories + metaphors + exercises.</p>
+      <div class="price">100 <small>جنيه</small></div>
+      <button class="buy-btn" onclick="selectProduct('en3')">اشترِ دلوقتي</button>
+    </div>
 </div>
 
 <div class="buy-box" id="buy">
@@ -214,7 +231,9 @@ var products={
 ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
 en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
 ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل ٢» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
-en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND 2» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'}
+en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «POWER OF MIND 2» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
+ar3:{name:'كتاب «قوة العقل ٣» — 75 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «قوة العقل ٣» (75 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'},
+en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم، عايز أشتري كتاب «MIND POWER 3» (100 جنيه) — وبابعتهلك إيصال التحويل في الرسالة الجاية 📎'}
 };
 var current='ar';
 function selectProduct(k){
@@ -223,6 +242,8 @@ function selectProduct(k){
   document.getElementById('card-en').classList.toggle('selected',k==='en');
   document.getElementById('card-ar2').classList.toggle('selected',k==='ar2');
   document.getElementById('card-en2').classList.toggle('selected',k==='en2');
+  document.getElementById('card-ar3').classList.toggle('selected',k==='ar3');
+  document.getElementById('card-en3').classList.toggle('selected',k==='en3');
   document.getElementById('selName').textContent=products[k].name;
   document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[k].msg);
   document.getElementById('buy').scrollIntoView({behavior:'smooth'});

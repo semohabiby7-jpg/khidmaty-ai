@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>نظام الإحالة — ادعي أصدقاءك واكسب | خِدْمَتي AI</title>
+<meta name="description" content="شارك خِدْمَتي AI مع أصدقاءك — كل ما يدعو صديق يسجل، نقرب أكثر من هدفنا في خدمة كل المصريين.">
+<link rel="canonical" href="https://khidmatyai.com/refer.html">
+<meta property="og:title" content="نظام الإحالة — خِدْمَتي AI">
+<meta property="og:description" content="شارك خِدْمَتي AI مع أصدقاءك وخلّيهم يستفيدوا زيكم.">
+<meta property="og:url" content="https://khidmatyai.com/refer.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.supabase.com/js/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;min-height:100vh}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.header-nav{display:flex;gap:14px;align-items:center}
+.header-nav a{color:#8ea0c4;text-decoration:none;font-size:14px;font-weight:600}
+.header-nav a:hover{color:#e6c258}
+.hero{text-align:center;padding:50px 20px 30px}
+.hero h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 10px}
+.hero h1 span{color:#e6c258}
+.hero p{font-size:16px;color:#8ea0c4;max-width:600px;margin:0 auto;line-height:1.6}
+.container{max-width:600px;margin:0 auto;padding:0 20px 40px}
+.card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:28px;margin-bottom:20px}
+.card h2{font-size:20px;font-weight:800;color:#e6c258;margin-bottom:14px}
+.card p{font-size:15px;color:#c8d6f0;line-height:1.6;margin-bottom:14px}
+/* Login */
+.login-form{display:flex;flex-direction:column;gap:14px}
+.login-form input{padding:14px 16px;background:#0F1E3D;border:2px solid #2a4068;border-radius:10px;color:#fff;font-family:Cairo;font-size:15px;outline:none;transition:border .2s}
+.login-form input:focus{border-color:#e6c258}
+.login-form button{padding:14px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;font-family:Cairo;font-size:17px;font-weight:900;cursor:pointer;transition:all .2s}
+.login-form button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+/* Referral link */
+.referral-box{background:#0F1E3D;border:2px dashed #e6c258;border-radius:12px;padding:20px;text-align:center;margin:16px 0}
+.referral-code{font-size:24px;font-weight:900;color:#e6c258;letter-spacing:2px;margin-bottom:12px}
+.referral-link{background:#162847;border:1px solid #2a4068;border-radius:10px;padding:12px 16px;color:#c8d6f0;font-size:14px;word-break:break-all;margin-bottom:12px;direction:ltr;text-align:center}
+.copy-btn{background:#e6c258;color:#0F1E3D;border:none;border-radius:8px;padding:10px 24px;font-family:Cairo;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s}
+.copy-btn:hover{transform:scale(1.05)}
+.copy-btn.copied{background:#4CAF50;color:#fff}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.stat-box{background:#0F1E3D;border:1px solid #2a4068;border-radius:12px;padding:16px;text-align:center}
+.stat-num{font-size:28px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:4px}
+/* Share buttons */
+.share-buttons{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.share-btn{display:flex;align-items:center;gap:8px;padding:12px 18px;border-radius:10px;text-decoration:none;font-family:Cairo;font-size:14px;font-weight:700;transition:all .2s}
+.share-btn:hover{transform:translateY(-2px)}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-tg{background:#229ED9;color:#fff}
+.share-copy{background:#e6c258;color:#0F1E3D}
+/* How it works */
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-num{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0}
+.step-text{font-size:14px;color:#c8d6f0;line-height:1.5;padding-top:4px}
+.step-text b{color:#e6c258}
+/* Footer */
+.footer{text-align:center;padding:30px 20px;border-top:1px solid #1e3556}
+.footer p{font-size:13px;color:#5a6f96;margin-bottom:4px}
+.footer .sig{color:#e6c258;font-weight:700}
+.error-msg{color:#ff6b6b;font-size:14px;text-align:center;margin-top:8px;display:none}
+@media(max-width:600px){.hero h1{font-size:22px}.stats{grid-template-columns:1fr}.header-nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="header">
+  <a href="index.html" class="header-logo">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </a>
+  <div class="header-nav">
+    <a href="index.html">الرئيسية</a>
+    <a href="services/traffic.html">الخدمات</a>
+    <a href="calc.html">حاسبة</a>
+    <a href="refer.html" style="color:#e6c258">إحالة</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>🤝 <span>نظام الإحالة</span></h1>
+  <p>شارك خِدْمَتي AI مع أصدقاءك وخلّيهم يستفيدوا زيكم. كل ما يدعو صديق، نقرب أكثر من هدفنا في خدمة كل المصريين.</p>
+</div>
+
+<div class="container">
+  <!-- Not logged in: Login form -->
+  <div class="card" id="loginCard">
+    <h2>🔐 سجّل دخولك عشان تلاقي لينك الإحالة بتاعك</h2>
+    <p>اكتب رقم موبايلك وكلمة السر اللي سجّلت بيها.</p>
+    <div class="login-form">
+      <input type="tel" id="phoneInput" placeholder="رقم الموبايل (مثال: 01005305955)" dir="ltr">
+      <input type="password" id="passInput" placeholder="كلمة السر">
+      <button onclick="login()">دخول وعرض لينك الإحالة</button>
+      <div class="error-msg" id="errorMsg">رقم أو كلمة سر غلط. حاول تاني.</div>
+    </div>
+    <p style="font-size:13px;color:#8ea0c4;margin-top:14px;text-align:center">مش مسجل؟ <a href="index.html#register" style="color:#e6c258;font-weight:700">سجّل دلوقتي مجانًا</a></p>
+  </div>
+
+  <!-- Logged in: Referral dashboard -->
+  <div id="referralCard" style="display:none">
+    <div class="card">
+      <h2>🎉 أهلاً <span id="userName" style="color:#fff"></span>!</h2>
+      <p>ده لينك الإحالة الخاص بيك. شاركه مع أصدقاءك وخلّيهم يسجّلوا:</p>
+      <div class="referral-box">
+        <div class="referral-code" id="refCode"></div>
+        <div class="referral-link" id="refLink"></div>
+        <button class="copy-btn" id="copyBtn" onclick="copyLink()">📋 نسخ اللينك</button>
+      </div>
+      <!-- Share buttons -->
+      <div class="share-buttons">
+        <a class="share-btn share-wa" id="shareWa" target="_blank">📲 واتساب</a>
+        <a class="share-btn share-fb" id="shareFb" target="_blank">📘 فيسبوك</a>
+        <a class="share-btn share-tg" id="shareTg" target="_blank">✈️ تليجرام</a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card">
+      <h2>📊 إحصائيات الإحالة</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-num" id="statInvited">0</div>
+          <div class="stat-label">دعوات</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statJoined">0</div>
+          <div class="stat-label">سجّلوا</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statRank">—</div>
+          <div class="stat-label">ترتيبك</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#8ea0c4;text-align:center">كل ما تديع أكتر، تقترب من المراكز الأولى!</p>
+    </div>
+
+    <!-- How it works -->
+    <div class="card">
+      <h2>ℹ️ إزاي يشتغل؟</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text"><b>انسخ اللينك</b> بتاعك من فوق وشاركه مع أصدقاءك على واتساب أو فيسبوك.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text"><b>صديقك يسجّل</b> من اللينك — الموقع هيتعرف تلقائيًا إنه جه من عندك.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text"><b>إحصائياتك تزيد</b> — تقدر تتابع عدد الدعوات واللي سجّلوا فعلًا.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text"><b>المستقبل:</b> أول ما نوصل لـ 1000 مستخدم، هطلع نظام جوايز للـ Top Referrers! 🏆</div>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="logout()" style="display:block;margin:0 auto;background:none;border:2px solid #2a4068;color:#8ea0c4;font-size:14px;padding:10px 24px;border-radius:10px;cursor:pointer;font-family:Cairo">خروج</button>
+  </div>
+</div>
+
+<div class="footer">
+  <p>منصة <b>خِدْمَتي AI</b> — دليلك الذكي للخدمات الحكومية في مصر</p>
+  <p class="sig">Mohamed Ismail</p>
+</div>
+
+<script>
+// Supabase config
+const SB_URL = "https://puhdastfiswcmbnczvwx.supabase.co";
+const SB_KEY = "sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY";
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+// Generate stable referral code from user ID + phone hash
+function generateRefCode(userId, phone) {
+  const hashInput = "KHD" + userId + phone;
+  let hash = 0;
+  for (let i = 0; i < hashInput.length; i++) {
+    hash = ((hash << 5) - hash) + hashInput.charCodeAt(i);
+    hash |= 0;
+  }
+  const hashHex = Math.abs(hash).toString(16).toUpperCase().padStart(6, '0').slice(0, 6);
+  return "KHD" + String(userId).padStart(3, '0') + hashHex;
+}
+
+// Check URL for ref parameter and store it
+const urlParams = new URLSearchParams(window.location.search);
+const refCode = urlParams.get('ref');
+if (refCode) {
+  sessionStorage.setItem('refCode', refCode);
+  localStorage.setItem('refCode', refCode);
+}
+
+// Login
+async function login() {
+  const phone = document.getElementById('phoneInput').value.trim();
+  const pass = document.getElementById('passInput').value;
+  const errDiv = document.getElementById('errorMsg');
+  
+  if (!phone || !pass) {
+    errDiv.textContent = 'اكتب رقم الموبايل وكلمة السر.';
+    errDiv.style.display = 'block';
+    return;
+  }
+  
+  try {
+    // Hash password same way as registration
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pass);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashHex = Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    const { data: users, error } = await sb
+      .from('users')
+      .select('*')
+      .eq('phone', phone)
+      .eq('password', hashHex);
+    
+    if (error || !users || users.length === 0) {
+      errDiv.textContent = 'رقم أو كلمة سر غلط. حاول تاني.';
+      errDiv.style.display = 'block';
+      return;
+    }
+    
+    const user = users[0];
+    showReferral(user);
+  } catch(e) {
+    errDiv.textContent = 'حصل خطأ. حاول تاني.';
+    errDiv.style.display = 'block';
+  }
+}
+
+function showReferral(user) {
+  document.getElementById('loginCard').style.display = 'none';
+  document.getElementById('referralCard').style.display = 'block';
+  document.getElementById('userName').textContent = user.name;
+  
+  const refCode = generateRefCode(user.id, user.phone);
+  const refLink = "https://khidmatyai.com?ref=" + refCode;
+  
+  document.getElementById('refCode').textContent = refCode;
+  document.getElementById('refLink').textContent = refLink;
+  
+  // Share links
+  const shareText = "🤝 تعالى شوف خِدْمَتي AI — دليلك الكامل للخدمات الحكومية في مصر مجانًا! " + refLink;
+  document.getElementById('shareWa').href = "https://wa.me/?text=" + encodeURIComponent(shareText);
+  document.getElementById('shareFb').href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(refLink) + "&quote=" + encodeURIComponent(shareText);
+  document.getElementById('shareTg').href = "https://t.me/share/url?url=" + encodeURIComponent(refLink) + "&text=" + encodeURIComponent(shareText);
+  
+  // Stats (simulated — will be real when we have a referrals table)
+  document.getElementById('statInvited').textContent = '0';
+  document.getElementById('statJoined').textContent = '0';
+  document.getElementById('statRank').textContent = '—';
+  
+  // Save user session
+  sessionStorage.setItem('userId', user.id);
+  sessionStorage.setItem('userName', user.name);
+}
+
+function copyLink() {
+  const link = document.getElementById('refLink').textContent;
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ تم النسخ!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 نسخ اللينك';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function logout() {
+  sessionStorage.removeItem('userId');
+  sessionStorage.removeItem('userName');
+  document.getElementById('loginCard').style.display = 'block';
+  document.getElementById('referralCard').style.display = 'none';
+  document.getElementById('phoneInput').value = '';
+  document.getElementById('passInput').value = '';
+}
+
+// Auto-login if session exists
+const savedUserId = sessionStorage.getItem('userId');
+if (savedUserId) {
+  // Re-fetch user data
+  sb.from('users').select('*').eq('id', savedUserId).then(({data}) => {
+    if (data && data.length > 0) {
+      showReferral(data[0]);
+    }
+  });
+}
+</script>
+</body>
+</html>

@@ -600,7 +600,19 @@ async function handleRegister(e){
   // 3) تسجيل الجلسة على الجهاز + تحديث العداد
   localStorage.setItem('sb_token','local_'+Date.now())
   localStorage.setItem('sb_user',JSON.stringify({name,gov,phone,email,role:'citizen'}))
-  showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name)
+  // 4) نظام الإحالة — حفظ كود الإحالة لو موجود
+  const refCode=sessionStorage.getItem('referral_code')||localStorage.getItem('referral_code')
+  if(refCode){
+    localStorage.setItem('referred_by',refCode)
+    // زيادة عداد الإحالة للشخص اللي بعت اللينك
+    try{
+      const refCount=parseInt(localStorage.getItem('ref_count_'+refCode)||'0')+1
+      localStorage.setItem('ref_count_'+refCode,refCount)
+    }catch(e){}
+    // GA event للإحالة
+    if(typeof gtag==='function'){gtag('event','referral_signup',{event_category:'growth',event_label:refCode})}
+  }
+  showToast('تم إنشاء حسابك بنجاح! 🎉<br>أهلاً '+name+(refCode?'<br>👤 سجلت عن طريق دعوة من صديق':''))
   closeModal('registerModal')
   updateAuthUI()
   loadMembersCount()

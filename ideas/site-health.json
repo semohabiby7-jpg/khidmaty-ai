@@ -1,0 +1,180 @@
+{
+  "timestamp": "2026-10-12T17:33:19.577884",
+  "site_url": "https://khidmaty.ai",
+  "summary": {
+    "ok": 0,
+    "warnings": 11,
+    "critical": 0,
+    "avg_response_time": 0.0,
+    "total_alerts": 25
+  },
+  "ssl": {
+    "valid": false,
+    "message": "module 'ssl' has no attribute 'SOCKET_SERVER'"
+  },
+  "sitemap": {
+    "accessible": false,
+    "url_count": 0,
+    "response_time": 0
+  },
+  "robots": {
+    "accessible": false,
+    "content_size": 36
+  },
+  "pages": [
+    {
+      "name": "الصفحة الرئيسية",
+      "url": "https://khidmaty.ai/index.html",
+      "path": "/index.html",
+      "status": 0,
+      "response_time": 0.01,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "دليل الخدمات",
+      "url": "https://khidmaty.ai/services/traffic.html",
+      "path": "/services/traffic.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "حاسبة الرسوم",
+      "url": "https://khidmaty.ai/calc.html",
+      "path": "/calc.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "مستكشف الخدمات",
+      "url": "https://khidmaty.ai/service-finder.html",
+      "path": "/service-finder.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "خريطة المكاتب",
+      "url": "https://khidmaty.ai/offices.html",
+      "path": "/offices.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "المقالات",
+      "url": "https://khidmaty.ai/articles.html",
+      "path": "/articles.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "قصص النجاح",
+      "url": "https://khidmaty.ai/success-stories.html",
+      "path": "/success-stories.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "الأسئلة الشائعة",
+      "url": "https://khidmaty.ai/faq.html",
+      "path": "/faq.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "لوحة القيادة",
+      "url": "https://khidmaty.ai/dashboard.html",
+      "path": "/dashboard.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "من نحن",
+      "url": "https://khidmaty.ai/about.html",
+      "path": "/about.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "name": "تواصل معنا",
+      "url": "https://khidmaty.ai/contact.html",
+      "path": "/contact.html",
+      "status": 0,
+      "response_time": 0.0,
+      "accessible": false,
+      "page_size": 36,
+      "alerts": [
+        "HTTP 0 — غير قابل للوصول",
+        "محتوى قليل جدًا: 36 بايت"
+      ],
+      "severity": "WARNING"
+    }
+  ]
+}

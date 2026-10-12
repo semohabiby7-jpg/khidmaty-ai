@@ -94,10 +94,10 @@
 | # | المقترح | الأولوية | الحالة |
 |---|---|---|---|
 | S1 | لوحة مراقبة حية (Dashboard) | 🔴 عالية | ✅ خلص |
-| S2 | تنبيهات لحظية (downtime/خطأ) | 🟡 متوسطة | 📌 |
+| S2 | تنبيهات لحظية (downtime/خطأ) | 🟡 متوسطة | ✅ خلص — tools/site-health-monitor.py + ideas/site-health-report.md |
 | S3 | مراقبة المنافسين | 🟡 متوسطة | ✅ خلص — tools/competitor-monitor.py + ideas/competitor-report.md |
 | S4 | تتبع ترتيب SEO على Google | 🔴 عالية | ✅ خلص — tools/seo-audit.py + OG tags 1088 صفحة + 93/100 |
-| S5 | تحليل سلوك المستخدم | 🟡 متوسطة | 📌 |
+| S5 | تحليل سلوك المستخدم | 🟡 متوسطة | ✅ خلص — tools/user-behavior-analytics.py + 1090 صفحة + 100% اكتمال |
 | S6 | تقرير أسبوعي آلي | 🔴 عالية | ✅ جزئي — كرون شغّال |
 
 ### المشاريع الموافق عليها (من الكروت)

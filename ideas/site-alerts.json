@@ -1,0 +1,180 @@
+{
+  "timestamp": "2026-10-12T17:33:19.650634",
+  "alerts": [
+    {
+      "page": "الصفحة الرئيسية",
+      "url": "https://khidmaty.ai/index.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577831"
+    },
+    {
+      "page": "الصفحة الرئيسية",
+      "url": "https://khidmaty.ai/index.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577840"
+    },
+    {
+      "page": "دليل الخدمات",
+      "url": "https://khidmaty.ai/services/traffic.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577842"
+    },
+    {
+      "page": "دليل الخدمات",
+      "url": "https://khidmaty.ai/services/traffic.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577843"
+    },
+    {
+      "page": "حاسبة الرسوم",
+      "url": "https://khidmaty.ai/calc.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577845"
+    },
+    {
+      "page": "حاسبة الرسوم",
+      "url": "https://khidmaty.ai/calc.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577846"
+    },
+    {
+      "page": "مستكشف الخدمات",
+      "url": "https://khidmaty.ai/service-finder.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577847"
+    },
+    {
+      "page": "مستكشف الخدمات",
+      "url": "https://khidmaty.ai/service-finder.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577848"
+    },
+    {
+      "page": "خريطة المكاتب",
+      "url": "https://khidmaty.ai/offices.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577849"
+    },
+    {
+      "page": "خريطة المكاتب",
+      "url": "https://khidmaty.ai/offices.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577850"
+    },
+    {
+      "page": "المقالات",
+      "url": "https://khidmaty.ai/articles.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577851"
+    },
+    {
+      "page": "المقالات",
+      "url": "https://khidmaty.ai/articles.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577852"
+    },
+    {
+      "page": "قصص النجاح",
+      "url": "https://khidmaty.ai/success-stories.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577853"
+    },
+    {
+      "page": "قصص النجاح",
+      "url": "https://khidmaty.ai/success-stories.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577854"
+    },
+    {
+      "page": "الأسئلة الشائعة",
+      "url": "https://khidmaty.ai/faq.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577855"
+    },
+    {
+      "page": "الأسئلة الشائعة",
+      "url": "https://khidmaty.ai/faq.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577856"
+    },
+    {
+      "page": "لوحة القيادة",
+      "url": "https://khidmaty.ai/dashboard.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577857"
+    },
+    {
+      "page": "لوحة القيادة",
+      "url": "https://khidmaty.ai/dashboard.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577858"
+    },
+    {
+      "page": "من نحن",
+      "url": "https://khidmaty.ai/about.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577858"
+    },
+    {
+      "page": "من نحن",
+      "url": "https://khidmaty.ai/about.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577859"
+    },
+    {
+      "page": "تواصل معنا",
+      "url": "https://khidmaty.ai/contact.html",
+      "alert": "HTTP 0 — غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577860"
+    },
+    {
+      "page": "تواصل معنا",
+      "url": "https://khidmaty.ai/contact.html",
+      "alert": "محتوى قليل جدًا: 36 بايت",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577861"
+    },
+    {
+      "page": "SSL",
+      "url": "https://khidmaty.ai",
+      "alert": "SSL: module 'ssl' has no attribute 'SOCKET_SERVER'",
+      "severity": "CRITICAL",
+      "timestamp": "2026-10-12T17:33:19.577863"
+    },
+    {
+      "page": "sitemap.xml",
+      "url": "https://khidmaty.ai/sitemap.xml",
+      "alert": "sitemap.xml غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577864"
+    },
+    {
+      "page": "robots.txt",
+      "url": "https://khidmaty.ai/robots.txt",
+      "alert": "robots.txt غير قابل للوصول",
+      "severity": "WARNING",
+      "timestamp": "2026-10-12T17:33:19.577865"
+    }
+  ]
+}

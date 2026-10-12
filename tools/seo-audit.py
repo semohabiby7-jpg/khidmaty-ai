@@ -7,7 +7,7 @@ Usage: python3 tools/seo-audit.py [--fix]
 import re, glob, os, json, sys
 from datetime import datetime
 
-BASE_URL = "https://khidmaty.ai"
+BASE_URL = "https://khidmatyai.com"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def audit_page(filepath):

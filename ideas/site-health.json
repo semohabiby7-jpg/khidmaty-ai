@@ -1,6 +1,6 @@
 {
   "timestamp": "2026-10-12T17:33:19.577884",
-  "site_url": "https://khidmaty.ai",
+  "site_url": "https://khidmatyai.com",
   "summary": {
     "ok": 0,
     "warnings": 11,
@@ -24,7 +24,7 @@
   "pages": [
     {
       "name": "الصفحة الرئيسية",
-      "url": "https://khidmaty.ai/index.html",
+      "url": "https://khidmatyai.com/index.html",
       "path": "/index.html",
       "status": 0,
       "response_time": 0.01,
@@ -38,7 +38,7 @@
     },
     {
       "name": "دليل الخدمات",
-      "url": "https://khidmaty.ai/services/traffic.html",
+      "url": "https://khidmatyai.com/services/traffic.html",
       "path": "/services/traffic.html",
       "status": 0,
       "response_time": 0.0,
@@ -52,7 +52,7 @@
     },
     {
       "name": "حاسبة الرسوم",
-      "url": "https://khidmaty.ai/calc.html",
+      "url": "https://khidmatyai.com/calc.html",
       "path": "/calc.html",
       "status": 0,
       "response_time": 0.0,
@@ -66,7 +66,7 @@
     },
     {
       "name": "مستكشف الخدمات",
-      "url": "https://khidmaty.ai/service-finder.html",
+      "url": "https://khidmatyai.com/service-finder.html",
       "path": "/service-finder.html",
       "status": 0,
       "response_time": 0.0,
@@ -80,7 +80,7 @@
     },
     {
       "name": "خريطة المكاتب",
-      "url": "https://khidmaty.ai/offices.html",
+      "url": "https://khidmatyai.com/offices.html",
       "path": "/offices.html",
       "status": 0,
       "response_time": 0.0,
@@ -94,7 +94,7 @@
     },
     {
       "name": "المقالات",
-      "url": "https://khidmaty.ai/articles.html",
+      "url": "https://khidmatyai.com/articles.html",
       "path": "/articles.html",
       "status": 0,
       "response_time": 0.0,
@@ -108,7 +108,7 @@
     },
     {
       "name": "قصص النجاح",
-      "url": "https://khidmaty.ai/success-stories.html",
+      "url": "https://khidmatyai.com/success-stories.html",
       "path": "/success-stories.html",
       "status": 0,
       "response_time": 0.0,
@@ -122,7 +122,7 @@
     },
     {
       "name": "الأسئلة الشائعة",
-      "url": "https://khidmaty.ai/faq.html",
+      "url": "https://khidmatyai.com/faq.html",
       "path": "/faq.html",
       "status": 0,
       "response_time": 0.0,
@@ -136,7 +136,7 @@
     },
     {
       "name": "لوحة القيادة",
-      "url": "https://khidmaty.ai/dashboard.html",
+      "url": "https://khidmatyai.com/dashboard.html",
       "path": "/dashboard.html",
       "status": 0,
       "response_time": 0.0,
@@ -150,7 +150,7 @@
     },
     {
       "name": "من نحن",
-      "url": "https://khidmaty.ai/about.html",
+      "url": "https://khidmatyai.com/about.html",
       "path": "/about.html",
       "status": 0,
       "response_time": 0.0,
@@ -164,7 +164,7 @@
     },
     {
       "name": "تواصل معنا",
-      "url": "https://khidmaty.ai/contact.html",
+      "url": "https://khidmatyai.com/contact.html",
       "path": "/contact.html",
       "status": 0,
       "response_time": 0.0,

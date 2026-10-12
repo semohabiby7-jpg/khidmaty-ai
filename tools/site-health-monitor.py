@@ -10,7 +10,7 @@ from urllib.request import urlopen, Request
 from urllib.error import URLError, HTTPError
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE_URL = "https://khidmaty.ai"
+SITE_URL = "https://khidmatyai.com"
 ALERT_FILE = os.path.join(ROOT, 'ideas', 'site-alerts.json')
 HEALTH_FILE = os.path.join(ROOT, 'ideas', 'site-health.json')
 REPORT_FILE = os.path.join(ROOT, 'ideas', 'site-health-report.md')
@@ -111,8 +111,8 @@ def check_ssl():
     import socket
     try:
         ctx = ssl.create_default_context()
-        with socket.create_connection(('khidmaty.ai', 443), timeout=10) as sock:
-            with ctx.wrap_socket(sock, server_hostname='khidmaty.ai') as ssock:
+        with socket.create_connection(('khidmatyai.com', 443), timeout=10) as sock:
+            with ctx.wrap_socket(sock, server_hostname='khidmatyai.com') as ssock:
                 cert = ssock.getpeercert()
                 expiry = cert.get('notAfter', 'unknown')
         return {'valid': True, 'message': f'SSL valid — expires {expiry}'}

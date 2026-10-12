@@ -116,16 +116,16 @@ def main():
         results.append(result)
 
     # Our coverage (check multiple pages — homepage + services index + calc)
-    print(f"\n  Checking khidmaty.ai...", end=' ')
+    print(f"\n  Checking khidmatyai.com...", end=' ')
     our_pages = [
-        'https://khidmaty.ai/index.html',
-        'https://khidmaty.ai/services/traffic.html',
-        'https://khidmaty.ai/services/civil.html',
-        'https://khidmaty.ai/services/notary.html',
-        'https://khidmaty.ai/services/insurance.html',
-        'https://khidmaty.ai/services/travel.html',
-        'https://khidmaty.ai/services/health.html',
-        'https://khidmaty.ai/calc.html',
+        'https://khidmatyai.com/index.html',
+        'https://khidmatyai.com/services/traffic.html',
+        'https://khidmatyai.com/services/civil.html',
+        'https://khidmatyai.com/services/notary.html',
+        'https://khidmatyai.com/services/insurance.html',
+        'https://khidmatyai.com/services/travel.html',
+        'https://khidmatyai.com/services/health.html',
+        'https://khidmatyai.com/calc.html',
     ]
     our_content = ''
     for url in our_pages:

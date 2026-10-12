@@ -38,7 +38,7 @@
 | 3 | 📋 جدول requests في Supabase | محتاج SQL script | ⭐⭐⭐⭐⭐ |
 | 4 | 🤖 WhatsApp Bot | محتاج Meta Business | ⭐⭐⭐⭐ |
 | 5 | 💰 الدفع والعمولات | بعد الطلبات | ⭐⭐⭐ |
-| 6 | 🏪 Domain مخصص (khidmaty.ai) | ~$10/سنة | ⭐⭐⭐ |
+| 6 | 🏪 Domain مخصص (khidmatyai.com) | ~$10/سنة | ⭐⭐⭐ |
 | 7 | 📲 تطبيق Native (Play Store) | بعد PWA | ⭐⭐ |
 
 ---

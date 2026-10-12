@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>مستكشف الخدمات — جوابك على أسئلة ونقولك أنهي خدمة | خِدْمَتي AI</title>
+<meta name="description" content="مستكشف الخدمات الحكومية التفاعلي — جاوب على أسئلة بسيطة وهنقولك أنهي خدمة حكومية محتاجها وإيه الأوراق المطلوبة والرسوم.">
+<link rel="canonical" href="https://khidmaty.ai/service-finder.html">
+<meta property="og:title" content="مستكشف الخدمات — خِدْمَتي AI">
+<meta property="og:description" content="جاوب على أسئلة بسيطة وهنقولك أنهي خدمة حكومية محتاجها.">
+<meta property="og:url" content="https://khidmaty.ai/service-finder.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:image" content="https://khidmaty.ai/assets/og-banner.png">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="مستكشف الخدمات — خِدْمَتي AI">
+<meta name="twitter:description" content="جاوب على أسئلة بسيطة وهنقولك أنهي خدمة حكومية محتاجها.">
+<meta name="twitter:image" content="https://khidmaty.ai/assets/og-banner.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/styles/main.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "مستكشف الخدمات — خِدْمَتي AI",
+  "description": "أداة تفاعلية لاكتشاف الخدمات الحكومية في مصر",
+  "url": "https://khidmaty.ai/service-finder.html",
+  "applicationCategory": "GovernmentService",
+  "operatingSystem": "Any",
+  "inLanguage": "ar-EG",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EGP" }
+}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;min-height:100vh}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.header-nav{display:flex;gap:16px;align-items:center}
+.header-nav a{color:#8ea0c4;text-decoration:none;font-size:14px;font-weight:600;transition:color .2s}
+.header-nav a:hover{color:#e6c258}
+.header-nav a.active{color:#e6c258}
+/* Hero */
+.finder-hero{text-align:center;padding:50px 20px 30px}
+.finder-hero h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 10px}
+.finder-hero h1 span{color:#e6c258}
+.finder-hero p{font-size:16px;color:#8ea0c4;max-width:600px;margin:0 auto;line-height:1.6}
+/* Progress */
+.progress-bar{max-width:700px;margin:0 auto 20px;padding:0 20px}
+.progress-track{height:6px;background:#1e3556;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#e6c258,#d4a843);border-radius:3px;transition:width .4s ease}
+.progress-text{text-align:center;font-size:13px;color:#8ea0c4;margin-top:8px}
+/* Quiz container */
+.quiz-container{max-width:700px;margin:0 auto;padding:0 20px 40px}
+.quiz-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:30px 24px;margin-bottom:20px}
+.quiz-question{font-size:20px;font-weight:800;color:#fff;margin-bottom:20px;line-height:1.5}
+.quiz-question .emoji{margin-left:8px}
+.quiz-options{display:grid;gap:12px}
+.quiz-option{background:#162847;border:2px solid #2a4068;border-radius:12px;padding:16px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;font-family:Cairo;font-size:15px;font-weight:600;color:#c8d6f0}
+.quiz-option:hover{border-color:#e6c258;background:#1a2d5a;transform:translateX(-4px)}
+.quiz-option.selected{border-color:#e6c258;background:linear-gradient(135deg,#1a2d5a,#162847);color:#fff}
+.quiz-option .opt-icon{font-size:24px;flex-shrink:0}
+.quiz-option .opt-text{flex:1}
+.quiz-option .opt-arrow{color:#e6c258;opacity:0;transition:opacity .2s}
+.quiz-option:hover .opt-arrow{opacity:1}
+/* Back button */
+.quiz-back{background:none;border:none;color:#8ea0c4;font-size:14px;font-weight:600;cursor:pointer;font-family:Cairo;padding:8px 16px;border-radius:8px;transition:all .2s;display:flex;align-items:center;gap:6px}
+.quiz-back:hover{color:#e6c258;background:#162847}
+/* Results */
+.result-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #e6c258;border-radius:16px;padding:30px 24px;text-align:center;margin-bottom:20px}
+.result-icon{font-size:48px;margin-bottom:12px}
+.result-title{font-size:22px;font-weight:900;color:#e6c258;margin-bottom:8px}
+.result-desc{font-size:15px;color:#c8d6f0;line-height:1.6;margin-bottom:20px;max-width:500px;margin-left:auto;margin-right:auto}
+.result-link{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;text-decoration:none;font-weight:800;font-size:16px;padding:12px 28px;border-radius:10px;transition:all .2s}
+.result-link:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(230,194,88,.3)}
+.result-meta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.result-meta span{background:#0F1E3D;border:1px solid #2a4068;border-radius:8px;padding:6px 12px;font-size:13px;font-weight:600;color:#8ea0c4}
+.result-meta span b{color:#e6c258}
+/* Restart */
+.restart-btn{display:block;margin:20px auto 0;background:none;border:2px solid #2a4068;color:#8ea0c4;font-size:14px;font-weight:600;cursor:pointer;font-family:Cairo;padding:10px 24px;border-radius:10px;transition:all .2s}
+.restart-btn:hover{border-color:#e6c258;color:#e6c258}
+/* Footer */
+.footer{text-align:center;padding:30px 20px;border-top:1px solid #1e3556}
+.footer p{font-size:13px;color:#5a6f96;margin-bottom:6px}
+.footer a{color:#8ea0c4;text-decoration:none}
+.footer a:hover{color:#e6c258}
+.footer .sig{color:#e6c258;font-weight:700}
+/* Animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .3s ease}
+@media(max-width:600px){
+  .finder-hero h1{font-size:22px}
+  .quiz-question{font-size:17px}
+  .quiz-option{padding:14px;font-size:14px}
+  .result-title{font-size:18px}
+  .header-nav{display:none}
+}
+</style>
+</head>
+<body>
+<nav class="header">
+  <a href="index.html" class="header-logo">
+    <img src="logo.png" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </a>
+  <div class="header-nav">
+    <a href="index.html">الرئيسية</a>
+    <a href="services/traffic.html">الخدمات</a>
+    <a href="offices.html">المكاتب</a>
+    <a href="calc.html">حاسبة الرسوم</a>
+    <a href="service-finder.html" class="active">مستكشف الخدمات</a>
+    <a href="articles.html">مقالات</a>
+    <a href="about.html">عنا</a>
+  </div>
+</nav>
+
+<div class="finder-hero">
+  <h1>🔍 <span>مستكشف الخدمات</span></h1>
+  <p>جاوب على أسئلة بسيطة وهنقولك أنهي خدمة حكومية محتاجها، وإيه الأوراق والرسوم ومدة التنفيذ — في أقل من دقيقة!</p>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none">
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-text" id="progressText">سؤال 1 من 5</div>
+</div>
+
+<div class="quiz-container" id="quizContainer">
+  <!-- Questions injected by JS -->
+</div>
+
+<div class="footer">
+  <p>منصة <b>خِدْمَتي AI</b> — دليلك الذكي للخدمات الحكومية في مصر</p>
+  <p class="sig">Mohamed Ismail</p>
+</div>
+
+<script>
+// ===== Service Database =====
+const SERVICES = [
+  // مدني
+  { id:'birth-certificate', name:'استخراج شهادة ميلاد', emoji:'👶', url:'services/birth-certificate.html', cat:'مدني', docs:'بطاقة والدين + قيد ميلاد', duration:'1 يوم', fees:'5ج', keywords:['ميلاد','طفل','مولود','ولادة','شهادة ميلاد'] },
+  { id:'national-id', name:'استخراج/تجديد بطاقة رقم قومي', emoji:'🪪', url:'services/national-id.html', cat:'مدني', docs:'شهادة ميلاد + بطاقة قديمة (إن وجدت)', duration:'3 أيام', fees:'45ج', keywords:['بطاقة','رقم قومي','هوية','إثبات شخصية','تجديد'] },
+  { id:'death-certificate', name:'استخراج شهادة وفاة', emoji:'🕯️', url:'services/death-certificate.html', cat:'مدني', docs:'بطاقة المتوفي + بطاقة طالب الشهادة', duration:'1 يوم', fees:'5ج', keywords:['وفاة','وفاة','شهادة وفاة','متوفي'] },
+  { id:'marriage-certificate', name:'عقد زواج رسمي', emoji:'💍', url:'services/marriage-certificate.html', cat:'مدني', docs:'بطاقة الطرفين + شهادة ميلاد + تحليل طبي', duration:'1 يوم', fees:'40ج', keywords:['زواج','عقد قران','جواز','قسيمة زواج'] },
+  // مرور
+  { id:'car-inspection', name:'فحص السيارة', emoji:'🚗', url:'services/car-inspection.html', cat:'مرور', docs:'رخصة السيارة + بطاقة المالك', duration:'1 يوم', fees:'200ج', keywords:['فحص','سيارة','مرور','فحص فني'] },
+  { id:'license-renewal', name:'تجديد رخصة قيادة', emoji:'🪪', url:'services/license-renewal.html', cat:'مرور', docs:'رخصة قديمة + فحص طبي + صور شخصية', duration:'1 يوم', fees:'65ج', keywords:['رخصة','قيادة','تجديد','سواقة','قيادة'] },
+  { id:'car-ownership-transfer', name:'نقل ملكية سيارة', emoji:'🔄', url:'services/car-ownership-transfer.html', cat:'مرور', docs:'رخصة السيارة + بطاقة الطرفين + عقد بيع', duration:'1-3 أيام', fees:'150ج', keywords:['نقل ملكية','بيع سيارة','شراء سيارة','تمليك'] },
+  { id:'car-plates', name:'استبدال/استخراج لوحات معدية', emoji:'🔢', url:'services/car-plates.html', cat:'مرور', docs:'رخصة السيارة + بطاقة المالك', duration:'1 يوم', fees:'100ج', keywords:['لوحات','نمرة','لوحة معدنية','بدل لوحات'] },
+  // توثيق
+  { id:'power-of-attorney', name:'توكيل رسمي', emoji:'📜', url:'services/power-of-attorney.html', cat:'توثيق', docs:'بطاقة الشخص + بيانات الوكيل', duration:'1 يوم', fees:'50ج', keywords:['توكيل','وكيل','توكيل رسمي','توكل'] },
+  { id:'contract-authentication', name:'توثيق عقد بيع/إيجار', emoji:'🏠', url:'services/contract-authentication.html', cat:'توثيق', docs:'بطاقة الطرفين + عقد البيع/الإيجار', duration:'1-3 أيام', fees:'200ج', keywords:['توثيق','عقد','بيع','إيجار','عقار'] },
+  { id:'will-registration', name:'تسجيل وصية', emoji:'📋', url:'services/will-registration.html', cat:'توثيق', docs:'بطاقة الشخص + محتوى الوصية', duration:'1 يوم', fees:'100ج', keywords:['وصية','وصية','إرث','ميراث'] },
+  // تأمينات
+  { id:'pension-inquiry', name:'استعلام عن المعاش', emoji:'💰', url:'services/pension-inquiry.html', cat:'تأمينات', docs:'بطاقة صاحب المعاش + رقم المعاش', duration:'فوري', fees:'مجاناً', keywords:['معاش','تأمينات','رواتب','معاش تقاعدي'] },
+  { id:'work-certificate', name:'شهادة حالة وظيفية', emoji:'📋', url:'services/work-certificate.html', cat:'تأمينات', docs:'بطاقة شخصية', duration:'1 يوم', fees:'مجاناً', keywords:['شهادة وظيفية','حالة وظيفية','عمل','وظيفة'] },
+  { id:'work-injury-pension', name:'معاش إصابة عمل', emoji:'🤕', url:'services/work-injury-pension.html', cat:'تأمينات', docs:'تقرير طبي + بطاقة + محضر إصابة', duration:'30 يوم', fees:'مجاناً', keywords:['إصابة عمل','إصابة','حادث عمل','تعويض'] },
+  // سفر
+  { id:'passport', name:'استخراج/تجديد جواز سفر', emoji:'(passport)📄', url:'services/passport.html', cat:'سفر', docs:'بطاقة رقم قومي + رقم وطني + تجنيد', duration:'7 أيام', fees:'200ج', keywords:['جواز','سفر','باسبورت','جواز سفر'] },
+  { id:'international-license', name:'رخصة قيادة دولية', emoji:'🌍', url:'services/international-license.html', cat:'سفر', docs:'رخصة مصرية سارية + بطاقة + صور', duration:'1 يوم', fees:'150ج', keywords:['رخصة دولية','قيادة دولية','سفر سيارة','international'] },
+  // صحة
+  { id:'medical-report', name:'تقرير طبي رسمي', emoji:'🩺', url:'services/medical-report.html', cat:'صحة', docs:'بطاقة شخصية + طلب التقرير', duration:'3-7 أيام', fees:'50ج', keywords:['تقرير طبي','فحص طبي','طبي','صحة'] },
+  { id:'vaccination-certificate', name:'شهادة تطعيم', emoji:'💉', url:'services/vaccination-certificate.html', cat:'صحة', docs:'بطاقة شخصية + كرت التطعيم', duration:'1 يوم', fees:'مجاناً', keywords:['تطعيم','لقاح','تطعيمات','شهادة طعيم'] },
+];
+
+// ===== Quiz Questions =====
+const QUESTIONS = [
+  {
+    q: 'أنهي فئة خدمات محتاجها؟ 🤔',
+    options: [
+      { icon:'🪪', text:'بطاقات وهويات وشهادات', cat:'مدني' },
+      { icon:'🚗', text:'سيارات ورخص قيادة', cat:'مرور' },
+      { icon:'📜', text:'عقود وتوكيلات وتوثيق', cat:'توثيق' },
+      { icon:'💰', text:'معاشات وتأمينات اجتماعية', cat:'تأمينات' },
+      { icon:'✈️', text:'سفر وجوازات', cat:'سفر' },
+      { icon:'🩺', text:'تقارير طبية وتطعيم', cat:'صحة' },
+      { icon:'❓', text:'مش متأكد — قولي أنهي محتاج', cat:'ALL' },
+    ]
+  },
+  {
+    q: 'الخدمة أنتي جوهرة لواحدك ولا لحد تاني؟ 👥',
+    options: [
+      { icon:'🙋', text:'ليا أنا', scope:'self' },
+      { icon:'👨‍👩‍👧', text:'لأحد من العيلة', scope:'family' },
+      { icon:'🏢', text:'لي شخص قانوني/شركة', scope:'business' },
+    ]
+  },
+  {
+    q: 'تحب الخدمة تتعمل في أنهي وقت؟ ⏰',
+    options: [
+      { icon:'⚡', text:'أسرع وقت ممكن (نفس اليوم)', priority:'urgent' },
+      { icon:'📅', text:'خلال أسبوع', priority:'week' },
+      { icon:'🗓️', text:'مفيش إستعجال — بخطط', priority:'flexible' },
+    ]
+  },
+  {
+    q: 'ميزانيتك للرسوم تقريبًا؟ 💵',
+    options: [
+      { icon:'🆓', text:'مجاني أو رسوم بسيطة', budget:'low' },
+      { icon:'💵', text:'تحت 200ج', budget:'medium' },
+      { icon:'💰', text:'مش مشكلة في الرسوم', budget:'high' },
+    ]
+  },
+  {
+    q: 'كفاية المعلومات ولا محتاج مساعدة إكتر؟ 🤝',
+    options: [
+      { icon:'✅', text:'تمام، عرفت الخدمة اللي محتاجها', action:'results' },
+      { icon:'🔍', text:'محتاج أوصف أكتر', action:'describe' },
+    ]
+  }
+];
+
+// ===== State =====
+let currentQ = 0;
+let answers = {};
+
+// ===== Render =====
+function renderQuestion() {
+  const container = document.getElementById('quizContainer');
+  const q = QUESTIONS[currentQ];
+  const total = QUESTIONS.length;
+
+  // Progress
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('progressFill').style.width = `${((currentQ) / total) * 100}%`;
+  document.getElementById('progressText').textContent = `سؤال ${currentQ + 1} من ${total}`;
+
+  // Question HTML
+  let html = `<div class="quiz-card fade-in">`;
+  if (currentQ > 0) {
+    html += `<button class="quiz-back" onclick="goBack()">← السؤال السابق</button>`;
+  }
+  html += `<div class="quiz-question">${q.q}</div><div class="quiz-options">`;
+  q.options.forEach((opt, i) => {
+    html += `<div class="quiz-option" onclick="selectOption(${i})">
+      <span class="opt-icon">${opt.icon}</span>
+      <span class="opt-text">${opt.text}</span>
+      <span class="opt-arrow">←</span>
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  container.innerHTML = html;
+}
+
+function selectOption(idx) {
+  const q = QUESTIONS[currentQ];
+  const opt = q.options[idx];
+  answers[currentQ] = opt;
+
+  if (opt.action === 'results') {
+    showResults();
+  } else if (opt.action === 'describe') {
+    showDescribe();
+  } else {
+    currentQ++;
+    if (currentQ < QUESTIONS.length) {
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  }
+}
+
+function goBack() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  const container = document.getElementById('quizContainer');
+  const cat = answers[0]?.cat || 'ALL';
+  const budget = answers[3]?.budget;
+  const priority = answers[2]?.priority;
+
+  // Filter services
+  let results = [...SERVICES];
+  if (cat && cat !== 'ALL') {
+    results = results.filter(s => s.cat === cat);
+  }
+  if (budget === 'low') {
+    results = results.filter(s => s.fees.includes('مجاناً') || parseInt(s.fees) <= 50);
+  }
+  // Sort by urgency match
+  if (priority === 'urgent') {
+    results.sort((a, b) => {
+      const aDays = a.duration.includes('يوم') ? 1 : 0;
+      const bDays = b.duration.includes('يوم') ? 1 : 0;
+      return aDays - bDays;
+    });
+  }
+
+  // Progress complete
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressText').textContent = 'تم! 🎉';
+
+  // Build results HTML
+  let html = `<div class="result-card fade-in">
+    <div class="result-icon">🎯</div>
+    <div class="result-title">خدمات مطابقة لاحتياجك</div>
+    <div class="result-desc">لقينا ${results.length} خدمة ممكن تنفعك. اختر اللي يناسبك:</div>
+  </div>`;
+
+  results.slice(0, 8).forEach(s => {
+    html += `<div class="quiz-card fade-in" style="cursor:pointer" onclick="location.href='${s.url}'">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="font-size:32px">${s.emoji}</span>
+        <div style="flex:1">
+          <div style="font-size:17px;font-weight:800;color:#fff;margin-bottom:4px">${s.name}</div>
+          <div style="font-size:13px;color:#8ea0c4">${s.docs}</div>
+        </div>
+      </div>
+      <div class="result-meta">
+        <span>⏱️ <b>${s.duration}</b></span>
+        <span>💵 <b>${s.fees}</b></span>
+        <span>📂 <b>${s.cat}</b></span>
+      </div>
+      <a href="${s.url}" style="display:inline-block;margin-top:12px;color:#e6c258;text-decoration:none;font-weight:700;font-size:14px">تفاصيل الخدمة ←</a>
+    </div>`;
+  });
+
+  html += `<button class="restart-btn" onclick="restart()">🔄 ابدأ من جديد</button>`;
+  container.innerHTML = html;
+}
+
+function showDescribe() {
+  const container = document.getElementById('quizContainer');
+  let html = `<div class="quiz-card fade-in">
+    <div class="quiz-question">اكتب اللي محتاجه بالعربي 💬</div>
+    <div style="position:relative">
+      <input type="text" id="searchInput" placeholder="مثال: محتاج استخرج شهادة ميلاد" 
+        style="width:100%;padding:14px 16px;background:#0F1E3D;border:2px solid #2a4068;border-radius:12px;color:#fff;font-family:Cairo;font-size:15px;outline:none" 
+        onkeyup="searchServices(this.value)">
+    </div>
+    <div id="searchResults" style="margin-top:16px"></div>
+  </div>
+  <button class="restart-btn" onclick="restart()">🔄 ابدأ من جديد</button>`;
+  container.innerHTML = html;
+  document.getElementById('searchInput').focus();
+}
+
+function searchServices(query) {
+  const resultsDiv = document.getElementById('searchResults');
+  if (!query || query.length < 2) { resultsDiv.innerHTML = ''; return; }
+
+  const q = query.toLowerCase();
+  const matches = SERVICES.filter(s =>
+    s.keywords.some(k => q.includes(k.toLowerCase())) ||
+    s.name.toLowerCase().includes(q)
+  );
+
+  if (matches.length === 0) {
+    resultsDiv.innerHTML = `<p style="text-align:center;color:#8ea0c4;padding:20px">مفيش نتيجة مطابقة — جرب كلمات تانية 🤔</p>`;
+    return;
+  }
+
+  let html = '';
+  matches.slice(0, 6).forEach(s => {
+    html += `<a href="${s.url}" style="display:flex;align-items:center;gap:12px;text-decoration:none;background:#162847;border:1px solid #2a4068;border-radius:12px;padding:14px;margin-bottom:8px;transition:all .2s" onmouseover="this.style.borderColor='#e6c258'" onmouseout="this.style.borderColor='#2a4068'">
+      <span style="font-size:24px">${s.emoji}</span>
+      <div style="flex:1">
+        <div style="font-weight:700;color:#fff;font-size:15px">${s.name}</div>
+        <div style="font-size:12px;color:#8ea0c4">${s.fees} • ${s.duration}</div>
+      </div>
+      <span style="color:#e6c258">←</span>
+    </a>`;
+  });
+  resultsDiv.innerHTML = html;
+}
+
+function restart() {
+  currentQ = 0;
+  answers = {};
+  renderQuestion();
+}
+
+// ===== Init =====
+renderQuestion();
+</script>
+</body>
+</html>

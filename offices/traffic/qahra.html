@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>مكاتب المرور في القاهرة — 14 مكتب | خِدْمَتي AI</title>
+<meta name="description" content="كل مكاتب المرور في محافظة القاهرة — 14 مكتب بالعناوين والمواعيد والخدمات. اعرف أقرب مكتب ليك.">
+<meta name="keywords" content="مكاتب المرور القاهرة, المرور القاهرة, عنوان المرور القاهرة, مواعيد المرور, خِدْمَتي AI">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/styles/main.css">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:800px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{color:#8ea0c4}
+.office-hero{max-width:800px;margin:0 auto;padding:10px 20px 20px;text-align:center}
+.office-hero .office-emoji{font-size:42px;margin-bottom:8px}
+.office-hero h1{font-size:22px;font-weight:900;color:#fff;margin:0 0 6px;line-height:1.3}
+.office-hero p{font-size:14px;color:#8ea0c4;margin:0}
+.office-info{max-width:800px;margin:0 auto;padding:0 20px 20px}
+.info-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:20px;margin-bottom:16px}
+.info-card h3{font-size:15px;font-weight:800;color:#e6c258;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.info-card p{font-size:14px;color:#c8d4e8;margin:4px 0;line-height:1.6}
+.info-row{display:flex;gap:10px;align-items:flex-start;margin:6px 0}
+.info-row .label{color:#8ea0c4;font-size:13px;min-width:70px;font-weight:600}
+.info-row .value{color:#e8eef8;font-size:14px;flex:1}
+.map-embed{max-width:800px;margin:0 auto 20px;padding:0 20px}
+.map-embed iframe{width:100%;height:300px;border:0;border-radius:16px;border:2px solid #1e3556;filter:invert(0.92) hue-rotate(180deg)}
+.cta-section{max-width:800px;margin:0 auto 30px;padding:0 20px}
+.cta-card{background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;padding:24px;text-align:center}
+.cta-card h3{font-size:17px;font-weight:800;color:#fff;margin:0 0 8px}
+.cta-card p{font-size:14px;color:#8ea0c4;margin:0 0 14px}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;padding:12px 28px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo,sans-serif;cursor:pointer;transition:all .3s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.related-section{max-width:800px;margin:0 auto 30px;padding:0 20px}
+.related-section h3{font-size:16px;font-weight:800;color:#fff;margin:0 0 12px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.related-link{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:12px 16px;text-decoration:none;color:#e8eef8;font-size:13px;font-weight:600;transition:all .3s;display:block}
+.related-link:hover{border-color:#e6c258;color:#e6c258;transform:translateY(-2px)}
+.list-section{max-width:800px;margin:0 auto 30px;padding:0 20px}
+.office-list-item{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:16px;margin-bottom:10px;text-decoration:none;color:inherit;display:block;transition:all .3s}
+.office-list-item:hover{border-color:#e6c258;transform:translateY(-2px)}
+.office-list-item h4{font-size:15px;font-weight:800;color:#fff;margin:0 0 4px}
+.office-list-item p{font-size:13px;color:#8ea0c4;margin:0}
+.office-list-item .office-meta{font-size:12px;color:#5a6a8a;margin-top:4px}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:10px}
+.footer-links a{font-size:13px;color:#8ea0c4}
+.footer-links a:hover{color:#e6c258}
+.gov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-width:800px;margin:0 auto 30px;padding:0 20px}
+.gov-card{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:14px 16px;text-decoration:none;color:#e8eef8;font-size:13px;font-weight:600;transition:all .3s;text-align:center}
+.gov-card:hover{border-color:#e6c258;transform:translateY(-2px)}
+.gov-card .count{display:block;font-size:11px;color:#8ea0c4;margin-top:4px}
+</style>
+<link rel="canonical" href="https://khidmatyai.com/offices/traffic/qahra.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "مكاتب المرور في القاهرة",
+  "description": "كل مكاتب المرور في محافظة القاهرة — 14 مكتب بالعناوين والمواعيد والخدمات. اعرف أقرب مكتب ليك.",
+  "url": "https://khidmatyai.com/offices/traffic/qahra.html",
+  "inLanguage": "ar-EG",
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": 14,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "الإدارة العامة للمرور - القاهرة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/mdyna-nsr.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "إدارة مرور حدائق القبة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/hdaaq-alqba.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "إدارة مرور المعادي",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/maady.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "إدارة مرور الوايلي",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/abasya.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "إدارة مرور مدينة السلام",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/mdyna-alslam.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "إدارة مرور عين الصيرة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/ayn-alsyra.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "إدارة مرور الدراسة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/abasya-2.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "name": "إدارة مرور العتبة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/atba.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "name": "إدارة مرور النزهة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/nzha.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "name": "إدارة مرور الشروق",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/shrwq.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "name": "إدارة مرور شبرا",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/shbra.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 12,
+        "name": "إدارة مرور مصر الجديدة",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/msr-algdyda.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 13,
+        "name": "إدارة مرور مدينة نصر",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/mdyna-nsr-2.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 14,
+        "name": "إدارة مرور الجمارك",
+        "url": "https://khidmatyai.com/offices/traffic/qahra/mtar.html"
+      }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="header">
+  <a href="../index.html">← الرئيسية</a>
+  <div class="header-logo">
+    <img src="../assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+
+<div class="breadcrumb">
+  <a href="../index.html">الرئيسية</a> ›
+  <a href="../offices.html">المكاتب</a> ›
+  <a href="../offices/traffic.html">المرور</a> ›
+  <span>القاهرة</span>
+</div>
+<div class="office-hero">
+  <div class="office-emoji">🚗</div>
+  <h1>مكاتب المرور في القاهرة</h1>
+  <p>14 مكتب — اعرف العنوان والمواعيد والخدمات</p>
+</div>
+<div class="list-section">
+  <h3 style="font-size:16px;font-weight:800;color:#fff;margin:0 0 12px">📋 قائمة المكاتب</h3>
+<a href="mdyna-nsr.html" class="office-list-item">
+  <h4>🚗 الإدارة العامة للمرور - القاهرة</h4>
+  <p>📍 طريق النصر، بجوار مسجد رابعة العدوية...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | مدينة نصر</div>
+</a>
+<a href="hdaaq-alqba.html" class="office-list-item">
+  <h4>🚗 إدارة مرور حدائق القبة</h4>
+  <p>📍 ميدان الحدائق، أمام القصر الجمهوري...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | حدائق القبة</div>
+</a>
+<a href="maady.html" class="office-list-item">
+  <h4>🚗 إدارة مرور المعادي</h4>
+  <p>📍 خلف بيتشو أمريكان سيتي، زهراء المعادي...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | المعادي</div>
+</a>
+<a href="abasya.html" class="office-list-item">
+  <h4>🚗 إدارة مرور الوايلي</h4>
+  <p>📍 ميدان العباسية...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | العباسية</div>
+</a>
+<a href="mdyna-alslam.html" class="office-list-item">
+  <h4>🚗 إدارة مرور مدينة السلام</h4>
+  <p>📍 شارع المرور...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | مدينة السلام</div>
+</a>
+<a href="ayn-alsyra.html" class="office-list-item">
+  <h4>🚗 إدارة مرور عين الصيرة</h4>
+  <p>📍 ش صلاح سالم، أمام حديقة الفسطاط...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | عين الصيرة</div>
+</a>
+<a href="abasya-2.html" class="office-list-item">
+  <h4>🚗 إدارة مرور الدراسة</h4>
+  <p>📍 شارع المرور...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | العباسية</div>
+</a>
+<a href="atba.html" class="office-list-item">
+  <h4>🚗 إدارة مرور العتبة</h4>
+  <p>📍 ش على الكسار، الأزبكية...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | العتبة</div>
+</a>
+<a href="nzha.html" class="office-list-item">
+  <h4>🚗 إدارة مرور النزهة</h4>
+  <p>📍 امتداد ش عبد الحميد بدوي، شيراتون...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | النزهة</div>
+</a>
+<a href="shrwq.html" class="office-list-item">
+  <h4>🚗 إدارة مرور الشروق</h4>
+  <p>📍 بجوار مبنى جهاز الإسكان، مدينة الشروق...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | الشروق</div>
+</a>
+<a href="shbra.html" class="office-list-item">
+  <h4>🚗 إدارة مرور شبرا</h4>
+  <p>📍 خلف موقف أتوبيسات عبود...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | شبرا</div>
+</a>
+<a href="msr-algdyda.html" class="office-list-item">
+  <h4>🚗 إدارة مرور مصر الجديدة</h4>
+  <p>📍 3 ش المنصور، ميدان الجامع...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | مصر الجديدة</div>
+</a>
+<a href="mdyna-nsr-2.html" class="office-list-item">
+  <h4>🚗 إدارة مرور مدينة نصر</h4>
+  <p>📍 طريق النصر...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | مدينة نصر</div>
+</a>
+<a href="mtar.html" class="office-list-item">
+  <h4>🚗 إدارة مرور الجمارك</h4>
+  <p>📍 خلف فندق موفينبيك المطار...</p>
+  <div class="office-meta">⏰ السبت–الخميس 8ص–2م، الجمعة إجازة | المطار</div>
+</a>
+</div>
+<div class="cta-section">
+  <div class="cta-card">
+    <h3>🗺️ خريطة كل المكاتب</h3>
+    <p>شوف كل مكاتب المرور على الخريطة التفاعلية</p>
+    <a href="../offices.html" class="cta-btn">افتح الخريطة</a>
+  </div>
+</div>
+
+<div class="footer">
+  <p>خِدْمَتي AI — دليلك الذكي للخدمات الحكومية في مصر</p>
+  <div class="footer-links">
+    <a href="../index.html">الرئيسية</a>
+    <a href="../articles.html">المقالات</a>
+    <a href="../offices.html">خريطة المكاتب</a>
+    <a href="../store.html">المتجر</a>
+    <a href="../contact.html">تواصل معنا</a>
+  </div>
+</div>
+</body>
+</html>

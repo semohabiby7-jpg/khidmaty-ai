@@ -87,7 +87,10 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     {"@type":"Product","name":"قوة العقل — النسخة العربية PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
     {"@type":"Product","name":"POWER OF MIND — English Edition PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
     {"@type":"Product","name":"قوة العقل ٢ — رايح فين؟ PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
-    {"@type":"Product","name":"POWER OF MIND 2 — Where To? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
+    {"@type":"Product","name":"POWER OF MIND 2 — Where To? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"قوة العقل ٣ — هستفيد إيه؟ PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"MIND POWER 3 — What Do I Gain? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"باقة الجزء الأول (عربي + إنجليزي)","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"129","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
   ]
 }
 </script>
@@ -188,6 +191,17 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     </div>
 </div>
 
+<div class="bundle-box">
+  <div class="bundle-card">
+    <div class="b-text">
+      <h3>🎁 باقة وفّر 46 جنيه</h3>
+      <p>أي جزء: النسخة العربية + الإنجليزية معًا — بدل 175ج منفصلين</p>
+    </div>
+    <div class="b-price">129 <small>جنيه</small></div>
+    <button class="buy-btn" style="max-width:160px" onclick="orderProduct('bundle1')">اطلب الباقة بـ129ج</button>
+  </div>
+</div>
+
 <div class="buy-box" id="buy">
   <div class="buy-card">
     <h2>الشراء في 3 خطوات</h2>
@@ -233,7 +247,10 @@ en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام علي�
 ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٢» — النسخة العربية\n💰 السعر: 75 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
 en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 2» — English Edition\n💰 السعر: 100 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
 ar3:{name:'كتاب «قوة العقل ٣» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٣» — النسخة العربية\n💰 السعر: 75 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
-en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «MIND POWER 3» — English Edition\n💰 السعر: 100 جنيه\n\nإيه طريقة الدفع؟ 🙏'}
+en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «MIND POWER 3» — English Edition\n💰 السعر: 100 جنيه\n\nإيه طريقة الدفع؟ 🙏'},
+bundle1:{name:'باقة الجزء الأول (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الأول — عربي + إنجليزي\n📚 كتاب «قوة العقل» + «POWER OF MIND»\n💰 السعر: 129 جنيه (بدل 175ج)\n\nإيه طريقة الدفع؟ 🙏'},
+bundle2:{name:'باقة الجزء الثاني (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الثاني — عربي + إنجليزي\n📚 كتاب «قوة العقل ٢» + «POWER OF MIND 2»\n💰 السعر: 129 جنيه (بدل 175ج)\n\nإيه طريقة الدفع؟ 🙏'},
+bundle3:{name:'باقة الجزء الثالث (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الثالث — عربي + إنجليزي\n📚 كتاب «قوة العقل ٣» + «MIND POWER 3»\n💰 السعر: 129 جنيه (بدل 175ج)\n\nإيه طريقة الدفع؟ 🙏'}
 };
 var current='ar';
 function selectProduct(k){

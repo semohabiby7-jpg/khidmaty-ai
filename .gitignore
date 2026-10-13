@@ -2,6 +2,9 @@
 # no PDFs on the public site — delivered via WhatsApp only
 *.pdf
 
+# buyer PII — never public (repo is public; buyer names/phones/gmail)
+ideas/SALES-LOG.md
+
 # secrets
 .ga-id
 .github-token

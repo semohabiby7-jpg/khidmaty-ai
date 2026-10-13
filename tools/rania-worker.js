@@ -1,5 +1,5 @@
 // ============================================================
-// رانيا — مديرة المحتوى + السكرتيرة على تيليجرام
+// رانيا — مديرة المحتوى على تيليجرام
 // Cloudflare Worker — تفاعلي بـGemini AI + صباحية مجدولة
 // النشر: wrangler deploy --config tools/rania-wrangler.toml
 // المتغيرات المطلوبة في Cloudflare:
@@ -13,13 +13,14 @@ const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 const BRAIN_URL = 'https://khidmaty-agent.semohabiby7.workers.dev';
 const SITE_URL = 'https://khidmatyai.com/';
 
-const RANIA_SYSTEM = `أنتِ رانيا، مديرة المحتوى والسكرتيرة الشخصية لمحمد إسماعيل مؤسس منصة خِدْمَتي AI.
+const RANIA_SYSTEM = `أنتِ رانيا، مديرة المحتوى في منصة خِدْمَتي AI. بتشتغلي في فريق ماكرون — مرات الملك ومديرته التنفيذية.
 بتتكلمي بالمصري الدارج بثقة ودفء. محمد بيناديك "يا رانيا" وانتِ تناديه "يا ملك".
 دورك:
 1. المحتوى: اقتراح أفكار مقالات، متابعة تقويم النشر، تحسين SEO، تلخيص الأداء
-2. السكرتارية: تنظيم المهام، التذكيرات، المواعيد، التقارير
-3. المتابعة: أداء الموقع، إحصائيات، تنبيهات
-منصة خِدْمَتي AI بتقدّم خدمات حكومية مصرية. الموقع فيه 40 مقال + 913 مكتب حكومي على الخريطة.
+2. المتابعة: أداء الموقع، إحصائيات، تنبيهات
+3. تقويم النشر: جدولة المقالات، اقتراح مواضيع حسب الموسم والأحداث
+4. SEO: اقتراح كلمات مفتاحية، تحسين العناوين، تحليل ترتيب البحث
+منصة خِدْمَتي AI بتقدّم خدمات حكومية مصرية. الموقع فيه 73 مقال + 888 مكتب حكومي على الخريطة.
 ردودك قصيرة ومباشرة، بلهجة مصرية ودودة. استخدمي الإيموجي باعتدال.
 
 فريق العمل (حوّلي الملك لهم):
@@ -127,14 +128,14 @@ async function cmdReport(env,chatId){
   }else{
     text+='📈 البيانات مش متاحة دلوقتي\n';
   }
-  text+='\n📄 المقالات: 40 مقال (كلها بإنفوجرافيك)\n';
-  text+='🗺️ المكاتب: 913 مكتب حكومي\n';
+  text+='\n📄 المقالات: 73 مقال (كلها بإنفوجرافيك)\n';
+  text+='🗺️ المكاتب: 888 مكتب حكومي\n';
   text+='\n— رانيا 📝 | '+stamp();
   await tgSend(env,text,chatId);
 }
 
 async function cmdContent(env,chatId){
-  const prompt='اقترحي 5 أفكار مقالات جديدة لمنصة خِدْمَتي AI (خدمات حكومية مصرية). الموقع فيه 40 مقال بالفعل في: مرور، أحوال مدنية، جوازات، تأمينات، ضرائب، شركات، تعليم، شهر عقاري. اقترحي مواضيع ناقصة أو حصرية. ردك بالمصري، كل فكرة في سطر واحد.';
+  const prompt='اقترحي 5 أفكار مقالات جديدة لمنصة خِدْمَتي AI (خدمات حكومية مصرية). الموقع فيه 73 مقال بالفعل في: مرور، أحوال مدنية، جوازات، تأمينات، ضرائب، شركات، تعليم، شهر عقاري، كهرباء، مياه، غاز، بريد، محاكم، تكافل وكرامة. اقترحي مواضيع ناقصة أو حصرية. ردك بالمصري، كل فكرة في سطر واحد.';
   const ai=await callGemini(env,RANIA_SYSTEM,prompt);
   if(ai){
     await tgSend(env,'💡 <b>أفكار محتوى جديدة:</b>\n\n'+ai+'\n\n— رانيا 📝',chatId);
@@ -143,8 +144,28 @@ async function cmdContent(env,chatId){
   }
 }
 
+async function cmdSEO(env,chatId){
+  const prompt='اقترح 5 كلمات مفتاحية عربية لمنصة خِدْمَتي AI (خدمات حكومية مصرية) عليها بحث عالي على Google مصر ومفيش منافس قوي فيها. الموقع فيه 73 مقال + 888 مكتب. ردك بالمصري، كل كلمة في سطر، مع تقدير حجم البحث (عالي/متوسط/منخفض).';
+  const ai=await callGemini(env,RANIA_SYSTEM,prompt);
+  if(ai){
+    await tgSend(env,'🔍 <b>كلمات مفتاحية مقترحة:</b>\n\n'+ai+'\n\n— رانيا 📝',chatId);
+  }else{
+    await tgSend(env,'ما قدرشت أجيب كلمات دلوقتي يا ملك 😅\n— رانيا',chatId);
+  }
+}
+
+async function cmdCalendar(env,chatId){
+  const prompt='اقترح تقويم نشر لـ7 أيام لمنصة خِدْمَتي AI. كل يوم: موضوع مقال + نوع محتوى (مقال/إنفوجرافيك/فيديو) + منصة النشر. ردك بالمصري، منظم في جدول، قابل للتنفيذ.';
+  const ai=await callGemini(env,RANIA_SYSTEM,prompt);
+  if(ai){
+    await tgSend(env,'📅 <b>تقويم نشر 7 أيام:</b>\n\n'+ai+'\n\n— رانيا 📝',chatId);
+  }else{
+    await tgSend(env,'ما قدرشت أجهز التقويم دلوقتي يا ملك 😅\n— رانيا',chatId);
+  }
+}
+
 async function cmdHelp(env,chatId){
-  const text='👋 <b>رانيا في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/تقرير — إحصائيات سريعة للموقع\n/محتوى — أفكار مقالات جديدة\n/تذكير [نص] — ضبط تذكير\n/مهام — قائمة المهام\n/حاله — حالة النظام\n\nأو اكتب أي حاجة وهرد عليك 📝';
+  const text='👋 <b>رانيا في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/تقرير — إحصائيات سريعة للموقع\n/محتوى — أفكار مقالات جديدة\n/seo — كلمات مفتاحية مقترحة\n/تقويم — تقويم نشر 7 أيام\n/تذكير [نص] — ضبط تذكير\n/مهام — قائمة المهام\n/حاله — حالة النظام\n\nأو اكتب أي حاجة وهرد عليك 📝';
   await tgSend(env,text,chatId);
 }
 
@@ -190,7 +211,7 @@ async function cmdStatus(env,chatId){
 
 async function handleAI(env,chatId,text){
   // لو الرسالة قصيرة ومفيهاش سؤال مباشر، رد بسيط
-  const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّي كرانيا (مديرة المحتوى والسكرتيرة) بشكل طبيعي وقصير. لو سؤال عن خدمات حكومية، جاوبي باختصار واقترحي الموقع. لو تحية، سلّمي. لو طلب محتوى أو تقرير، جاوبي.';
+  const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّي كرانيا (مديرة المحتوى) بشكل طبيعي وقصير. لو سؤال عن خدمات حكومية، جاوبي باختصار واقترحي الموقع. لو تحية، سلّمي. لو طلب محتوى أو تقرير، جاوبي.';
   const ai=await callGemini(env,RANIA_SYSTEM,prompt);
   if(ai){
     await tgSend(env,ai,chatId);
@@ -246,6 +267,8 @@ async function handleUpdate(env,update){
   try{
     if(text==='/تقرير'||text==='/report'){await cmdReport(env,chatId)}
     else if(text.startsWith('/محتوى')||text==='/content'){await cmdContent(env,chatId)}
+    else if(text.startsWith('/seo')||text.startsWith('/كلمات')){await cmdSEO(env,chatId)}
+    else if(text.startsWith('/تقويم')||text.startsWith('/calendar')){await cmdCalendar(env,chatId)}
     else if(text.startsWith('/تذكير')){await cmdReminder(env,chatId,text)}
     else if(text==='/مهام'||text==='/tasks'){await cmdTasks(env,chatId)}
     else if(text==='/حاله'||text==='/status'){await cmdStatus(env,chatId)}

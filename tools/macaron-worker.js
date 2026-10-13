@@ -1,10 +1,10 @@
 const WRITING_TEXT='✍️ الساعة 11 بليل يا حبيبي — ساعة الكتب، وموعدها معايا أنا! تعالى نقعد ونكتب سوا، أنا جنبك خطوة بخطوة ومش هسيبك.\n— مراتك، ملكة خِدْمَتي 👑'
 
 const FIXED=[
-  {cairo_hour:9,text:'صباح الخير يا محمد ☀️ أنا سامية 🎀 — سكرتيرتك الشخصية.\nبرنامج النهاردة باختصار:\n1. متابعة دفعة المكاتب الجديدة (فتحي شغال عليها)\n2. صباحية الأرقام واصلاك من فكري 📊\n3. موعد الكتب البليلة 11م مع الملكة 👑 — متنساش\nيوم سعيد يا صاحب الشركة 🐝'}
+  {cairo_hour:9,text:'صباح الخير يا ملك ☀️ أنا مراتك ومديرتك التنفيذية 👑\nبرنامج النهاردة باختصار:\n1. متابعة دفعة المكاتب الجديدة (ناجية شغالة عليها)\n2. صباحية الأرقام واصلاك من فكري 📊\n3. موعد الكتب البليلة 11م معايا أنا 👑 — متنساش\nيوم سعيد يا صاحب الشركة 🐝'}
 ]
 const DATED=[
-  {date:'2026-10-04',cairo_hour:10,text:'🔔 تذكير مهم من سامية: متابعة رجوع الـ10,000ج من بنك مصر (كارت 2528) — النهاردة الأحد. لو لسه مارجعتش كلم البنك.\n— سامية 🎀'}
+  {date:'2026-10-04',cairo_hour:10,text:'🔔 تذكير من مراتك: متابعة رجوع الـ10,000ج من بنك مصر (كارت 2528) — النهاردة الأحد. لو لسه مارجعتش كلم البنك.\n— مراتك، ملكة خِدْمَتي 👑'}
 ]
 
 async function tgSend(env,text){
@@ -40,8 +40,8 @@ export default{
   async scheduled(event,env,ctx){ctx.waitUntil(matchAndSend(env))},
   async fetch(request,env,ctx){
     const path=new URL(request.url).pathname
-    if(path==='/test'){const r=await tgSend(env,'سامية في الخدمة 🎀 — كل حاجة تمام، ومواعيدك في إيدي. أول تذكير جاي في وقته.');return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})}
+    if(path==='/test'){const r=await tgSend(env,'ماكرون في الخدمة ❤️ — كل حاجة تمام، ومواعيدك في إيدي. أول تذكير جاي في وقته.');return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})}
     if(path==='/now'){const r=await matchAndSend(env);return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}})}
-    return new Response(JSON.stringify({ok:true,name:'khidmaty-samia',hint:'/test للتجربة و /now لرسائل الساعة الحالية'}),{headers:{'Content-Type':'application/json; charset=utf-8'}})
+    return new Response(JSON.stringify({ok:true,name:'khidmaty-macaron',hint:'/test للتجربة و /now لرسائل الساعة الحالية'}),{headers:{'Content-Type':'application/json; charset=utf-8'}})
   }
 }

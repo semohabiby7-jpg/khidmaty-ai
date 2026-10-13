@@ -23,7 +23,7 @@ const FKRY_SYSTEM = `أنت فكري، المستشار الاستراتيجي �
 3. خطط النمو — SEO، محتوى، تسويق، شراكات، توسّع
 4. متابعة المنافسين — مواقع خدمات حكومية مماثلة، نقاط قوّة وضعف
 5. التوصيات — خطوات عملية واضحة للمضي قدّام
-منصة خِدْمَتي AI بتقدّم خدمات حكومية مصرية. الموقع فيه 40 مقال + 913 مكتب حكومي.
+منصة خِدْمَتي AI بتقدّم خدمات حكومية مصرية. الموقع فيه 73 مقال + 888 مكتب حكومي.
 ردودك منظّمة وواضحة، بنقاط مرقّمة وخطوات تنفيذية. استخدم الإيموجي باعتدال (🧠 📊 🎯 📈).`;
 
 // ============ أدوات مساعدة ============
@@ -82,7 +82,7 @@ async function brainGet(path){
 // ============ جمع البيانات ============
 
 async function gatherData(env){
-  const data={site:'ن/م',articles:40,offices:913,visitsToday:0,visitsTotal:0,usersToday:0,usersTotal:0,providers:0,tgMessages:0,report:''};
+  const data={site:'ن/م',articles:73,offices:888,visitsToday:0,visitsTotal:0,usersToday:0,usersTotal:0,providers:0,tgMessages:0,report:''};
   const stats=await brainGet('/stats');
   if(stats&&stats.stats&&stats.stats.website){
     const s=stats.stats.website;
@@ -150,7 +150,15 @@ async function morningStrategy(env){
   const d=await gatherData(env);
   let text='🧠 <b>صباح الاستراتيجية يا ملك</b>\nصباحية فكري — خِدْمَتي AI\n';
   text+='═══════════════\n';
-  text+=dataSummary(d)+'\n\n';
+  // ===== داشبورد الأرقام =====
+  text+='📊 <b>داشبورد الأرقام</b>\n';
+  text+='━━━━━━━━━━━━━\n';
+  text+='📈 الزيارات: '+d.visitsToday+' اليوم / '+d.visitsTotal+' إجمالي\n';
+  text+='👤 المسجلين: '+d.usersToday+' اليوم / '+d.usersTotal+' إجمالي\n';
+  text+='💼 مقدمون: '+d.providers+' | 📄 مقالات: '+d.articles+' | 🗺️ مكاتب: '+d.offices+'\n';
+  text+='✈️ رسائل تليجرام: '+d.tgMessages+'\n';
+  text+='━━━━━━━━━━━━━\n\n';
+  // ===== تحليل ذكي =====
   if(env.GEMINI_KEY){
     const prompt='بيانات الصباح:\n'+dataSummary(d)+'\n\nاكتب صباحية استراتيجية قصيرة:\n1. تقييم سريع لأداء النهاردة\n2. توصية واحدة مهمة للمضي\n3. فرصة محتوى أو نمو لليوم\nردك بالمصري، قصير (5-8 أسطر)، قابل للتنفيذ.';
     const ai=await callGemini(env,FKRY_SYSTEM,prompt);
@@ -158,6 +166,7 @@ async function morningStrategy(env){
       text+='🎯 <b>توصية فكري:</b>\n'+ai+'\n\n';
     }
   }
+  text+='🔗 <b>الداشبورد الكامل:</b> https://khidmaty-fkry.semohabiby7.workers.dev/dashboard\n\n';
   text+='نفوّق المنصة بأمان يا ملك 🚀\n— فكري 🧠 | '+stamp();
   await tgSend(env,text);
 }
@@ -168,7 +177,14 @@ async function weeklyReview(env){
   const d=await gatherData(env);
   let text='📊 <b>تقرير استراتيجي أسبوعي — فكري 🧠</b>\n';
   text+='═══════════════\n';
-  text+=dataSummary(d)+'\n\n';
+  // ===== داشبورد الأرقام =====
+  text+='📊 <b>داشبورد الأسبوع</b>\n';
+  text+='━━━━━━━━━━━━━\n';
+  text+='📈 الزيارات: '+d.visitsToday+' اليوم / '+d.visitsTotal+' إجمالي\n';
+  text+='👤 المسجلين: '+d.usersToday+' اليوم / '+d.usersTotal+' إجمالي\n';
+  text+='💼 مقدمون: '+d.providers+' | 📄 مقالات: '+d.articles+' | 🗺️ مكاتب: '+d.offices+'\n';
+  text+='✈️ رسائل تليجرام: '+d.tgMessages+'\n';
+  text+='━━━━━━━━━━━━━\n\n';
   if(env.GEMINI_KEY){
     const prompt='بيانات الأسبوع:\n'+dataSummary(d)+'\n\nاكتب تقرير استراتيجي أسبوعي لمنصة خِدْمَتي AI:\n1. ملخص الأداء\n2. أهم 3 إنجازات\n3. أكبر 3 تحديات\n4. أهداف الأسبوع الجاي\n5. توصية استراتيجية واحدة\nردك بالمصري، منظّم، قابل للتنفيذ.';
     const ai=await callGemini(env,FKRY_SYSTEM,prompt);
@@ -176,6 +192,7 @@ async function weeklyReview(env){
       text+='📋 <b>التحليل الاستراتيجي:</b>\n'+ai+'\n\n';
     }
   }
+  text+='🔗 <b>الداشبورد الكامل:</b> https://khidmaty-fkry.semohabiby7.workers.dev/dashboard\n\n';
   text+='أسبوع متوّج بالنجاح يا ملك 👑\n— فكري 🧠 | '+stamp();
   await tgSend(env,text);
 }

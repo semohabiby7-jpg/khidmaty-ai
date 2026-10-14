@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>المتجر | خِدْمَتي AI — كتب المؤلف الرسمية</title>
+<title>المتجر | خِدْمَتي AI — كتب وكورسات وتطبيقات</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0F1E3D">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -11,9 +11,9 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="canonical" href="https://khidmatyai.com/store.html">
-<meta name="description" content="متجر خِدْمَتي الرسمي — كتب خِدْمَتي: «قوة العقل» و«POWER OF MIND» بصيغة PDF. الدفع على إنستاباي، وامتلك نسختك على Google Drive مدى الحياة بعد إرسال الإيصال وإيميلك على واتساب.">
+<meta name="description" content="متجر خِدْمَتي الرسمي — كتب خِدْمَتي: «قوة العقل» و«POWER OF MIND» بصيغة PDF، ودليل «أهم أدوات الذكاء الاصطناعي في كتابة المحتوى». الدفع على إنستاباي أو فودافون كاش، وامتلك نسختك على Google Drive مدى الحياة بعد إرسال الإيصال وإيميلك على واتساب.">
 <meta property="og:title" content="متجر خِدْمَتي AI — كتب المؤلف الرسمية">
-<meta property="og:description" content="«قوة العقل» و«POWER OF MIND» — PDF مباشرة من المؤلف. الدفع على إنستاباي وامتلك نسختك على Google Drive مدى الحياة.">
+<meta property="og:description" content="«قوة العقل» و«POWER OF MIND» ودليل أدوات الذكاء الاصطناعي للكُتّاب — PDF مباشرة من المؤلف. الدفع على إنستاباي أو فودافون كاش وامتلك نسختك على Google Drive مدى الحياة.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://khidmatyai.com/store.html">
 <meta property="og:image" content="https://khidmatyai.com/books/mind-power/cover.webp">
@@ -31,6 +31,18 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .store-hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 10px}
 .store-hero p{font-size:15px;color:#8ea0c4;margin:0;line-height:1.7}
 .store-hero .gold{color:#e6c258;font-weight:800}
+.store-tabs{max-width:700px;margin:0 auto 22px;padding:0 20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.store-tab{background:#162847;border:1px solid #2a4068;color:#c0cee0;font-size:15px;font-weight:800;padding:12px 22px;border-radius:12px;cursor:pointer;font-family:Cairo,sans-serif;transition:all .3s;min-width:140px;text-align:center}
+.store-tab:hover{border-color:#e6c258;color:#e6c258}
+.store-tab.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.store-section{display:none}
+.store-section.active{display:block}
+.soon-card{max-width:520px;margin:20px auto;padding:0 20px}
+.soon-card-inner{background:linear-gradient(145deg,#162847,#0d1a33);border:1px dashed #2a4068;border-radius:16px;padding:36px 26px;text-align:center}
+.soon-card-inner .icon{font-size:48px;margin-bottom:12px}
+.soon-card-inner h3{font-size:20px;font-weight:900;color:#e6c258;margin:0 0 8px}
+.soon-card-inner p{font-size:14px;color:#c0cee0;line-height:1.8;margin:0 0 8px}
+.soon-card-inner .tag{display:inline-block;font-size:12px;font-weight:800;color:#8ea0c4;border:1px solid #2a4068;padding:5px 16px;border-radius:20px;margin-top:8px}
 .products{max-width:900px;margin:0 auto;padding:10px 20px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
 .product-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px 20px;text-align:center;transition:all .3s}
 .product-card.selected{border-color:#e6c258;box-shadow:0 0 24px rgba(230,194,88,.15)}
@@ -90,7 +102,8 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     {"@type":"Product","name":"POWER OF MIND 2 — Where To? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
     {"@type":"Product","name":"قوة العقل ٣ — هستفيد إيه؟ PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
     {"@type":"Product","name":"MIND POWER 3 — What Do I Gain? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
-    {"@type":"Product","name":"باقة الجزء الأول (عربي + إنجليزي)","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"129","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
+    {"@type":"Product","name":"باقة الجزء الأول (عربي + إنجليزي)","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"129","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"أهم أدوات الذكاء الاصطناعي في كتابة المحتوى PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
   ]
 }
 </script>
@@ -114,7 +127,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 
 <div class="store-hero">
   <h1>🛒 متجر خِدْمَتي</h1>
-  <p>كتب خِدْمَتي الرسمية — نسختك مباشرة من المؤلف، من غير وسطاء.<br>الأجزاء الثلاثة متوفرة الآن — الدفع على إنستاباي، وامتلك نسختك على Google Drive مدى الحياة.<br><span class="gold">مع تحياتي — M. Ismail</span></p>
+  <p>متجر خِدْمَتي الرسمي — كتب وكورسات وتطبيقات، من المؤلف مباشرة من غير وسطاء.<br>الكتب متوفرة دلوقتي — الدفع على إنستاباي أو فودافون كاش، وامتلك نسختك على Google Drive مدى الحياة.<br><span class="gold">مع تحياتي — M. Ismail</span></p>
 </div>
 
 
@@ -136,6 +149,14 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .banner-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:15px;font-weight:900;padding:10px 24px;border-radius:10px;text-decoration:none;transition:all .3s}
 .banner-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
 </style>
+
+<div class="store-tabs">
+  <button class="store-tab active" onclick="showSection('books')">📚 الكتب</button>
+  <button class="store-tab" onclick="showSection('apps')">📱 التطبيقات</button>
+  <button class="store-tab" onclick="showSection('courses')">🎓 الكورسات</button>
+</div>
+
+<div class="store-section active" id="section-books">
 
 <div class="products">
   <div class="part-divider"><span>الجزء الأول</span></div>
@@ -189,6 +210,15 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <div class="price">100 <small>جنيه</small></div>
       <button class="buy-btn" onclick="orderProduct('en3')">اطلب نسختك بـ100ج</button>
     </div>
+    <div class="part-divider"><span>أدوات الكاتب · إصدار جديد</span></div>
+    <div class="product-card" id="card-aitools">
+      <div class="cover-wrap"><img class="cover-img" src="books/ai-tools-content-writers/cover.webp" alt="غلاف أهم أدوات الذكاء الاصطناعي في كتابة المحتوى"></div>
+      <h2>أهم أدوات الذكاء الاصطناعي في كتابة المحتوى</h2>
+      <span class="lang-tag">العربية</span>
+      <p class="desc">دليلك العملي — أكتر من 25 أداة ذكاء اصطناعي في 7 فئات، سير عمل كامل من الفكرة للنشر، وأخلاقيات استخدام الـAI. اكتب أسرع وأنضف — من غير ما تضحّي بأسلوبك.</p>
+      <div class="price">75 <small>جنيه</small></div>
+      <button class="buy-btn" onclick="orderProduct('aitools')">اطلب نسختك بـ75ج</button>
+    </div>
 </div>
 
 <div class="bundle-box">
@@ -205,15 +235,15 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <div class="buy-box" id="buy">
   <div class="buy-card">
     <h2>الشراء في 3 خطوات</h2>
-    <p class="buy-sub">دفع آمن على إنستاباي — والكتاب بيوصل على واتساب</p>
+    <p class="buy-sub">دفع آمن على إنستاباي أو فودافون كاش — والكتاب بيوصل على واتساب</p>
     <div class="sel-line" id="selLine">المشتري حاليًا: <b id="selName">كتاب «قوة العقل» — 75 جنيه</b></div>
     <div class="step">
       <div class="step-num">1</div>
-      <div class="step-body"><b>حوّل على إنستاباي</b> أو من تطبيق بنكك على الرقم ده:<div class="ip-row"><span class="ip-num" id="ipNum">01553720957</span><button class="copy-btn" onclick="copyIP()">📋 نسخ</button></div></div>
+      <div class="step-body"><b>حوّل على أحد الطرق دي:</b><div class="ip-row"><span class="ip-num" id="ipNum">01553720957</span><button class="copy-btn" onclick="copyIP()">📋 نسخ</button> <span style="font-size:12px;color:#8ea0c4;font-weight:700">إنستاباي</span></div><div class="ip-row" style="margin-top:8px"><span class="ip-num" id="ipNum2">01016243478</span><button class="copy-btn" onclick="copyIP2()">📋 نسخ</button> <span style="font-size:12px;color:#8ea0c4;font-weight:700">فودافون كاش</span></div></div>
     </div>
     <div class="step">
       <div class="step-num">2</div>
-      <div class="step-body"><b>صوّر إيصال التحويل</b> (سكرين شوت من إيصال إنستاباي بيكفي)</div>
+      <div class="step-body"><b>صوّر إيصال التحويل</b> (سكرين شوت من إنستاباي أو فودافون كاش بيكفي)</div>
     </div>
     <div class="step">
       <div class="step-num">3</div>
@@ -224,8 +254,28 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
   </div>
 </div>
 
-<div class="soon">
-  <div class="soon-inner">🚚 <span class="gold">منتجات جاية قريب:</span> كورسات وملفات ودعم المحتوى — المتجر بيكبر معاكوا</div>
+</div><!-- /section-books -->
+
+<div class="store-section" id="section-apps">
+  <div class="soon-card">
+    <div class="soon-card-inner">
+      <div class="icon">📱</div>
+      <h3>التطبيقات</h3>
+      <p>تطبيقات خِدْمَتي الرقمية — أدوات عملية تساعدك في الإنتاجية والتطوير وكتابة المحتوى بالذكاء الاصطناعي.</p>
+      <span class="tag">🚚 جاي قريب</span>
+    </div>
+  </div>
+</div>
+
+<div class="store-section" id="section-courses">
+  <div class="soon-card">
+    <div class="soon-card-inner">
+      <div class="icon">🎓</div>
+      <h3>الكورسات</h3>
+      <p>كورسات خِدْمَتي التفاعلية — في تطوير الذات وقوة العقل والذكاء الاصطناعي وكتابة المحتوى، خطوة بخطوة.</p>
+      <span class="tag">🚚 جاي قريب</span>
+    </div>
+  </div>
 </div>
 
 <div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;max-width:900px;margin:0 auto">
@@ -243,15 +293,16 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <script>
 var WA="201005305955";
 var products={
-ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٢» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 2» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-ar3:{name:'كتاب «قوة العقل ٣» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٣» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «MIND POWER 3» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-bundle1:{name:'باقة الجزء الأول (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الأول — عربي + إنجليزي\n📚 كتاب «قوة العقل» + «POWER OF MIND»\n💰 السعر: 129 جنيه (بدل 175ج)\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-bundle2:{name:'باقة الجزء الثاني (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الثاني — عربي + إنجليزي\n📚 كتاب «قوة العقل ٢» + «POWER OF MIND 2»\n💰 السعر: 129 جنيه (بدل 175ج)\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'},
-bundle3:{name:'باقة الجزء الثالث (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الثالث — عربي + إنجليزي\n📚 كتاب «قوة العقل ٣» + «MIND POWER 3»\n💰 السعر: 129 جنيه (بدل 175ج)\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\nإيه طريقة الدفع؟ 🙏'}
+ar:{name:'كتاب «قوة العقل» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+en:{name:'كتاب «POWER OF MIND» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+ar2:{name:'كتاب «قوة العقل ٢» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٢» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+en2:{name:'كتاب «POWER OF MIND 2» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 2» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+ar3:{name:'كتاب «قوة العقل ٣» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٣» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+en3:{name:'كتاب «MIND POWER 3» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «MIND POWER 3» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+aitools:{name:'دليل «أهم أدوات الذكاء الاصطناعي في كتابة المحتوى» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📘 دليل «أهم أدوات الذكاء الاصطناعي في كتابة المحتوى»\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+bundle1:{name:'باقة الجزء الأول (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الأول — عربي + إنجليزي\n📚 كتاب «قوة العقل» + «POWER OF MIND»\n💰 السعر: 129 جنيه (بدل 175ج)\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+bundle2:{name:'باقة الجزء الثاني (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الثاني — عربي + إنجليزي\n📚 كتاب «قوة العقل ٢» + «POWER OF MIND 2»\n💰 السعر: 129 جنيه (بدل 175ج)\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+bundle3:{name:'باقة الجزء الثالث (عربي + إنجليزي) — 129 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n🎁 باقة الجزء الثالث — عربي + إنجليزي\n📚 كتاب «قوة العقل ٣» + «MIND POWER 3»\n💰 السعر: 129 جنيه (بدل 175ج)\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'}
 };
 var current='ar';
 function selectProduct(k){
@@ -262,6 +313,7 @@ function selectProduct(k){
   document.getElementById('card-en2').classList.toggle('selected',k==='en2');
   document.getElementById('card-ar3').classList.toggle('selected',k==='ar3');
   document.getElementById('card-en3').classList.toggle('selected',k==='en3');
+  document.getElementById('card-aitools').classList.toggle('selected',k==='aitools');
   document.getElementById('selName').textContent=products[k].name;
   document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[k].msg);
   document.getElementById('buy').scrollIntoView({behavior:'smooth'});
@@ -275,6 +327,22 @@ function copyIP(){
   function done(){var b=document.querySelector('.copy-btn');var o=b.textContent;b.textContent='✓ اتنسخ';setTimeout(function(){b.textContent=o;},1500);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fallback);}else{fallback();}
   function fallback(){var i=document.createElement('input');i.value=t;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);done();}
+}
+function copyIP2(){
+  var t=document.getElementById('ipNum2').textContent;
+  function done(){var b=document.querySelectorAll('.copy-btn')[1];var o=b.textContent;b.textContent='✓ اتنسخ';setTimeout(function(){b.textContent=o;},1500);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fallback);}else{fallback();}
+  function fallback(){var i=document.createElement('input');i.value=t;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);done();}
+}
+function showSection(s){
+  document.querySelectorAll('.store-section').forEach(function(el){el.classList.remove('active');});
+  document.querySelectorAll('.store-tab').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('section-'+s).classList.add('active');
+  var tabs=document.querySelectorAll('.store-tab');
+  if(s==='books'){tabs[0].classList.add('active');}
+  else if(s==='apps'){tabs[1].classList.add('active');}
+  else if(s==='courses'){tabs[2].classList.add('active');}
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[current].msg);
 </script>

@@ -60,6 +60,15 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .product-card .price small{font-size:15px;font-weight:700;color:#8ea0c4}
 .buy-btn{width:100%;padding:13px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;font-size:16px;font-weight:900;cursor:pointer;transition:all .3s;font-family:Cairo,sans-serif}
 .buy-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.preview-btn{width:100%;padding:10px;margin-top:8px;background:#0F1E3D;border:1px solid #2a4068;color:#c0cee0;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;transition:all .3s}
+.preview-btn:hover{border-color:#e6c258;color:#e6c258}
+.preview-box{margin-top:12px;display:none}
+.preview-box img{width:100%;border-radius:8px;border:1px solid #1e3556;margin-bottom:10px}
+.share-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.share-btn{display:inline-flex;align-items:center;gap:5px;background:#162847;border:1px solid #2a4068;color:#e8eef8;font-size:12px;font-weight:700;padding:8px 14px;border-radius:8px;text-decoration:none;cursor:pointer;font-family:Cairo,sans-serif}
+.share-btn:hover{border-color:#e6c258;color:#e6c258}
+.share-btn.wa:hover{border-color:#25D366;color:#25D366}
+.share-btn.tg:hover{border-color:#229ED9;color:#229ED9}
 .part-divider{grid-column:1/-1;text-align:center;margin:6px 0 2px;padding:8px 0}
 .part-divider span{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:15px;font-weight:900;padding:6px 22px;border-radius:20px}
 .bundle-box{max-width:700px;margin:0 auto 30px;padding:0 20px}
@@ -343,6 +352,59 @@ function showSection(s){
   else if(s==='apps'){tabs[1].classList.add('active');}
   else if(s==='courses'){tabs[2].classList.add('active');}
   window.scrollTo({top:0,behavior:'smooth'});
+}
+var previews={
+'card-ar':{dir:'books/mind-power/preview',text:'شوف معاينة مجانية من كتاب «قوة العقل» على متجر خِدْمَتي'},
+'card-en':{dir:'books/mind-power-en/preview',text:'Check out a free preview of POWER OF MIND on Khdmaty AI store'},
+'card-ar2':{dir:'books/mind-power-2/preview',text:'شوف معاينة مجانية من كتاب «قوة العقل ٢» على متجر خِدْمَتي'},
+'card-en2':{dir:'books/mind-power-2-en/preview',text:'Check out a free preview of POWER OF MIND 2 on Khdmaty AI store'},
+'card-ar3':{dir:'books/mind-power-3/preview',text:'شوف معاينة مجانية من كتاب «قوة العقل ٣» على متجر خِدْمَتي'},
+'card-en3':{dir:'books/mind-power-3-en/preview',text:'Check out a free preview of MIND POWER 3 on Khdmaty AI store'},
+'card-aitools':{dir:'books/ai-tools-content-writers/preview',text:'شوف معاينة مجانية من دليل أدوات الذكاء الاصطناعي على متجر خِدْمَتي'}
+};
+var SITE_URL='https://khidmatyai.com/store.html';
+Object.keys(previews).forEach(function(id){
+  var card=document.getElementById(id);
+  if(!card)return;
+  var info=previews[id];
+  var btn=document.createElement('button');
+  btn.className='preview-btn';
+  btn.textContent='📖 معاينة مجانية';
+  btn.onclick=function(){togglePreview(id);};
+  card.appendChild(btn);
+  var box=document.createElement('div');
+  box.className='preview-box';
+  box.id='preview-'+id;
+  var st=encodeURIComponent(info.text+' '+SITE_URL);
+  box.innerHTML='<img src="'+info.dir+'/sample-1.jpg" alt="معاينة 1"><img src="'+info.dir+'/sample-2.jpg" alt="معاينة 2">'+
+    '<div class="share-row">'+
+    '<a class="share-btn wa" href="https://wa.me/?text='+st+'" target="_blank" rel="noopener">📤 واتساب</a>'+
+    '<a class="share-btn tg" href="https://t.me/share/url?url='+encodeURIComponent(SITE_URL)+'&text='+encodeURIComponent(info.text)+'" target="_blank" rel="noopener">📤 تيلجرام</a>'+
+    '<button class="share-btn" onclick="copyShareLink(\''+id+'\')">📋 نسخ الرابط</button>'+
+    '</div>';
+  card.appendChild(box);
+});
+function togglePreview(id){
+  var box=document.getElementById('preview-'+id);
+  var card=document.getElementById(id);
+  var btn=card.querySelector('.preview-btn');
+  if(box.style.display==='none'||!box.style.display){
+    box.style.display='block';
+    btn.textContent='📖 إخفاء المعاينة';
+    box.scrollIntoView({behavior:'smooth',block:'center'});
+  }else{
+    box.style.display='none';
+    btn.textContent='📖 معاينة مجانية';
+  }
+}
+function copyShareLink(id){
+  var info=previews[id];
+  var link=info.text+' '+SITE_URL;
+  function ok(){alert('اتنسخ الرابط ✓');}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(link).then(ok).catch(fb);
+  }else{fb();}
+  function fb(){var i=document.createElement('input');i.value=link;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);ok();}
 }
 document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[current].msg);
 </script>

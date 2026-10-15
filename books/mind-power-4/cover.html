@@ -10,13 +10,13 @@
   body {
     width: 683px;
     height: 1024px;
-    background: linear-gradient(180deg, #1a0f08 0%, #0d0703 40%, #050200 100%);
+    background: linear-gradient(180deg, #5a4530 0%, #4a3520 40%, #3a2412 100%);
     position: relative;
     overflow: hidden;
     font-family: 'Cairo', sans-serif;
   }
 
-  /* Background image with the steering wheel figure */
+  /* Background image with the steering wheel figure — bright & clear */
   .bg-image {
     position: absolute;
     top: 0;
@@ -26,11 +26,11 @@
     background-image: url('cover.webp');
     background-size: cover;
     background-position: center;
-    opacity: 0.85;
-    filter: brightness(0.6) contrast(1.1);
+    opacity: 1.0;
+    filter: brightness(2.8) contrast(1.05) saturate(1.45) gamma(0.8);
   }
 
-  /* Dark overlay gradient to make text readable */
+  /* Light overlay — text readable, image visible */
   .overlay {
     position: absolute;
     top: 0;
@@ -38,12 +38,12 @@
     width: 683px;
     height: 1024px;
     background: linear-gradient(180deg,
-      rgba(5,2,0,0.92) 0%,
-      rgba(5,2,0,0.4) 22%,
-      rgba(5,2,0,0.15) 42%,
-      rgba(5,2,0,0.15) 58%,
-      rgba(5,2,0,0.5) 75%,
-      rgba(5,2,0,0.92) 100%
+      rgba(15,10,4,0.15) 0%,
+      rgba(15,10,4,0.0) 12%,
+      rgba(15,10,4,0.0) 40%,
+      rgba(15,10,4,0.0) 55%,
+      rgba(15,10,4,0.05) 72%,
+      rgba(15,10,4,0.30) 100%
     );
   }
 

@@ -103,6 +103,43 @@ async function postToChannel(env,text){
   }catch(e){return{sent:false,reason:(e&&e.name)||'Error'}}
 }
 
+// ============ نشر مقال على الموقع ============
+
+function makeSlug(text){
+  return text.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,50).toLowerCase()||'article';
+}
+
+async function publishArticle(env,title,content,category){
+  if(!env.GITHUB_TOKEN)return null;
+  const date=cairoDate();
+  const slug=makeSlug(title);
+  const filename=date+'-'+slug+'.html';
+  const path='articles/'+filename;
+  const desc=content.slice(0,150).replace(/<[^>]*>/g,'').replace(/\n/g,' ');
+  const html='<!DOCTYPE html>\n<html lang="ar" dir="rtl"><head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>'+title+' — خِدْمَتي AI</title>\n<meta name="description" content="'+desc+'">\n<meta name="author" content="Mohamed Ismail">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">\n<style>\nbody{font-family:Cairo,Tahoma,sans-serif;max-width:800px;margin:0 auto;padding:20px;line-height:1.8;color:#333;background:#fafafa}\nh1{color:#2c3e50;font-size:1.8em;margin-bottom:10px}\n.meta{color:#7f8c8d;font-size:0.85em;margin-bottom:20px;border-bottom:2px solid #ecf0f1;padding-bottom:10px}\n.article-body{font-size:1.05em}\n.article-body h2{color:#2c3e50;margin-top:25px}\n.article-body h3{color:#34495e;margin-top:20px}\n.article-body p{margin-bottom:15px}\n.article-body ul,.article-body ol{margin-bottom:15px;padding-right:25px}\n.article-body li{margin-bottom:8px}\n.tag{display:inline-block;background:#3498db;color:#fff;font-size:0.8em;padding:3px 12px;border-radius:15px;margin-bottom:15px}\n.footer{margin-top:40px;padding-top:15px;border-top:2px solid #ecf0f1;text-align:center;color:#95a5a6;font-size:0.85em}\n.footer a{color:#3498db;text-decoration:none}\n@media(max-width:600px){body{padding:15px}h1{font-size:1.5em}}\n</style>\n</head>\n<body>\n<h1>'+title+'</h1>\n<div class="meta">بقلم Mohamed Ismail | '+stamp()+' | خِدْمَتي AI</div>\n'+(category?'<div class="tag">'+category+'</div>\n':'')+'\n<div class="article-body">\n'+content+'\n</div>\n<div class="footer">\n<p>خِدْمَتي AI — <a href="https://khidmatyai.com">khidmatyai.com</a></p>\n<p>© Mohamed Ismail</p>\n</div>\n</body>\n</html>';
+  try{
+    const r=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+path,{
+      method:'PUT',
+      headers:{
+        'Authorization':'token '+env.GITHUB_TOKEN,
+        'Content-Type':'application/json',
+        'Accept':'application/vnd.github.v3+json',
+        'User-Agent':'khidmaty-fkry'
+      },
+      body:JSON.stringify({
+        message:'📝 فكري: مقال جديد — '+title,
+        content:base64Encode(html),
+        branch:GITHUB_BRANCH
+      })
+    });
+    const j=await r.json();
+    if(j&&j.content&&j.content.html_url){
+      return 'https://khidmatyai.com/articles/'+filename;
+    }
+  }catch(e){}
+  return null;
+}
+
 // ============ Gemini AI ============
 
 async function callGemini(env,systemPrompt,userMessage){
@@ -269,6 +306,13 @@ async function cmdActionPlan(env,userText){
   return ai||'مش متاح دلوقتي 🧠';
 }
 
+async function cmdWrite(env,topic){
+  const d=await gatherData(env);
+  const prompt='اكتب مقال كامل ومفصّل عن: "'+topic+'"\n\nبيانات المنصة:\n'+dataSummary(d)+'\n\nالمقال لازم يكون:\n- مقدمة جذّابة\n- 3-5 أقسام رئيسية بعناوين فرعية (h2)\n- محتوى مفيد وعملي للقارئ المصري\n- خاتمة وتوصيات\n- اكتب المحتوى بصيغة HTML مباشرة (استخدم <h2> للأقسام و <p> للفقرات و <ul>/<li> للنقاط)\n- ممنوع كتابة <!DOCTYPE> أو <html> أو <head> — اكتب محتوى الـbody بس\n- طول المقال: 800-1200 كلمة\nردك بالمصري الفصحى المبسّط.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  return ai||null;
+}
+
 // ============ الصباحية الاستراتيجية ============
 
 async function morningStrategy(env){
@@ -376,7 +420,7 @@ function buildDashboard(){
 
 async function handleCommand(env,chatId,text){
   if(text==='/start'||text==='/help'||text==='/مساعده'){
-    const help='🧠 <b>فكري في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/strategy — استراتيجية اليوم (تتحفظ على الموقع)\n/growth — خطة النمو 30 يوم (تتحفظ على الموقع)\n/competitors — تحليل المنافسين (يتحفظ على الموقع)\n/predict — تنبؤ 3 شهور (يتحفظ على الموقع)\n/content — خطة محتوى: 20 مقال + كلمات مفتاحية\n/analyze [موضوع] — تحليل أي موضوع (يتحفظ على الموقع)\n/post — نشر آخر تحليل على قناة @khdmatyai\n/morning — صباحية فكري\n/weekly — التقرير الأسبوعي\n\nأو اكتب أي حاجة وهرد عليك 🧠\n💡 اكتب "توكلنا علي الله" أو "نفذ" عشان أحفظ الخطة على الموقع وأنشرها';
+    const help='🧠 <b>فكري في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/write [موضوع] — ✍️ يكتب مقال كامل ويشرّفه على الموقع\n/strategy — استراتيجية اليوم (تتحفظ على الموقع)\n/growth — خطة النمو 30 يوم (تتحفظ على الموقع)\n/competitors — تحليل المنافسين (يتحفظ على الموقع)\n/predict — تنبؤ 3 شهور (يتحفظ على الموقع)\n/content — خطة محتوى: 20 مقال + كلمات مفتاحية\n/analyze [موضوع] — تحليل أي موضوع (يتحفظ على الموقع)\n/post — نشر آخر تحليل على قناة @khdmatyai\n/morning — صباحية فكري\n/weekly — التقرير الأسبوعي\n\nأو اكتب أي حاجة وهرد عليك 🧠\n💡 اكتب "توكلنا علي الله" أو "نفذ" عشان أحفظ الخطة على الموقع وأنشرها';
     await tgSend(env,help,chatId);
     return;
   }
@@ -443,6 +487,26 @@ async function handleCommand(env,chatId,text){
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرشت أحضّر الخطة دلوقتي يا ملك 😅\n— فكري',chatId)}
+    return;
+  }
+
+  if(text.startsWith('/write')||text.startsWith('/اكتب')){
+    const topic=text.replace(/^\/(write|اكتب)\s*/,'').trim();
+    if(!topic){await tgSend(env,'اكتب الموضوع بعد الأمر:\n/write [موضوع]',chatId);return}
+    await tgSend(env,'📝 فكري بيكتب مقال عن "'+topic+'" ويشرّفه على الموقع يا ملك...',chatId);
+    const content=await cmdWrite(env,topic);
+    if(content){
+      const link=await publishArticle(env,topic,content,'استراتيجية');
+      if(link){
+        await tgSend(env,'✅ <b>المقال اتنشر يا ملك!</b>\n\n📄 <b>'+topic+'</b>\n🔗 '+link+'\n\n— فكري 📝',chatId);
+        const chMsg='📝 <b>مقال جديد على خِدْمَتي AI</b>\n'+topic+'\n\n🔗 '+link+'\n— فكري 📊';
+        await postToChannel(env,chMsg);
+      }else{
+        await tgSend(env,'📝 المقال جاهز بس مش قادر أنشره على الموقع دلوقتي.\nجرب تاني يا ملك.\n— فكري',chatId)
+      }
+    }else{
+      await tgSend(env,'ما قدرشت أكتب المقال دلوقتي يا ملك 😅\n— فكري',chatId)
+    }
     return;
   }
 
@@ -542,7 +606,15 @@ export default{
       try{
         const update=await request.json();
         if(update.message&&update.message.text){
-          ctx.waitUntil(handleCommand(env,update.message.chat.id,update.message.text));
+          const chatId=update.message.chat.id;
+          const msgText=update.message.text;
+          ctx.waitUntil((async()=>{
+            try{
+              await handleCommand(env,chatId,msgText);
+            }catch(e){
+              try{await tgSend(env,'حصل خطأ يا ملك، جرب تاني 🧠\n— فكري',chatId)}catch(e2){}
+            }
+          })());
         }
         return new Response('ok',{status:200});
       }catch(e){return new Response('error',{status:200})}

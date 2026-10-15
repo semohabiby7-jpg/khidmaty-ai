@@ -284,26 +284,34 @@
     </div>
 </div>
 
-<!-- ========== ASK AI SECTION ========== -->
+<!-- ========== ASK KHIDMATY (اسأل خِدْمَتي) ========== -->
 <section class="ai-section" id="ask-ai">
     <div class="container">
         <div class="section-head">
-            <span class="section-label">المساعد الذكي</span>
+            <span class="section-label">🤖 المساعد الذكي</span>
             <h2 class="section-title">اسأل <span class="gold">خِدْمَتي AI</span></h2>
-            <p class="section-desc">اكتب مشكلتك بالعربي، والـ AI هيفهم ويوجّهك</p>
+            <p class="section-desc">اكتب مشكلتك بالعربي أو بأي لغة — المساعد الذكي هيفهمك ويوجّهك بالصوت</p>
         </div>
         <div class="ai-chat-wrap">
             <div class="ai-chat" id="aiChat">
                 <div class="ai-msg bot">
-                    <span class="ai-avatar">🤖</span>
-                    <div class="ai-bubble">ولا يهمك ❤️ قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة</div>
+                    <span class="ai-avatar rania-avatar">🤖</span>
+                    <div class="ai-bubble">ولا يهمك ❤️ قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة — اكتب أو اضغط المايك 🎤 بأي لغة وهرد عليك 🔊</div>
+                    <button class="ai-speak-btn" onclick="aiToggleSpeak('rania-intro',this)" data-lang="ar-EG" title="اسمع الرد" aria-label="نطق الرد">🔊</button>
+                    <span id="rania-intro" style="display:none">ولا يهمك قولّي محتاج تخلص إيه وأنا هوجّهك خطوة بخطوة — اكتب أو اضغط المايك بأي لغة وهرد عليك</span>
                 </div>
+            </div>
+            <div class="ai-speak-row">
+                <button class="ai-auto-speak-btn" id="aiAutoSpeakBtn" onclick="aiToggleAutoSpeak()" title="فعّل النطق التلقائي للردود">
+                    🔊 نطق تلقائي
+                </button>
+                <span style="font-size:12px;color:var(--text-l)">المساعد الذكي يرد بأي لغة: 🇪🇬 عربي · 🇬🇧 English · 🇫🇷 Français · 🇪🇸 Español · 🇩🇪 Deutsch</span>
             </div>
             <div class="ai-input-wrap">
                 <button class="btn-voice" id="aiVoiceBtn" onclick="aiVoiceInput()" title="تكلم بدل الكتابة" aria-label="إدخال صوتي">
                     <span id="aiMicIcon">🎤</span>
                 </button>
-                <input type="text" id="aiInput" placeholder="اكتب طلبك أو اضغط المايك 🎤 تتكلم..." onkeypress="if(event.key==='Enter') aiSend()">
+                <input type="text" id="aiInput" placeholder="اكتب طلبك أو اضغط المايك 🎤 تتكلم بأي لغة..." onkeypress="if(event.key==='Enter') aiSend()">
                 <button class="btn-send" onclick="aiSend()">إرسال</button>
             </div>
             <div style="text-align:center;font-size:12px;color:rgba(255,255,255,.55);margin-top:10px">⚠️ تنبيه: متكتبش رقمك القومي أو أي بيانات حساسة في الشات</div>

@@ -3,6 +3,7 @@ const SUPABASE_URL='https://puhdastfiswcmbnczvwx.supabase.co'
 const SUPABASE_KEY='sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY'
 async function khSha256(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('khidmaty-v1:'+t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 const WORKER_URL='https://khidmaty-agent.semohabiby7.workers.dev'
+const RANIA_WORKER_URL='https://khidmaty-rania.semohabiby7.workers.dev'
 
 /* ===== TOAST (إشعار نجاح/خطأ) ===== */
 function showToast(msg,type){
@@ -101,7 +102,23 @@ async function callGemini(msg){
     headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
     body:JSON.stringify({question:msg})
   }).catch(()=>{})
-  // Using Worker proxy - no key needed
+  // 1) رانيا الأول (متعددة اللغات + محترفة + صوت)
+  try{
+    const res=await fetch(RANIA_WORKER_URL+'/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:msg,history:aiHistory.map(h=>({role:h.role,text:h.parts[0].text}))})
+    })
+    const data=await res.json()
+    if(data.response){
+      aiHistory.push({role:'model',parts:[{text:data.response}]})
+      return data.response
+    }
+    throw new Error('no response from rania')
+  }catch(e){
+    console.log('Rania worker failed, trying brain:',e.message)
+  }
+  // 2) Brain Worker fallback (بيانات الخدمات)
   try{
     const svcContext=services.map(s=>`- ${s.icon} ${s.name} (${s.category}): ${s.desc} | المستندات: ${(s.documents||[]).join(', ')} | الخطوات: ${(s.steps||[]).join(' → ')} | الرسوم: ${s.fees||'غير محدد'} | المدة: ${s.duration||'غير محدد'} | الجهة: ${s.source||'غير محدد'} | الرابط: ${s.link||'غير متاح'}`).join('\n')
     const res=await fetch(WORKER_URL+'/chat',{
@@ -275,23 +292,115 @@ function openService(id){
   addUserService(id)
 }
 
-/* ===== AI Chat ===== */
+/* ===== Language Detection (for multilingual TTS) ===== */
+function detectLang(text){
+  if(/[\u0600-\u06FF]/.test(text)) return 'ar-EG'       // Arabic
+  if(/[\u4e00-\u9fff]/.test(text)) return 'zh-CN'        // Chinese
+  if(/[\u0400-\u04FF]/.test(text)) return 'ru-RU'        // Cyrillic (Russian etc.)
+  if(/[\u0900-\u097F]/.test(text)) return 'hi-IN'        // Hindi
+  if(/[\u3040-\u309F\u30A0-\u30FF]/.test(text)) return 'ja-JP' // Japanese
+  if(/[\uAC00-\uD7AF]/.test(text)) return 'ko-KR'        // Korean
+  if(/[\u0600-\u06FF]/.test(text)&&/[\u0626]/.test(text)) return 'ar-EG'
+  // Latin-based: detect by special chars
+  if(/[àâçéèêëîïôûùüÿœ]/.test(text)) return 'fr-FR'      // French
+  if(/[áéíóúüñ¿¡]/.test(text)) return 'es-ES'            // Spanish
+  if(/[äöüß]/.test(text)) return 'de-DE'                // German
+  if(/[àèéìòù]/.test(text)) return 'it-IT'              // Italian
+  if(/[ãõçáâêéí]/.test(text)) return 'pt-BR'            // Portuguese
+  if(/[a-zA-Z]/.test(text)) return 'en-US'               // English
+  return 'ar-EG'                                         // Default Arabic
+}
+
+/* ===== TTS — رانيا بتتكلم (Web Speech API) ===== */
+let _aiSpeaking=false, _aiAutoSpeak=false
+function aiSpeak(text, lang){
+  if(!window.speechSynthesis){showToast('المتصفح مش بيدعم النطق الصوتي 🔊','error');return}
+  window.speechSynthesis.cancel()
+  // Strip HTML tags for speech
+  const clean=text.replace(/<[^>]+>/g,'').replace(/&#\d+;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+  // Split long text into sentences (TTS struggles with very long text)
+  const sentences=clean.match(/[^.!?،؛\n]+[.!?،؛\n]?/g)||[clean]
+  const langCode=lang||detectLang(clean)
+  let voiceFound=null
+  const voices=window.speechSynthesis.getVoices()
+  // Try exact match, then language prefix match
+  voiceFound=voices.find(v=>v.lang===langCode)
+  if(!voiceFound){const prefix=langCode.split('-')[0];voiceFound=voices.find(v=>v.lang.startsWith(prefix))}
+  // For Arabic, prefer female voice if available
+  if(langCode.startsWith('ar')&&!voiceFound){voiceFound=voices.find(v=>v.lang.startsWith('ar'))}
+  sentences.forEach((s,i)=>{
+    const u=new SpeechSynthesisUtterance(s.trim())
+    u.lang=langCode
+    u.rate=0.92
+    u.pitch=1.08
+    u.volume=1
+    if(voiceFound)u.voice=voiceFound
+    if(i===sentences.length-1){
+      u.onend=()=>{_aiSpeaking=false;aiUpdateSpeakBtn(false)}
+      u.onerror=()=>{_aiSpeaking=false;aiUpdateSpeakBtn(false)}
+    }
+    window.speechSynthesis.speak(u)
+  })
+  _aiSpeaking=true
+  aiUpdateSpeakBtn(true)
+}
+function aiStopSpeak(){
+  if(window.speechSynthesis)window.speechSynthesis.cancel()
+  _aiSpeaking=false
+  aiUpdateSpeakBtn(false)
+}
+function aiToggleSpeak(msgId, btn){
+  // Read text from hidden span, lang from data attribute
+  const span=document.getElementById(msgId)
+  if(!span)return
+  const text=span.textContent||span.innerText
+  const lang=btn.getAttribute('data-lang')||detectLang(text)
+  if(_aiSpeaking){aiStopSpeak()}else{aiSpeak(text, lang)}
+}
+function aiUpdateSpeakBtn(speaking){
+  document.querySelectorAll('.ai-speak-btn').forEach(b=>{
+    if(speaking){b.classList.add('speaking');b.innerHTML='⏹️'}
+    else{b.classList.remove('speaking');b.innerHTML='🔊'}
+  })
+}
+function aiToggleAutoSpeak(){
+  _aiAutoSpeak=!_aiAutoSpeak
+  const btn=document.getElementById('aiAutoSpeakBtn')
+  if(btn){
+    btn.classList.toggle('active',_aiAutoSpeak)
+    btn.title=_aiAutoSpeak?'النطق التلقائي مفعل — اضغط لإيقافه':'فعّل النطق التلقائي للردود'
+  }
+}
+
+/* ===== AI Chat (رانيا — واجهة المنصة) ===== */
 async function aiSend(){
   const inp=document.getElementById('aiInput')
   const msg=inp.value.trim()
   if(!msg)return
+  const userLang=detectLang(msg)
   const chat=document.getElementById('aiChat')
   chat.innerHTML+=`<div class="ai-msg user"><div class="ai-bubble">${msg}</div></div>`
   inp.value=''
   chat.scrollTop=chat.scrollHeight
-  const loadingMsgs=['🤔 بفكر في طلبك...','بـدور على أفضل طريقة...','🤖 خِدْمَتي بتجهّز الرد...','بـحلل المعلومات...']
-  const lm=loadingMsgs[Math.floor(Math.random()*loadingMsgs.length)]
-  chat.innerHTML+=`<div class="ai-msg bot" id="typing"><span class="ai-avatar">🤖</span><div class="ai-bubble">${lm}</div></div>`
+  const loadingMsgs={
+    'ar-EG':['🤔 بفكر في طلبك...','بـدور على أفضل طريقة...','📝 المساعد الذكي بيجهّز الرد...','بـحلل المعلومات...'],
+    'en-US':['🤔 Thinking...','Looking for the best way...','📝 Rania is preparing...','Analyzing...'],
+    'fr-FR':['🤔 Je réfléchis...','📝 Rania prépare...'],
+    'es-ES':['🤔 Pensando...','📝 Rania prepara...'],
+    'de-DE':['🤔 Ich denke nach...','📝 Rania vorbereitet...']
+  }
+  const msgs=loadingMsgs[userLang]||loadingMsgs['en-US']
+  const lm=msgs[Math.floor(Math.random()*msgs.length)]
+  chat.innerHTML+=`<div class="ai-msg bot" id="typing"><span class="ai-avatar rania-avatar">🤖</span><div class="ai-bubble">${lm}</div></div>`
   chat.scrollTop=chat.scrollHeight
   const reply=await callGemini(msg)
   const t=document.getElementById('typing');if(t)t.remove()
-  chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar">🤖</span><div class="ai-bubble">${reply.replace(/\n/g,'<br>')}</div></div>`
+  const replyLang=detectLang(reply)
+  const msgId='r'+Date.now()
+  chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar rania-avatar">🤖</span><div class="ai-bubble">${reply.replace(/\n/g,'<br>')}</div><button class="ai-speak-btn" onclick="aiToggleSpeak('${msgId}',this)" data-lang="${replyLang}" title="اسمع الرد" aria-label="نطق الرد">🔊</button><span id="${msgId}" style="display:none">${reply.replace(/</g,'&lt;')}</span></div>`
   chat.scrollTop=chat.scrollHeight
+  // Auto-speak if enabled
+  if(_aiAutoSpeak){aiSpeak(reply, replyLang)}
 }
 function askAIAbout(name){
   closeModal('serviceModal')
@@ -326,7 +435,7 @@ function aiVoiceInput(){
   if(_aiListening){if(_aiRec)_aiRec.stop();return}
   if(!_aiRec){
     _aiRec=new SR()
-    _aiRec.lang='ar-EG'
+    _aiRec.lang='ar-EG' // افتراضي عربي — هيتغير حسب أول كلمة
     _aiRec.interimResults=true
     _aiRec.continuous=false
     _aiRec.onstart=()=>{

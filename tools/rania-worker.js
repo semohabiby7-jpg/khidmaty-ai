@@ -13,6 +13,38 @@ const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 const BRAIN_URL = 'https://khidmaty-agent.semohabiby7.workers.dev';
 const SITE_URL = 'https://khidmatyai.com/';
 
+// رانيا — الواجهة العامة للمنصة (متعددة اللغات + محترفة)
+const RANIA_PUBLIC_SYSTEM = `You are Rania (رانيا), the intelligent virtual assistant for the Khidmaty AI platform (khidmatyai.com).
+
+CRITICAL ACCURACY RULES — MOST IMPORTANT:
+1. NEVER fabricate, invent, or guess information. Every fact you state must be verifiable from official Egyptian government sources or the platform's own verified content.
+2. If you are not 100% certain about a fee, a document requirement, a process step, a deadline, or a location — say clearly: "I am not sure about this specific detail. Please verify on the official website or contact the relevant authority."
+3. NEVER give specific numbers (fees, durations, office addresses) unless you are confident they are correct. General guidance is better than wrong specifics.
+4. If information might be outdated, add: "Please confirm this information as it may have changed."
+5. Always encourage users to verify with official sources. Suggest checking the official government website or calling the relevant authority.
+6. Do not present assumptions as facts. Distinguish clearly between what you know and what you are uncertain about.
+
+LANGUAGE RULES:
+7. Detect the language of the user's message and ALWAYS reply in the SAME language. Arabic->Arabic, English->English, French->French, etc.
+8. Tone: Professional, respectful, warm, and clear. You represent the platform.
+9. Keep replies SHORT and to the point. Maximum 3-4 sentences unless the user asks for details.
+
+PLATFORM KNOWLEDGE (verified facts only):
+10. Khidmaty AI is an Egyptian platform offering government services guidance.
+11. The platform has 73 articles and 888 government offices on the map.
+12. There is an online store selling the "Mind Power" book series by Mohamed Ismail.
+13. Store URL: khidmatyai.com/store.html
+14. 4 books completed in the series (Parts 1-4).
+
+BEHAVIOR:
+15. IF asked about government services: Give general guidance only. Advise the user to check the specific service page on the website for verified details (documents, fees, steps).
+16. IF asked about books/store: Describe the Mind Power series briefly and direct to the store.
+17. IF greeting: Respond warmly in the same language.
+18. IF you don't know: Say so honestly. Never make up an answer.
+19. NEVER ask for sensitive data (national ID, passwords, etc).
+20. Be interactive — ask follow-up questions to guide the user.
+21. When unsure, prefer directing the user to the website (khidmatyai.com) over giving unverified information.`;
+
 const RANIA_SYSTEM = `أنتِ رانيا، مديرة المحتوى في منصة خِدْمَتي AI. بتشتغلي في فريق ماكرون — مرات الملك ومديرته التنفيذية.
 بتتكلمي بالمصري الدارج بثقة ودفء. محمد بيناديك "يا رانيا" وانتِ تناديه "يا ملك".
 دورك:
@@ -22,6 +54,11 @@ const RANIA_SYSTEM = `أنتِ رانيا، مديرة المحتوى في من�
 4. SEO: اقتراح كلمات مفتاحية، تحسين العناوين، تحليل ترتيب البحث
 منصة خِدْمَتي AI بتقدّم خدمات حكومية مصرية. الموقع فيه 73 مقال + 888 مكتب حكومي على الخريطة.
 ردودك قصيرة ومباشرة، بلهجة مصرية ودودة. استخدمي الإيموجي باعتدال.
+
+قاعدة الدقة (الأهم):
+- ما تطلعيش معلومة من دماغك. أي رقم أو رسم أو خطوة أو عنوان لازم يكون مؤكد.
+- لو مش متأكدة من تفصيلة قولي بصراحة "مش متأكدة، اتأكد من المصدر الرسمي"
+- فضّلي توجيه الملك للموقع على إعطاء معلومات غير مؤكدة
 
 فريق العمل (حوّلي الملك لهم):
 - 🧠 فكري → الداشبورد التحليلي: https://khidmaty-fkry.semohabiby7.workers.dev/dashboard
@@ -59,6 +96,97 @@ async function tgSetWebhook(env,url){
     const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/setWebhook',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url+'/webhook',allowed_updates:['message']})});
     return await r.json();
   }catch(e){return{ok:false,error:String(e)}}
+}
+
+// ============ CORS ============
+
+function corsHeaders(){
+  return{
+    'Access-Control-Allow-Origin':'*',
+    'Access-Control-Allow-Methods':'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers':'Content-Type',
+    'Content-Type':'application/json; charset=utf-8'
+  };
+}
+
+// ============ كشف اللغة ============
+
+function detectLang(text){
+  // كشف سريع للغة من النص
+  const ar=/[\u0600-\u06FF]/.test(text);
+  if(ar)return'ar';
+  const fr=/[àâäéèêëïîôöùûüç]/i.test(text)&&/\b(je|tu|il|nous|vous|bonjour|merci|salut)\b/i.test(text);
+  if(fr)return'fr';
+  const es=/[áéíóúñ¿¡]/.test(text)&&/\b(hola|gracias|por favor|buenos|como|que)\b/i.test(text);
+  if(es)return'es';
+  const de=/[äöüß]/.test(text)||/\b(ich|du|hallo|danke|bitte|guten)\b/i.test(text);
+  if(de)return'de';
+  // افتراضي: إنجليزي
+  return'en';
+}
+
+// ============ Google TTS (مجاني — كل اللغات) ============
+
+async function googleTTS(text,lang){
+  // Google Translate TTS — مجاني ويدعم كل اللغات
+  // بيرجع MP3
+  try{
+    // تقسيم النص الطويل إلى أجزاء (حد 200 حرف)
+    const chunks=[];
+    let remaining=text;
+    while(remaining.length>200){
+      let cut=remaining.lastIndexOf(' ',200);
+      if(cut<50)cut=200;
+      chunks.push(remaining.slice(0,cut).trim());
+      remaining=remaining.slice(cut).trim();
+    }
+    if(remaining)chunks.push(remaining);
+    
+    if(chunks.length===1){
+      const url='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(chunks[0])+'&tl='+lang+'&client=tw-ob';
+      const r=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0'}});
+      if(r.ok){
+        const buf=await r.arrayBuffer();
+        return new Uint8Array(buf);
+      }
+    }
+    // لو نص طويل — ندمج الأجزاء
+    const parts=[];
+    for(const ch of chunks){
+      const url='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(ch)+'&tl='+lang+'&client=tw-ob';
+      const r=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0'}});
+      if(r.ok){
+        const buf=await r.arrayBuffer();
+        parts.push(new Uint8Array(buf));
+      }
+    }
+    if(parts.length===0)return null;
+    // حساب الطول الكلي
+    let total=0;
+    parts.forEach(p=>total+=p.length);
+    const merged=new Uint8Array(total);
+    let offset=0;
+    parts.forEach(p=>{merged.set(p,offset);offset+=p.length});
+    return merged;
+  }catch(e){return null}
+}
+
+// ============ إرسال صوت لتيلجرام ============
+
+async function tgSendAudio(env,audioBytes,chatId,caption,lang){
+  const cid=chatId||env.TELEGRAM_CHAT_ID;
+  if(!env.TELEGRAM_BOT_TOKEN||!cid||!audioBytes)return{sent:false};
+  try{
+    const form=new FormData();
+    form.append('chat_id',cid);
+    form.append('audio',new Blob([audioBytes],{type:'audio/mpeg'}),'rania_voice.mp3');
+    if(caption)form.append('caption',caption.slice(0,1000));
+    form.append('performer','رانيا — Khidmaty AI');
+    form.append('title','Rania Voice Reply');
+    const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendAudio',{method:'POST',body:form});
+    const j=await r.json();
+    return{sent:!!j.ok};
+  }catch(e){return{sent:false,error:String(e)}}
 }
 
 // ============ Gemini AI ============
@@ -210,11 +338,24 @@ async function cmdStatus(env,chatId){
 // ============ رد ذكي على أي رسالة ============
 
 async function handleAI(env,chatId,text){
-  // لو الرسالة قصيرة ومفيهاش سؤال مباشر، رد بسيط
-  const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّي كرانيا (مديرة المحتوى) بشكل طبيعي وقصير. لو سؤال عن خدمات حكومية، جاوبي باختصار واقترحي الموقع. لو تحية، سلّمي. لو طلب محتوى أو تقرير، جاوبي.';
-  const ai=await callGemini(env,RANIA_SYSTEM,prompt);
+  // كشف لغة الرسالة
+  const lang=detectLang(text);
+  // استخدم النظام المناسب: لو من تيلجرام (الملك) → المصري، لو لغة تانية → العام
+  const sysPrompt=(lang==='ar')?RANIA_SYSTEM:RANIA_PUBLIC_SYSTEM;
+  const prompt=(lang==='ar')
+    ?'رسالة من محمد (الملك): "'+text+'"\n\nردّي كرانيا (مديرة المحتوى) بشكل طبيعي وقصير. لو سؤال عن خدمات حكومية، جاوبي باختصار واقترحي الموقع. لو تحية، سلّمي. لو طلب محتوى أو تقرير، جاوبي.'
+    :'Message from user: "'+text+'"\n\nReply as Rania. Keep it short, professional, and helpful. Respond in the SAME language as the message.';
+  const ai=await callGemini(env,sysPrompt,prompt);
   if(ai){
+    // إرسال النص
     await tgSend(env,ai,chatId);
+    // إرسال صوت (لو الرد قصير بما يكفي)
+    try{
+      const audio=await googleTTS(ai.replace(/<[^>]*>/g,'').slice(0,500),lang);
+      if(audio){
+        await tgSendAudio(env,audio,chatId,null,lang);
+      }
+    }catch(e){}
   }else{
     await tgSend(env,'سمعتك يا ملك بس Gemini مش متاح دلوقتي 🙁\n— رانيا',chatId);
   }
@@ -317,6 +458,43 @@ export default{
       return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    return new Response(JSON.stringify({ok:true,name:'khidmaty-rania',version:'1.0',hint:'/test للتجربة، /setup لضبط الـwebhook، /morning للصباحية'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    // ====== رانيا على الموقع — chat endpoint ======
+    if(path==='/chat'&&request.method==='POST'){
+      try{
+        const body=await request.json();
+        const message=body.message||body.text||'';
+        const history=body.history||[];
+        const lang=detectLang(message);
+
+        // بناء السياق من التاريخ
+        let contextMsg=message;
+        if(history&&history.length>0){
+          const recent=history.slice(-6).map(h=>{
+            const t=h.text||h.parts?.[0]?.text||'';
+            return h.role==='user'?'User: '+t:'Rania: '+t;
+          }).join('\n');
+          contextMsg=recent+'\n\nUser: '+message;
+        }
+
+        const prompt=lang==='ar'
+          ? 'رسالة من زائر المنصة: "'+message+'"\n\nردّي كرانيا (واجهة المنصة) بشكل احترافي ومحترم وقصير. ردّي بالعربي.'
+          : 'Message from a website visitor: "'+message+'"\n\nReply as Rania (platform assistant). Keep it short, professional, and helpful. Respond in the SAME language as the message.';
+
+        const ai=await callGemini(env,RANIA_PUBLIC_SYSTEM,prompt);
+        if(ai){
+          return new Response(JSON.stringify({response:ai,lang:lang}),{headers:corsHeaders()});
+        }
+        return new Response(JSON.stringify({response:'Sorry, I could not process your request right now. Please try again.',lang:lang,error:true}),{headers:corsHeaders(),status:200});
+      }catch(e){
+        return new Response(JSON.stringify({response:'Error',error:true}),{headers:corsHeaders()});
+      }
+    }
+
+    // ====== CORS preflight ======
+    if(request.method==='OPTIONS'){
+      return new Response(null,{status:204,headers:corsHeaders()});
+    }
+
+    return new Response(JSON.stringify({ok:true,name:'khidmaty-rania',version:'2.0',features:['website-chat','telegram-voice','multilingual'],endpoints:['/chat','/webhook','/test','/setup','/morning','/speak']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
 }

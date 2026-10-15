@@ -504,6 +504,51 @@ color:#fff;
 animation:pulseRec 1.2s infinite
 }
 @keyframes pulseRec{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+/* ===== Rania TTS & Avatar ===== */
+.ai-speak-btn{
+flex-shrink:0;
+width:34px;height:34px;
+border-radius:50%;
+border:none;
+background:linear-gradient(135deg,var(--gold),var(--gold-d));
+color:var(--navy);
+font-size:15px;
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+margin-top:4px;
+transition:var(--t);
+box-shadow:0 2px 8px rgba(212,164,47,.3)
+}
+.ai-speak-btn:hover{transform:scale(1.15)}
+.ai-speak-btn.speaking{
+background:linear-gradient(135deg,#e74c3c,#c0392b);
+color:#fff;
+animation:pulseRec 1.2s infinite
+}
+.rania-avatar{
+background:linear-gradient(135deg,#6c5ce7,#a29bfe)!important;
+font-size:18px!important
+}
+.ai-msg.bot .rania-avatar{animation:none}
+.ai-speak-row{
+display:flex;align-items:center;gap:10px;
+padding:8px 14px;
+border-top:1px solid rgba(0,0,0,.05);
+background:rgba(15,30,61,.02)
+}
+.ai-auto-speak-btn{
+background:none;border:1px solid var(--gray-m);
+border-radius:20px;padding:5px 14px;
+font-size:12px;color:var(--text-l);
+cursor:pointer;transition:var(--t);
+display:flex;align-items:center;gap:5px
+}
+.ai-auto-speak-btn:hover{border-color:var(--gold);color:var(--navy)}
+.ai-auto-speak-btn.active{
+background:linear-gradient(135deg,var(--gold),var(--gold-d));
+color:var(--navy);border-color:var(--gold);
+font-weight:700
+}
 .providers-section{padding:70px 0;background:var(--gray)}
 .providers-cta{
 display:flex;

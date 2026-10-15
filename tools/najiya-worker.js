@@ -1,6 +1,6 @@
 // ============================================================
 // ناجية — مديرة الإعلانات لخِدْمَتي AI
-// Cloudflare Worker — توليد + تطوير + تحديث الإعلانات كل 24 ساعة
+// Cloudflare Worker — توليد + تطوير + تحديث + متابعة الإعلانات
 // النشر: wrangler deploy --config tools/najiya-wrangler.toml
 // المتغيرات المطلوبة في Cloudflare:
 //   GEMINI_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
@@ -11,6 +11,7 @@ const STORE_URL   = 'https://khidmatyai.com/store.html';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 const GA_REPORT_URL = 'https://khidmatyai.com/ideas/ga-analytics-report.json';
+const CHANNEL_ID  = '@khidmaty_ai'; // قناة خِدْمَتي AI على تيلجرام
 
 const NAJIYA_SYSTEM = `أنت ناجية، مديرة الإعلانات في منصة خِدْمَتي AI. بتشتغلي في فريق ماكرون.
 بتتكلمي بالمصري الدارج بثقة وحماس. محمد بيناديك "يا ناجية" وانتِ تناديه "يا ملك".
@@ -19,8 +20,9 @@ const NAJIYA_SYSTEM = `أنت ناجية، مديرة الإعلانات في م
 2. تطوير الإعلانات — تحسين النصوص، اقتراح صور، اختيار الجمهور المستهدف
 3. تحديث الإعلانات — كل 24 ساعة تقترحي إعلانات جديدة بناءً على أداء الموقع والمتجر
 4. تحليل الأداء — أي إعلان أدى لزيارات، وأي حاجة محتاجة تغيير
+5. متابعة إعلانات المتجر على الموقع — تحليل البنرات والوصف وبطاقات المنتجات والعروض على صفحة المتجر (store.html) واقتراح تطوير لها بناءً على أداء GA
 قاعدة الدقة: كل معلومة في الإعلان لازم تكون صحيحة. متكذبيش في الأسعار أو المميزات.
-ردودك قصيرة وحماسية. استخدمي الإيموجي باعتدال (📢 🎯 🚀 💎).`;
+ردودك قصيرة وحماسية. استخدمي الإيموجي باعتدال (📢 🎯 🚀 💎 🛒).`;
 
 // ============ أدوات مساعدة ============
 
@@ -40,6 +42,18 @@ async function tgSend(env,text,chatId){
   }catch(e){return{sent:false}}
 }
 
+// نشر إعلان على قناة تيلجرام
+async function tgChannelPost(env,text){
+  if(!env.TELEGRAM_BOT_TOKEN)return{sent:false,reason:'no_token'};
+  const cid=env.TELEGRAM_CHANNEL_ID||CHANNEL_ID;
+  try{
+    const t=text.length>3800?text.slice(0,3800)+'…':text;
+    const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:cid,text:t,parse_mode:'HTML',disable_web_page_preview:false})});
+    const j=await r.json();
+    return{sent:!!j.ok,error:j.description||null};
+  }catch(e){return{sent:false,reason:'exception'}}
+}
+
 async function callGemini(env,systemPrompt,userMessage){
   for(const model of GEMINI_MODELS){
     try{
@@ -49,7 +63,7 @@ async function callGemini(env,systemPrompt,userMessage){
         body:JSON.stringify({
           systemInstruction:{parts:[{text:systemPrompt}]},
           contents:[{role:'user',parts:[{text:userMessage}]}],
-          generationConfig:{temperature:0.8,maxOutputTokens:1000}
+          generationConfig:{temperature:0.8,maxOutputTokens:1500}
         })
       });
       const j=await r.json();
@@ -74,7 +88,7 @@ async function gaFetch(){
         return{
           today:{users:parseInt(y.totalUsers)||0,sessions:parseInt(y.sessions)||0,pageViews:parseInt(y.screenPageViews)||0},
           total30d:{users:parseInt(t.totalUsers)||0,sessions:parseInt(t.sessions)||0,pageViews:parseInt(t.screenPageViews)||0},
-          topPages:(j.top_pages||[]).slice(0,5),
+          topPages:(j.top_pages||[]).slice(0,8),
           sources:(j.traffic_sources||[]).slice(0,5)
         };
       }
@@ -112,6 +126,83 @@ async function improveAd(env,oldAd){
   return await callGemini(env,NAJIYA_SYSTEM,prompt);
 }
 
+// ============ متابعة إعلانات المتجر على الموقع ============
+
+// جلب صفحة المتجر واستخراج العناصر الترويجية الحالية
+async function fetchStoreAds(){
+  try{
+    const r=await fetch(STORE_URL,{signal:AbortSignal.timeout(10000)});
+    if(!r.ok)return null;
+    const html=await r.text();
+    const clean=s=>(s||'').replace(/<[^>]+>/g,' ').replace(/&[^;]+;/g,' ').replace(/\s+/g,' ').trim();
+
+    // البنر الكبير (mega-banner)
+    let banner=null;
+    const bm=html.match(/<div class="mega-banner">[\s\S]*?<h2>([\s\S]*?)<\/h2>[\s\S]*?<p>([\s\S]*?)<\/p>/);
+    if(bm)banner={title:clean(bm[1]),text:clean(bm[2])};
+
+    // الوصف الرئيسي (store-hero)
+    let hero=null;
+    const hm=html.match(/<div class="store-hero">[\s\S]*?<h1>([\s\S]*?)<\/h1>[\s\S]*?<p>([\s\S]*?)<\/p>/);
+    if(hm)hero={title:clean(hm[1]),text:clean(hm[2])};
+
+    // بطاقات المنتجات
+    const products=[];
+    const pm=[...html.matchAll(/<div class="product-card[^"]*"[^>]*>[\s\S]*?<h2>([\s\S]*?)<\/h2>[\s\S]*?<p class="desc">([\s\S]*?)<\/p>[\s\S]*?<div class="price">([\s\S]*?)<\/div>/g)];
+    for(const m of pm){
+      products.push({name:clean(m[1]),desc:clean(m[2]),price:clean(m[3])});
+    }
+
+    // الباقة (bundle)
+    let bundle=null;
+    const bum=html.match(/<div class="bundle-card">[\s\S]*?<h3>([\s\S]*?)<\/h3>[\s\S]*?<p>([\s\S]*?)<\/p>[\s\S]*?<div class="b-price">([\s\S]*?)<\/div>/);
+    if(bum)bundle={title:clean(bum[1]),text:clean(bum[2]),price:clean(bum[3])};
+
+    return{ok:true,banner,hero,products,bundle};
+  }catch(e){return null}
+}
+
+// تحليل إعلانات المتجر على الموقع واقتراح تطوير
+async function analyzeStoreAds(env){
+  const store=await fetchStoreAds();
+  const ga=await gaFetch();
+  if(!store){
+    return'⚠️ ما قدرتش أوصل صفحة المتجر دلوقتي يا ملك 😅\n— ناجية';
+  }
+
+  // ملخص الإعلانات الحالية على الموقع
+  let cur='';
+  if(store.banner)cur+='\n\n📢 البنر الكبير:\nالعنوان: '+store.banner.title+'\nالنص: '+store.banner.text;
+  if(store.hero)cur+='\n\n📝 الوصف الرئيسي:\n'+store.hero.title+'\n'+store.hero.text;
+  if(store.products&&store.products.length){
+    cur+='\n\n📚 بطاقات المنتجات ('+store.products.length+' منتج):';
+    for(const p of store.products){
+      cur+='\n• '+p.name+' — '+p.price+' — '+p.desc.slice(0,100);
+    }
+  }
+  if(store.bundle)cur+='\n\n🎁 الباقة: '+store.bundle.title+' — '+store.bundle.price+' — '+store.bundle.text;
+
+  // بيانات أداء صفحة المتجر من GA
+  let storeGa='';
+  if(ga&&ga.topPages){
+    const storePage=ga.topPages.find(p=>(p.pagePath||'').includes('store'));
+    if(storePage){
+      storeGa='\n\n📊 أداء صفحة المتجر (GA — 30 يوم):';
+      storeGa+='\n• المشاهدات: '+storePage.screenPageViews;
+      storeGa+='\n• الزوار: '+storePage.totalUsers;
+      storeGa+='\n• متوسط الجلسة: '+Math.round(parseFloat(storePage.averageSessionDuration||0))+' ثانية';
+    }else{
+      storeGa='\n\n📊 صفحة المتجر مظهرش في أعلى الصفحات — محتاجة دفعة إعلانية';
+    }
+    storeGa+='\n• إجمالي الموقع: '+ga.total30d.users+' زائر، '+ga.total30d.pageViews+' مشاهدة';
+  }
+
+  const prompt='ده وضع إعلانات المتجر على الموقع (store.html) دلوقتي:'+cur+storeGa+'\n\nحللي الإعلانات دي واقترحي تطوير ليها:\n1. تقييم البنر الكبير — هل العنوان والنص جذّابين؟ هل فيه دعوة قوية للشراء؟\n2. تقييم الوصف الرئيسي للمتجر — هل بيوضح قيمة المنتجات؟\n3. تقييم بطاقات المنتجات — هل الوصف والسعر واضحين؟ هل فيه دعوة قوية للشراء؟\n4. تقييم الباقة — هل العرض مغري؟\n5. اقتراح تطوير محدد لكل عنصر (نصوص جديدة مقترحة)\n6. اقتراح بنر جديد أو عرض جديد يزيد المبيعات\n7. لو المتجر مش بياخد زيارات كفاية — اقتراحات لجذب أكتر\nردك بالمصري، منظّم وبنقاط واضحة. كل اقتراح محدد وقابل للتنفيذ.';
+
+  const analysis=await callGemini(env,NAJIYA_SYSTEM,prompt);
+  return analysis||'⚠️ ما قدرشت أحلل الإعلانات دلوقتي يا ملك 😅\n— ناجية';
+}
+
 // ============ التقرير اليومي للإعلانات ============
 
 async function dailyAdsReport(env){
@@ -125,6 +216,17 @@ async function dailyAdsReport(env){
     if(ga.sources&&ga.sources.length>0){
       text+='  🌐 مصادر: '+ga.sources.map(s=>s.sessionSource+' ('+s.sessions+')').join('، ')+'\n';
     }
+    // متابعة المتجر على الموقع
+    if(ga.topPages){
+      const storePage=ga.topPages.find(p=>(p.pagePath||'').includes('store'));
+      if(storePage){
+        text+='\n🛒 <b>المتجر على الموقع:</b>\n';
+        text+='  📄 '+storePage.screenPageViews+' مشاهدة | '+storePage.totalUsers+' زائر (30 يوم)\n';
+        text+='  ⏱️ متوسط الجلسة: '+Math.round(parseFloat(storePage.averageSessionDuration||0))+' ثانية\n';
+      }else{
+        text+='\n🛒 <b>المتجر:</b> مظهرش في أعلى الصفحات — محتاج دفعة 📢\n';
+      }
+    }
   }
   text+='\n🎯 <b>اقتراح إعلانات اليوم:</b>\n';
   // توليد إعلان واحد سريع
@@ -134,17 +236,49 @@ async function dailyAdsReport(env){
   }else{
     text+='ما قدرشت أولّد إعلانات دلوقتي 😅\n';
   }
-  text+='\n💡 للأوامر: /إعلان متجر | /إعلان خدمة | /إعلان توعية | /طور [نص]\n';
+  text+='\n💡 للأوامر: /إعلان متجر | /إعلان خدمة | /إعلان توعية | /طور [نص] | /نشر [نوع] | /متابعة\n';
   text+='— ناجية 🛠️ | '+stamp();
   await tgSend(env,text);
+  // كمان نشر ملخص على القناة
+  if(env.TELEGRAM_CHANNEL_ID||CHANNEL_ID){
+    const chText='📢 <b>تقرير إعلانات يومي — خِدْمَتي AI</b>\n\n'+(ga?'📊 '+ga.total30d.users+' مستخدم | '+ga.today.users+' أمس\n':'')+'\n🎯 اقتراح اليوم:\n'+(ad?ad.slice(0,1000):'قريبًا')+'\n\n🌐 '+SITE_URL+'\n— ناجية 🛠️';
+    await tgChannelPost(env,chText);
+  }
 }
 
 // ============ أوامر تيلجرام ============
 
 async function handleCommand(env,chatId,text){
   if(text==='/مساعده'||text==='/help'||text=='/start'){
-    const help='📢 <b>ناجية في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/إعلان متجر — إعلانات للمتجر والكتب\n/إعلان خدمة — إعلانات للخدمات الحكومية\n/إعلان توعية — إعلانات توعوية\n/طور [نص] — تطوير إعلان موجود\n/تقرير — تقرير الإعلانات اليومي\n\nأو اكتب أي حاجة وهرد عليك 📢';
+    const help='📢 <b>ناجية في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/إعلان متجر — إعلانات للمتجر والكتب\n/إعلان خدمة — إعلانات للخدمات الحكومية\n/إعلان توعية — إعلانات توعوية\n/طور [نص] — تطوير إعلان موجود\n/نشر [نوع] — نشر إعلان على قناة تيلجرام\n/متابعة — متابعة إعلانات المتجر على الموقع وتطويرها\n/تقرير — تقرير الإعلانات اليومي\n\nأو اكتب أي حاجة وهرد عليك 📢';
     await tgSend(env,help,chatId);
+    return;
+  }
+
+  if(text.startsWith('/متابعة')||text.startsWith('/إعلانات الموقع')||text.startsWith('/store-ads')){
+    await tgSend(env,'🛒 ناجية بتتابع إعلانات المتجر على الموقع يا ملك...',chatId);
+    const analysis=await analyzeStoreAds(env);
+    await tgSend(env,'🛒 <b>متابعة إعلانات المتجر على الموقع</b>\n\n'+analysis+'\n\n⚠️ دي اقتراحات تطوير — محتاجة موافقتك يا ملك\n— ناجية 🛠️',chatId);
+    return;
+  }
+
+  if(text.startsWith('/نشر')||text.startsWith('/publish')){
+    const type=text.includes('متجر')||text.includes('store')?'store':text.includes('توعية')||text.includes('awareness')?'awareness':'service';
+    await tgSend(env,'📢 ناجية بتجهّز إعلان للقناة يا ملك...',chatId);
+    const ad=await generateAd(env,type);
+    if(ad){
+      // اختيار أول إعلان للنشر
+      const firstAd=ad.split(/\n\n\d+[\)()\)]/)?.[0]||ad.slice(0,1500);
+      const channelText='📢 <b>إعلان جديد — خِدْمَتي AI</b>\n\n'+firstAd+'\n\n🌐 '+STORE_URL+'\n— ناجية 🛠️';
+      const ch=await tgChannelPost(env,channelText);
+      if(ch.sent){
+        await tgSend(env,'✅ اتنشر الإعلان على القناة يا ملك 📢\n— ناجية',chatId);
+      }else{
+        await tgSend(env,'⚠️ ما قدرتش أنشر على القناة يا ملك.\nالسبب: '+(ch.error||ch.reason||'مش معروف')+'\n\nتأكد إن البوت أدمن في القناة @khidmaty_ai\n— ناجية',chatId);
+      }
+    }else{
+      await tgSend(env,'ما قدرشت أعمل الإعلان دلوقتي 😅\n— ناجية',chatId);
+    }
     return;
   }
 
@@ -172,13 +306,12 @@ async function handleCommand(env,chatId,text){
     return;
   }
 
-  if(text==='/تقرير'||text==='/report'){
+  if(text==='/تقرير'||text==='/report'||text==='/إعلانات'||text=='/ads'){
     await dailyAdsReport(env);
     return;
   }
 
   // رد ذكي على أي رسالة
-  const lang=/[\u0600-\u06FF]/.test(text);
   const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّي كناجية (مديرة الإعلانات) بشكل حماسي وقصير.';
   const ai=await callGemini(env,NAJIYA_SYSTEM,prompt);
   if(ai){await tgSend(env,ai,chatId)}
@@ -208,7 +341,7 @@ export default{
     }
 
     if(path==='/test'){
-      const r=await tgSend(env,'ناجية جاهزة يا ملك 📢✨\nالإعلانات جاهزة، اسألني أي وقت.',undefined);
+      const r=await tgSend(env,'ناجية جاهزة يا ملك 📢✨\nالإعلانات + متابعة المتجر جاهزة، اسألني أي وقت.',undefined);
       return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
@@ -217,10 +350,15 @@ export default{
       return new Response(JSON.stringify({sent:true},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    if(path==='/'){
-      return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'1.0',role:'ads-manager',features:['ad-generation','ad-improvement','daily-report','telegram'],endpoints:['/webhook','/test','/daily']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    if(path==='/store-monitor'){
+      const analysis=await analyzeStoreAds(env);
+      return new Response(JSON.stringify({ok:true,analysis},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'1.0',hint:'/test للتجربة, /daily للتقرير اليومي, /webhook لرسائل تيلجرام'}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    if(path==='/'){
+      return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'2.0',role:'ads-manager',features:['ad-generation','ad-improvement','store-ads-monitor','daily-report','telegram'],endpoints:['/webhook','/test','/daily','/store-monitor']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'2.0',hint:'/test للتجربة, /daily للتقرير اليومي, /store-monitor لمتابعة المتجر, /webhook لرسائل تيلجرام'}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
 };

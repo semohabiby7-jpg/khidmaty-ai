@@ -3,5 +3,5 @@ main = "najiya-worker.js"
 compatibility_date = "2024-01-01"
 account_id = "2ecca5a2aafc2abbc50e0e5fb30cad5b"
 
-[triggers]
-crons = ["0 10 * * *"]
+# [triggers]  # مؤقتًا — حد الكرونات 5/5. هنشغل لما نحرر مكان (samia)
+# crons = ["0 10 * * *"]

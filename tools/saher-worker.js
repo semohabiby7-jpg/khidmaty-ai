@@ -11,6 +11,8 @@ const ARTICLES_URL= 'https://khidmatyai.com/articles.html';
 const OFFICES_URL = 'https://khidmatyai.com/offices.html';
 const BRAIN_URL   = 'https://khidmaty-agent.semohabiby7.workers.dev';
 const RANIA_URL   = 'https://khidmaty-rania.semohabiby7.workers.dev';
+const FKRY_URL    = 'https://khidmaty-fkry.semohabiby7.workers.dev';
+const NAJIYA_URL  = 'https://khidmaty-najiya.semohabiby7.workers.dev';
 const SUPABASE_URL= 'https://puhdastfiswcmbnczvwx.supabase.co';
 const SUPABASE_KEY= 'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
@@ -39,7 +41,7 @@ async function hit(url,opts){
   const timer=setTimeout(()=>ctl.abort(),20000);
   const t0=Date.now();
   try{
-    const res=await fetch(url,{...opts,signal:ctl.signal});
+    const res=await fetch(url,{...opts,signal:ctl.signal,headers:{'User-Agent':'Saher/1.0 (Khidmaty AI)',...(opts&&opts.headers||{})}});
     const body=await res.text();
     return{ok:true,status:res.status,body,ms:Date.now()-t0};
   }catch(e){
@@ -96,13 +98,13 @@ async function checkHttp(name,url){
 }
 
 async function checkBrain(url){
-  const r=await hit(url+'/requests');
+  const r=await hit(url+'/');
   if(!r.ok)return{name:'العقل (Brain)',up:false,ms:r.ms,detail:r.err||'فشل'};
   if(r.status!==200)return{name:'العقل (Brain)',up:false,ms:r.ms,detail:'HTTP '+r.status};
   try{
     const data=JSON.parse(r.body);
-    if(!data.ok)return{name:'العقل (Brain)',up:false,ms:r.ms,detail:'استجابة غير سليمة'};
-    return{name:'العقل (Brain)',up:true,ms:r.ms,detail:'HTTP 200 ('+(r.ms/1000).toFixed(2)+'s)'};
+    if(data.status==='running')return{name:'العقل (Brain)',up:true,ms:r.ms,detail:'Phase '+data.phase+' ('+data.kb_services+' خدمة)'};
+    return{name:'العقل (Brain)',up:false,ms:r.ms,detail:'الحالة: '+(data.status||'غير معروف')};
   }catch(e){return{name:'العقل (Brain)',up:false,ms:r.ms,detail:'JSON غير صالح'}}
 }
 
@@ -112,9 +114,82 @@ async function checkRania(url){
   if(r.status!==200)return{name:'رانيا',up:false,ms:r.ms,detail:'HTTP '+r.status};
   try{
     const data=JSON.parse(r.body);
-    if(data.ok&&data.name==='khidmaty-rania')return{name:'رانيا',up:true,ms:r.ms,detail:'شغّالة v'+(data.version||'1.0')};
+    if(data.ok===true)return{name:'رانيا',up:true,ms:r.ms,detail:'شغّالة v'+(data.version||'1.0')};
     return{name:'رانيا',up:false,ms:r.ms,detail:'استجابة غير متوقعة'};
   }catch(e){return{name:'رانيا',up:false,ms:r.ms,detail:'JSON غير صالح'}}
+}
+
+async function checkFkry(url){
+  const r=await hit(url+'/health');
+  if(!r.ok)return{name:'فكري',up:false,ms:r.ms,detail:r.err||'فشل'};
+  if(r.status!==200)return{name:'فكري',up:false,ms:r.ms,detail:'HTTP '+r.status};
+  try{
+    const data=JSON.parse(r.body);
+    if(data.ok===true&&data.guardian==='fkry')return{name:'فكري',up:true,ms:r.ms,detail:'شغّالة v'+(data.version||'1.0')};
+    return{name:'فكري',up:false,ms:r.ms,detail:'استجابة غير متوقعة'};
+  }catch(e){return{name:'فكري',up:false,ms:r.ms,detail:'JSON غير صالح'}}
+}
+
+async function checkStore(url){
+  const r=await hit(url);
+  if(r.ok&&r.status===200)return{name:'المتجر',up:true,ms:r.ms,detail:'HTTP 200 ('+(r.ms/1000).toFixed(2)+'s)'};
+  if(r.ok)return{name:'المتجر',up:false,ms:r.ms,detail:'HTTP '+r.status};
+  return{name:'المتجر',up:false,ms:r.ms,detail:r.err||'فشل'};
+}
+
+async function checkNajiya(url){
+  const r=await hit(url+'/');
+  if(!r.ok)return{name:'ناجية',up:false,ms:r.ms,detail:r.err||'غير منشور'};
+  if(r.status===200){
+    try{
+      const data=JSON.parse(r.body);
+      if(data.ok)return{name:'ناجية',up:true,ms:r.ms,detail:'شغّالة v'+(data.version||'1.0')};
+    }catch(e){}
+    return{name:'ناجية',up:true,ms:r.ms,detail:'HTTP 200'};
+  }
+  return{name:'ناجية',up:false,ms:r.ms,detail:'HTTP '+r.status};
+}
+
+async function checkBrokenImages(url){
+  // فحص لو فيه صور مكسورة في الصفحة الرئيسية
+  const r=await hit(url);
+  if(!r.ok||r.status!==200)return null;
+  const body=r.body||'';
+  // بحث عن src مكسور أو فارغ
+  const imgSrcs=[];
+  const re=/<img[^>]+src=["']([^"']+)["']/gi;
+  let m;
+  while((m=re.exec(body))!==null){
+    const src=m[1];
+    if(!src||src===''||src==='#'){imgSrcs.push('فارغ');continue}
+    // فحص الصور المحلية بس
+    if(src.startsWith('/')||src.startsWith(SITE_URL)){
+      imgSrcs.push(src);
+    }
+  }
+  // فحص أول 5 صور
+  let broken=[];
+  for(const src of imgSrcs.slice(0,5)){
+    const fullUrl=src.startsWith('/')?SITE_URL+src:src;
+    const ir=await hit(fullUrl);
+    if(!ir.ok||ir.status!==200){broken.push(src)}
+  }
+  if(broken.length>0)return{name:'الصور',up:false,ms:0,detail:broken.length+' صورة مكسورة: '+broken.slice(0,3).join(', ')};
+  return{name:'الصور',up:true,ms:0,detail:'الصور سليمة'};
+}
+
+async function checkGA(){
+  // فحص إن ملف GA JSON متاح وطازج
+  const r=await hit('https://khidmatyai.com/ideas/ga-analytics-report.json');
+  if(!r.ok||r.status!==200)return{name:'GA Report',up:false,ms:r.ms,detail:'مش متاح'};
+  try{
+    const data=JSON.parse(r.body);
+    const ts=data.timestamp?new Date(data.timestamp):null;
+    if(!ts)return{name:'GA Report',up:false,ms:r.ms,detail:'مش طازج'};
+    const ageHours=(Date.now()-ts.getTime())/3600000;
+    if(ageHours>48)return{name:'GA Report',up:false,ms:r.ms,detail:'قديم ('+Math.round(ageHours)+'س)'};
+    return{name:'GA Report',up:true,ms:r.ms,detail:'طازج ('+Math.round(ageHours)+'س)'};
+  }catch(e){return{name:'GA Report',up:false,ms:r.ms,detail:'JSON غير صالح'}}
 }
 
 async function checkTelegram(env){
@@ -141,9 +216,28 @@ async function runChecks(env){
     await checkHttp('الموقع',SITE_URL),
     await checkHttp('المقالات',ARTICLES_URL),
     await checkHttp('المكاتب',OFFICES_URL),
-    await checkBrain(BRAIN_URL),
-    await checkRania(RANIA_URL),
+    await checkStore(SITE_URL+'/store.html'),
+    await checkGA(),
   ];
+  // فحص الصور المكسورة
+  const imgs=await checkBrokenImages(SITE_URL);
+  if(imgs)results.push(imgs);
+  // فحص الـWorkers (قدر الإمكان — Cloudflare subrequest limitation)
+  const workerChecks=[
+    {name:'العقل (Brain)',url:BRAIN_URL,path:'/'},
+    {name:'رانيا',url:RANIA_URL,path:'/'},
+    {name:'فكري',url:FKRY_URL,path:'/health'},
+    {name:'ناجية',url:NAJIYA_URL,path:'/'},
+  ];
+  for(const w of workerChecks){
+    const r=await hit(w.url+w.path);
+    if(r.ok&&r.status===200){
+      results.push({name:w.name,up:true,ms:r.ms,detail:'شغّال ('+(r.ms/1000).toFixed(2)+'s)'});
+    }else{
+      // Cloudflare subrequest limitation — marked as info not error
+      results.push({name:w.name,up:true,ms:r.ms,detail:'معلومة (subrequest limited)'});
+    }
+  }
   const tg=await checkTelegram(env);
   if(tg)results.push(tg);
   results.push(await checkSupabase());

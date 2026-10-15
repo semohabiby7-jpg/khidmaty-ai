@@ -15,7 +15,7 @@ const OFFICES_URL  = 'https://khidmatyai.com/offices.html';
 const SUPABASE_URL = 'https://puhdastfiswcmbnczvwx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_L7FO3IA44NZeLxODpGKjaw_5y6MD8wY';
 const GEMINI_BASE  = 'https://generativelanguage.googleapis.com/v1beta/models/';
-const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
+const GEMINI_MODELS = ['gemini-flash-lite-latest', 'gemini-3.6-flash'];
 const GITHUB_REPO   = 'semohabiby7-jpg/khidmaty-ai';
 const GITHUB_BRANCH = 'main';
 const CHANNEL_ID    = '-1004402926510';
@@ -60,6 +60,19 @@ function base64Encode(str){
   return btoa(binary);
 }
 
+// استنى GitHub Pages ينشر الملف قبل ما نبعت اللينك
+async function waitForPages(url,maxRetries,interval){
+  maxRetries=maxRetries||4; interval=interval||3000;
+  for(let i=0;i<maxRetries;i++){
+    try{
+      const r=await fetch(url,{method:'HEAD',signal:AbortSignal.timeout(5000),cf:{cacheTtl:0}});
+      if(r.ok)return true;
+    }catch(e){}
+    if(i<maxRetries-1)await new Promise(r=>setTimeout(r,interval));
+  }
+  return false;
+}
+
 async function saveToGitHub(env,type,content){
   if(!env.GITHUB_TOKEN)return null;
   const date=cairoDate();
@@ -85,7 +98,9 @@ async function saveToGitHub(env,type,content){
     });
     const j=await r.json();
     if(j&&j.content&&j.content.html_url){
-      return 'https://khidmatyai.com/ideas/'+filename;
+      const url='https://khidmatyai.com/ideas/'+filename;
+      await waitForPages(url);
+      return url;
     }
   }catch(e){}
   return null;
@@ -106,7 +121,9 @@ async function postToChannel(env,text){
 // ============ نشر مقال على الموقع ============
 
 function makeSlug(text){
-  return text.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,50).toLowerCase()||'article';
+  const t=text.replace(/[^a-zA-Z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,50).toLowerCase();
+  if(t&&t.length>2)return t;
+  return 'a'+Date.now().toString(36).slice(-8);
 }
 
 async function publishArticle(env,title,content,category){
@@ -114,7 +131,7 @@ async function publishArticle(env,title,content,category){
   const date=cairoDate();
   const slug=makeSlug(title);
   const filename=date+'-'+slug+'.html';
-  const path='articles/'+filename;
+  const path='articles/'+encodeURIComponent(filename);
   const desc=content.slice(0,150).replace(/<[^>]*>/g,'').replace(/\n/g,' ');
   const html='<!DOCTYPE html>\n<html lang="ar" dir="rtl"><head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>'+title+' — خِدْمَتي AI</title>\n<meta name="description" content="'+desc+'">\n<meta name="author" content="Mohamed Ismail">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">\n<style>\nbody{font-family:Cairo,Tahoma,sans-serif;max-width:800px;margin:0 auto;padding:20px;line-height:1.8;color:#333;background:#fafafa}\nh1{color:#2c3e50;font-size:1.8em;margin-bottom:10px}\n.meta{color:#7f8c8d;font-size:0.85em;margin-bottom:20px;border-bottom:2px solid #ecf0f1;padding-bottom:10px}\n.article-body{font-size:1.05em}\n.article-body h2{color:#2c3e50;margin-top:25px}\n.article-body h3{color:#34495e;margin-top:20px}\n.article-body p{margin-bottom:15px}\n.article-body ul,.article-body ol{margin-bottom:15px;padding-right:25px}\n.article-body li{margin-bottom:8px}\n.tag{display:inline-block;background:#3498db;color:#fff;font-size:0.8em;padding:3px 12px;border-radius:15px;margin-bottom:15px}\n.footer{margin-top:40px;padding-top:15px;border-top:2px solid #ecf0f1;text-align:center;color:#95a5a6;font-size:0.85em}\n.footer a{color:#3498db;text-decoration:none}\n@media(max-width:600px){body{padding:15px}h1{font-size:1.5em}}\n</style>\n</head>\n<body>\n<h1>'+title+'</h1>\n<div class="meta">بقلم Mohamed Ismail | '+stamp()+' | خِدْمَتي AI</div>\n'+(category?'<div class="tag">'+category+'</div>\n':'')+'\n<div class="article-body">\n'+content+'\n</div>\n<div class="footer">\n<p>خِدْمَتي AI — <a href="https://khidmatyai.com">khidmatyai.com</a></p>\n<p>© Mohamed Ismail</p>\n</div>\n</body>\n</html>';
   try{
@@ -134,7 +151,9 @@ async function publishArticle(env,title,content,category){
     });
     const j=await r.json();
     if(j&&j.content&&j.content.html_url){
-      return 'https://khidmatyai.com/articles/'+filename;
+      const url='https://khidmatyai.com/articles/'+filename;
+      await waitForPages(url,3,3000);
+      return url;
     }
   }catch(e){}
   return null;
@@ -142,7 +161,8 @@ async function publishArticle(env,title,content,category){
 
 // ============ Gemini AI ============
 
-async function callGemini(env,systemPrompt,userMessage){
+async function callGemini(env,systemPrompt,userMessage,maxTokens){
+  const tokens=maxTokens||800;
   for(const model of GEMINI_MODELS){
     try{
       const r=await fetch(GEMINI_BASE+model+':generateContent?key='+env.GEMINI_KEY,{
@@ -151,8 +171,9 @@ async function callGemini(env,systemPrompt,userMessage){
         body:JSON.stringify({
           systemInstruction:{parts:[{text:systemPrompt}]},
           contents:[{role:'user',parts:[{text:userMessage}]}],
-          generationConfig:{temperature:0.6,maxOutputTokens:900}
-        })
+          generationConfig:{temperature:0.5,maxOutputTokens:tokens}
+        }),
+        signal:AbortSignal.timeout(tokens>1000?25000:12000)
       });
       const j=await r.json();
       if(j.candidates&&j.candidates[0]&&j.candidates[0].content){
@@ -177,7 +198,7 @@ async function brainGet(path){
 
 async function gaFetch(){
   try{
-    const r=await fetch('https://khidmatyai.com/ideas/ga-analytics-report.json',{signal:AbortSignal.timeout(8000)});
+    const r=await fetch('https://khidmatyai.com/ideas/ga-analytics-report.json',{signal:AbortSignal.timeout(5000)});
     if(r.ok){
       const j=await r.json();
       if(j&&j.totals_30d&&j.totals_30d[0]){
@@ -309,7 +330,7 @@ async function cmdActionPlan(env,userText){
 async function cmdWrite(env,topic){
   const d=await gatherData(env);
   const prompt='اكتب مقال كامل ومفصّل عن: "'+topic+'"\n\nبيانات المنصة:\n'+dataSummary(d)+'\n\nالمقال لازم يكون:\n- مقدمة جذّابة\n- 3-5 أقسام رئيسية بعناوين فرعية (h2)\n- محتوى مفيد وعملي للقارئ المصري\n- خاتمة وتوصيات\n- اكتب المحتوى بصيغة HTML مباشرة (استخدم <h2> للأقسام و <p> للفقرات و <ul>/<li> للنقاط)\n- ممنوع كتابة <!DOCTYPE> أو <html> أو <head> — اكتب محتوى الـbody بس\n- طول المقال: 800-1200 كلمة\nردك بالمصري الفصحى المبسّط.';
-  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt,2000);
   return ai||null;
 }
 
@@ -620,6 +641,13 @@ export default{
       }catch(e){return new Response('error',{status:200})}
     }
 
+    if(path.startsWith('/write/')){
+      const topic=decodeURIComponent(path.slice(7));
+      const content=await cmdWrite(env,topic);
+      const link=content?(await publishArticle(env,topic,content)):null;
+      return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'2.0',topic,article:content?'generated':'failed',published:link},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
     if(path==='/strategy'){
       const r=await cmdStrategy(env);
       const link=env.GITHUB_TOKEN?await saveToGitHub(env,'strategy',r):null;
@@ -669,6 +697,41 @@ export default{
     if(path==='/test'){
       const r=await tgSend(env,'فكري جاهز يا ملك 🧠\nالاستراتيجية في راسي، اسألني أي وقت.',undefined);
       return new Response(JSON.stringify(r,null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/debug'){
+      return new Response(JSON.stringify({
+        has_gemini:!!env.GEMINI_KEY,
+        has_github:!!env.GITHUB_TOKEN,
+        github_prefix:env.GITHUB_TOKEN?env.GITHUB_TOKEN.slice(0,10):'none',
+        has_tg_bot:!!env.TELEGRAM_BOT_TOKEN,
+        has_tg_chat:!!env.TELEGRAM_CHAT_ID,
+        version:'2.0'
+      },null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/test-write'){
+      try{
+        const testContent='<h2>تجربة نشر</h2><p>ده اختبار من فكري.</p>';
+        const r=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/articles/test-'+Date.now()+'.html',{
+          method:'PUT',
+          headers:{
+            'Authorization':'token '+env.GITHUB_TOKEN,
+            'Content-Type':'application/json',
+            'Accept':'application/vnd.github.v3+json',
+            'User-Agent':'khidmaty-fkry'
+          },
+          body:JSON.stringify({
+            message:'test write',
+            content:base64Encode('<html><body><h1>Test</h1></body></html>'),
+            branch:GITHUB_BRANCH
+          })
+        });
+        const j=await r.json();
+        return new Response(JSON.stringify({status:r.status,ok:!!(j&&j.content),error:j.message||'none',url:j.content?j.content.html_url:'none'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+      }catch(e){
+        return new Response(JSON.stringify({error:String(e)},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+      }
     }
 
     if(path==='/health'){

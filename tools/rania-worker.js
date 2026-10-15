@@ -242,21 +242,80 @@ async function brainGet(path){
   return null;
 }
 
+// ============ Google Analytics (بيانات حقيقية) ============
+
+async function gaFetch(env){
+  // الأولوية 1: ملف JSON منشور على الموقع (يحدّثه cron script)
+  try{
+    const r=await fetch('https://khidmatyai.com/ideas/ga-analytics-report.json',{signal:AbortSignal.timeout(8000)});
+    if(r.ok){
+      const j=await r.json();
+      if(j&&j.totals_30d&&j.totals_30d[0]){
+        const t=j.totals_30d[0];
+        const y=j.yesterday&&j.yesterday[0]||{};
+        return{
+          source:'google-analytics',
+          today:{users:parseInt(y.totalUsers)||0,sessions:parseInt(y.sessions)||0,pageViews:parseInt(y.screenPageViews)||0},
+          total30d:{users:parseInt(t.totalUsers)||0,sessions:parseInt(t.sessions)||0,pageViews:parseInt(t.screenPageViews)||0},
+          avgSession:parseFloat(t.averageSessionDuration)||0,
+          bounceRate:parseFloat(t.bounceRate)||0,
+          topPages:(j.top_pages||[]).slice(0,5),
+          sources:(j.traffic_sources||[]).slice(0,5),
+          daily:(j.daily_7d||[]).slice(-7)
+        };
+      }
+    }
+  }catch(e){}
+  // الأولوية 2: Brain Worker (fallback)
+  const stats=await brainGet('/stats');
+  if(stats&&stats.stats&&stats.stats.website){
+    const s=stats.stats.website;
+    return{
+      source:'brain-worker',
+      today:{users:s.usersToday||0,sessions:s.visitsToday||0,pageViews:0},
+      total:{users:s.usersTotal||0,sessions:s.visitsTotal||0,providers:s.providersTotal||0}
+    };
+  }
+  return null;
+}
+
 // ============ الأوامر ============
 
 async function cmdReport(env,chatId){
   let text='📊 <b>تقرير سريع — رانيا</b>\n\n';
-  // إحصائيات من Brain
-  const stats=await brainGet('/stats');
-  if(stats&&stats.stats&&stats.stats.website){
-    const s=stats.stats.website;
-    text+='📈 زيارات النهاردة: '+s.visitsToday+' | الإجمالي: '+s.visitsTotal+'\n';
-    text+='👤 مسجلين النهاردة: '+s.usersToday+' | الإجمالي: '+s.usersTotal+'\n';
-    text+='💼 مقدمي الخدمات: '+s.providersTotal+'\n';
+  const stats=await gaFetch(env);
+  if(stats){
+    if(stats.source==='google-analytics'){
+      text+='📈 <b>Google Analytics (حقيقية):</b>\n';
+      text+='📊 إجمالي آخر 30 يوم:\n';
+      text+='  👥 المستخدمين: '+stats.total30d.users+'\n';
+      text+='  🌐 الجلسات: '+stats.total30d.sessions+'\n';
+      text+='  📄 المشاهدات: '+stats.total30d.pageViews+'\n';
+      if(stats.avgSession){text+='  ⏱️ متوسط الجلسة: '+Math.round(stats.avgSession)+'ث\n'}
+      if(stats.bounceRate){text+='  📊 معدل الارتداد: '+stats.bounceRate.toFixed(1)+'%\n'}
+      text+='\n📅 أمس:\n';
+      text+='  👥 '+stats.today.users+' مستخدم | 🌐 '+stats.today.sessions+' جلسة | 📄 '+stats.today.pageViews+' مشاهدة\n';
+      if(stats.topPages&&stats.topPages.length>0){
+        text+='\n📄 أعلى الصفحات:\n';
+        stats.topPages.forEach(p=>{text+='  '+p.pagePath+': '+p.screenPageViews+' مشاهدة\n'});
+      }
+      if(stats.sources&&stats.sources.length>0){
+        text+='\n🌐 مصادر الزيارات:\n';
+        stats.sources.forEach(s=>{text+='  '+s.sessionSource+': '+s.sessions+' جلسة\n'});
+      }
+    }else{
+      text+='📈 <b>بيانات تقديرية (Brain):</b>\n';
+      text+='👥 زيوار النهاردة: '+stats.today.users+'\n';
+      text+='🌐 جلسات: '+stats.today.sessions+'\n';
+      if(stats.total){
+        text+='📊 إجمالي: '+stats.total.users+'\n';
+        text+='💼 مقدمين: '+stats.total.providers+'\n';
+      }
+    }
   }else{
     text+='📈 البيانات مش متاحة دلوقتي\n';
   }
-  text+='\n📄 المقالات: 73 مقال (كلها بإنفوجرافيك)\n';
+  text+='\n📚 الكتب: 4 أجزاء من سلسلة قوة العقل (مكتملة)\n';
   text+='🗺️ المكاتب: 888 مكتب حكومي\n';
   text+='\n— رانيا 📝 | '+stamp();
   await tgSend(env,text,chatId);
@@ -367,13 +426,21 @@ async function morningBriefing(env){
   let text='☀️ <b>صباح الخير يا ملك</b>\nصباحية خِدْمَتي AI — رانيا 📝\n';
   text+='═══════════════\n';
 
-  // إحصائيات
-  const stats=await brainGet('/stats');
-  if(stats&&stats.stats&&stats.stats.website){
-    const s=stats.stats.website;
-    text+='📈 زيارات النهاردة: '+s.visitsToday+' | الإجمالي: '+s.visitsTotal+'\n';
-    text+='👤 مسجلين النهاردة: '+s.usersToday+' | الإجمالي: '+s.usersTotal+'\n';
-    text+='💼 مقدمين: '+s.providersTotal+'\n';
+  // إحصائيات من GA
+  const stats=await gaFetch(env);
+  if(stats){
+    if(stats.source==='google-analytics'){
+      text+='📈 <b>Google Analytics (حقيقية):</b>\n';
+      text+='📊 آخر 30 يوم: '+stats.total30d.users+' مستخدم، '+stats.total30d.sessions+' جلسة\n';
+      text+='📅 أمس: '+stats.today.users+' مستخدم، '+stats.today.sessions+' جلسة، '+stats.today.pageViews+' مشاهدة\n';
+      if(stats.topPages&&stats.topPages.length>0){
+        text+='📄 أعلى صفحة: '+stats.topPages[0].pagePath+' ('+stats.topPages[0].screenPageViews+' مشاهدة)\n';
+      }
+    }else{
+      text+='📈 <b>بيانات تقديرية:</b>\n';
+      text+='👥 زيوار: '+stats.today.users+'\n';
+      text+='🌐 جلسات: '+stats.today.sessions+'\n';
+    }
   }
 
   // تقرير Brain

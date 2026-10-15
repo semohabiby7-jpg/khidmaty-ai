@@ -1,22 +1,22 @@
 {
-  "timestamp": "2026-10-12T19:38:51.085389",
+  "timestamp": "2026-10-15T00:13:01.682237",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "124",
-      "sessions": "172",
-      "screenPageViews": "292",
-      "averageSessionDuration": "194.52521123255812",
-      "bounceRate": "0.66860465116279066"
+      "totalUsers": "147",
+      "sessions": "201",
+      "screenPageViews": "359",
+      "averageSessionDuration": "235.4151164079602",
+      "bounceRate": "0.62686567164179108"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "7",
-      "sessions": "7",
-      "screenPageViews": "17",
-      "averageSessionDuration": "199.723289",
-      "bounceRate": "0.5714285714285714"
+      "totalUsers": "12",
+      "sessions": "12",
+      "screenPageViews": "39",
+      "averageSessionDuration": "885.11390033333328",
+      "bounceRate": "0.91666666666666663"
     }
   ],
   "top_pages": [
@@ -28,15 +28,21 @@
     },
     {
       "pagePath": "/",
-      "screenPageViews": "102",
-      "totalUsers": "85",
-      "averageSessionDuration": "40.234351978494622"
+      "screenPageViews": "122",
+      "totalUsers": "94",
+      "averageSessionDuration": "44.971408703703709"
     },
     {
       "pagePath": "/index.html",
-      "screenPageViews": "19",
-      "totalUsers": "6",
-      "averageSessionDuration": "273.65619511111106"
+      "screenPageViews": "28",
+      "totalUsers": "8",
+      "averageSessionDuration": "451.27923100000004"
+    },
+    {
+      "pagePath": "/store.html",
+      "screenPageViews": "23",
+      "totalUsers": "3",
+      "averageSessionDuration": "707.20050471428578"
     },
     {
       "pagePath": "/khidmaty-ai/index.html",
@@ -45,37 +51,85 @@
       "averageSessionDuration": "793.14391775"
     },
     {
-      "pagePath": "/store.html",
+      "pagePath": "/services/insurance-periods-inquiry.html",
       "screenPageViews": "6",
-      "totalUsers": "2",
-      "averageSessionDuration": "81.290349"
+      "totalUsers": "6",
+      "averageSessionDuration": "37.623177333333338"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
-      "screenPageViews": "4",
+      "screenPageViews": "5",
       "totalUsers": "4",
-      "averageSessionDuration": "62.486743000000004"
-    },
-    {
-      "pagePath": "/offices.html",
-      "screenPageViews": "3",
-      "totalUsers": "2",
-      "averageSessionDuration": "127.2630435"
+      "averageSessionDuration": "329.173399"
     },
     {
       "pagePath": "/services/vaccination-certificate.html",
-      "screenPageViews": "3",
-      "totalUsers": "2",
-      "averageSessionDuration": "30.8402785"
+      "screenPageViews": "5",
+      "totalUsers": "4",
+      "averageSessionDuration": "98.74009175"
     },
     {
-      "pagePath": "/services/insurance-periods-inquiry.html",
-      "screenPageViews": "2",
-      "totalUsers": "2",
-      "averageSessionDuration": "36.6605465"
+      "pagePath": "/offices.html",
+      "screenPageViews": "4",
+      "totalUsers": "3",
+      "averageSessionDuration": "131.958239"
+    },
+    {
+      "pagePath": "/services/update-insured-data.html",
+      "screenPageViews": "3",
+      "totalUsers": "3",
+      "averageSessionDuration": "81.593527000000009"
     },
     {
       "pagePath": "/services/death-certificate.html",
+      "screenPageViews": "2",
+      "totalUsers": "2",
+      "averageSessionDuration": "81.414178"
+    },
+    {
+      "pagePath": "/services/pension-postal-payment.html",
+      "screenPageViews": "2",
+      "totalUsers": "1",
+      "averageSessionDuration": "353.035494"
+    },
+    {
+      "pagePath": "/services/replace-plates.html",
+      "screenPageViews": "2",
+      "totalUsers": "2",
+      "averageSessionDuration": "5.753622"
+    },
+    {
+      "pagePath": "/archive.html",
+      "screenPageViews": "1",
+      "totalUsers": "1",
+      "averageSessionDuration": "14.351193"
+    },
+    {
+      "pagePath": "/calc.html",
+      "screenPageViews": "1",
+      "totalUsers": "1",
+      "averageSessionDuration": "1224.072477"
+    },
+    {
+      "pagePath": "/services/edit-tax-data.html",
+      "screenPageViews": "1",
+      "totalUsers": "1",
+      "averageSessionDuration": "0"
+    },
+    {
+      "pagePath": "/services/egyptian-citizenship.html",
+      "screenPageViews": "1",
+      "totalUsers": "1",
+      "averageSessionDuration": "47.826053"
+    },
+    {
+      "pagePath": "/services/lost-passport.html",
+      "screenPageViews": "1",
+      "totalUsers": "1",
+      "averageSessionDuration": "45.268027"
+    },
+    {
+      "pagePath": "/services/pension-extraction.html",
       "screenPageViews": "1",
       "totalUsers": "1",
       "averageSessionDuration": "0"
@@ -84,31 +138,24 @@
       "pagePath": "/services/renew-car-license.html",
       "screenPageViews": "1",
       "totalUsers": "1",
-      "averageSessionDuration": "0"
-    },
-    {
-      "pagePath": "/services/replace-plates.html",
-      "screenPageViews": "1",
-      "totalUsers": "1",
-      "averageSessionDuration": "0"
-    },
-    {
-      "pagePath": "/services/egyptian-citizenship.html",
-      "screenPageViews": "0",
-      "totalUsers": "1",
-      "averageSessionDuration": "0"
+      "averageSessionDuration": "15.997354"
     }
   ],
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "120",
-      "totalUsers": "84"
+      "sessions": "133",
+      "totalUsers": "92"
+    },
+    {
+      "sessionSource": "google",
+      "sessions": "22",
+      "totalUsers": "22"
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "14",
-      "totalUsers": "8"
+      "sessions": "18",
+      "totalUsers": "10"
     },
     {
       "sessionSource": "m.facebook.com",
@@ -117,13 +164,8 @@
     },
     {
       "sessionSource": "facebook.com",
-      "sessions": "8",
-      "totalUsers": "8"
-    },
-    {
-      "sessionSource": "google",
-      "sessions": "8",
-      "totalUsers": "8"
+      "sessions": "9",
+      "totalUsers": "9"
     },
     {
       "sessionSource": "lm.facebook.com",
@@ -131,12 +173,17 @@
       "totalUsers": "6"
     },
     {
+      "sessionSource": "(data not available)",
+      "sessions": "2",
+      "totalUsers": "2"
+    },
+    {
       "sessionSource": "dataindex.pro",
       "sessions": "2",
       "totalUsers": "2"
     },
     {
-      "sessionSource": "(data not available)",
+      "sessionSource": "gemini.google.com",
       "sessions": "1",
       "totalUsers": "1"
     }
@@ -144,27 +191,33 @@
   "devices": [
     {
       "deviceCategory": "desktop",
-      "sessions": "97",
-      "totalUsers": "70"
+      "sessions": "112",
+      "totalUsers": "83"
     },
     {
       "deviceCategory": "mobile",
-      "sessions": "75",
-      "totalUsers": "54"
+      "sessions": "89",
+      "totalUsers": "64"
     }
   ],
   "daily_7d": [
     {
-      "date": "20261007",
-      "totalUsers": "11",
-      "sessions": "11",
-      "screenPageViews": "11"
+      "date": "20261013",
+      "totalUsers": "14",
+      "sessions": "15",
+      "screenPageViews": "22"
+    },
+    {
+      "date": "20261014",
+      "totalUsers": "12",
+      "sessions": "12",
+      "screenPageViews": "39"
     },
     {
       "date": "20261012",
       "totalUsers": "9",
       "sessions": "9",
-      "screenPageViews": "9"
+      "screenPageViews": "11"
     },
     {
       "date": "20261011",
@@ -185,16 +238,10 @@
       "screenPageViews": "12"
     },
     {
-      "date": "20261006",
-      "totalUsers": "4",
-      "sessions": "4",
-      "screenPageViews": "4"
-    },
-    {
-      "date": "20261005",
+      "date": "20261015",
       "totalUsers": "2",
       "sessions": "2",
-      "screenPageViews": "2"
+      "screenPageViews": "4"
     },
     {
       "date": "20261010",

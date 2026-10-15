@@ -142,27 +142,6 @@ async function generateAdImage(env, prompt, width, height) {
 }
 
 
-async function callGemini(env,systemPrompt,userMessage){
-  for(const model of GEMINI_MODELS){
-    try{
-      const r=await fetch(GEMINI_BASE+model+':generateContent?key='+env.GEMINI_KEY,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          systemInstruction:{parts:[{text:systemPrompt}]},
-          contents:[{role:'user',parts:[{text:userMessage}]}],
-          generationConfig:{temperature:0.8,maxOutputTokens:1500}
-        })
-      });
-      const j=await r.json();
-      if(j.candidates&&j.candidates[0]&&j.candidates[0].content){
-        return j.candidates[0].content.parts[0].text;
-      }
-    }catch(e){}
-  }
-  return null;
-}
-
 async function callGemini(env,systemPrompt,userMessage,maxTokens){
   const tokens=maxTokens||1500;
   for(const model of GEMINI_MODELS){

@@ -516,23 +516,41 @@ async function handleCommand(env,chatId,text){
   if(text.startsWith('/فيديو')||text.startsWith('/video')){
     const desc=text.replace(/^\/(فيديو|video)\s*/,'').trim();
     if(!desc){await tgSend(env,'اكتب وصف الفيديو بعد الأمر:\n/فيديو [وصف الإعلان]',chatId);return}
-    await tgSend(env,'🎬 ناجية بتحضّر سيناريو فيديو إعلاني يا ملك...',chatId);
-    const prompt='اكتب سيناريو فيديو إعلاني قصير (15-30 ثانية) لـ: "'+desc+'".\nالسيناريو لازم يكون:\n- مشهد بالمشهد (Shot 1, Shot 2, ...)\n- نص التعليق الصوتي بالعربي\n- وصف كل لقطة بالتفصيل (ب الإنجليزي عشان نولّد منها صور)\n- نص على الشاشة\n- مدة كل لقطة\n- مناسب للسوشيال ميديا (تيك توك/ريلز)\nردك بالمصري.';
+    await tgSend(env,'🎬 ناجية بتعمل فيديو إعلاني كامل يا ملك — سيناريو + صور كل لقطة...',chatId);
+    const prompt='اكتب سيناريو فيديو إعلاني قصير (15-30 ثانية) لـ: "'+desc+'".\nالسيناريو لازم يكون:\n- مشهد بالمشهد (Shot 1, Shot 2, Shot 3)\n- نص التعليق الصوتي بالعربي\n- وصف كل لقطة بالتفصيل بالإنجليزي بعد كلمة Prompt: (ده مهم جداً عشان نتولّد منه صورة)\n- نص على الشاشة\n- مدة كل لقطة\n- مناسب للسوشيال ميديا (تيك توك/ريلز)\n- ممنوع تحيات شخصية أو بيانات داخلية — الإعلان للجمهور\nردك بالمصري بس الـ Prompt بالإنجليزي.';
     const script=await callGemini(env,NAJIYA_SYSTEM,prompt,2000);
     if(script){
-      await tgSend(env,'🎬 <b>سيناريو فيديو إعلاني — '+desc+'</b>\n\n'+script+'\n\n— ناجية 🛠️',chatId);
-      // ولّد صورة من أول لقطة في السيناريو
-      const shotMatch=script.match(/Shot 1[\s\S]*?(?=Shot 2|$)/);
-      const shotDesc=shotMatch?shotMatch[0].slice(0,200):desc;
-      const url=generateImageUrl('Cinematic frame: '+shotDesc+', professional, high quality',1024,576);
-      await tgSendPhoto(env,url,'🎬 <b>لقطة 1 من السيناريو</b>\n— ناجية 🛠️',chatId);
+      // ابعت السيناريو الأول
+      await tgSend(env,'🎬 <b>سيناريو فيديو — '+desc+'</b>\n\n'+script+'\n\n🎨 ناجية بتولّد صور اللقطات دلوقتي...',chatId);
+      // استخرج كل الـ Prompts من السيناريو
+      const promptMatches=[...script.matchAll(/Prompt:\s*(.+?)(?:\n|$)/g)];
+      if(promptMatches.length===0){
+        // fallback: استخرج الأسطر الإنجليزية
+        const lines=script.split('\n');
+        const enLines=lines.filter(l=>/^[A-Z][a-z].*(?:shot|close|wide|bright|dark|cinematic|professional|modern|glowing|happy|smiling)/i.test(l.trim()));
+        for(let i=0;i<Math.min(enLines.length,3);i++){
+          promptMatches.push({1:enLines[i].trim()});
+        }
+      }
+      // ولّد صورة لكل لقطة (حد أقصى 3)
+      const shots=promptMatches.slice(0,3);
+      for(let i=0;i<shots.length;i++){
+        const shotPrompt=shots[i][1]||'Professional advertising scene '+i;
+        const url=generateImageUrl('Cinematic frame: '+shotPrompt,1024,576);
+        const p=await tgSendPhoto(env,url,'🎬 <b>لقطة '+(i+1)+'</b>\n— ناجية 🛠️',chatId);
+        if(!p.sent){
+          // fallback: ابعت اللينك
+          await tgSend(env,'🎬 <b>لقطة '+(i+1)+'</b>\n🔗 '+url+'\n— ناجية 🛠️',chatId);
+        }
+      }
+      await tgSend(env,'✅ <b>الفيديو الإعلاني جاهز يا ملك!</b>\n🎬 السيناريو + '+shots.length+' صور لقطات\n\n— ناجية 🛠️',chatId);
     }else{
-      await tgSend(env,'ما قدرشت أعمل السيناريو دلوقتي يا ملك 😅\n— ناجية',chatId)
+      await tgSend(env,'ما قدرشت أعمل الفيديو دلوقتي يا ملك 😅\n— ناجية',chatId)
     }
     return;
   }
 
-  // لو مش أمر معروف — ذكّر الملك بالأوامر
+  // لو مش أمر معروف  // لو مش أمر معروف — ذكّر الملك بالأوامر
   await tgSend(env,'📢 الأمر مش واضح يا ملك.\n\n<b>الأوامر:</b>\n/إعلان [متجر|خدمة|توعية] — توليد إعلانات\n/صورة [وصف] — صورة إعلانية\n/banner [وصف] — بانر احترافي\n/فيديو [وصف] — سيناريو فيديو\n/طور [نص] — تطوير إعلان\n/نشر [نوع] — نشر على القناة\n/متابعة — متابعة المتجر\n/تقرير — تقرير اليوم\n\n— ناجية 🛠️',chatId)}
 
 // ============ Export ============

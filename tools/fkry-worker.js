@@ -652,12 +652,8 @@ async function handleCommand(env,chatId,text){
     return;
   }
 
-  // رد ذكي على أي رسالة
-  const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّ كفكري (المستشار الاستراتيجي) بشكل ذكي وقصير.';
-  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
-  if(ai){await tgSend(env,ai,chatId)}
-  else{await tgSend(env,'سمعتك يا ملك بس مش متاح دلوقتي 🧠\n— فكري',chatId)}
-}
+  // لو مش أمر معروف — ذكّر الملك بالأوامر
+  await tgSend(env,'🧠 الأمر مش واضح يا ملك.\n\n<b>الأوامر:</b>\n/write [موضوع] — ✍️ يكتب مقال ويعرضه عليك\nنشر — ينشر المقال بعد موافقتك\n/strategy — استراتيجية اليوم\n/growth — خطة النمو 30 يوم\n/competitors — تحليل المنافسين\n/predict — تنبؤ 3 شهور\n/content — خطة محتوى\n/analyze [موضوع] — تحليل أي موضوع\n/post — نشر على القناة\n/morning — صباحية\n/weekly — تقرير أسبوعي\n\nأو قول \"توكلنا علي الله\" للتنفيذ\n— فكري 📊',chatId)}
 
 // ============ Export ============
 

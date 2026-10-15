@@ -10,6 +10,8 @@ const SITE_URL    = 'https://khidmatyai.com';
 const STORE_URL   = 'https://khidmatyai.com/store.html';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
+const GITHUB_REPO = 'semohabiby7-jpg/khidmaty-ai';
+const GITHUB_BRANCH = 'main';
 const GA_REPORT_URL = 'https://khidmatyai.com/ideas/ga-analytics-report.json';
 const CHANNEL_ID  = '@khdmatyai'; // قناة خِدْمَتي AI على تيلجرام
 
@@ -54,6 +56,92 @@ async function tgChannelPost(env,text){
   }catch(e){return{sent:false,reason:'exception'}}
 }
 
+
+// ============ توليد صور إعلانية مجانية ============
+
+async function tgSendPhoto(env, photoUrl, caption, chatId) {
+  const cid = chatId || env.TELEGRAM_CHAT_ID;
+  if (!env.TELEGRAM_BOT_TOKEN || !cid) return {sent: false};
+  try {
+    const cap = caption ? (caption.length > 1024 ? caption.slice(0, 1024) + '…' : caption) : '';
+    const r = await fetch('https://api.telegram.org/bot' + env.TELEGRAM_BOT_TOKEN + '/sendPhoto', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: cid, photo: photoUrl, caption: cap, parse_mode: 'HTML'})
+    });
+    const j = await r.json();
+    return {sent: !!j.ok, error: j.description || null};
+  } catch (e) {return {sent: false}}
+}
+
+async function tgSendPhotoBuffer(env, base64Data, mimeType, caption, chatId) {
+  const cid = chatId || env.TELEGRAM_CHAT_ID;
+  if (!env.TELEGRAM_BOT_TOKEN || !cid) return {sent: false};
+  try {
+    const cap = caption ? (caption.length > 1024 ? caption.slice(0, 1024) + '…' : caption) : '';
+    const fd = new FormData();
+    fd.append('chat_id', cid);
+    fd.append('photo', base64Data);
+    fd.append('caption', cap);
+    fd.append('parse_mode', 'HTML');
+    const r = await fetch('https://api.telegram.org/bot' + env.TELEGRAM_BOT_TOKEN + '/sendPhoto', {
+      method: 'POST',
+      body: fd
+    });
+    const j = await r.json();
+    return {sent: !!j.ok, error: j.description || null};
+  } catch (e) {return {sent: false}}
+}
+
+// Pollinations AI — توليد صور مجاني بدون API key
+async function generateImageUrl(prompt, width, height) {
+  width = width || 1280;
+  height = height || 720;
+  const encoded = encodeURIComponent(prompt + ', professional, high quality, clean design, modern');
+  const seed = Math.floor(Math.random() * 1000000);
+  return 'https://image.pollinations.ai/prompt/' + encoded + '?width=' + width + '&height=' + height + '&nologo=true&seed=' + seed;
+}
+
+// Gemini Image — توليد صور بـGemini (لو متاح)
+async function generateGeminiImage(env, prompt) {
+  const models = ['gemini-3.1-flash-image', 'gemini-3-pro-image'];
+  for (const model of models) {
+    try {
+      const r = await fetch(GEMINI_BASE + model + ':generateContent?key=' + env.GEMINI_KEY, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          contents: [{parts: [{text: prompt}]}],
+          generationConfig: {responseModalities: ['TEXT', 'IMAGE']}
+        }),
+        signal: AbortSignal.timeout(25000)
+      });
+      const j = await r.json();
+      if (j.candidates && j.candidates[0] && j.candidates[0].content) {
+        for (const p of j.candidates[0].content.parts) {
+          if (p.inlineData && p.inlineData.data) {
+            return {base64: p.inlineData.data, mimeType: p.inlineData.mimeType || 'image/png'};
+          }
+        }
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
+// توليد صورة إعلانية — يحاول Gemini الأول وبعدين Pollinations
+async function generateAdImage(env, prompt, width, height) {
+  // جرّب Gemini الأول
+  const gem = await generateGeminiImage(env, 'Generate a professional advertising image: ' + prompt);
+  if (gem) {
+    return {type: 'base64', data: gem.base64, mimeType: gem.mimeType};
+  }
+  // fallback: Pollinations
+  const url = generateImageUrl(prompt, width, height);
+  return {type: 'url', data: url};
+}
+
+
 async function callGemini(env,systemPrompt,userMessage){
   for(const model of GEMINI_MODELS){
     try{
@@ -72,6 +160,77 @@ async function callGemini(env,systemPrompt,userMessage){
       }
     }catch(e){}
   }
+  return null;
+}
+
+async function callGemini(env,systemPrompt,userMessage,maxTokens){
+  const tokens=maxTokens||1500;
+  for(const model of GEMINI_MODELS){
+    try{
+      const r=await fetch(GEMINI_BASE+model+':generateContent?key='+env.GEMINI_KEY,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          systemInstruction:{parts:[{text:systemPrompt}]},
+          contents:[{role:'user',parts:[{text:userMessage}]}],
+          generationConfig:{temperature:0.8,maxOutputTokens:tokens}
+        }),
+        signal:AbortSignal.timeout(tokens>1000?25000:12000)
+      });
+      const j=await r.json();
+      if(j.candidates&&j.candidates[0]&&j.candidates[0].content){
+        return j.candidates[0].content.parts[0].text;
+      }
+    }catch(e){}
+  }
+  return null;
+}
+
+// ============ نشر مقال على الموقع ============
+
+function base64Encode(str){
+  const bytes=new TextEncoder().encode(str);
+  let binary='';
+  for(const b of bytes){binary+=String.fromCharCode(b)}
+  return btoa(binary);
+}
+
+function makeSlug(text){
+  const t=text.replace(/[^a-zA-Z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,50).toLowerCase();
+  if(t&&t.length>2)return t;
+  return 'a'+Date.now().toString(36).slice(-8);
+}
+
+function cairoDate(){try{return new Date().toLocaleString('en-CA',{timeZone:'Africa/Cairo',year:'numeric',month:'2-digit',day:'2-digit'})}catch(e){return new Date().toISOString().slice(0,10)}}
+
+async function publishArticle(env,title,content,category){
+  if(!env.GITHUB_TOKEN)return null;
+  const date=cairoDate();
+  const slug=makeSlug(title);
+  const filename=date+'-'+slug+'.html';
+  const path='articles/'+encodeURIComponent(filename);
+  const desc=content.slice(0,150).replace(/<[^>]*>/g,'').replace(/\n/g,' ');
+  const html='<!DOCTYPE html>\n<html lang="ar" dir="rtl"><head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>'+title+' — خِدْمَتي AI</title>\n<meta name="description" content="'+desc+'">\n<meta name="author" content="Mohamed Ismail">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">\n<style>\nbody{font-family:Cairo,Tahoma,sans-serif;max-width:800px;margin:0 auto;padding:20px;line-height:1.8;color:#333;background:#fafafa}\nh1{color:#2c3e50;font-size:1.8em;margin-bottom:10px}\n.meta{color:#7f8c8d;font-size:0.85em;margin-bottom:20px;border-bottom:2px solid #ecf0f1;padding-bottom:10px}\n.article-body{font-size:1.05em}\n.article-body h2{color:#2c3e50;margin-top:25px}\n.article-body p{margin-bottom:15px}\n.article-body ul,.article-body ol{margin-bottom:15px;padding-right:25px}\n.tag{display:inline-block;background:#e91e63;color:#fff;font-size:0.8em;padding:3px 12px;border-radius:15px;margin-bottom:15px}\n.footer{margin-top:40px;padding-top:15px;border-top:2px solid #ecf0f1;text-align:center;color:#95a5a6;font-size:0.85em}\n.footer a{color:#e91e63;text-decoration:none}\n@media(max-width:600px){body{padding:15px}h1{font-size:1.5em}}\n</style>\n</head>\n<body>\n<h1>'+title+'</h1>\n<div class="meta">بقلم Mohamed Ismail | '+stamp()+' | خِدْمَتي AI</div>\n'+(category?'<div class="tag">'+category+'</div>\n':'')+'\n<div class="article-body">\n'+content+'\n</div>\n<div class="footer">\n<p>خِدْمَتي AI — <a href="https://khidmatyai.com">khidmatyai.com</a></p>\n<p>© Mohamed Ismail</p>\n</div>\n</body>\n</html>';
+  try{
+    const r=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+path,{
+      method:'PUT',
+      headers:{
+        'Authorization':'token '+env.GITHUB_TOKEN,
+        'Content-Type':'application/json',
+        'Accept':'application/vnd.github.v3+json',
+        'User-Agent':'khidmaty-najiya'
+      },
+      body:JSON.stringify({
+        message:'📢 ناجية: مقال جديد — '+title,
+        content:base64Encode(html),
+        branch:GITHUB_BRANCH
+      })
+    });
+    const j=await r.json();
+    if(j&&j.content&&j.content.html_url){
+      return 'https://khidmatyai.com/articles/'+filename;
+    }
+  }catch(e){}
   return null;
 }
 
@@ -250,7 +409,7 @@ async function dailyAdsReport(env){
 
 async function handleCommand(env,chatId,text){
   if(text==='/مساعده'||text==='/help'||text=='/start'){
-    const help='📢 <b>ناجية في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/إعلان متجر — إعلانات للمتجر والكتب\n/إعلان خدمة — إعلانات للخدمات الحكومية\n/إعلان توعية — إعلانات توعوية\n/طور [نص] — تطوير إعلان موجود\n/نشر [نوع] — نشر إعلان على قناة تيلجرام\n/متابعة — متابعة إعلانات المتجر على الموقع وتطويرها\n/تقرير — تقرير الإعلانات اليومي\n\nأو اكتب أي حاجة وهرد عليك 📢';
+    const help='📢 <b>ناجية في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/إعلان متجر — إعلانات للمتجر والكتب\n/إعلان خدمة — إعلانات للخدمات الحكومية\n/إعلان توعية — إعلانات توعوية\n/صورة [وصف] — 🎨 توليد صورة إعلانية\n/banner [وصف] — 🎨 بانر إعلاني احترافي\n/فيديو [وصف] — 🎬 سيناريو فيديو إعلاني\n/طور [نص] — تطوير إعلان موجود\n/نشر [نوع] — نشر إعلان على قناة تيلجرام\n/متابعة — متابعة إعلانات المتجر على الموقع\n/تقرير — تقرير الإعلانات اليومي\n\nأو اكتب أي حاجة وهرد عليك 📢';
     await tgSend(env,help,chatId);
     return;
   }
@@ -311,6 +470,99 @@ async function handleCommand(env,chatId,text){
     return;
   }
 
+  if(text.startsWith('/campaign')||text.startsWith('/حملة')){
+    const topic=text.replace(/^\/(campaign|حملة)\s*/,'').trim()||'متجر';
+    await tgSend(env,'📢 ناجية بتجهّز حملة إعلانية وتشرّفها على الموقع يا ملك...',chatId);
+    const type=topic.includes('متجر')||topic.includes('store')?'store':topic.includes('توعية')?'awareness':'service';
+    const ad=await generateAd(env,type);
+    if(ad){
+      const link=await publishArticle(env,'حملة إعلانية: '+topic,ad,'إعلانات');
+      if(link){
+        await tgSend(env,'✅ <b>الحملة اتنشرت يا ملك!</b>\n\n📢 <b>'+topic+'</b>\n🔗 '+link+'\n\n— ناجية 🛠️',chatId);
+        const chMsg='📢 <b>حملة جديدة — خِدْمَتي AI</b>\n'+topic+'\n\n🔗 '+link+'\n— ناجية 🛠️';
+        await tgChannelPost(env,chMsg);
+      }else{
+        await tgSend(env,'📢 الحملة جاهزة بس مش قادرة أنشرها على الموقع.\nجربي تاني يا ملك.\n— ناجية',chatId)
+      }
+    }else{
+      await tgSend(env,'ما قدرشت أعمل الحملة دلوقتي يا ملك 😅\n— ناجية',chatId)
+    }
+    return;
+  }
+
+  // ====== موافقة على نشر الإعلان ======
+  if(text==='نشر'||text==='موافق'||text==='اعتمد'){
+    await tgSend(env,'📢 ناجية بينشر الإعلان على القناة يا ملك...',chatId);
+    const ad=await generateAd(env,'service');
+    if(ad){
+      const firstAd=ad.split(/\\n\\n\\d+[\\)()\\)]/)?.[0]||ad.slice(0,1500);
+      const channelText='📢 <b>إعلان جديد — خِدْمَتي AI</b>\\n\\n'+firstAd+'\\n\\n🌐 '+STORE_URL+'\\n— ناجية 🛠️';
+      const ch=await tgChannelPost(env,channelText);
+      if(ch.sent){
+        await tgSend(env,'✅ اتنشر الإعلان على القناة يا ملك 📢\\n— ناجية',chatId);
+      }else{
+        await tgSend(env,'⚠️ ما قدرشت أنشر على القناة يا ملك.\\n— ناجية',chatId);
+      }
+    }else{
+      await tgSend(env,'مفيش إعلان جاهز للنشر يا ملك.\\n— ناجية',chatId)
+    }
+    return;
+  }
+
+  if(text.startsWith('/صورة')||text.startsWith('/image')){
+    const desc=text.replace(/^\/(صورة|image)\s*/,'').trim();
+    if(!desc){await tgSend(env,'اكتب وصف الصورة بعد الأمر:\n/صورة [وصف الإعلان]',chatId);return}
+    await tgSend(env,'🎨 ناجية بتجهّز صورة إعلانية يا ملك...',chatId);
+    const result=await generateAdImage(env,desc,1280,720);
+    if(result){
+      if(result.type==='base64'){
+        const p=await tgSendPhotoBuffer(env,result.data,result.mimeType,'🎨 <b>صورة إعلانية — '+desc+'</b>\n\n⚠️ دي للمراجعة يا ملك\n— ناجية 🛠️',chatId);
+        if(!p.sent){await tgSend(env,'ما قدرشت أبع الصورة 😅 بس هي جاهزة\n— ناجية',chatId)}
+      }else{
+        const p=await tgSendPhoto(env,result.data,'🎨 <b>صورة إعلانية — '+desc+'</b>\n\n⚠️ دي للمراجعة يا ملك\n— ناجية 🛠️',chatId);
+        if(!p.sent){await tgSend(env,'ما قدرشت أبع الصورة 😅 بس هي جاهزة\n— ناجية',chatId)}
+      }
+    }else{
+      await tgSend(env,'ما قدرشت أعمل الصورة دلوقتي يا ملك 😅\n— ناجية',chatId)
+    }
+    return;
+  }
+
+  if(text.startsWith('/banner')||text.startsWith('/بانر')){
+    const desc=text.replace(/^\/(banner|بانر)\s*/,'').trim()||'إعلان خدمات حكومية';
+    await tgSend(env,'🎨 ناجية بتعمل بانر إعلاني يا ملك...',chatId);
+    // Gemini يكتب وصف البانر
+    const prompt='اكتب وصف مفصّل لبانر إعلاني احترافي لـ: "'+desc+'".\nالوصف لازم يكون بالإنجليزي عشان AI يفهمه.\nذكر الألوان والتصميم والنص والعناصر البصرية.';
+    const aiDesc=await callGemini(env,NAJIYA_SYSTEM,prompt);
+    const result=await generateAdImage(env,aiDesc||desc,1280,720);
+    if(result){
+      if(result.type==='base64'){
+        const p=await tgSendPhotoBuffer(env,result.data,result.mimeType,'🎨 <b>بانر: '+desc+'</b>\n\n⚠️ للمراجعة يا ملك\n— ناجية 🛠️',chatId);
+        if(!p.sent){await tgSend(env,'ما قدرشت أبع البانر 😅 بس هو جاهز\n— ناجية',chatId)}
+      }else{
+        const p=await tgSendPhoto(env,result.data,'🎨 <b>بانر: '+desc+'</b>\n\n⚠️ للمراجعة يا ملك\n— ناجية 🛠️',chatId);
+        if(!p.sent){await tgSend(env,'ما قدرشت أبع البانر 😅 بس هو جاهز\n— ناجية',chatId)}
+      }
+    }else{
+      await tgSend(env,'ما قدرشت أعمل البانر دلوقتي يا ملك 😅\n— ناجية',chatId)
+    }
+    return;
+  }
+
+  if(text.startsWith('/فيديو')||text.startsWith('/video')){
+    const desc=text.replace(/^\/(فيديو|video)\s*/,'').trim();
+    if(!desc){await tgSend(env,'اكتب وصف الفيديو بعد الأمر:\n/فيديو [وصف الإعلان]',chatId);return}
+    await tgSend(env,'🎬 ناجية بتحضّر سيناريو فيديو إعلاني يا ملك...',chatId);
+    const prompt='اكتب سيناريو فيديو إعلاني قصير (15-30 ثانية) لـ: "'+desc+'".\nالسيناريو لازم يكون:\n- مشهد بالمشهد (Shot 1, Shot 2, ...)\n- نص التعليق الصوتي\n- وصف كل لقطة بالتفصيل\n- نص على الشاشة\n- مدة كل لقطة\n- مناسب للسوشيال ميديا (تيك توك/ريلز)\nردك بالمصري.';
+    const script=await callGemini(env,NAJIYA_SYSTEM,prompt,2000);
+    if(script){
+      await tgSend(env,'🎬 <b>سيناريو فيديو إعلاني — '+desc+'</b>\n\n'+script+'\n\n💡 ده سيناريو جاهز للتصوير يا ملك\n— ناجية 🛠️',chatId);
+    }else{
+      await tgSend(env,'ما قدرشت أعمل السيناريو دلوقتي يا ملك 😅\n— ناجية',chatId)
+    }
+    return;
+  }
+
   // رد ذكي على أي رسالة
   const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّي كناجية (مديرة الإعلانات) بشكل حماسي وقصير.';
   const ai=await callGemini(env,NAJIYA_SYSTEM,prompt);
@@ -356,9 +608,9 @@ export default{
     }
 
     if(path==='/'){
-      return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'2.0',role:'ads-manager',features:['ad-generation','ad-improvement','store-ads-monitor','daily-report','telegram'],endpoints:['/webhook','/test','/daily','/store-monitor']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+      return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'3.0',role:'ads-manager',features:['ad-generation','ad-improvement','store-ads-monitor','daily-report','telegram'],endpoints:['/webhook','/test','/daily','/store-monitor']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'2.0',hint:'/test للتجربة, /daily للتقرير اليومي, /store-monitor لمتابعة المتجر, /webhook لرسائل تيلجرام'}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'3.0',hint:'/test للتجربة, /daily للتقرير اليومي, /store-monitor لمتابعة المتجر, /webhook لرسائل تيلجرام'}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
 };

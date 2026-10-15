@@ -308,6 +308,78 @@ function buildDashboard(){
 
 // ============ Export ============
 
+// ============ أوامر تيلجرام ============
+
+async function handleCommand(env,chatId,text){
+  if(text==='/start'||text==='/help'||text==='/مساعده'){
+    const help='🧠 <b>فكري في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/strategy — استراتيجية اليوم\n/growth — خطة النمو 30 يوم\n/competitors — تحليل المنافسين\n/predict — تنبؤ 3 شهور\n/analyze [موضوع] — تحليل أي موضوع\n/morning — صباحية فكري\n/weekly — التقرير الأسبوعي\n\nأو اكتب أي حاجة وهرد عليك 🧠';
+    await tgSend(env,help,chatId);
+    return;
+  }
+
+  if(text.startsWith('/strategy')||text.startsWith('/استراتيجية')){
+    await tgSend(env,'🧠 فكري بيحلل الاستراتيجية يا ملك...',chatId);
+    const r=await cmdStrategy(env);
+    if(r){await tgSend(env,'🧠 <b>استراتيجية اليوم</b>\n\n'+r+'\n\n— فكري 📊',chatId)}
+    else{await tgSend(env,'ما قدرشت أحلل دلوقتي يا ملك 😅\n— فكري',chatId)}
+    return;
+  }
+
+  if(text.startsWith('/growth')||text.startsWith('/نمو')){
+    await tgSend(env,'📈 فكري بيحضّر خطة النمو يا ملك...',chatId);
+    const r=await cmdGrowth(env);
+    if(r){await tgSend(env,'📈 <b>خطة النمو 30 يوم</b>\n\n'+r+'\n\n— فكري 📊',chatId)}
+    else{await tgSend(env,'ما قدرشت أحضّر الخطة دلوقتي يا ملك 😅\n— فكري',chatId)}
+    return;
+  }
+
+  if(text.startsWith('/competitors')||text.startsWith('/منافسين')){
+    await tgSend(env,'🔍 فكري بيحلل المنافسين يا ملك...',chatId);
+    const r=await cmdCompetitors(env);
+    if(r){await tgSend(env,'🔍 <b>تحليل المنافسين</b>\n\n'+r+'\n\n— فكري 📊',chatId)}
+    else{await tgSend(env,'ما قدرشت أحلل المنافسين دلوقتي يا ملك 😅\n— فكري',chatId)}
+    return;
+  }
+
+  if(text.startsWith('/predict')||text.startsWith('/تنبؤ')){
+    await tgSend(env,'🔮 فكري بيحضّر التنبؤ يا ملك...',chatId);
+    const r=await cmdPredict(env);
+    if(r){await tgSend(env,'🔮 <b>تنبؤ 3 شهور</b>\n\n'+r+'\n\n— فكري 📊',chatId)}
+    else{await tgSend(env,'ما قدرشت أتنبأ دلوقتي يا ملك 😅\n— فكري',chatId)}
+    return;
+  }
+
+  if(text.startsWith('/analyze/')||text.startsWith('/تحليل')){
+    const topic=text.replace(/^\/(analyze|تحليل)\s*/,'').trim();
+    if(!topic){await tgSend(env,'اكتب الموضوع بعد الأمر:\n/analyze [موضوع]',chatId);return}
+    await tgSend(env,'🧠 فكري بيحلل "'+topic+'" يا ملك...',chatId);
+    const r=await cmdAnalysis(env,topic);
+    if(r){await tgSend(env,'🧠 <b>تحليل: '+topic+'</b>\n\n'+r+'\n\n— فكري 📊',chatId)}
+    else{await tgSend(env,'ما قدرشت أحلل الموضوع دلوقتي يا ملك 😅\n— فكري',chatId)}
+    return;
+  }
+
+  if(text==='/morning'||text==='/صباحية'){
+    await tgSend(env,'🧠 فكري بيحضّر الصباحية يا ملك...',chatId);
+    await morningStrategy(env);
+    return;
+  }
+
+  if(text==='/weekly'||text==='/أسبوعي'){
+    await tgSend(env,'📊 فكري بيحضّر التقرير الأسبوعي يا ملك...',chatId);
+    await weeklyReview(env);
+    return;
+  }
+
+  // رد ذكي على أي رسالة
+  const prompt='رسالة من محمد (الملك): "'+text+'"\n\nردّ كفكري (المستشار الاستراتيجي) بشكل ذكي وقصير.';
+  const ai=await callGemini(env,FKRY_SYSTEM,prompt);
+  if(ai){await tgSend(env,ai,chatId)}
+  else{await tgSend(env,'سمعتك يا ملك بس مش متاح دلوقتي 🧠\n— فكري',chatId)}
+}
+
+// ============ Export ============
+
 export default{
   async scheduled(event,env,ctx){
     const h=cairoHour();
@@ -320,6 +392,16 @@ export default{
   async fetch(request,env,ctx){
     const url=new URL(request.url);
     const path=url.pathname;
+
+    if(path==='/webhook'&&request.method==='POST'){
+      try{
+        const update=await request.json();
+        if(update.message&&update.message.text){
+          ctx.waitUntil(handleCommand(env,update.message.chat.id,update.message.text));
+        }
+        return new Response('ok',{status:200});
+      }catch(e){return new Response('error',{status:200})}
+    }
 
     if(path==='/strategy'){
       const r=await cmdStrategy(env);

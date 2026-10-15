@@ -351,8 +351,157 @@ async function cmdCalendar(env,chatId){
   }
 }
 
+async function cmdBooks(env,chatId){
+  let text='📚 <b>سلسلة قوة العقل — Mohamed Ismail</b>\n';
+  text+='═══════════════\n';
+  text+='✅ الجزء 1 — مكتمل + على المتجر\n';
+  text+='✅ الجزء 2 — مكتمل + على المتجر\n';
+  text+='✅ الجزء 3 — مكتمل + على المتجر\n';
+  text+='✅ الجزء 4 «مين بيسوق؟» — مكتمل + على المتجر\n';
+  text+='⏳ الجزء 5 «سيب اللي في إيدك» — قيد التخطيط\n';
+  text+='⏳ الأجزاء 6-10 — مخططة\n';
+  text+='\n🛒 المتجر: khidmatyai.com/store.html\n';
+  text+='💳 الدفع: InstaPay · فودافون كاش · واتساب أعمال\n';
+  text+='\n— رانيا 📝 | '+stamp();
+  await tgSend(env,text,chatId);
+}
+
+async function cmdStore(env,chatId){
+  let text='🛒 <b>تقرير المتجر — خِدْمَتي AI</b>\n\n';
+  // بيانات GA للمتجر
+  const stats=await gaFetch(env);
+  if(stats&&stats.topPages){
+    const storePage=stats.topPages.find(p=>p.pagePath&&p.pagePath.includes('store'));
+    if(storePage){
+      text+='📄 صفحة المتجر: '+storePage.screenPageViews+' مشاهدة، '+storePage.totalUsers+' مستخدم\n';
+    }else{
+      text+='📄 المتجر: مفيش زيارات كافية في الفترة دي\n';
+    }
+  }
+  text+='\n📚 المنتجات:\n';
+  text+='  • سلسلة قوة العقل (4 أجزاء) — 75ج للجزء\n';
+  text+='  • متوفر: عربي + إنجليزي\n';
+  text+='\n💳 طرق الدفع:\n';
+  text+='  • InstaPay: 01553720957\n';
+  text+='  • فودافون كاش: 01016243478\n';
+  text+='  • واتساب أعمال: 201005305955\n';
+  text+='\n— رانيا 📝 | '+stamp();
+  await tgSend(env,text,chatId);
+}
+
+async function cmdPerformance(env,chatId){
+  let text='📈 <b>أداء الموقع — Google Analytics</b>\n\n';
+  const stats=await gaFetch(env);
+  if(stats&&stats.source==='google-analytics'){
+    text+='📊 آخر 30 يوم:\n';
+    text+='  👥 '+stats.total30d.users+' مستخدم\n';
+    text+='  🌐 '+stats.total30d.sessions+' جلسة\n';
+    text+='  📄 '+stats.total30d.pageViews+' مشاهدة\n';
+    if(stats.avgSession){text+='  ⏱️ متوسط الجلسة: '+Math.round(stats.avgSession)+'ث\n'}
+    if(stats.bounceRate){text+='  📊 معدل الارتداد: '+stats.bounceRate.toFixed(1)+'%\n'}
+    if(stats.topPages&&stats.topPages.length>0){
+      text+='\n📄 أعلى 5 صفحات:\n';
+      stats.topPages.forEach((p,i)=>{text+='  '+(i+1)+'. '+p.pagePath+' — '+p.screenPageViews+' مشاهدة\n'});
+    }
+    if(stats.sources&&stats.sources.length>0){
+      text+='\n🌐 مصادر الزيارات:\n';
+      stats.sources.forEach(s=>{text+='  '+s.sessionSource+': '+s.sessions+' جلسة\n'});
+    }
+    if(stats.daily&&stats.daily.length>0){
+      text+='\n📈 آخر 7 أيام:\n';
+      stats.daily.forEach(d=>{
+        const dt=d.date||'';
+        const fmt=dt.length>=8?dt.slice(6,8)+'/'+dt.slice(4,6):'?';
+        text+='  '+fmt+': '+d.totalUsers+' مستخدم، '+d.screenPageViews+' مشاهدة\n';
+      });
+    }
+  }else{
+    text+='البيانات مش متاحة من GA دلوقتي\n';
+  }
+  text+='\n— رانيا 📝 | '+stamp();
+  await tgSend(env,text,chatId);
+}
+
+// ============ توليد محتوى تلقائي (بموافقة الملك) ============
+
+async function cmdWrite(env,chatId,text){
+  const topic=text.replace(/^\/اكتب\s*/,'').trim();
+  if(!topic){
+    await tgSend(env,'اكتب الموضوع بعد الأمر، مثلاً:\n/اكتب كيفية استخراج شهادة ميلاد',chatId);
+    return;
+  }
+  await tgSend(env,'📝 رانيا بتكتب المسودة يا ملك... دقيقة',chatId);
+  const prompt='اكتبي مقالاً كاملاً عن "'+topic+'" لمنصة خِدْمَتي AI (خدمات حكومية مصرية). \nالمقال لازم يكون:\n- بالعربي الفصحى المبسطة\n- منظم بعناوين فرعية\n- فيه خطوات واضحة\n- يذكر المستندات المطلوبة والرسوم التقديرية\n- ينتهي بروابط رسمية مقترحة\n- طويل بما يكفي (300-500 كلمة)\nمهم: كل معلومة لازم تكون مؤكدة من مصادر رسمية. لو مش متأكدة من تفصيلة، اكتبي "يرجى التأكد من المصدر الرسمي".';
+  const ai=await callGemini(env,RANIA_SYSTEM,prompt);
+  if(ai){
+    // إرسال المسودة للملك للمراجعة
+    let draft='📝 <b>مسودة مقال — للمراجعة</b>\n';
+    draft+='═══════════════\n';
+    draft+='<b>الموضوع:</b> '+topic+'\n\n';
+    draft+=ai+'\n\n';
+    draft+='═══════════════\n';
+    draft+='⚠️ <b>دي مسودة — محتاجة مراجعتك يا ملك</b>\n';
+    draft+='لو موافق قول "اعملي مقال" وهرفعه على الموقع\n';
+    draft+='لو عايز تعديلات قول وأعدّلها\n';
+    draft+='— رانيا 📝';
+    // تقسيم الرسالة لو طويلة
+    if(draft.length>3800){
+      await tgSend(env,draft.slice(0,3800)+'…\n\n(اكمل في الرسالة الجاية)',chatId);
+      await tgSend(env,'…'+draft.slice(3800),chatId);
+    }else{
+      await tgSend(env,draft,chatId);
+    }
+  }else{
+    await tgSend(env,'ما قدرشت أكتب المسودة دلوقتي يا ملك 😅\n— رانيا',chatId);
+  }
+}
+
+async function cmdUpdate(env,chatId,text){
+  const page=text.replace(/^\/حدّث\s*/,'').trim();
+  if(!page){
+    await tgSend(env,'اكتب اسم الصفحة بعد الأمر، مثلاً:\n/حدّث store.html\n/حدّث index.html',chatId);
+    return;
+  }
+  await tgSend(env,'📝 رانيا بتحلل الصفحة يا ملك...',chatId);
+  // جلب الصفحة
+  let pageContent='';
+  try{
+    const r=await fetch(SITE_URL+page,{signal:AbortSignal.timeout(10000)});
+    if(r.ok){pageContent=await r.text()}
+  }catch(e){}
+  if(!pageContent){
+    await tgSend(env,'ما قدرتش أجيب الصفحة يا ملك. تأكد إن الاسم صح: '+page,chatId);
+    return;
+  }
+  // تحليل بـGemini
+  const prompt='حلّلي الصفحة دي لموقع خدمات حكومية مصرية واقترحي 5 تحسينات:\n\n1. محتوى ناقص أو محتاج تحديث\n2. SEO: عناوين، وصف، كلمات مفتاحية\n3. تجربة المستخدم: وضوح، تنظيم\n4. روابط مكسورة أو ناقصة\n5. أي مشكلة تقنية\n\nردك بالمصري، كل اقتراح في نقطة واضحة مع الحل المقترح.';
+  const ai=await callGemini(env,RANIA_SYSTEM,prompt+'\n\nمحتوى الصفحة (أول 2000 حرف):\n'+pageContent.slice(0,2000));
+  if(ai){
+    let report='🔧 <b>اقتراحات تحديث: '+page+'</b>\n\n';
+    report+=ai+'\n\n';
+    report+='⚠️ <b>اقتراحات للمراجعة يا ملك</b>\n';
+    report+='قول "اعملي التحديث" لو موافق على التعديلات\n';
+    report+='— رانيا 📝';
+    await tgSend(env,report,chatId);
+  }else{
+    await tgSend(env,'ما قدرشت أحلل الصفحة دلوقتي يا ملك 😅\n— رانيا',chatId);
+  }
+}
+
+async function cmdDrafts(env,chatId){
+  let text='📝 <b>المسودات الجاهزة للمراجعة</b>\n\n';
+  text+='كل مسودة محتاجة موافقتك قبل ما تترفع على الموقع.\n\n';
+  text+='<b>أوامر المسودات:</b>\n';
+  text+='• /اكتب [موضوع] — توليد مسودة مقال\n';
+  text+='• /حدّث [صفحة] — اقتراح تحديث لصفحة موجودة\n';
+  text+='• /اقتراح — 5 أفكار مقالات جديدة\n\n';
+  text+='⚠️ <b>قاعدة:</b> أي محتوى لازم يوافق عليه الملك الأول\n';
+  text+='— رانيا 📝';
+  await tgSend(env,text,chatId);
+}
+
 async function cmdHelp(env,chatId){
-  const text='👋 <b>رانيا في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/تقرير — إحصائيات سريعة للموقع\n/محتوى — أفكار مقالات جديدة\n/seo — كلمات مفتاحية مقترحة\n/تقويم — تقويم نشر 7 أيام\n/تذكير [نص] — ضبط تذكير\n/مهام — قائمة المهام\n/حاله — حالة النظام\n\nأو اكتب أي حاجة وهرد عليك 📝';
+  const text='👋 <b>رانيا في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/تقرير — إحصائيات GA حقيقية\n/محتوى — أفكار مقالات جديدة\n/seo — كلمات مفتاحية مقترحة\n/تقويم — تقويم نشر 7 أيام\n/كتب — حالة سلسلة قوة العقل\n/متجر — تقرير المتجر والمبيعات\n/أداء — أداء المقالات والـSEO\n/اكتب [موضوع] — توليد مسودة مقال للمراجعة\n/حدّث [صفحة] — اقتراح تحديث لصفحة\n/مسودات — المسودات الجاهزة\n/تذكير [نص] — ضبط تذكير\n/مهام — قائمة المهام\n/حاله — حالة النظام\n\nأو اكتب أي حاجة وهرد عليك 📝';
   await tgSend(env,text,chatId);
 }
 
@@ -477,6 +626,12 @@ async function handleUpdate(env,update){
     else if(text.startsWith('/محتوى')||text==='/content'){await cmdContent(env,chatId)}
     else if(text.startsWith('/seo')||text.startsWith('/كلمات')){await cmdSEO(env,chatId)}
     else if(text.startsWith('/تقويم')||text.startsWith('/calendar')){await cmdCalendar(env,chatId)}
+    else if(text.startsWith('/كتب')||text==='/books'){await cmdBooks(env,chatId)}
+    else if(text.startsWith('/متجر')||text==='/store'){await cmdStore(env,chatId)}
+    else if(text.startsWith('/أداء')||text.startsWith('/اداء')||text==='/performance'){await cmdPerformance(env,chatId)}
+    else if(text.startsWith('/اكتب')||text.startsWith('/write')){await cmdWrite(env,chatId,text)}
+    else if(text.startsWith('/حدّث')||text.startsWith('/حدث')||text.startsWith('/update')){await cmdUpdate(env,chatId,text)}
+    else if(text==='/مسودات'||text==='/drafts'){await cmdDrafts(env,chatId)}
     else if(text.startsWith('/تذكير')){await cmdReminder(env,chatId,text)}
     else if(text==='/مهام'||text==='/tasks'){await cmdTasks(env,chatId)}
     else if(text==='/حاله'||text==='/status'){await cmdStatus(env,chatId)}

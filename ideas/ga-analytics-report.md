@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-10-12 19:38
+**التاريخ:** 2026-10-15 00:13
 **Property ID:** 554298401
 
 ---
@@ -9,11 +9,11 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 124 |
-| 🌐 الجلسات | 172 |
-| 📄 مشاهدات الصفحات | 292 |
-| ⏱️ متوسط مدة الجلسة | 195s |
-| 📊 معدل الارتداد | 0.7% |
+| 👥 المستخدمين | 147 |
+| 🌐 الجلسات | 201 |
+| 📄 مشاهدات الصفحات | 359 |
+| ⏱️ متوسط مدة الجلسة | 235s |
+| 📊 معدل الارتداد | 0.6% |
 
 ---
 
@@ -22,18 +22,20 @@
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
 | /khidmaty-ai/ | 141 | 26 |
-| / | 102 | 85 |
-| /index.html | 19 | 6 |
+| / | 122 | 94 |
+| /index.html | 28 | 8 |
+| /store.html | 23 | 3 |
 | /khidmaty-ai/index.html | 9 | 1 |
-| /store.html | 6 | 2 |
-| /services/renew-commercial-register.html | 4 | 4 |
-| /offices.html | 3 | 2 |
-| /services/vaccination-certificate.html | 3 | 2 |
-| /services/insurance-periods-inquiry.html | 2 | 2 |
-| /services/death-certificate.html | 1 | 1 |
-| /services/renew-car-license.html | 1 | 1 |
-| /services/replace-plates.html | 1 | 1 |
-| /services/egyptian-citizenship.html | 0 | 1 |
+| /services/insurance-periods-inquiry.html | 6 | 6 |
+| /services/renew-commercial-register.html | 5 | 4 |
+| /services/vaccination-certificate.html | 5 | 4 |
+| /offices.html | 4 | 3 |
+| /services/update-insured-data.html | 3 | 3 |
+| /services/death-certificate.html | 2 | 2 |
+| /services/pension-postal-payment.html | 2 | 1 |
+| /services/replace-plates.html | 2 | 2 |
+| /archive.html | 1 | 1 |
+| /calc.html | 1 | 1 |
 
 ---
 
@@ -41,14 +43,15 @@
 
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
-| (direct) | 120 | 84 |
-| (not set) | 14 | 8 |
+| (direct) | 133 | 92 |
+| google | 22 | 22 |
+| (not set) | 18 | 10 |
 | m.facebook.com | 14 | 13 |
-| facebook.com | 8 | 8 |
-| google | 8 | 8 |
+| facebook.com | 9 | 9 |
 | lm.facebook.com | 7 | 6 |
+| (data not available) | 2 | 2 |
 | dataindex.pro | 2 | 2 |
-| (data not available) | 1 | 1 |
+| gemini.google.com | 1 | 1 |
 
 ---
 

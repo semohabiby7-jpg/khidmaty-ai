@@ -1,52 +1,48 @@
 {
-  "timestamp": "2026-10-12T17:33:19.577884",
+  "timestamp": "2026-10-13T06:02:12.929119",
   "site_url": "https://khidmatyai.com",
   "summary": {
-    "ok": 0,
-    "warnings": 11,
-    "critical": 0,
-    "avg_response_time": 0.0,
-    "total_alerts": 25
+    "ok": 8,
+    "warnings": 2,
+    "critical": 1,
+    "avg_response_time": 0.4,
+    "total_alerts": 3
   },
   "ssl": {
-    "valid": false,
-    "message": "module 'ssl' has no attribute 'SOCKET_SERVER'"
+    "valid": true,
+    "message": "SSL valid — expires Dec 28 17:16:49 2026 GMT"
   },
   "sitemap": {
-    "accessible": false,
-    "url_count": 0,
-    "response_time": 0
+    "accessible": true,
+    "url_count": 1090,
+    "response_time": 0.28
   },
   "robots": {
-    "accessible": false,
-    "content_size": 36
+    "accessible": true,
+    "content_size": 68
   },
   "pages": [
     {
       "name": "الصفحة الرئيسية",
       "url": "https://khidmatyai.com/index.html",
       "path": "/index.html",
-      "status": 0,
-      "response_time": 0.01,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.47,
+      "accessible": true,
+      "page_size": 38101,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "دليل الخدمات",
       "url": "https://khidmatyai.com/services/traffic.html",
       "path": "/services/traffic.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
+      "status": 200,
+      "response_time": 0.28,
+      "accessible": true,
+      "page_size": 12858,
       "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
+        "صورة مكسورة: ../assets/k-logo.webp (400)"
       ],
       "severity": "WARNING"
     },
@@ -54,27 +50,23 @@
       "name": "حاسبة الرسوم",
       "url": "https://khidmatyai.com/calc.html",
       "path": "/calc.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.26,
+      "accessible": true,
+      "page_size": 24120,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "مستكشف الخدمات",
       "url": "https://khidmatyai.com/service-finder.html",
       "path": "/service-finder.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
+      "status": 200,
+      "response_time": 0.27,
+      "accessible": true,
+      "page_size": 21889,
       "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
+        "صورة مكسورة: logo.png (404)"
       ],
       "severity": "WARNING"
     },
@@ -82,99 +74,80 @@
       "name": "خريطة المكاتب",
       "url": "https://khidmatyai.com/offices.html",
       "path": "/offices.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.28,
+      "accessible": true,
+      "page_size": 233344,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "المقالات",
       "url": "https://khidmatyai.com/articles.html",
       "path": "/articles.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 1.56,
+      "accessible": true,
+      "page_size": 178472,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "قصص النجاح",
       "url": "https://khidmatyai.com/success-stories.html",
       "path": "/success-stories.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.26,
+      "accessible": true,
+      "page_size": 13022,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "الأسئلة الشائعة",
       "url": "https://khidmatyai.com/faq.html",
       "path": "/faq.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.26,
+      "accessible": true,
+      "page_size": 7496,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "لوحة القيادة",
       "url": "https://khidmatyai.com/dashboard.html",
       "path": "/dashboard.html",
-      "status": 0,
-      "response_time": 0.0,
+      "status": 404,
+      "response_time": 0.26,
       "accessible": false,
-      "page_size": 36,
+      "page_size": 0,
       "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
+        "HTTP 404 — غير قابل للوصول"
       ],
-      "severity": "WARNING"
+      "severity": "CRITICAL"
     },
     {
       "name": "من نحن",
       "url": "https://khidmatyai.com/about.html",
       "path": "/about.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.26,
+      "accessible": true,
+      "page_size": 6956,
+      "alerts": [],
+      "severity": "OK"
     },
     {
       "name": "تواصل معنا",
       "url": "https://khidmatyai.com/contact.html",
       "path": "/contact.html",
-      "status": 0,
-      "response_time": 0.0,
-      "accessible": false,
-      "page_size": 36,
-      "alerts": [
-        "HTTP 0 — غير قابل للوصول",
-        "محتوى قليل جدًا: 36 بايت"
-      ],
-      "severity": "WARNING"
+      "status": 200,
+      "response_time": 0.25,
+      "accessible": true,
+      "page_size": 9668,
+      "alerts": [],
+      "severity": "OK"
     }
   ]
 }

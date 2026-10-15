@@ -11,7 +11,7 @@ const STORE_URL   = 'https://khidmatyai.com/store.html';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 const GA_REPORT_URL = 'https://khidmatyai.com/ideas/ga-analytics-report.json';
-const CHANNEL_ID  = '@khidmaty_ai'; // قناة خِدْمَتي AI على تيلجرام
+const CHANNEL_ID  = '@khdmatyai'; // قناة خِدْمَتي AI على تيلجرام
 
 const NAJIYA_SYSTEM = `أنت ناجية، مديرة الإعلانات في منصة خِدْمَتي AI. بتشتغلي في فريق ماكرون.
 بتتكلمي بالمصري الدارج بثقة وحماس. محمد بيناديك "يا ناجية" وانتِ تناديه "يا ملك".

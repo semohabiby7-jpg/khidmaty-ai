@@ -587,16 +587,8 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'🧠 فكري بينفّذ يا ملك... بيحضّر خطة قابلة للتنفيذ',chatId);
     const r=await cmdActionPlan(env,text);
     if(r){
-      const link=await saveToGitHub(env,'action-plan',r);
       let msg='🧠 <b>خطة تنفيذية جاهزة يا ملك</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId);
-      // نشر ملخص على القناة
-      const chMsg='🧠 <b>خطة تنفيذية — فكري</b>\n═══════════════\n'+r.slice(0,2000)+'\n\n— فكري 📊 | '+stamp();
-      const ch=await postToChannel(env,chMsg);
-      if(ch.sent){
-        await tgSend(env,'📢 كمان اتنشرت على قناة @khdmatyai',chatId)
-      }
     }else{
       await tgSend(env,'ما قدرشت أحضّر الخطة دلوقتي يا ملك 😅\n— فكري',chatId)
     }

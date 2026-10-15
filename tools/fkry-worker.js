@@ -159,7 +159,64 @@ async function publishArticle(env,title,content,category){
   return null;
 }
 
+
+// ============ المسودات — معاينة قبل النشر ============
+
+async function saveDraft(env,title,content,category){
+  if(!env.GITHUB_TOKEN)return null;
+  const date=cairoDate();
+  const slug=makeSlug(title);
+  const filename=date+'-'+slug+'.html';
+  const path='drafts/'+encodeURIComponent(filename);
+  const desc=content.slice(0,150).replace(/<[^>]*>/g,'').replace(/\n/g,' ');
+  const html='<!DOCTYPE html>\n<html lang="ar" dir="rtl"><head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>'+title+' — مسودة — خِدْمَتي AI</title>\n<meta name="description" content="'+desc+'">\n<meta name="author" content="Mohamed Ismail">\n<meta name="robots" content="noindex">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">\n<style>\nbody{font-family:Cairo,Tahoma,sans-serif;max-width:800px;margin:0 auto;padding:20px;line-height:1.8;color:#333;background:#fafafa}\nh1{color:#2c3e50;font-size:1.8em;margin-bottom:10px}\n.meta{color:#7f8c8d;font-size:0.85em;margin-bottom:20px;border-bottom:2px solid #ecf0f1;padding-bottom:10px}\n.article-body{font-size:1.05em}\n.article-body h2{color:#2c3e50;margin-top:25px}\n.article-body h3{color:#34495e;margin-top:20px}\n.article-body p{margin-bottom:15px}\n.article-body ul,.article-body ol{margin-bottom:15px;padding-right:25px}\n.article-body li{margin-bottom:8px}\n.tag{display:inline-block;background:#3498db;color:#fff;font-size:0.8em;padding:3px 12px;border-radius:15px;margin-bottom:15px}\n.footer{margin-top:40px;padding-top:15px;border-top:2px solid #ecf0f1;text-align:center;color:#95a5a6;font-size:0.85em}\n.footer a{color:#3498db;text-decoration:none}\n@media(max-width:600px){body{padding:15px}h1{font-size:1.5em}}\n</style>\n</head>\n<body>\n<h1>'+title+'</h1>\n<div class="meta">بقلم Mohamed Ismail | '+stamp()+' | خِدْمَتي AI</div>\n'+(category?'<div class="tag">'+category+'</div>\n':'')+'\n<div class="article-body">\n'+content+'\n</div>\n<div class="footer">\n<p>خِدْمَتي AI — <a href="https://khidmatyai.com">khidmatyai.com</a></p>\n<p>\u00a9 Mohamed Ismail</p>\n</div>\n</body>\n</html>';
+  try{
+    const r=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+path,{
+      method:'PUT',
+      headers:{'Authorization':'token '+env.GITHUB_TOKEN,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json','User-Agent':'khidmaty-fkry'},
+      body:JSON.stringify({message:'📝 مسودة: '+title,content:base64Encode(html),branch:GITHUB_BRANCH})
+    });
+    const j=await r.json();
+    if(j&&j.content&&j.content.html_url){return filename}
+  }catch(e){}
+  return null;
+}
+
+async function publishDraft(env){
+  if(!env.GITHUB_TOKEN)return null;
+  try{
+    // اقرأ آخر مسودة في drafts/
+    const lr=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/drafts',{headers:{'Authorization':'token '+env.GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json','User-Agent':'khidmaty-fkry'}});
+    const lj=await lr.json();
+    if(!Array.isArray(lj)||lj.length===0)return null;
+    // آخر ملف (أحدث)
+    const draft=lj[lj.length-1];
+    // اقرأ المحتوى
+    const gr=await fetch(draft.git_url,{headers:{'Authorization':'token '+env.GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json','User-Agent':'khidmaty-fkry'}});
+    const gj=await gr.json();
+    if(!gj.content)return null;
+    // اسم الملف الجديد في articles/
+    const newName=draft.name;
+    const newPath='articles/'+encodeURIComponent(newName);
+    // انشر في articles/
+    const pr=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+newPath,{
+      method:'PUT',
+      headers:{'Authorization':'token '+env.GITHUB_TOKEN,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json','User-Agent':'khidmaty-fkry'},
+      body:JSON.stringify({message:'📝 فكري: مقال جديد — '+newName,content:gj.content,branch:GITHUB_BRANCH})
+    });
+    const pj=await pr.json();
+    if(!pj||!pj.content)return null;
+    // امسح المسودة
+    await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+draft.path,{method:'DELETE',headers:{'Authorization':'token '+env.GITHUB_TOKEN,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json','User-Agent':'khidmaty-fkry'},body:JSON.stringify({message:'امسح المسودة بعد النشر',sha:draft.sha,branch:GITHUB_BRANCH})});
+    const url='https://khidmatyai.com/articles/'+newName;
+    await waitForPages(url,3,3000);
+    return url;
+  }catch(e){}
+  return null;
+}
+
 // ============ Gemini AI ============
+
 
 async function callGemini(env,systemPrompt,userMessage,maxTokens){
   const tokens=maxTokens||800;
@@ -441,7 +498,7 @@ function buildDashboard(){
 
 async function handleCommand(env,chatId,text){
   if(text==='/start'||text==='/help'||text==='/مساعده'){
-    const help='🧠 <b>فكري في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/write [موضوع] — ✍️ يكتب مقال كامل ويشرّفه على الموقع\n/strategy — استراتيجية اليوم (تتحفظ على الموقع)\n/growth — خطة النمو 30 يوم (تتحفظ على الموقع)\n/competitors — تحليل المنافسين (يتحفظ على الموقع)\n/predict — تنبؤ 3 شهور (يتحفظ على الموقع)\n/content — خطة محتوى: 20 مقال + كلمات مفتاحية\n/analyze [موضوع] — تحليل أي موضوع (يتحفظ على الموقع)\n/post — نشر آخر تحليل على قناة @khdmatyai\n/morning — صباحية فكري\n/weekly — التقرير الأسبوعي\n\nأو اكتب أي حاجة وهرد عليك 🧠\n💡 اكتب "توكلنا علي الله" أو "نفذ" عشان أحفظ الخطة على الموقع وأنشرها';
+    const help='🧠 <b>فكري في خدمتك يا ملك</b>\n\n<b>الأوامر:</b>\n/write [موضوع] — ✍️ يكتب مقال ويعرضه عليك الأول\nنشر — ينشر المقال بعد موافقتك\n/strategy — استراتيجية اليوم\n/growth — خطة النمو 30 يوم\n/competitors — تحليل المنافسين\n/predict — تنبؤ 3 شهور\n/content — خطة محتوى: 20 مقال\n/analyze [موضوع] — تحليل أي موضوع\n/post — نشر ملخص على قناة @khdmatyai\n/morning — صباحية فكري\n/weekly — التقرير الأسبوعي\n\nأو اكتب أي حاجة وهرد عليك 🧠\n💡 كل التحليلات تتبعتلك هنا — خصوصية كاملة';
     await tgSend(env,help,chatId);
     return;
   }
@@ -450,9 +507,7 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'🧠 فكري بيحلل الاستراتيجية يا ملك...',chatId);
     const r=await cmdStrategy(env);
     if(r){
-      const link=await saveToGitHub(env,'strategy',r);
       let msg='🧠 <b>استراتيجية اليوم</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرتش أحلل دلوقتي يا ملك 😅\n— فكري',chatId)}
@@ -463,9 +518,7 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'📈 فكري بيحضّر خطة النمو يا ملك...',chatId);
     const r=await cmdGrowth(env);
     if(r){
-      const link=await saveToGitHub(env,'growth-plan',r);
       let msg='📈 <b>خطة النمو 30 يوم</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرشت أحضّر الخطة دلوقتي يا ملك 😅\n— فكري',chatId)}
@@ -476,9 +529,7 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'🔍 فكري بيحلل المنافسين يا ملك...',chatId);
     const r=await cmdCompetitors(env);
     if(r){
-      const link=await saveToGitHub(env,'competitors',r);
       let msg='🔍 <b>تحليل المنافسين</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرشت أحلل المنافسين دلوقتي يا ملك 😅\n— فكري',chatId)}
@@ -489,9 +540,7 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'🔮 فكري بيحضّر التنبؤ يا ملك...',chatId);
     const r=await cmdPredict(env);
     if(r){
-      const link=await saveToGitHub(env,'prediction',r);
       let msg='🔮 <b>تنبؤ 3 شهور</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرشت أتنبأ دلوقتي يا ملك 😅\n— فكري',chatId)}
@@ -502,9 +551,7 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'📝 فكري بيحضّر خطة المحتوى يا ملك...',chatId);
     const r=await cmdContent(env);
     if(r){
-      const link=await saveToGitHub(env,'content-plan',r);
       let msg='📝 <b>خطة المحتوى — 20 مقال</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرشت أحضّر الخطة دلوقتي يا ملك 😅\n— فكري',chatId)}
@@ -514,17 +561,16 @@ async function handleCommand(env,chatId,text){
   if(text.startsWith('/write')||text.startsWith('/اكتب')){
     const topic=text.replace(/^\/(write|اكتب)\s*/,'').trim();
     if(!topic){await tgSend(env,'اكتب الموضوع بعد الأمر:\n/write [موضوع]',chatId);return}
-    await tgSend(env,'📝 فكري بيكتب مقال عن "'+topic+'" ويشرّفه على الموقع يا ملك...',chatId);
+    await tgSend(env,'📝 فكري بيكتب مقال عن "'+topic+'" يا ملك...',chatId);
     const content=await cmdWrite(env,topic);
     if(content){
-      const link=await publishArticle(env,topic,content,'استراتيجية');
-      if(link){
-        await tgSend(env,'✅ <b>المقال اتنشر يا ملك!</b>\n\n📄 <b>'+topic+'</b>\n🔗 '+link+'\n\n— فكري 📝',chatId);
-        const chMsg='📝 <b>مقال جديد على خِدْمَتي AI</b>\n'+topic+'\n\n🔗 '+link+'\n— فكري 📊';
-        await postToChannel(env,chMsg);
-      }else{
-        await tgSend(env,'📝 المقال جاهز بس مش قادر أنشره على الموقع دلوقتي.\nجرب تاني يا ملك.\n— فكري',chatId)
-      }
+      const draft=await saveDraft(env,topic,content,'استراتيجية');
+      const preview=content.replace(/<[^>]*>/g,'').replace(/\n+/g,'\n').trim().slice(0,1500);
+      let msg='📝 <b>المقال جاهز يا ملك — معاينة</b>\n\n📄 <b>'+topic+'</b>\n\n'+preview+'...\n\n';
+      if(draft){msg+='✅ قولي <b>نشر</b> عشان أنشره على الموقع والقناة\n✏️ أو قولي التعديلات اللي عايزها'}
+      else{msg+='⚠️ مش قادر أحفظ المسودة دلوقتي، بس المقال فوق كامل'}
+      msg+='\n\n— فكري 📝';
+      await tgSend(env,msg,chatId);
     }else{
       await tgSend(env,'ما قدرشت أكتب المقال دلوقتي يا ملك 😅\n— فكري',chatId)
     }
@@ -537,10 +583,7 @@ async function handleCommand(env,chatId,text){
     await tgSend(env,'🧠 فكري بيحلل "'+topic+'" يا ملك...',chatId);
     const r=await cmdAnalysis(env,topic);
     if(r){
-      const safeName=topic.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g,'_').slice(0,40);
-      const link=await saveToGitHub(env,'analysis-'+safeName,r);
       let msg='🧠 <b>تحليل: '+topic+'</b>\n\n'+r+'\n\n— فكري 📊';
-      if(link){msg+='\n\n📎 <b>اتحفظ على الموقع:</b> '+link}
       await tgSend(env,msg,chatId)
     }
     else{await tgSend(env,'ما قدرشت أحلل الموضوع دلوقتي يا ملك 😅\n— فكري',chatId)}
@@ -578,9 +621,23 @@ async function handleCommand(env,chatId,text){
     return;
   }
 
+  // ====== موافقة على نشر المقال ======
+  if(text==='نشر'||text==='موافق'||text==='اعتمد'){
+    await tgSend(env,'📢 فكري بينشر المقال على الموقع يا ملك...',chatId);
+    const link=await publishDraft(env);
+    if(link){
+      await tgSend(env,'✅ <b>المقال اتنشر يا ملك!</b>\n\n🔗 '+link+'\n\n— فكري 📝',chatId);
+      const chMsg='📝 <b>مقال جديد على خِدْمَتي AI</b>\n'+link+'\n— فكري 📊';
+      await postToChannel(env,chMsg);
+    }else{
+      await tgSend(env,'مفيش مسودة جاهزة للنشر يا ملك.\nاكتب /write [موضوع] الأول.\n— فكري',chatId)
+    }
+    return;
+  }
+
   // ====== تنفيذ: لما الملك يقول "توكلنا/خلص/نفذ/اعملها" ======
   const lowerText=text.toLowerCase();
-  const executeWords=['توكلنا','خلص','نفذ','اعملها','طبق','ابدأ','يلا','انشر','نشر','خلصها','نفذي','نفذها'];
+  const executeWords=['توكلنا','خلص','نفذ','اعملها','طبق','ابدأ','يلا','خلصها','نفذي','نفذها'];
   const isExecute=executeWords.some(w=>lowerText.includes(w));
 
   if(isExecute){
@@ -642,25 +699,25 @@ export default{
 
     if(path==='/strategy'){
       const r=await cmdStrategy(env);
-      const link=env.GITHUB_TOKEN?await saveToGitHub(env,'strategy',r):null;
+      const link=null;
       return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'2.0',strategy:r,saved:link},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
     if(path==='/growth'){
       const r=await cmdGrowth(env);
-      const link=env.GITHUB_TOKEN?await saveToGitHub(env,'growth-plan',r):null;
+      const link=null;
       return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'2.0',growth:r,saved:link},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
     if(path==='/competitors'){
       const r=await cmdCompetitors(env);
-      const link=env.GITHUB_TOKEN?await saveToGitHub(env,'competitors',r):null;
+      const link=null;
       return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'2.0',competitors:r,saved:link},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
     if(path==='/predict'){
       const r=await cmdPredict(env);
-      const link=env.GITHUB_TOKEN?await saveToGitHub(env,'prediction',r):null;
+      const link=null;
       return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'2.0',prediction:r,saved:link},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
@@ -672,7 +729,7 @@ export default{
 
     if(path==='/content'){
       const r=await cmdContent(env);
-      const link=env.GITHUB_TOKEN?await saveToGitHub(env,'content-plan',r):null;
+      const link=null;
       return new Response(JSON.stringify({ok:true,guardian:'fkry',version:'2.0',content:r,saved:link},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 

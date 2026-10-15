@@ -377,11 +377,7 @@ async function dailyAdsReport(env){
   text+='\n💡 للأوامر: /إعلان متجر | /إعلان خدمة | /إعلان توعية | /طور [نص] | /نشر [نوع] | /متابعة\n';
   text+='— ناجية 🛠️ | '+stamp();
   await tgSend(env,text);
-  // كمان نشر ملخص على القناة
-  if(env.TELEGRAM_CHANNEL_ID||CHANNEL_ID){
-    const chText='📢 <b>تقرير إعلانات يومي — خِدْمَتي AI</b>\n\n'+(ga?'📊 '+ga.total30d.users+' مستخدم | '+ga.today.users+' أمس\n':'')+'\n🎯 اقتراح اليوم:\n'+(ad?ad.slice(0,1000):'قريبًا')+'\n\n🌐 '+SITE_URL+'\n— ناجية 🛠️';
-    await tgChannelPost(env,chText);
-  }
+  // التقرير يتبعت للملك بس — بدون نشر تلقائي على القناة
 }
 
 // ============ أوامر تيلجرام ============
@@ -451,18 +447,11 @@ async function handleCommand(env,chatId,text){
 
   if(text.startsWith('/campaign')||text.startsWith('/حملة')){
     const topic=text.replace(/^\/(campaign|حملة)\s*/,'').trim()||'متجر';
-    await tgSend(env,'📢 ناجية بتجهّز حملة إعلانية وتشرّفها على الموقع يا ملك...',chatId);
+    await tgSend(env,'📢 ناجية بتجهّز حملة إعلانية يا ملك...',chatId);
     const type=topic.includes('متجر')||topic.includes('store')?'store':topic.includes('توعية')?'awareness':'service';
     const ad=await generateAd(env,type);
     if(ad){
-      const link=await publishArticle(env,'حملة إعلانية: '+topic,ad,'إعلانات');
-      if(link){
-        await tgSend(env,'✅ <b>الحملة اتنشرت يا ملك!</b>\n\n📢 <b>'+topic+'</b>\n🔗 '+link+'\n\n— ناجية 🛠️',chatId);
-        const chMsg='📢 <b>حملة جديدة — خِدْمَتي AI</b>\n'+topic+'\n\n🔗 '+link+'\n— ناجية 🛠️';
-        await tgChannelPost(env,chMsg);
-      }else{
-        await tgSend(env,'📢 الحملة جاهزة بس مش قادرة أنشرها على الموقع.\nجربي تاني يا ملك.\n— ناجية',chatId)
-      }
+      await tgSend(env,'📢 <b>حملة إعلانية — معاينة</b>\n\n📢 <b>'+topic+'</b>\n\n'+ad+'\n\n⚠️ للمراجعة يا ملك — قولي "نشر" للنشر على الموقع والقناة\n— ناجية 🛠️',chatId);
     }else{
       await tgSend(env,'ما قدرشت أعمل الحملة دلوقتي يا ملك 😅\n— ناجية',chatId)
     }
@@ -471,19 +460,20 @@ async function handleCommand(env,chatId,text){
 
   // ====== موافقة على نشر الإعلان ======
   if(text==='نشر'||text==='موافق'||text==='اعتمد'){
-    await tgSend(env,'📢 ناجية بينشر الإعلان على القناة يا ملك...',chatId);
+    await tgSend(env,'📢 ناجية بينفّذ النشر يا ملك...',chatId);
+    // ولّد إعلان جديد وانشره على القناة
     const ad=await generateAd(env,'service');
     if(ad){
-      const firstAd=ad.split(/\\n\\n\\d+[\\)()\\)]/)?.[0]||ad.slice(0,1500);
-      const channelText='📢 <b>إعلان جديد — خِدْمَتي AI</b>\\n\\n'+firstAd+'\\n\\n🌐 '+STORE_URL+'\\n— ناجية 🛠️';
+      const firstAd=ad.split(/\n\n\d+[\)()\)]/)?.[0]||ad.slice(0,1500);
+      const channelText='📢 <b>إعلان جديد — خِدْمَتي AI</b>\n\n'+firstAd+'\n\n🌐 '+STORE_URL+'\n— ناجية 🛠️';
       const ch=await tgChannelPost(env,channelText);
       if(ch.sent){
-        await tgSend(env,'✅ اتنشر الإعلان على القناة يا ملك 📢\\n— ناجية',chatId);
+        await tgSend(env,'✅ <b>اتنشر على القناة يا ملك!</b>\n📢 @khdmatyai\n— ناجية 🛠️',chatId);
       }else{
-        await tgSend(env,'⚠️ ما قدرشت أنشر على القناة يا ملك.\\n— ناجية',chatId);
+        await tgSend(env,'⚠️ ما قدرتش أنشر على القناة.\nالسبب: '+(ch.error||'تأكد إن البوت أدمن في @khdmatyai')+'\n— ناجية',chatId);
       }
     }else{
-      await tgSend(env,'مفيش إعلان جاهز للنشر يا ملك.\\n— ناجية',chatId)
+      await tgSend(env,'مفيش إعلان جاهز للنشر يا ملك.\nاكتب /إعلان [نوع] الأول.\n— ناجية',chatId)
     }
     return;
   }
@@ -491,18 +481,13 @@ async function handleCommand(env,chatId,text){
   if(text.startsWith('/صورة')||text.startsWith('/image')){
     const desc=text.replace(/^\/(صورة|image)\s*/,'').trim();
     if(!desc){await tgSend(env,'اكتب وصف الصورة بعد الأمر:\n/صورة [وصف الإعلان]',chatId);return}
-    await tgSend(env,'🎨 ناجية بتجهّز صورة إعلانية يا ملك...',chatId);
-    const result=await generateAdImage(env,desc,1280,720);
-    if(result){
-      if(result.type==='base64'){
-        const p=await tgSendPhotoBuffer(env,result.data,result.mimeType,'🎨 <b>صورة إعلانية — '+desc+'</b>\n\n⚠️ دي للمراجعة يا ملك\n— ناجية 🛠️',chatId);
-        if(!p.sent){await tgSend(env,'ما قدرشت أبع الصورة 😅 بس هي جاهزة\n— ناجية',chatId)}
-      }else{
-        const p=await tgSendPhoto(env,result.data,'🎨 <b>صورة إعلانية — '+desc+'</b>\n\n⚠️ دي للمراجعة يا ملك\n— ناجية 🛠️',chatId);
-        if(!p.sent){await tgSend(env,'ما قدرشت أبع الصورة 😅 بس هي جاهزة\n— ناجية',chatId)}
-      }
-    }else{
-      await tgSend(env,'ما قدرشت أعمل الصورة دلوقتي يا ملك 😅\n— ناجية',chatId)
+    await tgSend(env,'🎨 ناجية بتعمل صورة إعلانية يا ملك...',chatId);
+    // استخدم Pollinations مباشرة (مجاني + موثوق)
+    const url=generateImageUrl('Professional advertising image for: '+desc+', modern, clean, Arabic friendly design',1024,1024);
+    const p=await tgSendPhoto(env,url,'🎨 <b>صورة إعلانية — '+desc+'</b>\n\n— ناجية 🛠️',chatId);
+    if(!p.sent){
+      // fallback: ابعت اللينك ك текст
+      await tgSend(env,'🎨 <b>الصورة جاهزة يا ملك!</b>\n🔗 '+url+'\n\n— ناجية 🛠️',chatId);
     }
     return;
   }
@@ -510,20 +495,13 @@ async function handleCommand(env,chatId,text){
   if(text.startsWith('/banner')||text.startsWith('/بانر')){
     const desc=text.replace(/^\/(banner|بانر)\s*/,'').trim()||'إعلان خدمات حكومية';
     await tgSend(env,'🎨 ناجية بتعمل بانر إعلاني يا ملك...',chatId);
-    // Gemini يكتب وصف البانر
-    const prompt='اكتب وصف مفصّل لبانر إعلاني احترافي لـ: "'+desc+'".\nالوصف لازم يكون بالإنجليزي عشان AI يفهمه.\nذكر الألوان والتصميم والنص والعناصر البصرية.';
+    // Gemini يكتب وصف البانر بالإنجليزي
+    const prompt='Write a detailed visual description for an advertising banner about: "'+desc+'". Describe colors, layout, text, visual elements. English only, 2-3 sentences.';
     const aiDesc=await callGemini(env,NAJIYA_SYSTEM,prompt);
-    const result=await generateAdImage(env,aiDesc||desc,1280,720);
-    if(result){
-      if(result.type==='base64'){
-        const p=await tgSendPhotoBuffer(env,result.data,result.mimeType,'🎨 <b>بانر: '+desc+'</b>\n\n⚠️ للمراجعة يا ملك\n— ناجية 🛠️',chatId);
-        if(!p.sent){await tgSend(env,'ما قدرشت أبع البانر 😅 بس هو جاهز\n— ناجية',chatId)}
-      }else{
-        const p=await tgSendPhoto(env,result.data,'🎨 <b>بانر: '+desc+'</b>\n\n⚠️ للمراجعة يا ملك\n— ناجية 🛠️',chatId);
-        if(!p.sent){await tgSend(env,'ما قدرشت أبع البانر 😅 بس هو جاهز\n— ناجية',chatId)}
-      }
-    }else{
-      await tgSend(env,'ما قدرشت أعمل البانر دلوقتي يا ملك 😅\n— ناجية',chatId)
+    const url=generateImageUrl(aiDesc||'Professional advertising banner for government services',1280,720);
+    const p=await tgSendPhoto(env,url,'🎨 <b>بانر: '+desc+'</b>\n\n— ناجية 🛠️',chatId);
+    if(!p.sent){
+      await tgSend(env,'🎨 <b>البانر جاهز يا ملك!</b>\n🔗 '+url+'\n\n— ناجية 🛠️',chatId);
     }
     return;
   }
@@ -532,10 +510,15 @@ async function handleCommand(env,chatId,text){
     const desc=text.replace(/^\/(فيديو|video)\s*/,'').trim();
     if(!desc){await tgSend(env,'اكتب وصف الفيديو بعد الأمر:\n/فيديو [وصف الإعلان]',chatId);return}
     await tgSend(env,'🎬 ناجية بتحضّر سيناريو فيديو إعلاني يا ملك...',chatId);
-    const prompt='اكتب سيناريو فيديو إعلاني قصير (15-30 ثانية) لـ: "'+desc+'".\nالسيناريو لازم يكون:\n- مشهد بالمشهد (Shot 1, Shot 2, ...)\n- نص التعليق الصوتي\n- وصف كل لقطة بالتفصيل\n- نص على الشاشة\n- مدة كل لقطة\n- مناسب للسوشيال ميديا (تيك توك/ريلز)\nردك بالمصري.';
+    const prompt='اكتب سيناريو فيديو إعلاني قصير (15-30 ثانية) لـ: "'+desc+'".\nالسيناريو لازم يكون:\n- مشهد بالمشهد (Shot 1, Shot 2, ...)\n- نص التعليق الصوتي بالعربي\n- وصف كل لقطة بالتفصيل (ب الإنجليزي عشان نولّد منها صور)\n- نص على الشاشة\n- مدة كل لقطة\n- مناسب للسوشيال ميديا (تيك توك/ريلز)\nردك بالمصري.';
     const script=await callGemini(env,NAJIYA_SYSTEM,prompt,2000);
     if(script){
-      await tgSend(env,'🎬 <b>سيناريو فيديو إعلاني — '+desc+'</b>\n\n'+script+'\n\n💡 ده سيناريو جاهز للتصوير يا ملك\n— ناجية 🛠️',chatId);
+      await tgSend(env,'🎬 <b>سيناريو فيديو إعلاني — '+desc+'</b>\n\n'+script+'\n\n— ناجية 🛠️',chatId);
+      // ولّد صورة من أول لقطة في السيناريو
+      const shotMatch=script.match(/Shot 1[\s\S]*?(?=Shot 2|$)/);
+      const shotDesc=shotMatch?shotMatch[0].slice(0,200):desc;
+      const url=generateImageUrl('Cinematic frame: '+shotDesc+', professional, high quality',1024,576);
+      await tgSendPhoto(env,url,'🎬 <b>لقطة 1 من السيناريو</b>\n— ناجية 🛠️',chatId);
     }else{
       await tgSend(env,'ما قدرشت أعمل السيناريو دلوقتي يا ملك 😅\n— ناجية',chatId)
     }
@@ -583,9 +566,9 @@ export default{
     }
 
     if(path==='/'){
-      return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'3.0',role:'ads-manager',features:['ad-generation','ad-improvement','store-ads-monitor','daily-report','telegram'],endpoints:['/webhook','/test','/daily','/store-monitor']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+      return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'3.1',role:'ads-manager',features:['ad-generation','ad-improvement','store-ads-monitor','daily-report','telegram'],endpoints:['/webhook','/test','/daily','/store-monitor']}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'3.0',hint:'/test للتجربة, /daily للتقرير اليومي, /store-monitor لمتابعة المتجر, /webhook لرسائل تيلجرام'}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    return new Response(JSON.stringify({ok:true,name:'khidmaty-najiya',version:'3.1',hint:'/test للتجربة, /daily للتقرير اليومي, /store-monitor لمتابعة المتجر, /webhook لرسائل تيلجرام'}),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
 };

@@ -79,19 +79,65 @@ async function brainGet(path){
   return null;
 }
 
+// ============ Google Analytics (بيانات حقيقية) ============
+
+async function gaFetch(){
+  try{
+    const r=await fetch('https://khidmatyai.com/ideas/ga-analytics-report.json',{signal:AbortSignal.timeout(8000)});
+    if(r.ok){
+      const j=await r.json();
+      if(j&&j.totals_30d&&j.totals_30d[0]){
+        const t=j.totals_30d[0];
+        const y=j.yesterday&&j.yesterday[0]||{};
+        return{
+          source:'google-analytics',
+          today:{users:parseInt(y.totalUsers)||0,sessions:parseInt(y.sessions)||0,pageViews:parseInt(y.screenPageViews)||0},
+          total30d:{users:parseInt(t.totalUsers)||0,sessions:parseInt(t.sessions)||0,pageViews:parseInt(t.screenPageViews)||0},
+          avgSession:parseFloat(t.averageSessionDuration)||0,
+          bounceRate:parseFloat(t.bounceRate)||0,
+          topPages:(j.top_pages||[]).slice(0,10),
+          sources:(j.traffic_sources||[]).slice(0,10),
+          daily:(j.daily_7d||[]).slice(-7)
+        };
+      }
+    }
+  }catch(e){}
+  return null;
+}
+
 // ============ جمع البيانات ============
 
 async function gatherData(env){
-  const data={site:'ن/م',articles:73,offices:888,visitsToday:0,visitsTotal:0,usersToday:0,usersTotal:0,providers:0,tgMessages:0,report:''};
-  const stats=await brainGet('/stats');
-  if(stats&&stats.stats&&stats.stats.website){
-    const s=stats.stats.website;
-    data.visitsToday=s.visitsToday||0;
-    data.visitsTotal=s.visitsTotal||0;
-    data.usersToday=s.usersToday||0;
-    data.usersTotal=s.usersTotal||0;
-    data.providers=s.providersTotal||0;
-    data.tgMessages=s.total||0;
+  const data={site:'ن/م',articles:73,offices:888,books:4,visitsToday:0,visitsTotal:0,usersToday:0,usersTotal:0,providers:0,tgMessages:0,report:'',source:'brain'};
+  // الأولوية 1: GA
+  const ga=await gaFetch();
+  if(ga&&ga.source==='google-analytics'){
+    data.source='google-analytics';
+    data.visitsToday=ga.today.users;
+    data.visitsTotal=ga.total30d.users;
+    data.usersToday=ga.today.users;
+    data.usersTotal=ga.total30d.users;
+    data.pageViewsToday=ga.today.pageViews;
+    data.pageViews30d=ga.total30d.pageViews;
+    data.sessions30d=ga.total30d.sessions;
+    data.avgSession=ga.avgSession;
+    data.bounceRate=ga.bounceRate;
+    data.topPages=ga.topPages;
+    data.sources=ga.sources;
+    data.daily=ga.daily;
+  }
+  // الأولوية 2: Brain (fallback)
+  if(!data.visitsTotal){
+    const stats=await brainGet('/stats');
+    if(stats&&stats.stats&&stats.stats.website){
+      const s=stats.stats.website;
+      data.visitsToday=s.visitsToday||0;
+      data.visitsTotal=s.visitsTotal||0;
+      data.usersToday=s.usersToday||0;
+      data.usersTotal=s.usersTotal||0;
+      data.providers=s.providersTotal||0;
+      data.tgMessages=s.total||0;
+    }
   }
   const rep=await brainGet('/report');
   if(rep&&rep.report)data.report=rep.report.slice(0,600);
@@ -100,11 +146,21 @@ async function gatherData(env){
 
 function dataSummary(d){
   let s='';
-  s+='📊 زيارات النهاردة: '+d.visitsToday+' | الإجمالي: '+d.visitsTotal+'\n';
-  s+='👤 مسجلين النهاردة: '+d.usersToday+' | الإجمالي: '+d.usersTotal+'\n';
-  s+='💼 مقدمين: '+d.providers+'\n';
-  s+='📄 مقالات: '+d.articles+' | 🗺️ مكاتب: '+d.offices+'\n';
-  s+='✈️ رسائل تيلجرام النهاردة: '+d.tgMessages;
+  if(d.source==='google-analytics'){
+    s+='📊 مصدر البيانات: Google Analytics (حقيقية)\n';
+    s+='👥 مستخدمين أمس: '+d.visitsToday+' | 30 يوم: '+d.visitsTotal+'\n';
+    s+='🌐 جلسات 30 يوم: '+(d.sessions30d||0)+'\n';
+    s+='📄 مشاهدات 30 يوم: '+(d.pageViews30d||0)+'\n';
+    if(d.avgSession){s+='⏱️ متوسط الجلسة: '+Math.round(d.avgSession)+'ث\n'}
+    if(d.bounceRate){s+='📊 معدل الارتداد: '+d.bounceRate.toFixed(1)+'%\n'}
+    if(d.topPages&&d.topPages.length>0){s+='📄 أعلى صفحة: '+d.topPages[0].pagePath+' ('+d.topPages[0].screenPageViews+' مشاهدة)\n'}
+    if(d.sources&&d.sources.length>0){s+='🌐 أعلى مصدر: '+d.sources[0].sessionSource+' ('+d.sources[0].sessions+' جلسة)\n'}
+  }else{
+    s+='📊 زيارات النهاردة: '+d.visitsToday+' | الإجمالي: '+d.visitsTotal+'\n';
+    s+='👤 مسجلين النهاردة: '+d.usersToday+' | الإجمالي: '+d.usersTotal+'\n';
+    s+='💼 مقدمين: '+d.providers+'\n';
+  }
+  s+='📄 مقالات: '+d.articles+' | 🗺️ مكاتب: '+d.offices+' | 📚 كتب: '+d.books;
   return s;
 }
 

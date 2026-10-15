@@ -621,6 +621,21 @@ async function handleUpdate(env,update){
     return; // رسائل من غير الأدمن — تجاهل
   }
 
+  // ====== توجيه أوامر ناجية (مديرة الإعلانات) ======
+  const najiyaCmds=['/إعلان','/اعلان','/طور','/تطوير','/نشر','/publish','/إعلانات','/ads'];
+  for(const cmd of najiyaCmds){
+    if(text.startsWith(cmd)){
+      try{
+        await fetch('https://khidmaty-najiya.semohabiby7.workers.dev/webhook',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(update)
+        });
+      }catch(e){}
+      return; // ناجية هترد مباشرة
+    }
+  }
+
   try{
     if(text==='/تقرير'||text==='/report'){await cmdReport(env,chatId)}
     else if(text.startsWith('/محتوى')||text==='/content'){await cmdContent(env,chatId)}

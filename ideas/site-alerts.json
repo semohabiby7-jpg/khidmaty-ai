@@ -1,26 +1,26 @@
 {
-  "timestamp": "2026-10-13T06:02:13.008571",
+  "timestamp": "2026-10-15T06:01:07.310448",
   "alerts": [
     {
       "page": "دليل الخدمات",
       "url": "https://khidmatyai.com/services/traffic.html",
       "alert": "صورة مكسورة: ../assets/k-logo.webp (400)",
       "severity": "WARNING",
-      "timestamp": "2026-10-13T06:02:12.929072"
+      "timestamp": "2026-10-15T06:01:07.208757"
     },
     {
       "page": "مستكشف الخدمات",
       "url": "https://khidmatyai.com/service-finder.html",
       "alert": "صورة مكسورة: logo.png (404)",
       "severity": "WARNING",
-      "timestamp": "2026-10-13T06:02:12.929090"
+      "timestamp": "2026-10-15T06:01:07.208769"
     },
     {
       "page": "لوحة القيادة",
       "url": "https://khidmatyai.com/dashboard.html",
       "alert": "HTTP 404 — غير قابل للوصول",
       "severity": "CRITICAL",
-      "timestamp": "2026-10-13T06:02:12.929094"
+      "timestamp": "2026-10-15T06:01:07.208771"
     }
   ]
 }

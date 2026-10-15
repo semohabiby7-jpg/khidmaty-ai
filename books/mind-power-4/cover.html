@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@600;800&family=Great+Vibes&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 683px;
+    height: 1024px;
+    background: linear-gradient(180deg, #1a0f08 0%, #0d0703 40%, #050200 100%);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  /* Background image with the steering wheel figure */
+  .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 683px;
+    height: 1024px;
+    background-image: url('cover.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.85;
+    filter: brightness(0.6) contrast(1.1);
+  }
+
+  /* Dark overlay gradient to make text readable */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 683px;
+    height: 1024px;
+    background: linear-gradient(180deg,
+      rgba(5,2,0,0.92) 0%,
+      rgba(5,2,0,0.4) 22%,
+      rgba(5,2,0,0.15) 42%,
+      rgba(5,2,0,0.15) 58%,
+      rgba(5,2,0,0.5) 75%,
+      rgba(5,2,0,0.92) 100%
+    );
+  }
+
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 683px;
+    height: 1024px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 40px;
+  }
+
+  /* Top: Series name */
+  .series-name {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .series-name h1 {
+    font-family: 'Amiri', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #F4CD66;
+    text-shadow: 0 0 20px rgba(244, 205, 102, 0.4);
+    letter-spacing: 2px;
+  }
+
+  .ornament {
+    width: 180px;
+    height: 2px;
+    margin: 12px auto 0;
+    background: linear-gradient(90deg, transparent, #F4CD66, transparent);
+    position: relative;
+  }
+
+  .ornament::after {
+    content: '✦';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #F4CD66;
+    font-size: 14px;
+  }
+
+  /* Book number */
+  .book-number {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .book-number .num {
+    font-family: 'Cairo', sans-serif;
+    font-size: 88px;
+    font-weight: 800;
+    color: #F4CD66;
+    text-shadow: 0 0 30px rgba(244, 205, 102, 0.5), 0 0 60px rgba(244, 205, 102, 0.2);
+    line-height: 1;
+  }
+
+  .book-number .part-label {
+    font-family: 'Amiri', serif;
+    font-size: 18px;
+    color: #F4CD66;
+    opacity: 0.7;
+    margin-top: -5px;
+    letter-spacing: 3px;
+  }
+
+  /* Middle spacer for the figure */
+  .middle-spacer {
+    flex: 1;
+  }
+
+  /* Main title */
+  .main-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .main-title h2 {
+    font-family: 'Cairo', sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    color: #F4CD66;
+    text-shadow: 0 0 25px rgba(244, 205, 102, 0.4), 0 0 50px rgba(244, 205, 102, 0.15);
+    line-height: 1.2;
+    letter-spacing: 1px;
+  }
+
+  .main-title h2 .question-mark {
+    font-size: 64px;
+    vertical-align: super;
+    margin-right: 5px;
+  }
+
+  /* Bottom ornament + signature */
+  .bottom-section {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .bottom-section .ornament-bottom {
+    width: 140px;
+    height: 1px;
+    margin: 0 auto 18px;
+    background: linear-gradient(90deg, transparent, #F4CD66, transparent);
+    opacity: 0.6;
+  }
+
+  .bottom-section .signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 36px;
+    color: #F4CD66;
+    opacity: 0.85;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-image"></div>
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="series-name">
+      <h1>قوة العقل</h1>
+      <div class="ornament"></div>
+      <div class="book-number">
+        <div class="num">٤</div>
+        <div class="part-label">الجزء الرابع</div>
+      </div>
+    </div>
+
+    <div class="middle-spacer"></div>
+
+    <div class="main-title">
+      <h2>مين بيسوق<span class="question-mark">؟</span></h2>
+    </div>
+
+    <div class="bottom-section">
+      <div class="ornament-bottom"></div>
+      <div class="signature">M. Ismail</div>
+    </div>
+  </div>
+</body>
+</html>

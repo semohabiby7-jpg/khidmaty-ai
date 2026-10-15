@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-10-13T06:02:12.929119",
+  "timestamp": "2026-10-15T06:01:07.208792",
   "site_url": "https://khidmatyai.com",
   "summary": {
     "ok": 8,
     "warnings": 2,
     "critical": 1,
-    "avg_response_time": 0.4,
+    "avg_response_time": 0.09,
     "total_alerts": 3
   },
   "ssl": {
@@ -15,7 +15,7 @@
   "sitemap": {
     "accessible": true,
     "url_count": 1090,
-    "response_time": 0.28
+    "response_time": 0.01
   },
   "robots": {
     "accessible": true,
@@ -27,9 +27,9 @@
       "url": "https://khidmatyai.com/index.html",
       "path": "/index.html",
       "status": 200,
-      "response_time": 0.47,
+      "response_time": 0.91,
       "accessible": true,
-      "page_size": 38101,
+      "page_size": 46223,
       "alerts": [],
       "severity": "OK"
     },
@@ -38,7 +38,7 @@
       "url": "https://khidmatyai.com/services/traffic.html",
       "path": "/services/traffic.html",
       "status": 200,
-      "response_time": 0.28,
+      "response_time": 0.01,
       "accessible": true,
       "page_size": 12858,
       "alerts": [
@@ -51,9 +51,9 @@
       "url": "https://khidmatyai.com/calc.html",
       "path": "/calc.html",
       "status": 200,
-      "response_time": 0.26,
+      "response_time": 0.01,
       "accessible": true,
-      "page_size": 24120,
+      "page_size": 24180,
       "alerts": [],
       "severity": "OK"
     },
@@ -62,7 +62,7 @@
       "url": "https://khidmatyai.com/service-finder.html",
       "path": "/service-finder.html",
       "status": 200,
-      "response_time": 0.27,
+      "response_time": 0.01,
       "accessible": true,
       "page_size": 21889,
       "alerts": [
@@ -75,7 +75,7 @@
       "url": "https://khidmatyai.com/offices.html",
       "path": "/offices.html",
       "status": 200,
-      "response_time": 0.28,
+      "response_time": 0.02,
       "accessible": true,
       "page_size": 233344,
       "alerts": [],
@@ -86,7 +86,7 @@
       "url": "https://khidmatyai.com/articles.html",
       "path": "/articles.html",
       "status": 200,
-      "response_time": 1.56,
+      "response_time": 0.02,
       "accessible": true,
       "page_size": 178472,
       "alerts": [],
@@ -97,7 +97,7 @@
       "url": "https://khidmatyai.com/success-stories.html",
       "path": "/success-stories.html",
       "status": 200,
-      "response_time": 0.26,
+      "response_time": 0.01,
       "accessible": true,
       "page_size": 13022,
       "alerts": [],
@@ -108,7 +108,7 @@
       "url": "https://khidmatyai.com/faq.html",
       "path": "/faq.html",
       "status": 200,
-      "response_time": 0.26,
+      "response_time": 0.01,
       "accessible": true,
       "page_size": 7496,
       "alerts": [],
@@ -119,7 +119,7 @@
       "url": "https://khidmatyai.com/dashboard.html",
       "path": "/dashboard.html",
       "status": 404,
-      "response_time": 0.26,
+      "response_time": 0.02,
       "accessible": false,
       "page_size": 0,
       "alerts": [
@@ -132,7 +132,7 @@
       "url": "https://khidmatyai.com/about.html",
       "path": "/about.html",
       "status": 200,
-      "response_time": 0.26,
+      "response_time": 0.01,
       "accessible": true,
       "page_size": 6956,
       "alerts": [],
@@ -143,7 +143,7 @@
       "url": "https://khidmatyai.com/contact.html",
       "path": "/contact.html",
       "status": 200,
-      "response_time": 0.25,
+      "response_time": 0.01,
       "accessible": true,
       "page_size": 9668,
       "alerts": [],

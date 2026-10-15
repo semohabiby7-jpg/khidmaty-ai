@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700;900&family=Dancing+Script:wght@700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 683px;
+  height: 1024px;
+  background: #1a0f08;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.cover {
+  position: relative;
+  width: 683px;
+  height: 1024px;
+  background: linear-gradient(180deg, #1a0f08 0%, #0a0604 100%);
+  overflow: hidden;
+}
+
+.cover-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg,
+    rgba(10,6,4,0.92) 0%,
+    rgba(10,6,4,0.3) 25%,
+    rgba(10,6,4,0.1) 45%,
+    rgba(10,6,4,0.3) 65%,
+    rgba(10,6,4,0.92) 100%
+  );
+}
+
+/* Series name top */
+.series-name {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Amiri', serif;
+  font-size: 28px;
+  color: #F4CD66;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(244,205,102,0.4);
+  z-index: 10;
+}
+
+.ornament-top {
+  position: absolute;
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #F4CD66, transparent);
+  z-index: 10;
+}
+
+.ornament-top::after {
+  content: '◆';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #F4CD66;
+  font-size: 10px;
+}
+
+/* Book number */
+.book-number {
+  position: absolute;
+  top: 95px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 900;
+  font-size: 52px;
+  color: #F4CD66;
+  text-shadow: 0 0 30px rgba(244,205,102,0.5), 0 0 10px rgba(244,205,102,0.3);
+  z-index: 10;
+}
+
+/* Main title */
+.main-title {
+  position: absolute;
+  bottom: 200px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 900;
+  font-size: 48px;
+  color: #F4CD66;
+  line-height: 1.3;
+  text-shadow: 0 0 25px rgba(244,205,102,0.4), 0 2px 8px rgba(0,0,0,0.8);
+  z-index: 10;
+}
+
+/* Subtitle */
+.subtitle {
+  position: absolute;
+  bottom: 160px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  color: rgba(244,205,102,0.7);
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+.ornament-bottom {
+  position: absolute;
+  bottom: 115px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #F4CD66, transparent);
+  z-index: 10;
+}
+
+/* Signature */
+.signature {
+  position: absolute;
+  bottom: 55px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 30px;
+  color: rgba(244,205,102,0.85);
+  z-index: 10;
+}
+</style>
+</head>
+<body>
+<div class="cover">
+  <img class="cover-img" src="cover.webp" alt="cover">
+  <div class="gradient-overlay"></div>
+  <div class="series-name">قوة العقل</div>
+  <div class="ornament-top"></div>
+  <div class="book-number">4</div>
+  <div class="main-title">مين بيسوق؟</div>
+  <div class="subtitle">إدارة المشاعر والقرارات</div>
+  <div class="ornament-bottom"></div>
+  <div class="signature">M. Ismail</div>
+</div>
+</body>
+</html>

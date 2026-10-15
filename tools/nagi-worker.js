@@ -8,6 +8,7 @@
 
 const BRAIN_URL    = 'https://khidmaty-agent.semohabiby7.workers.dev';
 const SITE_URL     = 'https://khidmatyai.com/';
+const STORE_URL    = 'https://khidmatyai.com/store.html';
 const GEMINI_BASE  = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 
@@ -90,7 +91,77 @@ async function brainGet(path){
   return null;
 }
 
+// ============ Google Analytics (بيانات حقيقية) ============
+
+async function gaFetch(){
+  try{
+    const r=await fetch('https://khidmatyai.com/ideas/ga-analytics-report.json',{signal:AbortSignal.timeout(8000)});
+    if(r.ok){
+      const j=await r.json();
+      if(j&&j.totals_30d&&j.totals_30d[0]){
+        const t=j.totals_30d[0];
+        const y=j.yesterday&&j.yesterday[0]||{};
+        return{
+          source:'google-analytics',
+          today:{users:parseInt(y.totalUsers)||0,sessions:parseInt(y.sessions)||0,pageViews:parseInt(y.screenPageViews)||0},
+          total30d:{users:parseInt(t.totalUsers)||0,sessions:parseInt(t.sessions)||0,pageViews:parseInt(t.screenPageViews)||0},
+          topPages:(j.top_pages||[]).slice(0,5),
+          sources:(j.traffic_sources||[]).slice(0,5)
+        };
+      }
+    }
+  }catch(e){}
+  return null;
+}
+
+// ============ نشر على قناة تيلجرام (بموافقة الملك) ============
+
+async function tgChannelPost(env,text){
+  // نشر على قناة تيلجرام — لو TELEGRAM_CHANNEL_ID موجود
+  if(!env.TELEGRAM_BOT_TOKEN||!env.TELEGRAM_CHANNEL_ID)return{sent:false,reason:'no_channel'};
+  try{
+    const t=text.length>3800?text.slice(0,3800)+'…':text;
+    const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:env.TELEGRAM_CHANNEL_ID,text:t,parse_mode:'HTML',disable_web_page_preview:false})
+    });
+    const j=await r.json();
+    return{sent:!!j.ok};
+  }catch(e){return{sent:false}}
+}
+
 // ============ أوامر الإعلانات ============
+
+async function cmdBigCampaign(env){
+  // خطة إعلانية كبيرة شاملة — كل المنصات
+  const ga=await gaFetch();
+  let dataLine='مفيش بيانات GA.';
+  if(ga&&ga.source==='google-analytics'){
+    dataLine='👥 مستخدمين 30 يوم: '+ga.total30d.users+'\n🌐 جلسات: '+ga.total30d.sessions+'\n📄 مشاهدات: '+ga.total30d.pageViews;
+    if(ga.topPages&&ga.topPages[0]){dataLine+='\n📄 أعلى صفحة: '+ga.topPages[0].pagePath}
+    if(ga.sources&&ga.sources[0]){dataLine+='\n🌐 أعلى مصدر: '+ga.sources[0].sessionSource}
+  }
+  const prompt='جهّزي خطة إعلانية كبيرة وشاملة لمنصة خِدْمَتي AI.\n\nبيانات حقيقية من GA:\n'+dataLine+'\n\nالخطة لازم تشمل:\n\n1. الهدف الرئيسي (وعي + زيارات + مبيعات كتب)\n2. المدة: 4 أسابيع\n3. الميزانية: مجانية (بدون إعلانات مدفوعة — organic فقط)\n4. المنصات: فيسبوك + انستجرام + تيلجرام + واتساب\n5. لكل أسبوع:\n   - الموضوع الرئيسي\n   - 3 بوستات فيسبوك (نص كامل جاهز للنسخ)\n   - 3 بوستات انستجرام (نص + هاشتاج)\n   - 2 بوست تيلجرام (مختصر)\n   - 1 رسالة واتساب\n6. 20 هاشتاج متناسق\n7. جدول النشر الأسبوعي (أيام + مواعيد)\n8. رسالة لكل شريحة جمهور (3 شرائح)\n9. KPIs للقياس\n10. تكتيك نمو المجاني (SEO + محتوى + شراكات)\n\nردك بالمصري، منظّم، كل بوست جاهز للنسخ فورًا.';
+  const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🛠️';
+}
+
+async function cmdFbPost(env,topic){
+  // بوست فيسبوك واحد جاهز للنسخ
+  const t=topic||'منصة خِدْمَتي AI';
+  const prompt='جهّزي بوست فيسبوك احترافي ومبهر عن "'+t+'".\n\nمتطلبات:\n- نص جذاب (5-7 أسطر)\n- إيموجي متناسق وقوي\n- لينك: https://khidmatyai.com\n- سؤال تفاعل في الآخر\n- 7 هاشتاج متناسق\n- "مجاني 100٪" لازم تتذكر كأول ميزة\n- مكتوب بطريقة بتوقف السكرول\n\nردّي بالبوست فقط، جاهز للنسخ فورًا. بالمصري.';
+  const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🛠️';
+}
+
+async function cmdTgPost(env,topic){
+  // بوست تيلجرام جاهز — مع نشر اختياري على القناة
+  const t=topic||'منصة خِدْمَتي AI';
+  const prompt='جهّزي بوست تيلجرام احترافي ومختصر عن "'+t+'".\n\nمتطلبات:\n- مختصر (3-4 أسطر)\n- إيموجي قوي\n- لينك: https://khidmatyai.com\n- "مجاني 100٪" لازم تتذكر\n- جاهز للنشر على قناة\n\nردّي بالبوست فقط. بالمصري.';
+  const ai=await callGemini(env,NAGI_SYSTEM,prompt);
+  return ai||'مش متاح دلوقتي 🛠️';
+}
 
 async function cmdAdPlan(env,platform){
   const prompt='اقترح خطة إعلانية شاملة لمنصة خِدْمَتي AI (خدمات حكومية مصرية)'+(platform?' على '+platform:'')+':\n1. الأهداف (وعي/زيارات/تسجيل)\n2. الجمهور المستهدف (عمر/اهتمامات/جغرافيا)\n3. أنواع الإعلانات (نصي/صورة/فيديو)\n4. نص 3 إعلانات جاهزة (عناوين + وصف + CTA)\n5. الميزانية المقترحة يوميًا\n6. KPIs للقياس\nردك بالمصري، منظّم، قابل للتنفيذ.';
@@ -298,6 +369,29 @@ export default{
     const url=new URL(request.url);
     const path=url.pathname;
 
+    if(path==='/big-campaign'){
+      const r=await cmdBigCampaign(env);
+      return new Response(JSON.stringify({ok:true,guardian:'nagi',campaign:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/fb-post'){
+      const topic=url.searchParams.get('topic')||'';
+      const r=await cmdFbPost(env,topic);
+      return new Response(JSON.stringify({ok:true,guardian:'nagi',post:r},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
+    if(path==='/tg-post'){
+      const topic=url.searchParams.get('topic')||'';
+      const r=await cmdTgPost(env,topic);
+      // لو فيه channel_id → نشر تلقائي
+      let posted=false;
+      if(env.TELEGRAM_CHANNEL_ID){
+        const p=await tgChannelPost(env,r);
+        posted=p.sent;
+      }
+      return new Response(JSON.stringify({ok:true,guardian:'nagi',post:r,channel_posted:posted},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    }
+
     if(path==='/ads'){
       const platform=url.searchParams.get('platform')||'';
       const r=await cmdAdPlan(env,platform);
@@ -376,6 +470,6 @@ export default{
       return new Response(JSON.stringify({ok:true,guardian:'nagi',version:'1.0',scripts_count:SCRIPTS.length,checked_at:stamp()},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
     }
 
-    return new Response(JSON.stringify({ok:true,guardian:'nagi',version:'1.0',hint:'/campaign حملة كاملة | /social?platform=facebook بوستات | /ad-calendar تقويم نشر | /ads خطة | /adcopy نصوص | /adtarget استهداف | /adreport تقرير | /scripts سكريبتات | /morning صباحية | /weekly أسبوعي | /weekly-ad خطة إعلانية | /health حالة'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
+    return new Response(JSON.stringify({ok:true,guardian:'nagi',version:'2.0',hint:'/big-campaign خطة كبيرة | /fb-post?topic= بوست فيس | /tg-post?topic= بوست تيلجرام | /campaign حملة | /social?platform=facebook بوستات | /ad-calendar تقويم نشر | /ads خطة | /adcopy نصوص | /adtarget استهداف | /adreport تقرير | /daily بوستات يومية | /scripts سكريبتات | /morning صباحية | /weekly أسبوعي | /weekly-ad خطة إعلانية | /health حالة'},null,2),{headers:{'Content-Type':'application/json; charset=utf-8'}});
   }
 };

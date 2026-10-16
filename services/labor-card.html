@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>شهادة القيد (كعب العمل / بطاقة عمل) | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="دليلك الكامل لاستخراج شهادة القيد (كعب العمل) في مصر — من مكتب القوى العاملة أو عبر منصة مصر الرقمية. الخدمة مجانية! الأوراق المطلوبة، الخطوات (حضوري وأونلاين)، أنواع الشهادات، ومدة الاستخراج في نفس اليوم.">
+<meta name="keywords" content="كعب عمل, شهادة قيد, بطاقة عمل, مكتب القوى العاملة, مكتب العمل, وزارة العمل, قيد عامل, رقم تأميني, خِدْمَتي AI">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
+.tag-online{background:rgba(16,185,129,.15);color:#10b981}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
+.section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
+.steps-list li:last-child{border-bottom:none}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
+.ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
+.ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › مدني</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">📋</div>
+  <h1>شهادة القيد (كعب العمل / بطاقة عمل)</h1>
+  <p>دليلك الكامل لاستخراج شهادة القيد (كعب العمل) في مصر — من مكتب القوى العاملة أو عبر منصة مصر الرقمية. الخدمة مجانية! الأوراق المطلوبة، الخطو</p>
+  <div class="hero-tags"><span class="tag tag-online">🌐 أونلاين</span><span class="tag tag-مدني">مدني</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">🆓</div><div class="stat-value">مجانًا</div><div class="stat-label">الرسوم</div></div><div class="stat-card"><div class="stat-emoji">⏱️</div><div class="stat-value">نفس اليوم</div><div class="stat-label">المدة</div></div><div class="stat-card"><div class="stat-emoji">🏛️</div><div class="stat-value">مكتب القوى العاملة</div><div class="stat-label">الجهة</div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🧮 احسب الرسوم حسب نوع الخدمة</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختار نوع الخدمة لمعرفة الرسوم المطلوبة</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="0" checked><span class="calc-opt-body"><span class="calc-opt-label">استخراج شهادة قيد (جديد)</span><span class="calc-opt-desc">مجاني تمامًا — لا رسوم حكومية</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="0" ><span class="calc-opt-body"><span class="calc-opt-label">بدل فاقد / تالف</span><span class="calc-opt-desc">مجاني — يحتاج مذكرة أحوال من الشرطة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="10" ><span class="calc-opt-body"><span class="calc-opt-label">قياس مستوى المهارة</span><span class="calc-opt-desc">10ج بحوالة بريدية — للحرف المحددة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="30" ><span class="calc-opt-body"><span class="calc-opt-label">توصيل عبر منصة مصر الرقمية</span><span class="calc-opt-desc">رسوم توصيل تقديرية — حسب المحافظة وطريقة الاستلام</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">0</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>💰 الرسوم (مقارنة الأنواع)</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">🆓</span><div><div class="fee-name">استخراج شهادة قيد (كعب عمل)</div><div class="fee-note">لجميع المواطنين — لا رسوم</div></div></div><div class="fee-price">مجانًا</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🔄</span><div><div class="fee-name">بدل فاقد / تالف</div><div class="fee-note">يحتاج مذكرة أحوال من الشرطة</div></div></div><div class="fee-price">مجانًا</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">✏️</span><div><div class="fee-name">تغيير المهنة على الشهادة</div><div class="fee-note">تعديل بيانات المهنة على القيد</div></div></div><div class="fee-price">مجانًا</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🔧</span><div><div class="fee-name">قياس مستوى المهارة</div><div class="fee-note">بحوالة بريدية باسم مدير المديرية</div></div></div><div class="fee-price">10 جنيه</div><div class="fee-speed">4 أيام</div></div>
+  
+ </div>
+
+ <div class="section">
+  <h2>📋 خطوات استخراج شهادة القيد</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">🌐 عبر منصة مصر الرقمية</button>
+   <button class="tab-btn" onclick="switchTab(1)">🏛️ مكتب القوى العاملة</button>
+  </div>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">ادخل منصة مصر الرقمية</div><div class="step-desc">سجّل الدخول على digital.gov.eg بحسابك.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">اختار خدمة شهادة القيد</div><div class="step-desc">من خدمات العمل / القوى العاملة → استخراج شهادة القيد (كعب العمل).</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">اكتب بياناتك وراجع العنوان</div><div class="step-desc">أدخل بياناتك الشخصية وتأكد من المحافظة والعنوان.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">اختار طريقة الاستلام</div><div class="step-desc">مكتب تشغيل أو توصيل (حسب التوفّر في محافظتك).</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">ارفع المستندات وادفع</div><div class="step-desc">ارفع صور الأوراق المطلوبة وادفع رسوم التوصيل (إن وجدت).</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">تابع الطلب</div><div class="step-desc">احتفظ برقم الطلب وتابعه على المنصة أو عبر الرسائل.</div></div></li></ol></div>
+  <div class="tab-pane"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">حدد مكتب القوى العاملة التابع لك</div><div class="step-desc">روح أقرب مكتب تشغيل تابع لمحل إقامتك — مواعيد العمل 9 ص - 2 م (إجازة الجمعة والسبت).</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">استيفاء بطاقة التسجيل</div><div class="step-desc">املأ بطاقة التسجيل ببياناتك (بنفسك أو بمساعدة الموظف).</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">مراجعة المفتش</div><div class="step-desc">المفتش المختص بيراجع البيانات ويحدد حالتك (مستجد/متعطل/مشتغل).</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">إدخال البيانات على الحاسب</div><div class="step-desc">يتم إدخال بياناتك على الكمبيوتر وتسجيلها في سجل القيد.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">استلم الشهادة</div><div class="step-desc">تسلم شهادة القيد (كعب العمل) في نفس اليوم بعد التوقيع والختم.</div></div></li></ol></div>
+ </div>
+
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">بطاقة الرقم القومي (سارية + الأصل للاطلاع)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">المؤهل الدراسي (الأصل للاطلاع) — لحملة المؤهلات</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">الموقف من التجنيد (للذكور) (الأصل للاطلاع)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">الرقم التأميني (من مكتب التأمينات أو موقع الهيئة الإلكتروني)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">شهادة خبرة (إن وجدت)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">شهادة قياس مستوى المهارة + ترخيص مزاولة الحرفة (للحرف المحددة)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">رخصة قيادة سارية (للسائقين)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">شهادة صحية سارية (للعاملين في الأغذية)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">إثبات الإقامة (لو العنوان مختلف عن البطاقة)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">مذكرة أحوال من الشرطة (لبدل الفاقد/التالف)</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
+
+ <div class="section">
+  <h2>✅ الشروط</h2>
+  <ul class="cond-list"><li>التسجيل يكون شخصيًا (لا يجوز التوكيل)</li><li>تحقيق الشخصية (بطاقة رقم قومي سارية)</li><li>استيفاء جميع المستندات حسب نوع الشهادة</li><li>أن يكون مكتب القوى العاملة تابعًا لمحل الإقامة</li><li>الرقم التأميني مطلوب (يُستخرج من مكتب التأمينات أو موقع الهيئة)</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">مكتب القوى العاملة</div><div class="where-desc">أقرب مكتب تشغيل تابع لمحل إقامتك</div></div></div><div class="where-card"><div class="where-icon">🌐</div><div><div class="where-name">منصة مصر الرقمية</div><div class="where-desc">digital.gov.eg — استخراج أونلاين</div></div></div><div class="where-card"><div class="where-icon">📱</div><div><div class="where-name">منصة الخدمات الحكومية</div><div class="where-desc">psm.gov.eg — طلب استخراج شهادة قيد</div></div></div><div class="where-card"><div class="where-icon">🗺️</div><div><div class="where-name">موقع وزارة العمل</div><div class="where-desc">labour.gov.eg — عناوين مكاتب التشغيل</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>هل استخراج كعب العمل بيكلف رسوم؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لا، الخدمة مجانية تمامًا. الرسوم الوحيدة الممكنة هي رسوم التوصيل لو استخدمت منصة مصر الرقمية، أو 10ج لقياس مستوى المهارة للحرف المحددة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أقدر أستخرجها أونلاين؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>أيوة، عن طريق منصة مصر الرقمية (digital.gov.eg) — اختار خدمة استخراج شهادة القيد واتبع الخطوات. التوصيل متاح حسب المحافظة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أنا مش معايا الرقم التأميني، أعمل إيه؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>تقدر تستخرجه من مكتب التأمينات التابع لمحل إقامتك، أو من موقع هيئة التأمينات الاجتماعية الإلكتروني.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كعب العمل ضاع مني، أقدر أستخرج بدل فاقد؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>أيوة، روح المكتب بمذكرة أحوال من الشرطة وإقرار بعدم التعيين في جهة أخرى — يُستخرج بدل فاقد بنفس البيانات مجانًا.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أقدر أغير المهنة على الشهادة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>أيوة، تقدر تطلب تغيير المهنة على شهادة القيد مجانًا في نفس اليوم من نفس المكتب.</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://www.manpower.gov.eg/RC.html" target="_blank" rel="noopener" class="src-badge">🏛️ وزارة العمل — شهادة القيد</a><a href="https://psm.gov.eg/Services/114" target="_blank" rel="noopener" class="src-badge">🏛️ منصة الخدمات الحكومية — استخراج شهادة قيد</a><a href="https://www.manpower.gov.eg/officesaddress.html" target="_blank" rel="noopener" class="src-badge">🏛️ وزارة العمل — عناوين مكاتب التشغيل</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="unemployment-allowance.html" class="rel-card">تعويض البطالة (تأمين البطالة)</a><a href="credit-inquiry.html" class="rel-card">الاستعلام الائتماني (i-Score)</a><a href="military-service.html" class="rel-card">موقف التجنيد وشهادة الجيش</a></div>
+ </div>
+
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
+
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
+</div>
+<script>
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>الضريبة العقارية (ضريبة العقارات المبنية — العوايد) | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="دليلك الكامل لضريبة العقارات المبنية في مصر (العوايد) — القانون 196/2008، سعر الضريبة 10% من القيمة الإيجارية السنوية، الإعفاءات (24,000ج للسكني)، طريقة الحساب، السداد أونلاين عبر services.rta.gov.eg أو تطبيق المصلحة.">
+<meta name="keywords" content="ضريبة عقارية, العوايد, ضريبة العقارات المبنية, ضريبة الأطنان, قانون 196, مصلحة الضرائب العقارية, rta.gov.eg, خِدْمَتي AI">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
+.tag-online{background:rgba(16,185,129,.15);color:#10b981}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
+.section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
+.steps-list li:last-child{border-bottom:none}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
+.ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
+.ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › ضرائب</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🏠</div>
+  <h1>الضريبة العقارية (ضريبة العقارات المبنية — العوايد)</h1>
+  <p>دليلك الكامل لضريبة العقارات المبنية في مصر (العوايد) — القانون 196/2008، سعر الضريبة 10% من القيمة الإيجارية السنوية، الإعفاءات (24,000ج لل</p>
+  <div class="hero-tags"><span class="tag tag-online">🌐 أونلاين</span><span class="tag tag-gov-fee">🏛️ رسم حكومي</span><span class="tag tag-ضرائب">ضرائب</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">📊</div><div class="stat-value">10% من الإيجار</div><div class="stat-label">السعر</div></div><div class="stat-card"><div class="stat-emoji">🏠</div><div class="stat-value">24,000ج سنويًا</div><div class="stat-label">إعفاء سكني</div></div><div class="stat-card"><div class="stat-emoji">📅</div><div class="stat-value">قسطين (يونيه + ديسمبر)</div><div class="stat-label">السداد</div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🧮 احسب الضريبة العقارية التقديرية</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختار قيمة عقارك التقديرية في السوق وشوف الضريبة السنوية (للأغراض السكنية)</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="120" checked><span class="calc-opt-body"><span class="calc-opt-label">عقار 2 مليون جنيه</span><span class="calc-opt-desc">القيمة الإيجارية 36,000ج → بعد الخصم والإعفاء: ~120ج سنويًا</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="1380" ><span class="calc-opt-body"><span class="calc-opt-label">عقار 3 مليون جنيه</span><span class="calc-opt-desc">القيمة الإيجارية 54,000ج → بعد الخصم والإعفاء: ~1,380ج سنويًا</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="3900" ><span class="calc-opt-body"><span class="calc-opt-label">عقار 5 مليون جنيه</span><span class="calc-opt-desc">القيمة الإيجارية 90,000ج → بعد الخصم والإعفاء: ~3,900ج سنويًا</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="10200" ><span class="calc-opt-body"><span class="calc-opt-label">عقار 10 مليون جنيه</span><span class="calc-opt-desc">القيمة الإيجارية 180,000ج → بعد الخصم والإعفاء: ~10,200ج سنويًا</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">120</div><div class="lbl">جنيه مصري — الضريبة السنوية التقديرية</div></div>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>💰 كيف تُحسب الضريبة؟</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">🏢</span><div><div class="fee-name">القيمة الرأسمالية</div><div class="fee-note">القيمة الرأسمالية = 60% من قيمة العقار السوقية</div></div></div><div class="fee-price">60% من السوق</div><div class="fee-speed">خطوة 1</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📅</span><div><div class="fee-name">القيمة الإيجارية السنوية</div><div class="fee-note">تُقدّر سنويًا من القيمة الرأسمالية</div></div></div><div class="fee-price">3% من الرأسمالية</div><div class="fee-speed">خطوة 2</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🔧</span><div><div class="fee-name">خصم مصاريف الصيانة</div><div class="fee-note">30% سكني / 32% غير سكني — مقابل مصاريف الصيانة</div></div></div><div class="fee-price">30% / 32%</div><div class="fee-speed">خطوة 3</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📊</span><div><div class="fee-name">سعر الضريبة</div><div class="fee-note">10% من القيمة الإيجارية الصافية (بعد الخصم والإعفاء)</div></div></div><div class="fee-price">10%</div><div class="fee-speed">خطوة 4</div></div>
+  
+ </div>
+
+ <div class="section">
+  <h2>📋 خطوات سداد الضريبة العقارية</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">🌐 السداد أونلاين</button>
+   <button class="tab-btn" onclick="switchTab(1)">🏛️ المأمورية / الدفع حضوريًا</button>
+  </div>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">حمّل تطبيق الضرائب العقارية</div><div class="step-desc">نزّل تطبيق «الضرائب العقارية المصرية» من Google Play أو ادخل services.rta.gov.eg.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">سجّل الدخول أو أنشئ حساب</div><div class="step-desc">سجّل ببياناتك الشخصية ورقم العقار لإدارة ضريبتك.</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">استعلم عن المستحقات</div><div class="step-desc">اطّلع على بيانات الضريبة وتفاصيلها لكل عقار.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">ادفع إلكترونيًا</div><div class="step-desc">اسدد الضريبة عبر الدفع الإلكتروني (فيزا/ماستركارد).</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">تابع حالة الطلبات</div><div class="step-desc">تقدر تتابع حالة الإقرارات والطلبات وعمليات السداد.</div></div></li></ol></div>
+  <div class="tab-pane"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">حدد المأمورية التابع لها</div><div class="step-desc">روح مديرية أو مأمورية الضرائب العقارية في محافظتك.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">استعلم عن المستحقات</div><div class="step-desc">اطلب الاستعلام عن الضريبة المستحقة على عقارك.</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">ادفع في مقر المأمورية</div><div class="step-desc">تقدر تسدد نقدًا أو بشيك بنكي مقبول الدفع.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">الدفع عن طريق الصرّاف</div><div class="step-desc">لو ظروفك ما تسمح بالتنقل، الصرّاف ممكن ييجي عقارك لتحصيل الضريبة.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">حوالة بريدية</div><div class="step-desc">تقدر تسدد بحوالة بريدية لمن لا يستطيع التوجه للمأمورية.</div></div></li></ol></div>
+ </div>
+
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">بطاقة الرقم القومي</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">مستند ملكية العقار (عقد تمليك / سجل عيني)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">رقم العقار / رقم الملف الضريبي (إن وجد)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">إقرار ضريبي للعقار (نموذج الإقرار)</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
+
+ <div class="section">
+  <h2>✅ شروط خضوع العقار للضريبة</h2>
+  <ul class="cond-list"><li>العقار خاضع للضريبة (مبني — سكني أو غير سكني — تام ومشغول أو غير مشغول)</li><li>القيمة الإيجارية السنوية للسكني تتجاوز 24,000ج (ما فوق معفى)</li><li>القيمة الإيجارية السنوية للغير سكني تتجاوز 1,200ج (ما فوق معفى)</li><li>العقار ليس من العقارات المعفاة (حكومية/دينية/أوقاف/جبانات)</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">مصلحة الضرائب العقارية</div><div class="where-desc">rta.gov.eg — الموقع الرسمي للإقرارات والاستعلام</div></div></div><div class="where-card"><div class="where-icon">💳</div><div><div class="where-name">خدمات السداد الإلكتروني</div><div class="where-desc">services.rta.gov.eg — دفع الضريبة أونلاين</div></div></div><div class="where-card"><div class="where-icon">📱</div><div><div class="where-name">تطبيق المصلحة</div><div class="where-desc">«الضرائب العقارية المصرية» — متوفر على Google Play</div></div></div><div class="where-card"><div class="where-icon">🏢</div><div><div class="where-name">مأمورية الضرائب العقارية</div><div class="where-desc">في محافظتك — للسداد الحضوري</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>هل الضريبة العقارية دي ضريبة جديدة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لا، دي ضريبة قديمة موجودة من قانون 56/1954 ومعروفة شعبيًا بـ «العوايد». قانون 196/2008 أعاد تنظيمها بسعر موحد 10%.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>عقاري مشهور كم يعني إيه؟ هل معفى؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لو القيمة الإيجارية السنوية الصافية للوحدة السكنية أقل من 24,000ج، أنت معفى تمامًا. أي عقار قيمته السوقية أقل من 2 مليون جنيه تقريبًا معفى من الضريبة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>الضريبة بتتغير كل سنة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لا، القيمة تظل ثابتة لمدة 5 سنوات. بعدها يتم إعادة تقديرها بحد أقصى زيادة 30% للسكني و45% لغير السكني.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>هل أقدر أسدد أونلاين؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>أيوة، عن طريق services.rta.gov.eg أو تطبيق «الضرائب العقارية المصرية» على Google Play — استعلام وسداد إلكتروني كامل.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>إيه الفرق بين السكني والغير سكني في الحساب؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>الفرق في نسبة الخصم: 30% للسكني و32% لغير السكني (مقابل مصاريف الصيانة). وحد الإعفاء: 24,000ج للسكني مقابل 1,200ج لغير السكني.</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://rta.gov.eg/الضريبة-على-العقارات-المبنية" target="_blank" rel="noopener" class="src-badge">🏛️ مصلحة الضرائب العقارية — الضريبة على العقارات المبنية</a><a href="https://services.rta.gov.eg/online-payment/list-payment" target="_blank" rel="noopener" class="src-badge">🏛️ خدمات السداد الإلكتروني</a><a href="https://www.rta.gov.eg/faqs" target="_blank" rel="noopener" class="src-badge">🏛️ الأسئلة الشائعة — مصلحة الضرائب العقارية</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="tax-clearance.html" class="rel-card">براءة الذمة الضريبية</a><a href="social-housing.html" class="rel-card">الإسكان الاجتماعي (سكن لكل المصريين)</a><a href="inheritance-distribution.html" class="rel-card">قسمة الميراث والفرز العقاري</a></div>
+ </div>
+
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
+
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
+</div>
+<script>
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
+</script>
+</body>
+</html>

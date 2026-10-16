@@ -89,6 +89,7 @@ function loadFile(file){
     resetTransforms();
     render();
     show(dom.editorCard); show(dom.exportCard); show(dom.ocrCard); show(dom.pdfCard);
+    warmOcrWorker(); // تسخين OCR في الخلفية = أول استخراج نص فوري
     dom.canvas.scrollIntoView({ behavior:'smooth', block:'center' });
   };
   img.onerror = () => { URL.revokeObjectURL(url); toast('تعذّر فتح الصورة'); };
@@ -463,30 +464,61 @@ function download(){
 // ============================================================
 let ocrWorker = null, ocrLangCached = '';
 
-function setOcrProgress(p){
+// مراحل Tesseract → نطاق تراكمي للشريط + تسمية عربية (عشان مايقفش عند ٠٪)
+const OCR_PHASES = {
+  'loading tesseract core':       { r:[0,12],   t:'بيحمّل المحرّك' },
+  'initializing tesseract':       { r:[12,20],  t:'بيجهّز المحرّك' },
+  'loading language traineddata': { r:[20,55],  t:'بيحمّل لغة التعريف' },
+  'initializing api':             { r:[55,62],  t:'بيبدأ التحليل' },
+  'recognizing text':             { r:[62,100], t:'بيستخرج النص' },
+};
+let ocrWarming = false;
+function setOcrProgress(p, label){
   const pct = clamp(Math.round((p||0)*100), 0, 100);
   dom.ocrBar.style.width = pct + '%';
-  dom.ocrPct.textContent = pct + '%';
+  dom.ocrPct.textContent = label ? (pct + '% · ' + label) : (pct + '%');
 }
 async function getOcrWorker(lang){
-  if(typeof Tesseract === 'undefined') throw new Error('محرك OCR لسه بيحمّل — استنى ثواني وحاول تاني.');
+  if(typeof Tesseract === 'undefined') throw new Error('محرّك OCR لسه بيحمّل — استنى ثواني وحاول تاني.');
   if(ocrWorker && ocrLangCached === lang) return ocrWorker;
   if(ocrWorker){ try{ await ocrWorker.terminate(); }catch(e){} ocrWorker = null; }
   ocrWorker = await Tesseract.createWorker(lang, 1, {
-    logger: (m) => { if(m && m.status === 'recognizing text') setOcrProgress(m.progress); },
+    langPath: 'https://tessdata.projectnaptha.com/4.0.0_fast', // بيانات سريعة (int8): تحميل وتحليل أسرع للموبايل
+    logger: (m) => {
+      if(!m || !m.status) return;
+      const ph = OCR_PHASES[m.status];
+      if(ph) setOcrProgress(ph.r[0] + (ph.r[1]-ph.r[0])*(m.progress||0), ph.t);
+    },
   });
   ocrLangCached = lang;
   return ocrWorker;
 }
+// تسخين مسبق: يبدأ تحميل محرّك OCR + اللغة في الخلفية بعد اختيار الصورة
+// (من غير ما يوقف الواجهة) عشان أول ضغطة «استخرج النص» تطلع فورية.
+function warmOcrWorker(){
+  const lang = dom.ocrLang.value;
+  if(ocrWarming || (ocrWorker && ocrLangCached === lang)) return;
+  ocrWarming = true;
+  getOcrWorker(lang).then(()=>{ ocrWarming=false; }).catch(()=>{ ocrWarming=false; });
+}
+// نسخة مصغّرة من الكانفس (max 1600px) كـJPEG لـOCR — أسرع ٢-٤ أضعاف بدون فقدان دقّة تذكر
+function ocrInputBlob(){
+  const src = dom.canvas, max = 1600;
+  const scale = Math.min(1, max / Math.max(src.width, src.height));
+  const w = Math.round(src.width*scale), h = Math.round(src.height*scale);
+  const c = document.createElement('canvas'); c.width=w; c.height=h;
+  c.getContext('2d').drawImage(src, 0, 0, w, h);
+  return new Promise((res)=> c.toBlob(res, 'image/jpeg', 0.85));
+}
 async function runOCR(){
   if(!state.base){ toast('اختار صورة الأول'); return; }
   const lang = dom.ocrLang.value;
-  show(dom.ocrProgress); setOcrProgress(0);
+  show(dom.ocrProgress); setOcrProgress(0, 'بيبدأ');
   dom.btnOCR.disabled = true;
   dom.ocrText.value = '';
-  dom.ocrText.placeholder = 'بيشتغل… استنى شوية (أول مرة للعربي بياخد وقت أكتر شوية).';
+  dom.ocrText.placeholder = 'بيشتغل… لو أول مرة ممكن يستني تحميل محرّك العربي شوية.';
   try{
-    const blob = await new Promise((res) => dom.canvas.toBlob(res, 'image/png'));
+    const blob = await ocrInputBlob();
     const worker = await getOcrWorker(lang);
     const { data } = await worker.recognize(blob);
     const text = (data && data.text ? data.text : '').trim();

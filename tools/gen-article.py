@@ -143,6 +143,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 /* FEES */
 .fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
 .fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
 .fee-type{display:flex;gap:10px;align-items:center}
 .fee-icon{font-size:22px}
 .fee-name{font-weight:700;color:#fff;font-size:14px}
@@ -236,7 +237,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  </div>
 
  <div class="section">
-  <h2>🧮 حاسبة الرسوم التفاعلية</h2>
+  <h2>__CALC_TITLE__</h2>
   <div class="calc-box">
    <div class="calc-sub">__CALC_SUB__</div>
    __CALC_OPTS__
@@ -245,15 +246,16 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  </div>
 
  <div class="section">
-  <h2>💰 مقارنة أنواع الفيش والرسوم</h2>
+  <h2>__FEES_TITLE__</h2>
   __FEES__
+  __VERIFY_NOTE__
  </div>
 
  <div class="section">
-  <h2>📋 خطوات الاستخراج</h2>
+  <h2>__STEPS_TITLE__</h2>
   <div class="tabs">
-   <button class="tab-btn active" onclick="switchTab(0)">💻 أونلاين</button>
-   <button class="tab-btn" onclick="switchTab(1)">🚓 حضوري (قسم الشرطة)</button>
+   <button class="tab-btn active" onclick="switchTab(0)">__TAB_ONLINE__</button>
+   <button class="tab-btn" onclick="switchTab(1)">__TAB_OFFLINE__</button>
   </div>
   <div class="tab-pane active"><ol class="steps-list">__STEPS_ONLINE__</ol></div>
   <div class="tab-pane"><ol class="steps-list">__STEPS_OFFLINE__</ol></div>
@@ -267,7 +269,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  </div>
 
  <div class="section">
-  <h2>✅ شروط الاستخراج أونلاين</h2>
+  <h2>__COND_TITLE__</h2>
   <ul class="cond-list">__CONDITIONS__</ul>
  </div>
 
@@ -319,6 +321,12 @@ function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نس
 </body>
 </html>'''
 
+def verify_note_html(d):
+    note = d.get('verifyNote')
+    if note:
+        return f'<div class="verify-note">⚠️ {esc(note)}</div>'
+    return ''
+
 def render(data):
     t = TEMPLATE
     t = t.replace('__TITLE__', esc(data['title']))
@@ -330,12 +338,19 @@ def render(data):
     t = t.replace('__TAGS__', tags_html(data))
     t = t.replace('__HERO_STATS__', hero_stats(data))
     t = t.replace('__CALC_SUB__', esc(data['calculator']['subtitle']))
+    t = t.replace('__CALC_TITLE__', esc(data['calculator'].get('title','🧮 حاسبة الرسوم التفاعلية')))
     t = t.replace('__CALC_OPTS__', calc_options(data))
     t = t.replace('__FIRST_VAL__', str(data['calculator']['options'][0]['value']))
     t = t.replace('__FEES__', fees_table(data))
+    t = t.replace('__FEES_TITLE__', esc(data.get('feesTitle','💰 مقارنة الرسوم والأنواع')))
+    t = t.replace('__VERIFY_NOTE__', verify_note_html(data))
     t = t.replace('__STEPS_ONLINE__', steps_html(data['stepsOnline']))
+    t = t.replace('__STEPS_TITLE__', esc(data.get('stepsTitle','📋 خطوات الخدمة')))
+    t = t.replace('__TAB_ONLINE__', esc(data.get('tabOnline','💻 أونلاين')))
+    t = t.replace('__TAB_OFFLINE__', esc(data.get('tabOffline','🏛️ حضوري')))
     t = t.replace('__STEPS_OFFLINE__', steps_html(data['stepsOffline']))
     t = t.replace('__DOCS__', docs_html(data))
+    t = t.replace('__COND_TITLE__', esc(data.get('conditionsTitle','✅ الشروط')))
     t = t.replace('__CONDITIONS__', conditions_html(data))
     t = t.replace('__WHERE__', where_html(data))
     t = t.replace('__FAQ__', faq_html(data))

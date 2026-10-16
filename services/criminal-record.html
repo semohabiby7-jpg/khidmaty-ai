@@ -55,6 +55,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 /* FEES */
 .fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
 .fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
 .fee-type{display:flex;gap:10px;align-items:center}
 .fee-icon{font-size:22px}
 .fee-name{font-weight:700;color:#fff;font-size:14px}
@@ -148,7 +149,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  </div>
 
  <div class="section">
-  <h2>🧮 حاسبة الرسوم التفاعلية</h2>
+  <h2>🧮 احسب رسوم فيش وتشبيه</h2>
   <div class="calc-box">
    <div class="calc-sub">اختار نوع الفيش اللي يناسبك وشوف الرسوم بالظبط</div>
    <label class="calc-opt"><input type="radio" name="calctype" value="47" checked><span class="calc-opt-body"><span class="calc-opt-label">مميكنة (أقسام الشرطة المميكنة)</span><span class="calc-opt-desc">بصمة إلكترونية — استلام غالبًا نفس اليوم</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="28" ><span class="calc-opt-body"><span class="calc-opt-label">عادية ورقية (أخضر)</span><span class="calc-opt-desc">الأرخص — تسليم 4-5 أيام</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="32" ><span class="calc-opt-body"><span class="calc-opt-label">عاجلة ورقية (أحمر)</span><span class="calc-opt-desc">أسرع من العادية</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="89" ><span class="calc-opt-body"><span class="calc-opt-label">أونلاين (توصيل للمنزل)</span><span class="calc-opt-desc">من البيت — البريد بيوصل بيه</span></span></label>
@@ -159,6 +160,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  <div class="section">
   <h2>💰 مقارنة أنواع الفيش والرسوم</h2>
   <div class="fee-row"><div class="fee-type"><span class="fee-icon">⚡</span><div><div class="fee-name">مميكنة (بصمة إلكترونية)</div><div class="fee-note">42 رسم + 5 طابع شعار</div></div></div><div class="fee-price">47 جنيه</div><div class="fee-speed">نفس اليوم بالمنافذ المميكنة</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🐢</span><div><div class="fee-name">عادية ورقية (أخضر)</div><div class="fee-note">23 رسم + 5 طابع شعار</div></div></div><div class="fee-price">28 جنيه</div><div class="fee-speed">4 - 5 أيام عمل</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🔥</span><div><div class="fee-name">عاجلة ورقية (أحمر)</div><div class="fee-note">27 رسم + 5 طابع شعار</div></div></div><div class="fee-price">32 جنيه</div><div class="fee-speed">أسرع من العادية</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🏠</span><div><div class="fee-name">أونلاين (توصيل بريد للمنزل)</div><div class="fee-note">84 شامل التوصيل + 5 طابع شعار</div></div></div><div class="fee-price">89 جنيه</div><div class="fee-speed">توصيل للمنزل بالبريد</div></div>
+  
  </div>
 
  <div class="section">

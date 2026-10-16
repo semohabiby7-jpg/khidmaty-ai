@@ -1,0 +1,358 @@
+# -*- coding: utf-8 -*-
+"""
+gen-article.py — مولّد مقالات تفاعلية (فورمات أعلى من الإنفوجرافيك)
+يقرأ ملف بيانات JSON ويولّد صفحة services/<slug>.html كاملة.
+الاستخدام: python3 tools/gen-article.py tools/article-data/criminal-record.json
+"""
+import json, sys, os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def load(path):
+    with open(path, encoding='utf-8') as f:
+        return json.load(f)
+
+def esc(s):
+    return (s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'))
+
+# ====== توليد أجزاء HTML من البيانات ======
+
+def hero_stats(d):
+    out = []
+    for s in d.get('heroStats', []):
+        out.append(f'<div class="stat-card"><div class="stat-emoji">{s["icon"]}</div><div class="stat-value">{s["value"]}</div><div class="stat-label">{s["label"]}</div></div>')
+    return ''.join(out)
+
+def tags_html(d):
+    out = []
+    for t in d.get('tags', []):
+        label = {'online': '🌐 أونلاين', 'gov-fee': '🏛️ رسم حكومي'}.get(t, t)
+        out.append(f'<span class="tag tag-{t}">{label}</span>')
+    return ''.join(out)
+
+def fees_table(d):
+    rows = []
+    for f in d.get('fees', []):
+        rows.append(f'<div class="fee-row"><div class="fee-type"><span class="fee-icon">{f["icon"]}</span><div><div class="fee-name">{f["type"]}</div><div class="fee-note">{f["note"]}</div></div></div><div class="fee-price">{f["price"]}</div><div class="fee-speed">{f["speed"]}</div></div>')
+    return ''.join(rows)
+
+def calc_options(d):
+    out = []
+    for i, o in enumerate(d['calculator']['options']):
+        out.append(f'<label class="calc-opt"><input type="radio" name="calctype" value="{o["value"]}" {"checked" if i==0 else ""}><span class="calc-opt-body"><span class="calc-opt-label">{o["label"]}</span><span class="calc-opt-desc">{o["desc"]}</span></span></label>')
+    return ''.join(out)
+
+def steps_html(steps):
+    out = []
+    for i, s in enumerate(steps, 1):
+        out.append(f'<li><div class="step-num">{i}</div><div class="step-body"><div class="step-title">{s["title"]}</div><div class="step-desc">{s["desc"]}</div></div></li>')
+    return ''.join(out)
+
+def docs_html(d):
+    out = []
+    for doc in d.get('documents', []):
+        out.append(f'<label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">{doc}</span></label>')
+    return ''.join(out)
+
+def conditions_html(d):
+    out = []
+    for c in d.get('conditions', []):
+        out.append(f'<li>{c}</li>')
+    return ''.join(out)
+
+def where_html(d):
+    out = []
+    for w in d.get('whereToGet', []):
+        out.append(f'<div class="where-card"><div class="where-icon">{w["icon"]}</div><div><div class="where-name">{w["place"]}</div><div class="where-desc">{w["desc"]}</div></div></div>')
+    return ''.join(out)
+
+def faq_html(d):
+    out = []
+    for i, f in enumerate(d.get('faq', [])):
+        out.append(f'<div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle(\'open\')"><span>{f["q"]}</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>{f["a"]}</p></div></div>')
+    return ''.join(out)
+
+def sources_html(d):
+    out = []
+    for s in d.get('sources', []):
+        out.append(f'<a href="{s["url"]}" target="_blank" rel="noopener" class="src-badge">🏛️ {s["name"]}</a>')
+    return ''.join(out)
+
+def related_html(d):
+    out = []
+    for r in d.get('related', []):
+        out.append(f'<a href="{r["slug"]}.html" class="rel-card">{r["title"]}</a>')
+    return ''.join(out)
+
+# ====== القالب الرئيسي ======
+
+TEMPLATE = r'''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>__TITLE__ | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="__DESC__">
+<meta name="keywords" content="__KW__">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
+.tag-online{background:rgba(16,185,129,.15);color:#10b981}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
+.section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
+.steps-list li:last-child{border-bottom:none}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
+.ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
+.ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › __CATEGORY__</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">__EMOJI__</div>
+  <h1>__TITLE__</h1>
+  <p>__DESC_SHORT__</p>
+  <div class="hero-tags">__TAGS__</div>
+  <div class="stats-row">__HERO_STATS__</div>
+ </div>
+
+ <div class="section">
+  <h2>🧮 حاسبة الرسوم التفاعلية</h2>
+  <div class="calc-box">
+   <div class="calc-sub">__CALC_SUB__</div>
+   __CALC_OPTS__
+   <div class="calc-result"><div class="amt" id="calcAmt">__FIRST_VAL__</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>💰 مقارنة أنواع الفيش والرسوم</h2>
+  __FEES__
+ </div>
+
+ <div class="section">
+  <h2>📋 خطوات الاستخراج</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">💻 أونلاين</button>
+   <button class="tab-btn" onclick="switchTab(1)">🚓 حضوري (قسم الشرطة)</button>
+  </div>
+  <div class="tab-pane active"><ol class="steps-list">__STEPS_ONLINE__</ol></div>
+  <div class="tab-pane"><ol class="steps-list">__STEPS_OFFLINE__</ol></div>
+ </div>
+
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  __DOCS__
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
+
+ <div class="section">
+  <h2>✅ شروط الاستخراج أونلاين</h2>
+  <ul class="cond-list">__CONDITIONS__</ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid">__WHERE__</div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  __FAQ__
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row">__SOURCES__</div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid">__RELATED__</div>
+ </div>
+
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
+
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
+</div>
+<script>
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
+</script>
+</body>
+</html>'''
+
+def render(data):
+    t = TEMPLATE
+    t = t.replace('__TITLE__', esc(data['title']))
+    t = t.replace('__DESC__', esc(data['description']))
+    t = t.replace('__DESC_SHORT__', esc(data['description'][:140]))
+    t = t.replace('__KW__', esc(data['keywords']))
+    t = t.replace('__EMOJI__', data['emoji'])
+    t = t.replace('__CATEGORY__', esc(data['category']))
+    t = t.replace('__TAGS__', tags_html(data))
+    t = t.replace('__HERO_STATS__', hero_stats(data))
+    t = t.replace('__CALC_SUB__', esc(data['calculator']['subtitle']))
+    t = t.replace('__CALC_OPTS__', calc_options(data))
+    t = t.replace('__FIRST_VAL__', str(data['calculator']['options'][0]['value']))
+    t = t.replace('__FEES__', fees_table(data))
+    t = t.replace('__STEPS_ONLINE__', steps_html(data['stepsOnline']))
+    t = t.replace('__STEPS_OFFLINE__', steps_html(data['stepsOffline']))
+    t = t.replace('__DOCS__', docs_html(data))
+    t = t.replace('__CONDITIONS__', conditions_html(data))
+    t = t.replace('__WHERE__', where_html(data))
+    t = t.replace('__FAQ__', faq_html(data))
+    t = t.replace('__SOURCES__', sources_html(data))
+    t = t.replace('__RELATED__', related_html(data))
+    return t
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit('الاستخدام: python3 gen-article.py <data.json>')
+    data = load(sys.argv[1])
+    html = render(data)
+    out = os.path.join(ROOT, 'services', data['slug'] + '.html')
+    with open(out, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print('✅ تم توليد:', out)
+    print('   الحجم:', len(html), 'بايت')
+
+if __name__ == '__main__':
+    main()

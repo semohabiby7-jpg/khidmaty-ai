@@ -4,14 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Scan Macaron AI — ماسح المستندات الذكي</title>
-<meta name="description" content="Scan Macaron AI — ماسح المستندات الذكي. صور مستنداتك، حسّنها، اقصّها وادوّرها، وصدّرها جوه المتصفح. معالجة محلية 100%، ملفاتك ما بتخرجش من جهازك.">
-<meta name="keywords" content="Scan Macaron AI, ماسح مستندات, استخراج نصوص, OCR عربي, CamScanner بديل, PDF, تعديل صور, خِدْمَتي AI, مصر">
+<meta name="description" content="Scan Macaron AI — ماسح المستندات الذكي. صوّر، حسّن، اقصّ وادوّر، استخرج النصوص (OCR) عربي/إنجليزي، اسمعها بصوت عربي، وجمّعها في PDF متعدد الصفحات — كله جوه المتصفح. معالجة محلية 100%، مجاني، وشغّال offline.">
+<meta name="keywords" content="Scan Macaron AI, ماسح مستندات, استخراج نصوص, OCR عربي, CamScanner بديل, PDF, تعديل صور, قراءة صوتية, خِدْمَتي AI, مصر">
 <meta name="theme-color" content="#0F1E3D">
 <meta name="robots" content="index, follow">
 <meta name="author" content="خِدْمَتي AI — Mohamed Ismail">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Scan Macaron">
 <link rel="canonical" href="https://khidmatyai.com/scan/">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <meta property="og:title" content="Scan Macaron AI">
-<meta property="og:description" content="ماسح المستندات الذكي — صوّر، حسّن، اقصّ وصدّر مستنداتك جوه المتصفح. معالجة محلية 100%.">
+<meta property="og:description" content="ماسح المستندات الذكي — صوّر، حسّن، استخرج النصوص، وسمعها بصوت عربي، وجمّعها في PDF. معالجة محلية 100%، مجاني، offline.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://khidmatyai.com/scan/">
 <meta property="og:site_name" content="خِدْمَتي AI">
@@ -26,7 +32,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Scan Macaron AI",
-  "description": "ماسح مستندات وتعديل صور واستخراج نصوص داخل المتصفح بمعالجة محلية.",
+  "description": "ماسح مستندات وتعديل صور واستخراج نصوص (OCR) وقراءة صوتية وPDF متعدد الصفحات داخل المتصفح بمعالجة محلية مجانية.",
   "url": "https://khidmatyai.com/scan/",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Web",
@@ -56,16 +62,18 @@
   <section class="hero">
     <div class="hero-emoji">📄✨</div>
     <h1>Scan Macaron AI</h1>
-    <p class="hero-sub">ماسح المستندات الذكي — صوّر، حسّن، اقصّ وادوّر، وصدّر مستنداتك جوه المتصفح. بديل عربي ذكي لـ CamScanner.</p>
+    <p class="hero-sub">ماسح المستندات الذكي — صوّر، حسّن، اقصّ، استخرج النصوص واسمعها بصوت عربي، وجمّعها في PDF. بديل عربي ذكي ومجاني لـ CamScanner.</p>
     <div class="hero-pills">
       <span class="pill pill-priv">🔒 معالجة محلية 100% — ملفاتك ما بتخرجش من جهازك</span>
+      <span class="pill pill-priv">📲 يتثبّت على الموبايل ويشتغل offline</span>
     </div>
     <div class="chips">
       <span class="chip on">📷 مسح وتحسين</span>
       <span class="chip on">✂️ قص وتدوير</span>
+      <span class="chip on">🧠 OCR عربي/إنجليزي</span>
+      <span class="chip on">🔊 قراءة صوتية عربية</span>
+      <span class="chip on">📑 PDF متعدد الصفحات</span>
       <span class="chip on">📤 تصدير PNG/JPG</span>
-      <span class="chip soon">🧠 OCR عربي — قريبًا</span>
-      <span class="chip soon">📑 PDF متعدد — قريبًا</span>
     </div>
   </section>
 
@@ -143,7 +151,7 @@
 
   <!-- التصدير -->
   <section class="card hidden" id="exportCard">
-    <h2 class="card-title">٣. تصدير النتيجة</h2>
+    <h2 class="card-title">٣. تصدير الصورة</h2>
     <div class="export-row">
       <label class="field"><span>الصيغة</span>
         <select id="fmt">
@@ -158,16 +166,66 @@
       <div class="field"><span>الأبعاد</span><b id="dims">—</b></div>
       <button class="btn btn-primary" id="btnDownload">⬇️ تنزيل الصورة</button>
     </div>
-    <p class="micro">💡 النص (OCR) والـ PDF متعدد الصفحات قريبًا — في المراحل التالية.</p>
+  </section>
+
+  <!-- OCR -->
+  <section class="card hidden" id="ocrCard">
+    <h2 class="card-title">٤. استخراج النص (OCR)</h2>
+    <div class="ocr-row">
+      <label class="field"><span>اللغة</span>
+        <select id="ocrLang">
+          <option value="ara+eng" selected>عربي + إنجليزي</option>
+          <option value="ara">عربي</option>
+          <option value="eng">إنجليزي</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" id="btnOCR">🔍 استخرج النص</button>
+    </div>
+    <div class="progress hidden" id="ocrProgress">
+      <div class="progress-track"><div class="progress-bar" id="ocrBar"></div></div>
+      <span id="ocrPct">0%</span>
+    </div>
+    <textarea id="ocrText" class="ocr-text" readonly placeholder="النص المستخرج هيظهر هنا بعد ما تضغط «استخرج النص»..."></textarea>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="btnCopy">📋 نسخ</button>
+      <button class="btn btn-ghost" id="btnTxt">⬇️ تنزيل .txt</button>
+      <button class="btn btn-ghost" id="btnSpeak">🔊 اقرأ بصوت عربي</button>
+      <button class="btn btn-ghost" id="btnStopSpeak" disabled>⏹ وقّف القراءة</button>
+    </div>
+    <p class="micro">🧠 كل المعالجة على جهازك. أول مرة تستخرج فيها نص عربي بيتم تحميل ملف بيانات صغير (مرة واحدة بس).</p>
+  </section>
+
+  <!-- PDF متعدد الصفحات -->
+  <section class="card hidden" id="pdfCard">
+    <h2 class="card-title">٥. PDF متعدد الصفحات</h2>
+    <div class="pdf-actions">
+      <button class="btn btn-primary" id="btnAddPage">➕ ضيف الصورة الحالية كصفحة</button>
+      <span class="page-count" id="pageCount">0 صفحة</span>
+    </div>
+    <div class="pages-tray" id="pagesTray">
+      <div class="empty-hint">اضغط «ضيف الصورة الحالية كصفحة»، رتّب الصفحات أو امسحها، وبعدين نزّلها PDF واحد.</div>
+    </div>
+    <div class="pdf-export-row">
+      <label class="field"><span>حجم الصفحة</span>
+        <select id="pageSize">
+          <option value="a4" selected>A4</option>
+          <option value="letter">Letter</option>
+          <option value="fit">ملاءمة للصورة</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" id="btnPdf">⬇️ نزّل PDF</button>
+    </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <p>🔒 كل المعالجة بتحصل على جهازك. ما بنرفعش ولا صورة لأي سيرفر.</p>
+  <p>🔒 كل المعالجة بتحصل على جهازك. ما بنرفعش ولا صورة ولا نص لأي سيرفر.</p>
   <p class="footer-brand">Scan Macaron AI — <a href="../index.html">khidmatyai.com</a> · تصميم Mohamed Ismail</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
 <script src="app.js" defer></script>
 </body>
 </html>

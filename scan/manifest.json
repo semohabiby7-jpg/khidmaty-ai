@@ -1,0 +1,17 @@
+{
+  "name": "Scan Macaron AI — ماسح المستندات الذكي",
+  "short_name": "Scan Macaron",
+  "description": "ماسح مستندات ذكي — مسح وتحسين، استخراج نصوص (OCR) عربي/إنجليزي، قراءة صوتية، وPDF متعدد الصفحات. مجاني 100% ومعالجة محلية على جهازك.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F1E3D",
+  "theme_color": "#0F1E3D",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

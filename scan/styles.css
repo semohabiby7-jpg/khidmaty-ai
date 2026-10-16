@@ -151,6 +151,36 @@ a{color:var(--gold);text-decoration:none}
 .field input[type=range]{padding:0;accent-color:var(--gold)}
 #qualityField.hidden{display:none}
 
+/* ===== OCR ===== */
+.ocr-row{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+.ocr-row .field{flex:1;min-width:160px}
+.progress{display:flex;align-items:center;gap:10px;margin:14px 0}
+.progress.hidden{display:none}
+.progress-track{flex:1;height:10px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .2s}
+#ocrPct{font-weight:800;color:var(--gold);font-size:13px;min-width:42px;text-align:center}
+.ocr-text{
+  width:100%;min-height:160px;resize:vertical;margin-top:12px;
+  background:var(--bg3);border:1px solid var(--border);color:var(--text);
+  border-radius:12px;padding:12px 14px;font-family:var(--font);font-size:15px;
+  line-height:1.8;direction:rtl;
+}
+.ocr-text:focus{outline:none;border-color:var(--gold)}
+
+/* ===== PDF متعدد الصفحات ===== */
+.pdf-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.page-count{font-weight:800;color:var(--gold);font-size:14px}
+.pages-tray{display:flex;gap:12px;overflow-x:auto;padding:8px 2px 12px;min-height:120px;border:1px dashed var(--border);border-radius:12px;background:rgba(0,0,0,.12)}
+.empty-hint{color:var(--muted);font-size:13px;align-self:center;padding:10px 14px;text-align:center}
+.page-thumb{position:relative;flex:0 0 auto;width:104px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg3)}
+.page-thumb img{width:100%;display:block;max-height:138px;object-fit:cover}
+.thumb-idx{position:absolute;top:4px;inset-inline-end:4px;background:var(--gold);color:var(--bg);font-size:11px;font-weight:900;padding:2px 7px;border-radius:8px}
+.thumb-del{position:absolute;top:4px;inset-inline-start:4px;background:rgba(15,30,61,.85);color:#ffb4b4;border:none;width:22px;height:22px;border-radius:50%;font-size:15px;cursor:pointer;line-height:1}
+.thumb-move{position:absolute;bottom:4px;inset-inline:4px;display:flex;justify-content:space-between}
+.thumb-move button{background:rgba(15,30,61,.85);color:var(--gold);border:none;width:22px;height:22px;border-radius:50%;font-size:13px;cursor:pointer;line-height:1}
+.pdf-export-row{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-top:14px}
+.pdf-export-row .field{flex:1;min-width:160px}
+
 /* ===== التذييل ===== */
 .footer{text-align:center;padding:24px 20px;color:var(--muted);font-size:13px}
 .footer-brand a{font-weight:700}

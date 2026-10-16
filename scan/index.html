@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>ماسح المستندات الذكي | خِدْمَتي AI</title>
+<meta name="description" content="ماسح المستندات الذكي — صور مستنداتك، حسّنها، اقصّها وادوّرها، وصدّر PDF/PNG جوه المتصفح. معالجة محلية 100%، ملفاتك ما بتخرجش من جهازك.">
+<meta name="keywords" content="ماسح مستندات, استخراج نصوص, OCR عربي, CamScanner بديل, PDF, تعديل صور, خِدْمَتي AI, مصر">
+<meta name="theme-color" content="#0F1E3D">
+<meta name="robots" content="index, follow">
+<meta name="author" content="خِدْمَتي AI — Mohamed Ismail">
+<link rel="canonical" href="https://khidmatyai.com/scan/">
+<meta property="og:title" content="ماسح المستندات الذكي | خِدْمَتي AI">
+<meta property="og:description" content="صوّر، حسّن، اقصّ وصدّر مستنداتك جوه المتصفح — معالجة محلية 100%.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://khidmatyai.com/scan/">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ماسح المستندات الذكي",
+  "description": "ماسح مستندات وتعديل صور واستخراج نصوص داخل المتصفح بمعالجة محلية.",
+  "url": "https://khidmatyai.com/scan/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar-EG",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}
+}
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-logo">📄</span>
+      <span class="brand-name">خِدْمَتي <span class="ai">AI</span></span>
+      <span class="brand-tag">SCAN</span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html">← الرئيسية</a>
+      <a href="../store.html">المتجر</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-emoji">📄✨</div>
+    <h1>ماسح المستندات الذكي</h1>
+    <p class="hero-sub">صوّر، حسّن، اقصّ وادوّر، وصدّر مستنداتك — كله جوه المتصفح. بديل عربي ذكي لـ CamScanner.</p>
+    <div class="hero-pills">
+      <span class="pill pill-priv">🔒 معالجة محلية 100% — ملفاتك ما بتخرجش من جهازك</span>
+    </div>
+    <div class="chips">
+      <span class="chip on">📷 مسح وتحسين</span>
+      <span class="chip on">✂️ قص وتدوير</span>
+      <span class="chip on">📤 تصدير PNG/JPG</span>
+      <span class="chip soon">🧠 OCR عربي — قريبًا</span>
+      <span class="chip soon">📑 PDF متعدد — قريبًا</span>
+    </div>
+  </section>
+
+  <!-- رفع / التقاط -->
+  <section class="card" id="uploadCard">
+    <h2 class="card-title">١. اختار صورة أو التقطها</h2>
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="اضغط لاختيار صورة أو اسحبها هنا">
+      <div class="dz-icon">🖼️</div>
+      <div class="dz-text">اسحب صورة هنا أو اضغط للاختيار</div>
+      <div class="dz-hint">PNG / JPG / WEBP — يفضل ورقة مطبوعة بإضاءة كويسة</div>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+    </div>
+    <div class="upload-actions">
+      <button class="btn btn-ghost" id="btnPick">📂 اختيار صورة</button>
+      <button class="btn btn-ghost" id="btnCamera">📸 التقاط بالكاميرا</button>
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+    </div>
+  </section>
+
+  <!-- المحرر -->
+  <section class="card hidden" id="editorCard">
+    <h2 class="card-title">٢. تعديل وتحسين</h2>
+
+    <div class="editor">
+      <div class="canvas-stage" id="stage">
+        <canvas id="canvas" width="800" height="600"></canvas>
+        <div class="crop-overlay hidden" id="cropOverlay"></div>
+        <div class="stage-hint" id="stageHint"></div>
+      </div>
+
+      <div class="controls">
+        <div class="ctrl-group">
+          <div class="ctrl-label">التدوير</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnRotL" title="تدوير لليسار ٩٠°">↺ يسار</button>
+            <button class="btn btn-ghost" id="btnRotR" title="تدوير لليمين ٩٠°">↷ يمين</button>
+          </div>
+          <label class="slider">
+            <span>دقة التدوير: <b id="rotVal">0°</b></span>
+            <input type="range" id="rotFine" min="-45" max="45" value="0" step="1">
+          </label>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">التحسين</div>
+          <label class="slider"><span>السطوع: <b id="briVal">100%</b></span><input type="range" id="bri" min="50" max="200" value="100" step="1"></label>
+          <label class="slider"><span>التباين: <b id="conVal">100%</b></span><input type="range" id="con" min="50" max="200" value="100" step="1"></label>
+          <label class="slider"><span>التشبّع: <b id="satVal">100%</b></span><input type="range" id="sat" min="0" max="200" value="100" step="1"></label>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnAuto">✨ تحسين تلقائي</button>
+            <button class="btn btn-ghost" id="btnBW">⚫ أبيض وأسود</button>
+          </div>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">القص</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnCrop">✂️ وضع القص</button>
+            <button class="btn btn-ghost" id="btnCropApply" disabled>تطبيق القص</button>
+            <button class="btn btn-ghost" id="btnCropCancel" disabled>إلغاء</button>
+          </div>
+          <p class="micro" id="cropHint">اضغط «وضع القص» ورسم مربّع على الصورة بالماوس/الإصبع.</p>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">مقارنة وإعادة</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnBefore">👁️ الأصل مقابل النتيجة</button>
+            <button class="btn btn-ghost" id="btnReset">↩️ إعادة الضبط</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- التصدير -->
+  <section class="card hidden" id="exportCard">
+    <h2 class="card-title">٣. تصدير النتيجة</h2>
+    <div class="export-row">
+      <label class="field"><span>الصيغة</span>
+        <select id="fmt">
+          <option value="image/png">PNG (بدون فقدان)</option>
+          <option value="image/jpeg" selected>JPG (حجم أصغر)</option>
+          <option value="image/webp">WEBP (حديث)</option>
+        </select>
+      </label>
+      <label class="field" id="qualityField"><span>الجودة</span>
+        <input type="range" id="quality" min="60" max="100" value="92" step="1">
+      </label>
+      <div class="field"><span>الأبعاد</span><b id="dims">—</b></div>
+      <button class="btn btn-primary" id="btnDownload">⬇️ تنزيل الصورة</button>
+    </div>
+    <p class="micro">💡 النص (OCR) والـ PDF متعدد الصفحات قريبًا — في المراحل التالية.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>🔒 كل المعالجة بتحصل على جهازك. ما بنرفعش ولا صورة لأي سيرفر.</p>
+  <p class="footer-brand">خِدْمَتي AI — <a href="../index.html">khidmatyai.com</a> · تصميم Mohamed Ismail</p>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

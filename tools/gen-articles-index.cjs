@@ -53,6 +53,7 @@ const overrides = {
   'disability-card':'social', 'consumer-complaint':'social',
   'alimony-custody':'courts', 'inheritance-declaration':'courts',
   'inheritance-distribution':'notary',
+  'car-ownership-inquiry':'traffic', // استعلام ملكية سيارة = موضوع مروري
 };
 
 function catIdFromRaw(raw) {

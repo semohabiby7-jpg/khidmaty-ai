@@ -4,335 +4,231 @@
 <script src="../auth-guard.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>استخراج بطاقة الرقم القومي في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
-<meta name="description" content="دليلك الكامل لـاستخراج بطاقة الرقم القومي في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-<meta name="keywords" content="استخراج بطاقة الرقم القومي, الأحوال المدنية, مصر, خطوات, أوراق, رسوم, خِدْمَتي">
+<title>استخراج بطاقة الرقم القومي | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="دليلك الكامل لاستخراج بطاقة الرقم القومي لأول مرة في مصر — كل الفئات (عادية 50ج، عاجلة 125ج، خاصة 175ج، VIP 515ج، فورية 800ج)، خطوات التقديم حضوريًا أو أونلاين، الأوراق المطلوبة، ومدة الاستلام. بحاسبة رسوم تفاعلية ومقارنة بين الفئات.">
+<meta name="keywords" content="بطاقة الرقم القومي, استخراج بطاقة, استمارة بطاقة, الأحوال المدنية, رسوم بطاقة الرقم القومي, مصر, خِدْمَتي AI">
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#0F1E3D">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <style>
+*{box-sizing:border-box}
 body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
-.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
 .header-logo{display:flex;align-items:center;gap:10px}
-.header-logo img{width:36px;height:36px;border-radius:8px}
 .header-logo span{color:#fff;font-weight:900;font-size:18px}
 .header-logo .ai{color:#e6c258}
 .breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
 .breadcrumb a{color:#e6c258;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline}
-.service-detail{max-width:900px;margin:0 auto 50px;padding:0 20px}
-.service-header{text-align:center;padding:30px 0 20px}
-.service-header .emoji{font-size:56px;margin-bottom:10px}
-.service-header h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 8px}
-.service-header p{font-size:15px;color:#8ea0c4;margin:0 0 16px}
-.service-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.tag{font-size:12px;padding:4px 14px;border-radius:20px;font-weight:600}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
 .tag-online{background:rgba(16,185,129,.15);color:#10b981}
-.tag-free{background:rgba(230,194,88,.15);color:#e6c258}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
 .section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
-.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 16px;display:flex;align-items:center;gap:8px}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.info-item{background:rgba(15,30,61,.5);border-radius:10px;padding:14px}
-.info-label{font-size:12px;color:#8ea0c4;margin-bottom:6px;font-weight:600}
-.info-value{font-size:15px;color:#fff;font-weight:600}
-.steps-list{counter-reset:step;list-style:none;padding:0;margin:0}
-.steps-list li{counter-increment:step;padding:12px 0 12px 50px;position:relative;border-bottom:1px solid #1e3556}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
 .steps-list li:last-child{border-bottom:none}
-.steps-list li::before{content:counter(step);position:absolute;right:0;top:12px;width:32px;height:32px;background:#e6c258;color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
-.steps-list li .step-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.steps-list li .step-desc{font-size:13px;color:#8ea0c4;line-height:1.5}
-.docs-list{list-style:none;padding:0;margin:0}
-.docs-list li{padding:10px 0 10px 28px;position:relative;border-bottom:1px solid #1e3556;font-size:14px;color:#c0cee0}
-.docs-list li:last-child{border-bottom:none}
-.docs-list li::before{content:'📄';position:absolute;right:0;top:10px}
-.faq-item{padding:14px 0;border-bottom:1px solid #1e3556}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
 .faq-item:last-child{border-bottom:none}
-.faq-q{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
-.faq-a{font-size:14px;color:#8ea0c4;line-height:1.6}
-.official-link{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;margin-top:8px}
-.official-link:hover{background:rgba(59,130,246,.25)}
-.ask-cta{text-align:center;padding:30px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
-.ask-cta h3{font-size:20px;font-weight:800;color:#fff;margin:0 0 8px}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
 .ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
-.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;padding:14px 32px;border-radius:30px;font-weight:800;font-size:16px;text-decoration:none;font-family:Cairo,sans-serif;transition:all .3s}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
 .ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
-.related{margin-bottom:20px}
-.related h3{font-size:16px;font-weight:800;color:#e6c258;margin:0 0 12px}
-.related-links{display:flex;gap:10px;flex-wrap:wrap}
-.related-links a{font-size:13px;color:#8ea0c4;background:rgba(15,30,61,.5);padding:8px 14px;border-radius:8px;text-decoration:none;border:1px solid #1e3556;transition:all .2s}
-.related-links a:hover{border-color:#e6c258;color:#e6c258}
-.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
-.footer a{color:#e6c258;text-decoration:none;font-weight:700}
-@media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
 </style>
-<link rel="canonical" href="https://khidmatyai.com/services/national-id-card.html">
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:title" content="استخراج بطاقة الرقم القومي في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI">
-  <meta property="og:description" content="دليلك الكامل لـاستخراج بطاقة الرقم القومي في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-  <meta property="og:url" content="https://khidmatyai.com/services/national-id-card.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="خِدْمَتي AI">
-  <meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
-  <meta property="og:locale" content="ar_EG">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="استخراج بطاقة الرقم القومي في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI">
-  <meta name="twitter:description" content="دليلك الكامل لـاستخراج بطاقة الرقم القومي في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-  <meta name="twitter:image" content="https://khidmatyai.com/assets/og-banner.png">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "إيه الأوراق المطلوبة لـاستخراج بطاقة الرقم القومي؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "أصل شهادة الميلاد المميكنة + مستند إقامة حديث (إيصال مرافق أو عقد موثق) + إثبات المهنة أو الدراسة معتمد + ضامن ببطاقة سارية لو قاصر. الاستمارة بتشتريها من السجل نفسه أو من الماكينة الذكية."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "كم من الوقت بيخد استخراج بطاقة الرقم القومي؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "على حسب الفئة: العادية 15 يوم، العاجلة 3 أيام، الخاصة 24 ساعة، VIP إكسبريس 30 دقيقة، والفورية بتتسلم في نفس اللحظة."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "أقدر أعمل استخراج بطاقة الرقم القومي أونلاين؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "ممكن تبدأ الطلب من بوابة الأحوال المدنية، لكن أول مرة لازم تحضر شخصيًا للتصوير وأخذ البصمات. التجديد وبدل الفاقد/التالف متاحين أونلاين بالكامل من بوابة مصر الرقمية."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "إيه الرسوم؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "عادية 50ج، عاجلة 125ج، خاصة 175ج، VIP إكسبريس 515ج، فورية 800ج. خد بالك: التأخير في الاستخراج بعد سن 15 غرامته 100ج."
-      }
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "استخراج بطاقة الرقم القومي في مصر",
-  "description": "دليلك الكامل لـاستخراج بطاقة الرقم القومي في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.",
-  "url": "https://khidmatyai.com/services/national-id-card.html",
-  "areaServed": {
-    "@type": "Country",
-    "name": "Egypt"
-  },
-  "provider": {
-    "@type": "Organization",
-    "name": "خِدْمَتي AI",
-    "url": "https://khidmatyai.com/"
-  }
-}
-</script>
 </head>
 <body>
-<div class="header">
-  <a href="civil.html">← الأحوال المدنية</a>
-  <div class="header-logo">
-    <img src="../assets/k-logo.webp" alt="خِدْمَتي AI">
-    <span>خِدْمَتي <span class="ai">AI</span></span>
-  </div>
-</div>
-<div class="breadcrumb">
-  <a href="../index.html">الرئيسية</a> › <a href="../services.html">الخدمات</a> › <a href="civil.html">الأحوال المدنية</a> › استخراج بطاقة الرقم القومي
-</div>
-<div class="service-detail">
-  <div class="service-header">
-    <div class="emoji">🆔</div>
-    <h1>استخراج بطاقة الرقم القومي في مصر</h1>
-    <p>استخراج بطاقة رقم قومي لأول مرة</p>
-    <div class="service-tags">
-<span class="tag tag-online">🌐 متاح أونلاين</span>
-    </div>
-  </div>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › أحوال مدنية</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🆔</div>
+  <h1>استخراج بطاقة الرقم القومي</h1>
+  <p>دليلك الكامل لاستخراج بطاقة الرقم القومي لأول مرة في مصر — كل الفئات (عادية 50ج، عاجلة 125ج، خاصة 175ج، VIP 515ج، فورية 800ج)، خطوات التقديم</p>
+  <div class="hero-tags"><span class="tag tag-online">🌐 أونلاين</span><span class="tag tag-gov-fee">🏛️ رسم حكومي</span><span class="tag tag-أحوال مدنية">أحوال مدنية</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">💰</div><div class="stat-value">50 جنيه</div><div class="stat-label">أقل رسوم</div></div><div class="stat-card"><div class="stat-emoji">⏱️</div><div class="stat-value">30 دقيقة - 15 يوم</div><div class="stat-label">المدة</div></div><div class="stat-card"><div class="stat-emoji">📄</div><div class="stat-value">ميلاد + إقامة</div><div class="stat-label">الأوراق</div></div></div>
+ </div>
 
-  <div class="info-grid">
-    <div class="info-item">
-      <div class="info-label">الجهة المسؤولة</div>
-      <div class="info-value">قطاع الأحوال المدنية</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">مدة التنفيذ</div>
-      <div class="info-value">حسب الفئة: من 30 دقيقة لـ15 يوم</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">الرسوم</div>
-      <div class="info-value">من 50ج (عادية) لـ800ج (فورية)</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">الموقع الرسمي</div>
-      <div class="info-value"><a href="https://cso.moi.gov.eg/" target="_blank" class="official-link">الموقع الرسمي ↗</a></div>
-    </div>
+ <div class="section">
+  <h2>🧮 احسب رسوم بطاقة الرقم القومي</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختار فئة الاستخراج وشوف الرسوم ومدة الاستلام</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="50" checked><span class="calc-opt-body"><span class="calc-opt-label">عادية (15 يوم)</span><span class="calc-opt-desc">الأرخص — استلام بعد 15 يومًا</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="125" ><span class="calc-opt-body"><span class="calc-opt-label">عاجلة (3 أيام)</span><span class="calc-opt-desc">استلام بعد 3 أيام</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="175" ><span class="calc-opt-body"><span class="calc-opt-label">خاصة (24 ساعة)</span><span class="calc-opt-desc">استلام خلال 24 ساعة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="515" ><span class="calc-opt-body"><span class="calc-opt-label">VIP إكسبريس (30 دقيقة)</span><span class="calc-opt-desc">استلام خلال 30 دقيقة - ساعتين</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="800" ><span class="calc-opt-body"><span class="calc-opt-label">فورية (سيارة نموذجية)</span><span class="calc-opt-desc">استلام فوري من السيارة</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">50</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
   </div>
+ </div>
 
-  <div style="text-align:center;font-size:12.5px;color:#8ea0c4;margin:0 0 18px;font-weight:600">🗓️ آخر تحديث: 2 أكتوبر 2026 — المعلومات من مصادر رسمية موثقة ومراجعة</div>
+ <div class="section">
+  <h2>💰 مقارنة الفئات والرسوم</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">🐢</span><div><div class="fee-name">عادية</div><div class="fee-note">استمارة عادية — تُسلّم بعد 15 يومًا</div></div></div><div class="fee-price">50 جنيه</div><div class="fee-speed">15 يوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">⚡</span><div><div class="fee-name">عاجلة</div><div class="fee-note">تُسلّم بعد 3 أيام</div></div></div><div class="fee-price">125 جنيه</div><div class="fee-speed">3 أيام</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🔥</span><div><div class="fee-name">خاصة</div><div class="fee-note">تُسلّم خلال 24 ساعة</div></div></div><div class="fee-price">175 جنيه</div><div class="fee-speed">24 ساعة</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">⭐</span><div><div class="fee-name">VIP إكسبريس</div><div class="fee-note">تُسلّم خلال 30 دقيقة - ساعتين</div></div></div><div class="fee-price">515 جنيه</div><div class="fee-speed">30 دقيقة</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🚐</span><div><div class="fee-name">فورية (سيارة نموذجية)</div><div class="fee-note">استلام فوري من السيارة النموذجية</div></div></div><div class="fee-price">800 جنيه</div><div class="fee-speed">فورًا</div></div>
+  <div class="verify-note">⚠️ الأسعار شائعة ومؤكدة من مصادر متعددة. قد تُضاف رسوم توصيل أو ضريبة عند الاستخراج أونلاين. استمارة العباسية الفورية (185ج) قد يضاف إليها رسوم مركز نموذجي. راجع بوابة الأحوال المدنية أو الخط الساخن عند التقديم.</div>
+ </div>
 
-  <!-- 📊 Infographic — Rania R3 -->
-  <div class="infographic-card">
-    <div class="info-head"><span class="info-emoji">🆔</span><h2>استخراج بطاقة الرقم القومي في مصر — ملخص سريع</h2><p>📷 صور الشاشة وشاركه</p></div>
-    <div class="info-stats"><div class="stat"><span class="stat-num">5</span><span class="stat-label">أوراق</span></div>
-    <div class="stat"><span class="stat-num">6</span><span class="stat-label">خطوات</span></div>
-    <div class="stat"><span class="stat-num">متفاوت</span><span class="stat-label">المدة</span></div></div>
-    <div class="info-docs-title">📄 الأوراق المطلوبة</div>
-    <div class="info-docs"><div class="doc-badge">👶 أصل شهادة الميلاد المميكنة</div><div class="doc-badge">🆔 استمارة البطاقة</div><div class="doc-badge">🏠 مستند إثبات محل الإقامة</div><div class="doc-badge">🎓 مستند إثبات المهنة أو…</div><div class="doc-badge">🆔 ضامن من الأقارب مع بطاقة…</div></div>
-    <div class="info-flow-title">📋 الخطوات</div>
-    <div class="info-flow"><div class="flow-step"><span class="flow-num">1</span>جهّز أوراقك</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">2</span>اشترِ الاستمارة واملأها</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">3</span>قدّم الأوراق للموظف</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">4</span>التصوير وأخذ البصمات</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">5</span>اسدد الرسوم حسب فئتك</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">6</span>استلم البطاقة في الموعد</div></div>
-    <div class="info-footer">📍 أقرب مكتب: <a href="../offices/civil.html" class="info-link">تصفح المكاتب ←</a></div>
+ <div class="section">
+  <h2>📋 خطوات الاستخراج</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">💻 أونلاين (مصر الرقمية)</button>
+   <button class="tab-btn" onclick="switchTab(1)">🏛️ حضوري (السجل المدني)</button>
   </div>
-  <style>
-  .infographic-card{max-width:560px;margin:0 auto 24px;background:linear-gradient(145deg,#1a2d5a,#0d1a33);border:2px solid #e6c258;border-radius:18px;padding:22px 18px}
-  .info-head{text-align:center;margin-bottom:14px}.info-emoji{font-size:38px;display:block}.info-head h2{font-size:18px;font-weight:900;color:#e6c258;margin:6px 0 2px}.info-head p{font-size:12px;color:#8ea0c4;margin:0}
-  .info-stats{display:flex;justify-content:center;gap:12px;margin-bottom:16px}.stat{background:rgba(15,30,61,.6);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px}.stat-num{display:block;font-size:18px;font-weight:900;color:#e6c258}.stat-label{font-size:11px;color:#8ea0c4;font-weight:600}
-  .info-docs-title,.info-flow-title{font-size:13px;font-weight:800;color:#fff;margin:0 0 8px;text-align:center}
-  .info-docs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:16px}.doc-badge{background:rgba(230,194,88,.12);border:1px solid rgba(230,194,88,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#e6c258}
-  .info-flow{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:14px}
-  .flow-step{background:rgba(15,30,61,.6);border:1px solid #1e3556;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;color:#c0cee0;display:flex;align-items:center;gap:8px;width:90%;max-width:320px}.flow-num{min-width:24px;height:24px;border-radius:50%;background:#e6c258;color:#0F1E3D;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center}.flow-arrow{color:#e6c258;font-size:16px}
-  .info-footer{text-align:center;font-size:13px;color:#8ea0c4;border-top:1px solid #1e3556;padding-top:12px}.info-link{color:#e6c258;text-decoration:none;font-weight:700}
-  </style>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">ادخل بوابة مصر الرقمية</div><div class="step-desc">افتح digital.gov.eg وسجّل الدخول أو أنشئ حساب جديد.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">اختر خدمات الأحوال المدنية</div><div class="step-desc">من الخدمات المدنية، اختار «بدل فاقد/تالف بطاقة الرقم القومي» (التجديد أونلاين متاح بالكامل).</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">املأ البيانات المطلوبة</div><div class="step-desc">أدخل بياناتك بدقة: الاسم، الرقم القومي، عنوان الإقامة.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">حدد طريقة الدفع والاستلام</div><div class="step-desc">ادفع إلكترونيًا أو الدفع عند الاستلام، وحدد عنوان التوصيل.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">تتبع الطلب</div><div class="step-desc">تحصل على رقم تتبع لمتابعة حالة طلبك حتى الاستلام.</div></div></li></ol></div>
+  <div class="tab-pane"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">جهّز أوراقك</div><div class="step-desc">أصل شهادة الميلاد المميكنة + استمارة البطاقة + مستند إقامة + إثبات المهنة/الدراسة.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">اشترِ الاستمارة واملأها</div><div class="step-desc">تُشترى من السجل المدني أو الماكينة الذكية — اختار الفئة (عادية/عاجلة/خاصة/VIP/فورية).</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">قدّم الأوراق للموظف</div><div class="step-desc">لأول مرة: لازم تحضر شخصيًا للتصوير وأخذ البصمات.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">التصوير وأخذ البصمات</div><div class="step-desc">تصوير وجهي وأخذ بصمات إلكترونيًا في السجل المدني.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">اسدد الرسوم حسب فئتك</div><div class="step-desc">عادية 50ج — عاجلة 125ج — خاصة 175ج — VIP 515ج — فورية 800ج.</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">استلم البطاقة في الموعد</div><div class="step-desc">حسب الفئة: من 30 دقيقة (VIP) إلى 15 يوم (عادية).</div></div></li></ol></div>
+ </div>
 
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">أصل شهادة الميلاد المميكنة</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">استمارة البطاقة (تُشترى من السجل المدني أو من الماكينة الذكية)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">مستند إثبات محل الإقامة (إيصال مرافق حديث أو عقد إيجار/تمليك موثق)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">مستند إثبات المهنة أو الدراسة (خطاب عمل مختوم أو اعتماد من المدرسة)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">ضامن من الأقارب مع بطاقة سارية لو المتقدم قاصر</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
 
-  <div class="section">
-    <h2>👤 من يحق له الحصول على الخدمة؟</h2>
-    <p style="font-size:15px;color:#c0cee0;line-height:1.7;margin:0">المواطن المصري من سن 16 سنة</p>
+ <div class="section">
+  <h2>✅ شروط الاستخراج</h2>
+  <ul class="cond-list"><li>المواطن المصري من سن 16 سنة فأكثر</li><li>أول مرة: التواجد الشخصي للتصوير وأخذ البصمات إلزامي</li><li>التجديد وبدل الفاقد/التالف متاح أونلاين بالكامل من مصر الرقمية</li><li>صحة البيانات (الاسم، العنوان، الحالة الاجتماعية) مطابقة للسجل</li><li>عدم التأخير في تحديث البيانات أكثر من 3 أشهر لتجنب الغرامة (تبدأ من 50ج)</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">السجلات المدنية والمراكز النموذجية</div><div class="where-desc">قطاع الأحوال المدنية — كل الفئات</div></div></div><div class="where-card"><div class="where-icon">🤖</div><div><div class="where-name">ماكينات الأحوال المدنية الذكية</div><div class="where-desc">بيع الاستمارات آليًا — العباسية والمراكز</div></div></div><div class="where-card"><div class="where-icon">🚐</div><div><div class="where-name">السيارات النموذجية المتنقلة</div><div class="where-desc">فورية 800ج — استلام في نفس الموقع</div></div></div><div class="where-card"><div class="where-icon">💻</div><div><div class="where-name">بوابة مصر الرقمية digital.gov.eg</div><div class="where-desc">تجديد وبدل فاقد/تالف أونلاين</div></div></div><div class="where-card"><div class="where-icon">🏬</div><div><div class="where-name">أحوال إكسبريس والمولات</div><div class="where-desc">المراكز النموذجية بالكبرى والمولات — خدمة سريعة</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم رسوم بطاقة الرقم القومي؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>عادية 50ج (15 يوم)، عاجلة 125ج (3 أيام)، خاصة 175ج (24 ساعة)، VIP إكسبريس 515ج (30 دقيقة)، فورية من السيارة النموذجية 800ج (فورًا).</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أقدر أستخرج البطاقة أونلاين؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>التجديد وبدل الفاقد/التالف متاح أونلاين بالكامل من بوابة مصر الرقمية. لكن أول مرة لازم تحضر شخصيًا للتصوير وأخذ البصمات.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم تستغرق البطاقة العادية؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>تُسلّم بعد 15 يومًا من تقديم الطلب. العاجلة 3 أيام، والخاصة 24 ساعة، وVIP خلال 30 دقيقة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>إيه غرامة التأخير في استخراج البطاقة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>يُفرض على المتأخر عن استخراج أو تحديث البطاقة بعد سن 16 غرامة تبدأ من 50ج وتزيد حسب مدة التأخير والمخالفة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أين توجد السيارة النموذجية للاستخراج الفوري؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>السيارات النموذجية المتنقلة تخدم مواقع محددة لاستخراج البطاقة فوريًا مقابل 800ج. كما توجد خدمة الاستخراج من المنزل بـ615ج عن طريق الخط الساخن.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>القاصر يستخرج بطاقة إزاي؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>يحتاج ضامن من الأقارب مع بطاقة سارية، بالإضافة لشهادة الميلاد المميكنة ومستند الإقامة.</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://publicservices.moi.gov.eg/" target="_blank" rel="noopener" class="src-badge">🏛️ بوابة خدمات وزارة الداخلية — بطاقة الرقم القومي</a><a href="https://www.almasryalyoum.com/news/details/3560714" target="_blank" rel="noopener" class="src-badge">🏛️ أسعار استمارة بطاقة الرقم القومي 2025 — المصري اليوم</a><a href="https://gate.ahram.org.eg/News/5091428.aspx" target="_blank" rel="noopener" class="src-badge">🏛️ رسوم مصدرات الأحوال المدنية المميكنة — بوابة الأهرام</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
   </div>
+ </div>
 
-  <div class="section">
-    <h2>📄 الأوراق المطلوبة</h2>
-    <ul class="docs-list">
-      <li>أصل شهادة الميلاد المميكنة</li>
-      <li>استمارة البطاقة (تُشترى من السجل المدني أو من الماكينة الذكية)</li>
-      <li>مستند إثبات محل الإقامة (إيصال مرافق حديث أو عقد إيجار/تمليك موثق)</li>
-      <li>مستند إثبات المهنة أو الدراسة (خطاب عمل مختوم أو اعتماد من المدرسة)</li>
-      <li>ضامن من الأقارب مع بطاقة سارية لو المتقدم قاصر</li>
-    </ul>
-  </div>
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="lost-national-id.html" class="rel-card">بدل فاقد بطاقة الرقم القومي</a><a href="renew-national-id.html" class="rel-card">تجديد بطاقة الرقم القومي</a><a href="birth-certificate.html" class="rel-card">استخراج شهادة ميلاد مميكنة</a><a href="child-national-id.html" class="rel-card">بطاقة الرقم القومي للطفل</a></div>
+ </div>
 
-  <div class="section">
-    <h2>📋 الخطوات</h2>
-    <ol class="steps-list">
-      <li><div class="step-title">جهّز أوراقك</div><div class="step-desc">أصل شهادة الميلاد المميكنة + إيصال مرافق حديث أو عقد إيجار/تمليك موثق + إثبات المهنة أو الدراسة. الشروط: مصري الجنسية وبلغت 15 سنة ومسجل في قاعدة بيانات السجل المدني.</div></li>
-      <li><div class="step-title">اشترِ الاستمارة واملأها</div><div class="step-desc">من السجل المدني أو من الماكينة الذكية جوه المبنى. املأ البيانات بدقة واعتمدها من المدرسة أو جهة العمل حسب حالتك.</div></li>
-      <li><div class="step-title">قدّم الأوراق للموظف</div><div class="step-desc">في سجلك المدني أو أقرب مركز نموذجي. لو قاصر لازم الضامن (الوالد/الوالدة أو قريب) يحضر معاك ببطاقته السارية.</div></li>
-      <li><div class="step-title">التصوير وأخذ البصمات</div><div class="step-desc">بيتم جوه السجل في نفس الزيارة — صورة شخصية وبصمات الأصابع، وده سبب إن أول مرة بتطلب حضورك شخصيًا.</div></li>
-      <li><div class="step-title">اسدد الرسوم حسب فئتك</div><div class="step-desc">عادية 50ج (استلام 15 يوم) — عاجلة 125ج (3 أيام) — خاصة 175ج (24 ساعة) — VIP إكسبريس 515ج (30 دقيقة) — فورية من السيارة النموذجية 800ج.</div></li>
-      <li><div class="step-title">استلم البطاقة في الموعد</div><div class="step-desc">خد إيصال بيوضح الميعاد ومكان الاستلام من نفس المكتب. نصيحة: متتأخرش بعد سن 15 عشان تتجنب غرامة 100ج.</div></li>
-    </ol>
-  </div>
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
 
-  <div class="section">
-    <h2>❓ أسئلة شائعة</h2>
-    <div class="faq-item">
-      <div class="faq-q">إيه الأوراق المطلوبة لـاستخراج بطاقة الرقم القومي؟</div>
-      <div class="faq-a">أصل شهادة الميلاد المميكنة + مستند إقامة حديث (إيصال مرافق أو عقد موثق) + إثبات المهنة أو الدراسة معتمد + ضامن ببطاقة سارية لو قاصر. الاستمارة بتشتريها من السجل نفسه أو من الماكينة الذكية.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">كم من الوقت بيخد استخراج بطاقة الرقم القومي؟</div>
-      <div class="faq-a">على حسب الفئة: العادية 15 يوم، العاجلة 3 أيام، الخاصة 24 ساعة، VIP إكسبريس 30 دقيقة، والفورية بتتسلم في نفس اللحظة.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">أقدر أعمل استخراج بطاقة الرقم القومي أونلاين؟</div>
-      <div class="faq-a">ممكن تبدأ الطلب من بوابة الأحوال المدنية، لكن أول مرة لازم تحضر شخصيًا للتصوير وأخذ البصمات. التجديد وبدل الفاقد/التالف متاحين أونلاين بالكامل من بوابة مصر الرقمية.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">إيه الرسوم؟</div>
-      <div class="faq-a">عادية 50ج، عاجلة 125ج، خاصة 175ج، VIP إكسبريس 515ج، فورية 800ج. خد بالك: التأخير في الاستخراج بعد سن 15 غرامته 100ج.</div>
-    </div>
-  </div>
-
-  <div class="ask-cta">
-    <h3>🤖 محتاج مساعدة؟</h3>
-    <p>اسأل خِدْمَتي AI — احكيلي مشكلتك بالعربي و هقولك تعمل إيه</p>
-    <a href="../index.html#ask-ai" class="ask-btn">اسأل خِدْمَتي AI ←</a>
-  </div>
-
-  <div class="related">
-    <h3>🔗 خدمات مشابهة</h3>
-    <div class="related-links">
-      <a href="birth-certificate.html">استخراج شهادة ميلاد</a>
-      <a href="lost-national-id.html">بدل فاقد لبطاقة الرقم القومي</a>
-      <a href="marriage-divorce-certificate.html">قسيمة زواج أو طلاق</a>
-      <a href="renew-national-id.html">تجديد بطاقة الرقم القومي</a>
-    </div>
-  </div>
-
-  <div class="related">
-    <h3>📚 مقالات ممكن تفيدك</h3>
-    <div class="related-links">
-      <a href="../articles.html">دليل الخدمات الحكومية</a>
-      <a href="../calc.html">حاسبة الرسوم</a>
-    </div>
-  </div>
-</div>
-<div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:26px 16px 6px;max-width:900px;margin:0 auto;font-family:Cairo,sans-serif">
-  <span style="font-size:13px;color:#8ea0c4;font-weight:700">تابعنا 👇</span>
-  <a href="https://t.me/khdmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">✈️ تيلجرام</a>
-  <a href="https://youtube.com/@khidmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #ff0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">▶️ يوتيوب</a>
-  <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #25D366;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">📲 واتساب</a>
-  <a href="https://t.me/+ZYqNnOv8dy5kODU0" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">👥 الجروب</a>
-</div>
-
-<!-- ========== BOOK AD ========== -->
-<aside style="background:linear-gradient(145deg,#0d1a33,#162847);margin:20px 16px;padding:16px;border-radius:12px;border:1px solid #1e3556;display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:560px">
-  <img src="../assets/cover-book1-ar.webp" alt="غلاف قوة العقل" style="width:55px;height:75px;border-radius:6px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)">
-  <div style="flex:1;min-width:150px">
-    <div style="font-size:12px;color:#e6c258;font-weight:800">📚 قوة العقل وتطوير الذات</div>
-    <div style="font-size:11px;color:#8ea0c4;margin:2px 0">عربي 75ج | إنجليزي 100ج | <b style="color:#e6c258">الاثنين 129ج</b></div>
-    <div style="font-size:10px;color:#5a6a8a">📄 PDF فقط ⏰ عرض محدود</div>
-  </div>
-  <a href="https://wa.me/201005305955?text=أريد%20شراء%20سلسلة%20قوة%20العقل%20-%20العرض%20129ج" target="_blank" rel="noopener" style="background:#e6c258;color:#0F1E3D;text-decoration:none;font-size:13px;font-weight:800;padding:8px 16px;border-radius:8px;white-space:nowrap">📲 اطلب</a>
-</aside>
-<!-- ========== END BOOK AD ========== -->
-
-<div class="footer">
-  <p>© 2026 خِدْمَتي AI | <a href="../index.html">الرئيسية</a> | <a href="../services.html">الخدمات</a> | <a href="../articles.html">المقالات</a> | <a href="../calc.html">حاسبة الرسوم</a></p>
-</div>
-
-<!-- ===== BOOK MINI AD ===== -->
-<div class="book-mini-ad" id="bookMiniAd">
-  <button class="ad-close" onclick="closeBookAd()">&times;</button>
-  <div class="ad-icon">📚</div>
-  <div class="ad-content">
-    <div class="ad-title">سلسلة قوة العقل وتطوير الذات</div>
-    <div class="ad-text">
-      عربي <b>75ج</b> | إنجليزي <b>100ج</b> &nbsp;⏰ الاثنين: <span class="old-price">175ج</span> → <span class="new-price">129ج</span> &nbsp;📄 PDF فقط
-    </div>
-  </div>
-  <div class="ad-cta">
-    <a href="https://wa.me/201005305955?text=أريد%20شراء%20سلسلة%20قوة%20العقل%20-%20العرض%20129ج" target="_blank" rel="noopener">📲 اطلب</a>
-  </div>
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
 </div>
 <script>
-(function(){
-  var ad=document.getElementById('bookMiniAd');
-  if(!ad)return;
-  // Show after 15 seconds, hide after 10 seconds, repeat every 45 seconds
-  var shown=false;
-  function showAd(){ad.classList.add('show');ad.classList.remove('hide');shown=true;
-    setTimeout(function(){if(shown){ad.classList.remove('show');ad.classList.add('hide');shown=false;}},10000);
-  }
-  setTimeout(showAd,15000);
-  setInterval(showAd,45000);
-})();
-function closeBookAd(){var ad=document.getElementById('bookMiniAd');if(ad){ad.classList.remove('show');ad.classList.add('hide');}}
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
 </script>
-<link rel="stylesheet" href="/assets/book-mini-ad.css">
-<!-- ===== END BOOK MINI AD ===== -->
-
 </body>
 </html>

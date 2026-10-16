@@ -4,334 +4,231 @@
 <script src="../auth-guard.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>نقل ملكية سيارة في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
-<meta name="description" content="دليلك الكامل لـنقل ملكية سيارة في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-<meta name="keywords" content="نقل ملكية سيارة, المرور, مصر, خطوات, أوراق, رسوم, خِدْمَتي">
+<title>نقل ملكية سيارة | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="دليلك الكامل لنقل ملكية سيارة في مصر — المستندات المطلوبة، خطوات نقل القيد من البائع للمشتري في وحدة المرور، الرسوم حسب نوع المركبة وسنة الصنع، ومدة التنفيذ. بحاسبة رسوم تفاعلية ومقارنة بين أنواع الرسوم.">
+<meta name="keywords" content="نقل ملكية سيارة, نقل قيد مركبة, نقل ملكية سيارة مصر, رسوم نقل ملكية, المرور, خِدْمَتي AI">
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#0F1E3D">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <style>
+*{box-sizing:border-box}
 body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
-.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
 .header-logo{display:flex;align-items:center;gap:10px}
-.header-logo img{width:36px;height:36px;border-radius:8px}
 .header-logo span{color:#fff;font-weight:900;font-size:18px}
 .header-logo .ai{color:#e6c258}
 .breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
 .breadcrumb a{color:#e6c258;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline}
-.service-detail{max-width:900px;margin:0 auto 50px;padding:0 20px}
-.service-header{text-align:center;padding:30px 0 20px}
-.service-header .emoji{font-size:56px;margin-bottom:10px}
-.service-header h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 8px}
-.service-header p{font-size:15px;color:#8ea0c4;margin:0 0 16px}
-.service-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.tag{font-size:12px;padding:4px 14px;border-radius:20px;font-weight:600}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
 .tag-online{background:rgba(16,185,129,.15);color:#10b981}
-.tag-free{background:rgba(230,194,88,.15);color:#e6c258}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
 .section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
-.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 16px;display:flex;align-items:center;gap:8px}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.info-item{background:rgba(15,30,61,.5);border-radius:10px;padding:14px}
-.info-label{font-size:12px;color:#8ea0c4;margin-bottom:6px;font-weight:600}
-.info-value{font-size:15px;color:#fff;font-weight:600}
-.steps-list{counter-reset:step;list-style:none;padding:0;margin:0}
-.steps-list li{counter-increment:step;padding:12px 0 12px 50px;position:relative;border-bottom:1px solid #1e3556}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
 .steps-list li:last-child{border-bottom:none}
-.steps-list li::before{content:counter(step);position:absolute;right:0;top:12px;width:32px;height:32px;background:#e6c258;color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
-.steps-list li .step-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.steps-list li .step-desc{font-size:13px;color:#8ea0c4;line-height:1.5}
-.docs-list{list-style:none;padding:0;margin:0}
-.docs-list li{padding:10px 0 10px 28px;position:relative;border-bottom:1px solid #1e3556;font-size:14px;color:#c0cee0}
-.docs-list li:last-child{border-bottom:none}
-.docs-list li::before{content:'📄';position:absolute;right:0;top:10px}
-.faq-item{padding:14px 0;border-bottom:1px solid #1e3556}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
 .faq-item:last-child{border-bottom:none}
-.faq-q{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
-.faq-a{font-size:14px;color:#8ea0c4;line-height:1.6}
-.official-link{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;margin-top:8px}
-.official-link:hover{background:rgba(59,130,246,.25)}
-.ask-cta{text-align:center;padding:30px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
-.ask-cta h3{font-size:20px;font-weight:800;color:#fff;margin:0 0 8px}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
 .ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
-.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;padding:14px 32px;border-radius:30px;font-weight:800;font-size:16px;text-decoration:none;font-family:Cairo,sans-serif;transition:all .3s}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
 .ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
-.related{margin-bottom:20px}
-.related h3{font-size:16px;font-weight:800;color:#e6c258;margin:0 0 12px}
-.related-links{display:flex;gap:10px;flex-wrap:wrap}
-.related-links a{font-size:13px;color:#8ea0c4;background:rgba(15,30,61,.5);padding:8px 14px;border-radius:8px;text-decoration:none;border:1px solid #1e3556;transition:all .2s}
-.related-links a:hover{border-color:#e6c258;color:#e6c258}
-.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
-.footer a{color:#e6c258;text-decoration:none;font-weight:700}
-@media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
 </style>
-<link rel="canonical" href="https://khidmatyai.com/services/car-ownership-transfer.html">
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:title" content="نقل ملكية سيارة في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI">
-  <meta property="og:description" content="دليلك الكامل لـنقل ملكية سيارة في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-  <meta property="og:url" content="https://khidmatyai.com/services/car-ownership-transfer.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="خِدْمَتي AI">
-  <meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
-  <meta property="og:locale" content="ar_EG">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="نقل ملكية سيارة في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI">
-  <meta name="twitter:description" content="دليلك الكامل لـنقل ملكية سيارة في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-  <meta name="twitter:image" content="https://khidmatyai.com/assets/og-banner.png">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "إيه الأوراق المطلوبة لـنقل ملكية سيارة؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "بطاقتا الطرفين + عقد البيع (الموثق أفضل) + رخصة السيارة سارية + وثيقة تأمين إجباري ببيانات المالك الجديد + شهادة براءة ذمة. والحضور شخصي للطرفين أو بتوكيل رسمي."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "كم من الوقت بيخد نقل ملكية سيارة؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "الإجراء بيتكمل في نفس الزيارة غالبًا بعد استيفاء المستندات وسداد الرسوم — والرخصة الجديدة باسم المالك الجديد بتتسلم من نفس الوحدة."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "أقدر أعمل نقل ملكية سيارة أونلاين؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "تقديم الطلب نفسه حضورياً من وحدة المرور المختصة بملف السيارة — بس تقدر تستعلم عن المخالفات وتسددها أونلاين من بوابة مرور مصر قبل المعاملة، وتوثيق عقد البيع أونلاين من الشهر العقاري."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "إيه الرسوم؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "الرسوم محسوبة كنسبة من القيمة التقديرية للسيارة حسب سنة الصنع والفئة (ملاكي/نقل/أجرة وسعة المحرك) + رسوم ترخيص سنة جديدة + تأمين إجباري للمشتري — القيمة التقديرية من جداول المرور الرسمية مش من سعر السوق."
-      }
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "نقل ملكية سيارة في مصر",
-  "description": "دليلك الكامل لـنقل ملكية سيارة في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.",
-  "url": "https://khidmatyai.com/services/car-ownership-transfer.html",
-  "areaServed": {
-    "@type": "Country",
-    "name": "Egypt"
-  },
-  "provider": {
-    "@type": "Organization",
-    "name": "خِدْمَتي AI",
-    "url": "https://khidmatyai.com/"
-  }
-}
-</script>
 </head>
 <body>
-<div class="header">
-  <a href="traffic.html">← المرور</a>
-  <div class="header-logo">
-    <img src="../assets/k-logo.webp" alt="خِدْمَتي AI">
-    <span>خِدْمَتي <span class="ai">AI</span></span>
-  </div>
-</div>
-<div class="breadcrumb">
-  <a href="../index.html">الرئيسية</a> › <a href="../services.html">الخدمات</a> › <a href="traffic.html">المرور</a> › نقل ملكية سيارة
-</div>
-<div class="service-detail">
-  <div class="service-header">
-    <div class="emoji">📋</div>
-    <h1>نقل ملكية سيارة في مصر</h1>
-    <p>نقل ملكية مركبة من شخص لآخر</p>
-    <div class="service-tags">
-<span class="tag tag-online">🌐 متاح أونلاين</span>
-    </div>
-  </div>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › المرور</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🚗</div>
+  <h1>نقل ملكية سيارة</h1>
+  <p>دليلك الكامل لنقل ملكية سيارة في مصر — المستندات المطلوبة، خطوات نقل القيد من البائع للمشتري في وحدة المرور، الرسوم حسب نوع المركبة وسنة الص</p>
+  <div class="hero-tags"><span class="tag tag-gov-fee">🏛️ رسم حكومي</span><span class="tag tag-المرور">المرور</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">💰</div><div class="stat-value">حسب القيمة التقديرية</div><div class="stat-label">الرسوم</div></div><div class="stat-card"><div class="stat-emoji">⚡</div><div class="stat-value">نفس الزيارة غالبًا</div><div class="stat-label">المدة</div></div><div class="stat-card"><div class="stat-emoji">📄</div><div class="stat-value">5 مستندات</div><div class="stat-label">الأوراق</div></div></div>
+ </div>
 
-  <div class="info-grid">
-    <div class="info-item">
-      <div class="info-label">الجهة المسؤولة</div>
-      <div class="info-value">الإدارة العامة للمرور</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">مدة التنفيذ</div>
-      <div class="info-value">نفس الزيارة غالبًا بعد اكتمال المستندات</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">الرسوم</div>
-      <div class="info-value">نسبة من القيمة التقديرية حسب سنة الصنع والفئة</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">الموقع الرسمي</div>
-      <div class="info-value"><a href="https://traffic.moi.gov.eg/" target="_blank" class="official-link">الموقع الرسمي ↗</a></div>
-    </div>
+ <div class="section">
+  <h2>🧮 احسب الرسوم الثابتة لنقل الملكية</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختار بند الرسوم لمعرفة قيمته — الرسوم الإجمالية تشمل تسجيل العقد أيضًا</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="300" checked><span class="calc-opt-body"><span class="calc-opt-label">التأمين الإجباري (سنة)</span><span class="calc-opt-desc">وثيقة تأمين ببيانات المالك الجديد</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="250" ><span class="calc-opt-body"><span class="calc-opt-label">الملصق الإلكتروني (سنة)</span><span class="calc-opt-desc">رسوم سنوية إلزامية</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="60" ><span class="calc-opt-body"><span class="calc-opt-label">تطوير النقل الذكي (محرك صغير)</span><span class="calc-opt-desc">للمركبات ذات السعة اللترية الصغيرة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="350" ><span class="calc-opt-body"><span class="calc-opt-label">تطوير النقل الذكي (محرك كبير)</span><span class="calc-opt-desc">للمركبات ذات السعة اللترية الكبيرة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="100" ><span class="calc-opt-body"><span class="calc-opt-label">رسوم النماذج التقديرية</span><span class="calc-opt-desc">تقدير تقريبي — تختلف حسب الجهة</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">300</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
   </div>
+ </div>
 
-  <div style="text-align:center;font-size:12.5px;color:#8ea0c4;margin:0 0 18px;font-weight:600">🗓️ آخر تحديث: 2 أكتوبر 2026 — المعلومات من مصادر رسمية موثقة ومراجعة</div>
+ <div class="section">
+  <h2>💰 مقارنة الرسوم وأنواع التكاليف</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">📋</span><div><div class="fee-name">رسوم تسجيل عقد البيع (الشهر العقاري)</div><div class="fee-note">تُحسب من جداول رسمية حسب سنة الصنع والفئة والسعة</div></div></div><div class="fee-price">نسبة من القيمة التقديرية</div><div class="fee-speed">يُسدد بالشهر العقاري قبل المرور</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🏛️</span><div><div class="fee-name">رسوم نقل القيد (نماذج المرور)</div><div class="fee-note">تُسدد بوحدة المرور المنقول إليها المركبة</div></div></div><div class="fee-price">حسب الجهة</div><div class="fee-speed">يوم المعاملة</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🛡️</span><div><div class="fee-name">التأمين الإجباري (سنة)</div><div class="fee-note">وثيقة تأمين إجباري ببيانات المالك الجديد</div></div></div><div class="fee-price">≈ 300 جنيه</div><div class="fee-speed">فوري</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🏷️</span><div><div class="fee-name">الملصق الإلكتروني (سنة)</div><div class="fee-note">رسوم سنوية إلزامية</div></div></div><div class="fee-price">≈ 250 جنيه</div><div class="fee-speed">مع الترخيص</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📡</span><div><div class="fee-name">تطوير منظومة النقل الذكي</div><div class="fee-note">حسب السعة اللترية للمركبة</div></div></div><div class="fee-price">60 - 350 جنيه</div><div class="fee-speed">مع الترخيص</div></div>
+  <div class="verify-note">⚠️ رسوم نقل الملكية الإجمالية تختلف بشكل كبير حسب نوع المركبة (ملاكي/نقل/أجرة)، سنة الصنع، والسعة اللترية. لا توجد قيمة موحدة. راجع وحدة المرور المختصة لمعرفة المبلغ الدقيق لحالتك.</div>
+ </div>
 
-  <!-- 📊 Infographic — Rania R3 -->
-  <div class="infographic-card">
-    <div class="info-head"><span class="info-emoji">📋</span><h2>نقل ملكية سيارة في مصر — ملخص سريع</h2><p>📷 صور الشاشة وشاركه</p></div>
-    <div class="info-stats"><div class="stat"><span class="stat-num">4</span><span class="stat-label">أوراق</span></div>
-    <div class="stat"><span class="stat-num">6</span><span class="stat-label">خطوات</span></div>
-    <div class="stat"><span class="stat-num">متفاوت</span><span class="stat-label">المدة</span></div></div>
-    <div class="info-docs-title">📄 الأوراق المطلوبة</div>
-    <div class="info-docs"><div class="doc-badge">🆔 بطاقة الرقم القومي سارية…</div><div class="doc-badge">📝 السند القانوني الناقل…</div><div class="doc-badge">📊 رخصة السيارة سارية + وثيقة…</div><div class="doc-badge">📄 شهادة براءة ذمة قبل بدء…</div></div>
-    <div class="info-flow-title">📋 الخطوات</div>
-    <div class="info-flow"><div class="flow-step"><span class="flow-num">1</span>سدد المخالفات واستخرج براءة الذمة</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">2</span>حرر عقد البيع ووثّقه</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">3</span>توجهوا معًا لوحدة المرور المختصة بملف ال</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">4</span>الفحص الفني للمركبة</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">5</span>اسدد رسوم نقل الملكية</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">6</span>استلموا الرخصة الجديدة</div></div>
-    <div class="info-footer">📍 أقرب مكتب: <a href="../offices/insurance.html" class="info-link">تصفح المكاتب ←</a></div>
+ <div class="section">
+  <h2>📋 خطوات نقل الملكية</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">💻 الاستعلام والسداد أونلاين</button>
+   <button class="tab-btn" onclick="switchTab(1)">🏛️ حضوري (وحدة المرور)</button>
   </div>
-  <style>
-  .infographic-card{max-width:560px;margin:0 auto 24px;background:linear-gradient(145deg,#1a2d5a,#0d1a33);border:2px solid #e6c258;border-radius:18px;padding:22px 18px}
-  .info-head{text-align:center;margin-bottom:14px}.info-emoji{font-size:38px;display:block}.info-head h2{font-size:18px;font-weight:900;color:#e6c258;margin:6px 0 2px}.info-head p{font-size:12px;color:#8ea0c4;margin:0}
-  .info-stats{display:flex;justify-content:center;gap:12px;margin-bottom:16px}.stat{background:rgba(15,30,61,.6);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px}.stat-num{display:block;font-size:18px;font-weight:900;color:#e6c258}.stat-label{font-size:11px;color:#8ea0c4;font-weight:600}
-  .info-docs-title,.info-flow-title{font-size:13px;font-weight:800;color:#fff;margin:0 0 8px;text-align:center}
-  .info-docs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:16px}.doc-badge{background:rgba(230,194,88,.12);border:1px solid rgba(230,194,88,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#e6c258}
-  .info-flow{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:14px}
-  .flow-step{background:rgba(15,30,61,.6);border:1px solid #1e3556;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;color:#c0cee0;display:flex;align-items:center;gap:8px;width:90%;max-width:320px}.flow-num{min-width:24px;height:24px;border-radius:50%;background:#e6c258;color:#0F1E3D;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center}.flow-arrow{color:#e6c258;font-size:16px}
-  .info-footer{text-align:center;font-size:13px;color:#8ea0c4;border-top:1px solid #1e3556;padding-top:12px}.info-link{color:#e6c258;text-decoration:none;font-weight:700}
-  </style>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">استعلم عن المخالفات</div><div class="step-desc">ادخل بوابة مرور مصر أو بوابة مصر الرقمية واستعلم عن المخالفات المسجلة على السيارة.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">سدد المخالفات إلكترونيًا</div><div class="step-desc">سدد أي مخالفات مستحقة لاستخراج شهادة براءة الذمة قبل بدء إجراءات النقل.</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">توثيق عقد البيع أونلاين</div><div class="step-desc">احجز موعدًا أو قدّم طلب توثيق عقد البيع من بوابة الشهر العقاري الرقمية إن توفّرت الخدمة.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">توجهوا معًا لوحدة المرور</div><div class="step-desc">الإجراء الأساسي لنقل القيد حضوري — الطرفان (أو بتوكيل رسمي) لوحدة المرور المختصة بملف السيارة.</div></div></li></ol></div>
+  <div class="tab-pane"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">سدد المخالفات واستخرج براءة الذمة</div><div class="step-desc">تأكد من سداد كل المخالفات على السيارة واستخرج شهادة براءة الذمة (شهادة المخالفات) من المرور أو أونلاين.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">حرر عقد البيع ووثّقه</div><div class="step-desc">اكتب عقد بيع بين البائع والمشتري ووثّقه بالشهر العقاري — العقد الموثق هو السند القانوني الناقل للملكية.</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">توجهوا معًا لوحدة المرور المختصة</div><div class="step-desc">البائع والمشتري (أو بتوكيل رسمي) يذهبان لوحدة المرور التابعة لملف السيارة مع كامل المستندات.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">الفحص الفني للمركبة</div><div class="step-desc">تُفحص المركبة فنيًا (شاسيه وموتور) للتأكد من مطابقة البيانات المسجلة بالرخصة.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">سدد رسوم نقل الملكية</div><div class="step-desc">ادفع رسوم النماذج والتأمين والملصق وتطوير النقل الذكي بخزينة وحدة المرور.</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">استلم الرخصة الجديدة</div><div class="step-desc">تُصدَر رخصة السيارة باسم المالك الجديد وتُسلّم في نفس الزيارة غالبًا بعد اكتمال الإجراءات.</div></div></li></ol></div>
+ </div>
 
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">بطاقة الرقم القومي سارية للمالك الجديد (المشتري)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">السند القانوني الناقل للملكية (عقد بيع موثق أو توكيل بيع)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">رخصة السيارة (سارية أو منتهية)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">شهادة براءة الذمة / شهادة المخالفات</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">وثيقة التأمين الإجباري ببيانات المالك الجديد</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
 
-  <div class="section">
-    <h2>👤 من يحق له الحصول على الخدمة؟</h2>
-    <p style="font-size:15px;color:#c0cee0;line-height:1.7;margin:0">البائع والمشتري معًا (حضور شخصي أو توكيل رسمي موثق) — بشرط رخصة سارية ووثيقة تأمين محدثة ومفيش مخالفات منظورة</p>
+ <div class="section">
+  <h2>✅ شروط نقل الملكية</h2>
+  <ul class="cond-list"><li>سداد كافة المخالفات المسجلة على المركبة قبل بدء الإجراء</li><li>توثيق عقد البيع بالشهر العقاري (السند القانوني الناقل للملكية)</li><li>حضور الطرفين (البائع والمشتري) أو توكيل رسمي معتمد</li><li>اجتياز الفحص الفني للمركبة في الحالات المطلوبة</li><li>سداد الرسوم المقررة قبل إصدار الرخصة الجديدة</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">وحدات المرور المختصة</div><div class="where-desc">الوحدة التابعة لملف السيارة — نقل القيد والفحص وإصدار الرخصة</div></div></div><div class="where-card"><div class="where-icon">📋</div><div><div class="where-name">مكاتب الشهر العقاري والتوثيق</div><div class="where-desc">توثيق عقد البيع — السند القانوني الناقل للملكية</div></div></div><div class="where-card"><div class="where-icon">💻</div><div><div class="where-name">بوابة مرور مصر الإلكترونية</div><div class="where-desc">استعلام وسداد المخالفات أونلاين</div></div></div><div class="where-card"><div class="where-icon">🌐</div><div><div class="where-name">بوابة مصر الرقمية digital.gov.eg</div><div class="where-desc">خدمات المرور الإلكترونية وحجز المواعيد</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم رسوم نقل ملكية سيارة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لا توجد قيمة موحدة. تشمل الرسوم: تسجيل عقد البيع بالشهر العقاري (نسبة من القيمة التقديرية حسب سنة الصنع والفئة)، رسوم نقل القيد بالمرور، التأمين الإجباري (~300 جنيه)، الملصق الإلكتروني (~250 جنيه)، وتطوير النقل الذكي (60-350 جنيه). راجع وحدة المرور لمعرفة المبلغ الدقيق.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أقدر أنقل الملكية أونلاين؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>تقدر تستعلم وتسدد المخالفات وتتوثق على عقد البيع أونلاين، لكن الإجراء الأساسي لنقل القيد حضوري من وحدة المرور المختصة بملف السيارة بحضور الطرفين أو بتوكيل رسمي.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم تستغرق عملية نقل الملكية؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>تُكمل في نفس الزيارة غالبًا بعد استيفاء المستندات وسداد الرسوم. الرخصة الجديدة باسم المالك الجديد تُستلم من نفس الوحدة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>إيه السند القانوني الناقل للملكية؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>هو عقد البيع الموثق بالشهر العقاري أو توكيل بيع من صاحب السيارة. لازم يكون موثق رسميًا ليقبل المرور.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>لو في مخالفات على السيارة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لازم تسدد كل المخالفات وتستخرج شهادة براءة الذمة (شهادة المخالفات) قبل بدء إجراءات نقل الملكية. تقدر تسددها أونلاين من بوابة مرور مصر.</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://psm.gov.eg/providers/47/services" target="_blank" rel="noopener" class="src-badge">🏛️ الإدارة العامة للمرور — نقل قيد ملكية مركبة</a><a href="http://www.alexandria.gov.eg/services/traffic5/traffic_services/license8.html" target="_blank" rel="noopener" class="src-badge">🏛️ محافظة الإسكندرية — إجراءات نقل قيد ملكية مركبة</a><a href="https://traffic.moi.gov.eg/Arabic/OurServices/InfoServices/TrafficLaw/Pages/taxes-and-fees.aspx" target="_blank" rel="noopener" class="src-badge">🏛️ وزارة الداخلية — الضرائب والرسوم (قانون المرور)</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
   </div>
+ </div>
 
-  <div class="section">
-    <h2>📄 الأوراق المطلوبة</h2>
-    <ul class="docs-list">
-      <li>بطاقة الرقم القومي سارية للبائع والمشتري (حضور الطرفين أو توكيل رسمي موثق)</li>
-      <li>السند القانوني الناقل للملكية (عقد بيع — ويُفضل توثيقه من الشهر العقاري)</li>
-      <li>رخصة السيارة سارية + وثيقة تأمين إجباري ببيانات المالك الجديد</li>
-      <li>شهادة براءة ذمة (سداد المخالفات) قبل بدء الإجراء</li>
-    </ul>
-  </div>
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="power-of-attorney.html" class="rel-card">استخراج توكيل رسمي</a><a href="court-ruling-copy.html" class="rel-card">استخراج صورة رسمية من حكم</a><a href="notary.html" class="rel-card">خدمات الشهر العقاري والتوثيق</a></div>
+ </div>
 
-  <div class="section">
-    <h2>📋 الخطوات</h2>
-    <ol class="steps-list">
-      <li><div class="step-title">سدد المخالفات واستخرج براءة الذمة</div><div class="step-desc">أول شرط: مفيش مخالفات منظورة — المخالفات بتمنع النقل، واللي مش مسدد بيتحول مع السيارة للمشتري.</div></li>
-      <li><div class="step-title">حرر عقد البيع ووثّقه</div><div class="step-desc">العقد العرفي مش بيعفي البائع من المسؤولية القانونية عن أي حادث أو مخالفة لغاية النقل الرسمي — توثيق عقد بيع السيارة متاح من الشهر العقاري أونلاين (بوابة مصر الرقمية) وبينصح بيه للطرفين.</div></li>
-      <li><div class="step-title">توجهوا معًا لوحدة المرور المختصة بملف السيارة</div><div class="step-desc">البائع والمشتري شخصيًا أو بتوكيل رسمي موثق — وقدّموا المستندات ووقعوا نموذج طلب نقل الملكية.</div></li>
-      <li><div class="step-title">الفحص الفني للمركبة</div><div class="step-desc">في الحالات المقررة — للتأكد من مطابقة البيانات المثبتة بالرخصة.</div></li>
-      <li><div class="step-title">اسدد رسوم نقل الملكية</div><div class="step-desc">محسوبة كنسبة من القيمة التقديرية للسيارة حسب سنة الصنع وفئتها (جداول المرور الرسمية) + رسوم ترخيص سنة جديدة باسم المالك الجديد.</div></li>
-      <li><div class="step-title">استلموا الرخصة الجديدة</div><div class="step-desc">بيانات المالك الجديد متسجلة رسميًا في المرور — ومن هنا بس يبقى البائع بريء من أي مسؤولية على السيارة.</div></li>
-    </ol>
-  </div>
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
 
-  <div class="section">
-    <h2>❓ أسئلة شائعة</h2>
-    <div class="faq-item">
-      <div class="faq-q">إيه الأوراق المطلوبة لـنقل ملكية سيارة؟</div>
-      <div class="faq-a">بطاقتا الطرفين + عقد البيع (الموثق أفضل) + رخصة السيارة سارية + وثيقة تأمين إجباري ببيانات المالك الجديد + شهادة براءة ذمة. والحضور شخصي للطرفين أو بتوكيل رسمي.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">كم من الوقت بيخد نقل ملكية سيارة؟</div>
-      <div class="faq-a">الإجراء بيتكمل في نفس الزيارة غالبًا بعد استيفاء المستندات وسداد الرسوم — والرخصة الجديدة باسم المالك الجديد بتتسلم من نفس الوحدة.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">أقدر أعمل نقل ملكية سيارة أونلاين؟</div>
-      <div class="faq-a">تقديم الطلب نفسه حضورياً من وحدة المرور المختصة بملف السيارة — بس تقدر تستعلم عن المخالفات وتسددها أونلاين من بوابة مرور مصر قبل المعاملة، وتوثيق عقد البيع أونلاين من الشهر العقاري.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">إيه الرسوم؟</div>
-      <div class="faq-a">الرسوم محسوبة كنسبة من القيمة التقديرية للسيارة حسب سنة الصنع والفئة (ملاكي/نقل/أجرة وسعة المحرك) + رسوم ترخيص سنة جديدة + تأمين إجباري للمشتري — القيمة التقديرية من جداول المرور الرسمية مش من سعر السوق.</div>
-    </div>
-  </div>
-
-  <div class="ask-cta">
-    <h3>🤖 محتاج مساعدة؟</h3>
-    <p>اسأل خِدْمَتي AI — احكيلي مشكلتك بالعربي و هقولك تعمل إيه</p>
-    <a href="../index.html#ask-ai" class="ask-btn">اسأل خِدْمَتي AI ←</a>
-  </div>
-
-  <div class="related">
-    <h3>🔗 خدمات مشابهة</h3>
-    <div class="related-links">
-      <a href="renew-driving-license.html">تجديد رخصة قيادة</a>
-      <a href="renew-car-license.html">تجديد رخصة سيارة</a>
-      <a href="traffic-violations.html">الاستعلام عن المخالفات المرورية</a>
-      <a href="new-driving-license.html">استخراج رخصة قيادة جديدة</a>
-    </div>
-  </div>
-
-  <div class="related">
-    <h3>📚 مقالات ممكن تفيدك</h3>
-    <div class="related-links">
-      <a href="../articles.html">دليل الخدمات الحكومية</a>
-      <a href="../calc.html">حاسبة الرسوم</a>
-    </div>
-  </div>
-</div>
-<div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:26px 16px 6px;max-width:900px;margin:0 auto;font-family:Cairo,sans-serif">
-  <span style="font-size:13px;color:#8ea0c4;font-weight:700">تابعنا 👇</span>
-  <a href="https://t.me/khdmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">✈️ تيلجرام</a>
-  <a href="https://youtube.com/@khidmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #ff0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">▶️ يوتيوب</a>
-  <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #25D366;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">📲 واتساب</a>
-  <a href="https://t.me/+ZYqNnOv8dy5kODU0" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">👥 الجروب</a>
-</div>
-
-<!-- ========== BOOK AD ========== -->
-<aside style="background:linear-gradient(145deg,#0d1a33,#162847);margin:20px 16px;padding:16px;border-radius:12px;border:1px solid #1e3556;display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:560px">
-  <img src="../assets/cover-book1-ar.webp" alt="غلاف قوة العقل" style="width:55px;height:75px;border-radius:6px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)">
-  <div style="flex:1;min-width:150px">
-    <div style="font-size:12px;color:#e6c258;font-weight:800">📚 قوة العقل وتطوير الذات</div>
-    <div style="font-size:11px;color:#8ea0c4;margin:2px 0">عربي 75ج | إنجليزي 100ج | <b style="color:#e6c258">الاثنين 129ج</b></div>
-    <div style="font-size:10px;color:#5a6a8a">📄 PDF فقط ⏰ عرض محدود</div>
-  </div>
-  <a href="https://wa.me/201005305955?text=أريد%20شراء%20سلسلة%20قوة%20العقل%20-%20العرض%20129ج" target="_blank" rel="noopener" style="background:#e6c258;color:#0F1E3D;text-decoration:none;font-size:13px;font-weight:800;padding:8px 16px;border-radius:8px;white-space:nowrap">📲 اطلب</a>
-</aside>
-<!-- ========== END BOOK AD ========== -->
-
-<div class="footer">
-  <p>© 2026 خِدْمَتي AI | <a href="../index.html">الرئيسية</a> | <a href="../services.html">الخدمات</a> | <a href="../articles.html">المقالات</a> | <a href="../calc.html">حاسبة الرسوم</a></p>
-</div>
-
-<!-- ===== BOOK MINI AD ===== -->
-<div class="book-mini-ad" id="bookMiniAd">
-  <button class="ad-close" onclick="closeBookAd()">&times;</button>
-  <div class="ad-icon">📚</div>
-  <div class="ad-content">
-    <div class="ad-title">سلسلة قوة العقل وتطوير الذات</div>
-    <div class="ad-text">
-      عربي <b>75ج</b> | إنجليزي <b>100ج</b> &nbsp;⏰ الاثنين: <span class="old-price">175ج</span> → <span class="new-price">129ج</span> &nbsp;📄 PDF فقط
-    </div>
-  </div>
-  <div class="ad-cta">
-    <a href="https://wa.me/201005305955?text=أريد%20شراء%20سلسلة%20قوة%20العقل%20-%20العرض%20129ج" target="_blank" rel="noopener">📲 اطلب</a>
-  </div>
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
 </div>
 <script>
-(function(){
-  var ad=document.getElementById('bookMiniAd');
-  if(!ad)return;
-  // Show after 15 seconds, hide after 10 seconds, repeat every 45 seconds
-  var shown=false;
-  function showAd(){ad.classList.add('show');ad.classList.remove('hide');shown=true;
-    setTimeout(function(){if(shown){ad.classList.remove('show');ad.classList.add('hide');shown=false;}},10000);
-  }
-  setTimeout(showAd,15000);
-  setInterval(showAd,45000);
-})();
-function closeBookAd(){var ad=document.getElementById('bookMiniAd');if(ad){ad.classList.remove('show');ad.classList.add('hide');}}
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
 </script>
-<link rel="stylesheet" href="/assets/book-mini-ad.css">
-<!-- ===== END BOOK MINI AD ===== -->
-
 </body>
 </html>

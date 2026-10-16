@@ -4,335 +4,231 @@
 <script src="../auth-guard.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>تجديد جواز سفر في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
-<meta name="description" content="دليلك الكامل لـتجديد جواز سفر في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-<meta name="keywords" content="تجديد جواز سفر, السفر والهجرة, مصر, خطوات, أوراق, رسوم, خِدْمَتي">
+<title>تجديد جواز سفر | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="دليلك الكامل لتجديد جواز السفر المصري — المستندات المطلوبة، رسوم التجديد العادي والفوري، خطوات التقديم بمصلحة الجوازات أو أونلاين، والمدة المتوقعة. بحاسبة رسوم تفاعلية ومقارنة بين أنواع التجديد.">
+<meta name="keywords" content="تجديد جواز سفر, جواز سفر مصري, مصلحة الجوازات, رسوم تجديد جواز, السفر والهجرة, خِدْمَتي AI">
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#0F1E3D">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <style>
+*{box-sizing:border-box}
 body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
-.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
 .header-logo{display:flex;align-items:center;gap:10px}
-.header-logo img{width:36px;height:36px;border-radius:8px}
 .header-logo span{color:#fff;font-weight:900;font-size:18px}
 .header-logo .ai{color:#e6c258}
 .breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
 .breadcrumb a{color:#e6c258;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline}
-.service-detail{max-width:900px;margin:0 auto 50px;padding:0 20px}
-.service-header{text-align:center;padding:30px 0 20px}
-.service-header .emoji{font-size:56px;margin-bottom:10px}
-.service-header h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 8px}
-.service-header p{font-size:15px;color:#8ea0c4;margin:0 0 16px}
-.service-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.tag{font-size:12px;padding:4px 14px;border-radius:20px;font-weight:600}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
 .tag-online{background:rgba(16,185,129,.15);color:#10b981}
-.tag-free{background:rgba(230,194,88,.15);color:#e6c258}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
 .section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
-.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 16px;display:flex;align-items:center;gap:8px}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.info-item{background:rgba(15,30,61,.5);border-radius:10px;padding:14px}
-.info-label{font-size:12px;color:#8ea0c4;margin-bottom:6px;font-weight:600}
-.info-value{font-size:15px;color:#fff;font-weight:600}
-.steps-list{counter-reset:step;list-style:none;padding:0;margin:0}
-.steps-list li{counter-increment:step;padding:12px 0 12px 50px;position:relative;border-bottom:1px solid #1e3556}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
 .steps-list li:last-child{border-bottom:none}
-.steps-list li::before{content:counter(step);position:absolute;right:0;top:12px;width:32px;height:32px;background:#e6c258;color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
-.steps-list li .step-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.steps-list li .step-desc{font-size:13px;color:#8ea0c4;line-height:1.5}
-.docs-list{list-style:none;padding:0;margin:0}
-.docs-list li{padding:10px 0 10px 28px;position:relative;border-bottom:1px solid #1e3556;font-size:14px;color:#c0cee0}
-.docs-list li:last-child{border-bottom:none}
-.docs-list li::before{content:'📄';position:absolute;right:0;top:10px}
-.faq-item{padding:14px 0;border-bottom:1px solid #1e3556}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
 .faq-item:last-child{border-bottom:none}
-.faq-q{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
-.faq-a{font-size:14px;color:#8ea0c4;line-height:1.6}
-.official-link{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;margin-top:8px}
-.official-link:hover{background:rgba(59,130,246,.25)}
-.ask-cta{text-align:center;padding:30px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
-.ask-cta h3{font-size:20px;font-weight:800;color:#fff;margin:0 0 8px}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
 .ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
-.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;padding:14px 32px;border-radius:30px;font-weight:800;font-size:16px;text-decoration:none;font-family:Cairo,sans-serif;transition:all .3s}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
 .ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
-.related{margin-bottom:20px}
-.related h3{font-size:16px;font-weight:800;color:#e6c258;margin:0 0 12px}
-.related-links{display:flex;gap:10px;flex-wrap:wrap}
-.related-links a{font-size:13px;color:#8ea0c4;background:rgba(15,30,61,.5);padding:8px 14px;border-radius:8px;text-decoration:none;border:1px solid #1e3556;transition:all .2s}
-.related-links a:hover{border-color:#e6c258;color:#e6c258}
-.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
-.footer a{color:#e6c258;text-decoration:none;font-weight:700}
-@media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
 </style>
-<link rel="canonical" href="https://khidmatyai.com/services/renew-passport.html">
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:title" content="تجديد جواز سفر في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI">
-  <meta property="og:description" content="دليلك الكامل لـتجديد جواز سفر في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-  <meta property="og:url" content="https://khidmatyai.com/services/renew-passport.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="خِدْمَتي AI">
-  <meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
-  <meta property="og:locale" content="ar_EG">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="تجديد جواز سفر في مصر | خطوات وأوراق ورسوم | خِدْمَتي AI">
-  <meta name="twitter:description" content="دليلك الكامل لـتجديد جواز سفر في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.">
-  <meta name="twitter:image" content="https://khidmatyai.com/assets/og-banner.png">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "إيه الأوراق المطلوبة لـتجديد جواز سفر؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "الجواز الحالي + بطاقة سارية + 4 صور 4×6 + مستند التجنيد للذكور + إثبات الحالة الاجتماعية للإناث + قيد دراسي للطلبة."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "كم من الوقت بيخد تجديد جواز سفر؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "زي الاستخراج: عادي 3-15 يوم عمل، مستعجل خلال 48 ساعة، عاجل نفس اليوم. ومن خارج مصر عبر القنصلية: 6-8 أسابيع تقريبًا."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "أقدر أعمل تجديد جواز سفر أونلاين؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "أيوه — التقديم الإلكتروني متاح من دليل خدمات الجوازات: بيانات + رفع مستندات + سداد أونلاين + استلام شخصي. ومن الخارج عن طريق القنصلية المصرية."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "إيه الرسوم؟",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "زي الاستخراج بالظبط: الرسم الأساسي 500ج والفئات حسب السرعة — العادي إجمالي حوالي 1200-1400ج بعد قرار يوليو 2025."
-      }
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "تجديد جواز سفر في مصر",
-  "description": "دليلك الكامل لـتجديد جواز سفر في مصر — تعرف على الخطوات والأوراق المطلوبة والرسوم ومدة التنفيذ. كل ما تحتاج معرفته بسهولة.",
-  "url": "https://khidmatyai.com/services/renew-passport.html",
-  "areaServed": {
-    "@type": "Country",
-    "name": "Egypt"
-  },
-  "provider": {
-    "@type": "Organization",
-    "name": "خِدْمَتي AI",
-    "url": "https://khidmatyai.com/"
-  }
-}
-</script>
 </head>
 <body>
-<div class="header">
-  <a href="travel.html">← السفر والهجرة</a>
-  <div class="header-logo">
-    <img src="../assets/k-logo.webp" alt="خِدْمَتي AI">
-    <span>خِدْمَتي <span class="ai">AI</span></span>
-  </div>
-</div>
-<div class="breadcrumb">
-  <a href="../index.html">الرئيسية</a> › <a href="../services.html">الخدمات</a> › <a href="travel.html">السفر والهجرة</a> › تجديد جواز سفر
-</div>
-<div class="service-detail">
-  <div class="service-header">
-    <div class="emoji">🔄</div>
-    <h1>تجديد جواز سفر في مصر</h1>
-    <p>تجديد جواز سفر مصري منتهي</p>
-    <div class="service-tags">
-<span class="tag tag-online">🌐 متاح أونلاين</span>
-    </div>
-  </div>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › السفر والهجرة</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🛅</div>
+  <h1>تجديد جواز سفر</h1>
+  <p>دليلك الكامل لتجديد جواز السفر المصري — المستندات المطلوبة، رسوم التجديد العادي والفوري، خطوات التقديم بمصلحة الجوازات أو أونلاين، والمدة ال</p>
+  <div class="hero-tags"><span class="tag tag-online">🌐 أونلاين</span><span class="tag tag-gov-fee">🏛️ رسم حكومي</span><span class="tag tag-السفر والهجرة">السفر والهجرة</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">💰</div><div class="stat-value">705 جنيه (عادي)</div><div class="stat-label">الرسوم</div></div><div class="stat-card"><div class="stat-emoji">⚡</div><div class="stat-value">أسبوع - فوري</div><div class="stat-label">المدة</div></div><div class="stat-card"><div class="stat-emoji">📄</div><div class="stat-value">جواز + بطاقة + 4 صور</div><div class="stat-label">الأوراق</div></div></div>
+ </div>
 
-  <div class="info-grid">
-    <div class="info-item">
-      <div class="info-label">الجهة المسؤولة</div>
-      <div class="info-value">الإدارة العامة للجوازات والهجرة والجنسية</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">مدة التنفيذ</div>
-      <div class="info-value">عادي: 3-15 يوم — عاجل: نفس اليوم</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">الرسوم</div>
-      <div class="info-value">زي الاستخراج — الأساسي 500ج</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">الموقع الرسمي</div>
-      <div class="info-value"><a href="https://enationality.moi.gov.eg/" target="_blank" class="official-link">الموقع الرسمي ↗</a></div>
-    </div>
+ <div class="section">
+  <h2>🧮 احسب رسوم تجديد الجواز</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختار نوع التجديد لمعرفة الرسوم الإجمالية</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="705" checked><span class="calc-opt-body"><span class="calc-opt-label">تجديد عادي</span><span class="calc-opt-desc">استلام خلال أسبوع — الأرخص</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="805" ><span class="calc-opt-body"><span class="calc-opt-label">تجديد عاجل</span><span class="calc-opt-desc">استلام في يوم العمل التالي (+100 جنيه)</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="1205" ><span class="calc-opt-body"><span class="calc-opt-label">تجديد فوري (VIP)</span><span class="calc-opt-desc">استلام في نفس اليوم (+500 جنيه)</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="1450" ><span class="calc-opt-body"><span class="calc-opt-label">تجديد مستعجل إلكتروني</span><span class="calc-opt-desc">24 ساعة — إلكتروني بالكامل</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">705</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
   </div>
+ </div>
 
-  <div style="text-align:center;font-size:12.5px;color:#8ea0c4;margin:0 0 18px;font-weight:600">🗓️ آخر تحديث: 2 أكتوبر 2026 — المعلومات من مصادر رسمية موثقة ومراجعة</div>
+ <div class="section">
+  <h2>💰 مقارنة أنواع التجديد والرسوم</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">📋</span><div><div class="fee-name">تجديد عادي</div><div class="fee-note">رسم أساسي + دمغات + رسوم تنمية موارد + نموذج 29</div></div></div><div class="fee-price">705 جنيه</div><div class="fee-speed">حوالي أسبوع</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">⚡</span><div><div class="fee-name">تجديد فوري (VIP) — نفس اليوم</div><div class="fee-note">705 + 500 جنيه رسوم VIP للاستلام في نفس اليوم</div></div></div><div class="fee-price">1205 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">⏱️</span><div><div class="fee-name">تجديد عاجل — يوم العمل التالي</div><div class="fee-note">705 + 100 جنيه رسوم عاجل للاستلام في يوم العمل التالي</div></div></div><div class="fee-price">805 جنيه</div><div class="fee-speed">يوم عمل</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">💻</span><div><div class="fee-name">جواز سفر مستعجل إلكتروني (24 ساعة)</div><div class="fee-note">خدمة إلكترونية — استخراج/تجديد خلال 24 ساعة</div></div></div><div class="fee-price">1450 جنيه</div><div class="fee-speed">24 ساعة</div></div>
+  <div class="verify-note">⚠️ وفق قرار وزير الداخلية رقم 1104 لسنة 2025 (يوليو 2025)، ارتفع الرسم الأساسي لجواز السفر إلى 500 جنيه (بدلًا من 450). الإجمالي مع الرسوم الإضافية يختلف حسب تاريخ التحديث بمكتب الجوازات. راجع المصلحة للتأكد.</div>
+ </div>
 
-  <!-- 📊 Infographic — Rania R3 -->
-  <div class="infographic-card">
-    <div class="info-head"><span class="info-emoji">🔄</span><h2>تجديد جواز سفر في مصر — ملخص سريع</h2><p>📷 صور الشاشة وشاركه</p></div>
-    <div class="info-stats"><div class="stat"><span class="stat-num">5</span><span class="stat-label">أوراق</span></div>
-    <div class="stat"><span class="stat-num">6</span><span class="stat-label">خطوات</span></div>
-    <div class="stat"><span class="stat-num">متفاوت</span><span class="stat-label">المدة</span></div></div>
-    <div class="info-docs-title">📄 الأوراق المطلوبة</div>
-    <div class="info-docs"><div class="doc-badge">✈️ الجواز الحالي</div><div class="doc-badge">🆔 بطاقة الرقم القومي سارية</div><div class="doc-badge">🖼️ عدد 4 صور شخصية حديثة…</div><div class="doc-badge">🎖️ الموقف من التجنيد للذكور +…</div><div class="doc-badge">🆔 المؤهل الأصل لو عايز تثبته…</div></div>
-    <div class="info-flow-title">📋 الخطوات</div>
-    <div class="info-flow"><div class="flow-step"><span class="flow-num">1</span>اتأكد إن جوازك أهل للتجديد</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">2</span>جهّز أوراقك</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">3</span>روح قسم الجوازات التابع لمحل إقامتك</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">4</span>قدّم واسدد الرسوم</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">5</span>استلم الجواز الجديد</div><div class="flow-arrow">↓</div><div class="flow-step"><span class="flow-num">6</span>نصيحة قبل السفر</div></div>
-    <div class="info-footer">📍 أقرب مكتب: <a href="../offices/civil.html" class="info-link">تصفح المكاتب ←</a></div>
+ <div class="section">
+  <h2>📋 خطوات تجديد الجواز</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">💻 أونلاين (تجديد إلكتروني)</button>
+   <button class="tab-btn" onclick="switchTab(1)">🏛️ حضوري (مصلحة الجوازات)</button>
   </div>
-  <style>
-  .infographic-card{max-width:560px;margin:0 auto 24px;background:linear-gradient(145deg,#1a2d5a,#0d1a33);border:2px solid #e6c258;border-radius:18px;padding:22px 18px}
-  .info-head{text-align:center;margin-bottom:14px}.info-emoji{font-size:38px;display:block}.info-head h2{font-size:18px;font-weight:900;color:#e6c258;margin:6px 0 2px}.info-head p{font-size:12px;color:#8ea0c4;margin:0}
-  .info-stats{display:flex;justify-content:center;gap:12px;margin-bottom:16px}.stat{background:rgba(15,30,61,.6);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px}.stat-num{display:block;font-size:18px;font-weight:900;color:#e6c258}.stat-label{font-size:11px;color:#8ea0c4;font-weight:600}
-  .info-docs-title,.info-flow-title{font-size:13px;font-weight:800;color:#fff;margin:0 0 8px;text-align:center}
-  .info-docs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:16px}.doc-badge{background:rgba(230,194,88,.12);border:1px solid rgba(230,194,88,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#e6c258}
-  .info-flow{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:14px}
-  .flow-step{background:rgba(15,30,61,.6);border:1px solid #1e3556;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;color:#c0cee0;display:flex;align-items:center;gap:8px;width:90%;max-width:320px}.flow-num{min-width:24px;height:24px;border-radius:50%;background:#e6c258;color:#0F1E3D;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center}.flow-arrow{color:#e6c258;font-size:16px}
-  .info-footer{text-align:center;font-size:13px;color:#8ea0c4;border-top:1px solid #1e3556;padding-top:12px}.info-link{color:#e6c258;text-decoration:none;font-weight:700}
-  </style>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">ادخل موقع الإدارة العامة للجوازات</div><div class="step-desc">افتح بوابة الجوازات الإلكترونية التابعة لوزارة الداخلية من الرابط الرسمي.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">سجّل الدخول</div><div class="step-desc">أنشئ حسابًا أو سجّل الدخول ببياناتك (رقم قومي + كلمة مرور).</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">اختر خدمة التجديد</div><div class="step-desc">اختر «تجديد جواز سفر» واملأ بيانات الاستمارة رقم 29 جوازات إلكترونيًا.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">ارفع المستندات المطلوبة</div><div class="step-desc">ارفع صورة بطاقة الرقم القومي، صورة الجواز الحالي، الصور الشخصية، ومستندات التجنيد/الحالة الاجتماعية رقميًا.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">سدد الرسوم إلكترونيًا</div><div class="step-desc">ادفع رسوم التجديد بالبطاقة (فيزا/ماستركارد) أو محفظة إلكترونية عبر الموقع.</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">استلم الجواز</div><div class="step-desc">توجه لمكتب الجوازات في الموعد المحدد لاستلام الجواز المجدد.</div></div></li></ol></div>
+  <div class="tab-pane"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">توجه لأقرب مكتب جوازات</div><div class="step-desc">مصلحة الجوازات بالإدارة العامة بالعباسية أو أحد فروعها الجغرافية بالمحافظات التابع لمحل إقامتك.</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">احصل على واملأ نموذج 29 جوازات</div><div class="step-desc">نموذج 29 جوازات مميكن — مجاني — يُسحب من الإدارة العامة أو الفروع وتملاً بيانات الصفحة الأولى.</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">قدّم المستندات المطلوبة</div><div class="step-desc">بطاقة الرقم القومي سارية، أصل الجواز الحالي، 4 صور شخصية 4×6، مستند التجنيد للذكور، إثبات الحالة الاجتماعية للإناث، قيد دراسي للطلبة.</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">سدد الرسوم</div><div class="step-desc">ادفع رسوم التجديد (705 جنيه عادي) عبر ماكينات الفيزا أو بخزينة المصلحة.</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">احتفظ بوصل الاستمارة</div><div class="step-desc">احتفظ بوصل استمارة جواز السفر لتقديمه عند استلام الجواز.</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">استلم الجواز المجدد</div><div class="step-desc">ارجع في الموعد المحدد (أسبوع للعادي، يوم للعاجل، نفس اليوم للفوري) لاستلام الجواز الجديد.</div></div></li></ol></div>
+ </div>
 
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">بطاقة الرقم القومي سارية (لمن بلغ 15 عامًا) — أصل وصورة</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">أصل جواز السفر الحالي (القديم)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">عدد 4 صور شخصية حديثة ملونة بخلفية بيضاء مقاس 4×6</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">مستند التجنيد للذكور (شهادة تأدية الخدمة أو الإعفاء أو التأجيل)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">إثبات الحالة الاجتماعية للإناث (قسيمة زواج/إشهاد طلاق/إقرار آنسة)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">شهادة القيد الدراسي للطلبة والطالبات (للعام الدراسي الحالي)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">المؤهل الدراسي (إن لم يكن مثبتًا في البطاقة)</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
 
-  <div class="section">
-    <h2>👤 من يحق له الحصول على الخدمة؟</h2>
-    <p style="font-size:15px;color:#c0cee0;line-height:1.7;margin:0">حامل جواز منتهي</p>
+ <div class="section">
+  <h2>✅ شروط تجديد الجواز</h2>
+  <ul class="cond-list"><li>حضور صاحب المعاملة بنفسه — جواز السفر وثيقة شخصية تخص صاحبها فقط</li><li>بطاقة الرقم القومي سارية ومطابقة للبيانات</li><li>تقديم أصل الجواز الحالي (القديم) المراد تجديده</li><li>سداد الرسوم المقررة حسب نوع التجديد (عادي/عاجل/فوري)</li><li>جواز السفر المقروء آليًا صالح لمدة 7 سنوات ولا يجوز إضافة بيانات عليه</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">الإدارة العامة للجوازات والهجرة والجنسية</div><div class="where-desc">ميدان العباسية — القاهرة (للمواطنين داخل البلاد)</div></div></div><div class="where-card"><div class="where-icon">🏢</div><div><div class="where-name">فروع الجوازات بالمحافظات</div><div class="where-desc">الفرع الجغرافي التابع لمحل إقامتك</div></div></div><div class="where-card"><div class="where-icon">🌍</div><div><div class="where-name">البعثات الدبلوماسية والقنصليات</div><div class="where-desc">للمواطنين بالخارج — تجديد عبر القنصلية المصرية</div></div></div><div class="where-card"><div class="where-icon">💻</div><div><div class="where-name">بوابة الجوازات الإلكترونية</div><div class="where-desc">موقع الإدارة العامة للجوازات — تجديد إلكتروني</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم رسوم تجديد جواز السفر؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>العادي: 705 جنيه (استلام خلال أسبوع). العاجل: 805 جنيه (+100 جنيه، يوم العمل التالي). الفوري (VIP): 1205 جنيه (+500 جنيه، نفس اليوم). المستعجل الإلكتروني: 1450 جنيه (24 ساعة).</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>أقدر أجدد الجواز أونلاين؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>أيوة، من موقع الإدارة العامة للجوازات الإلكتروني — تسجيل دخول، ملء الاستمارة، رفع المستندات، سداد الرسوم إلكترونيًا، ثم استلام الجواز من المكتب في الموعد المحدد.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم تستغرق عملية التجديد؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>العادي: حوالي أسبوع. العاجل: يوم عمل واحد. الفوري (VIP): نفس اليوم. المستعجل الإلكتروني: 24 ساعة. الرسوم تختلف حسب السرعة المطلوبة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>إيه الأوراق المطلوبة للتجديد؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>بطاقة الرقم القومي سارية، أصل الجواز الحالي، 4 صور شخصية 4×6 بخلفية بيضاء، مستند التجنيد للذكور، إثبات الحالة الاجتماعية للإناث، قيد دراسي للطلبة، المؤهل الدراسي إن لم يكن مثبتًا في البطاقة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>جواز السفر صالح لكام سنة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>جواز السفر المقروء آليًا صالح لمدة 7 سنوات من تاريخ إصداره. في حالة انتهاء بطاقة الرقم القومي، يصدر الجواز لمدة 3 سنوات فقط حتى تجديد البطاقة.</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://moi.gov.eg/passports/home/GetPassport/1" target="_blank" rel="noopener" class="src-badge">🏛️ وزارة الداخلية — استخراج جواز سفر (الرسوم)</a><a href="https://www.khadamatmisr.gov.eg/node/54" target="_blank" rel="noopener" class="src-badge">🏛️ مركز خدمات مصر — جواز سفر جديد/تجديد</a><a href="https://www.mfa.gov.eg/ar/ConsularServicesAndTransactions/Details/73" target="_blank" rel="noopener" class="src-badge">🏛️ وزارة الخارجية — استخراج أو تجديد جواز السفر</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
   </div>
+ </div>
 
-  <div class="section">
-    <h2>📄 الأوراق المطلوبة</h2>
-    <ul class="docs-list">
-      <li>الجواز الحالي (بيتسلم وقت الاستخراج)</li>
-      <li>بطاقة الرقم القومي سارية</li>
-      <li>عدد 4 صور شخصية حديثة بخلفية بيضاء 4×6</li>
-      <li>الموقف من التجنيد للذكور + إثبات الحالة الاجتماعية للإناث</li>
-      <li>المؤهل الأصل لو عايز تثبته وغير مسجل بالبطاقة</li>
-    </ul>
-  </div>
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="lost-passport.html" class="rel-card">بدل فاقد لجواز السفر</a><a href="car-ownership-transfer.html" class="rel-card">نقل ملكية سيارة</a><a href="tax-registration.html" class="rel-card">التسجيل الضريبي</a></div>
+ </div>
 
-  <div class="section">
-    <h2>📋 الخطوات</h2>
-    <ol class="steps-list">
-      <li><div class="step-title">اتأكد إن جوازك أهل للتجديد</div><div class="step-desc">صلاحية الجواز 7 سنين — جدّد عند قرب الانتهاء أو لو خلصت صفحاته. جوازك القديم بيتسلم وقت استخراج الجديد.</div></li>
-      <li><div class="step-title">جهّز أوراقك</div><div class="step-desc">الجواز الحالي + بطاقة سارية + 4 صور + مستند التجنيد للذكور + وثيقة الزواج/الطلاق للإناث + قيد دراسي للطلبة.</div></li>
-      <li><div class="step-title">روح قسم الجوازات التابع لمحل إقامتك</div><div class="step-desc">اسحب نموذج 29 جوازات مجانًا واملأه بخط يدك — أو قدّم إلكترونيًا من دليل خدمات الجوازات.</div></li>
-      <li><div class="step-title">قدّم واسدد الرسوم</div><div class="step-desc">نفس أسعار الاستخراج: الرسم الأساسي 500ج والإجمالي حسب الفئة — عادي (3-15 يوم)، مستعجل (48 ساعة)، عاجل (نفس اليوم).</div></li>
-      <li><div class="step-title">استلم الجواز الجديد</div><div class="step-desc">شخصيًا بموجب إيصال التقديم. ولو مقيم بالخارج: قدّم للقنصلية المصرية — الإصدار من الخارج بياخد 6-8 أسابيع، فنظّم تجديدك قبل انتهاء الجواز.</div></li>
-      <li><div class="step-title">نصيحة قبل السفر</div><div class="step-desc">جدّد قبل سفرك بشهر على الأقل — أغلب الدول بتشترط صلاحية الجواز 6 شهور على الأقل بعد تاريخ الدخول.</div></li>
-    </ol>
-  </div>
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
 
-  <div class="section">
-    <h2>❓ أسئلة شائعة</h2>
-    <div class="faq-item">
-      <div class="faq-q">إيه الأوراق المطلوبة لـتجديد جواز سفر؟</div>
-      <div class="faq-a">الجواز الحالي + بطاقة سارية + 4 صور 4×6 + مستند التجنيد للذكور + إثبات الحالة الاجتماعية للإناث + قيد دراسي للطلبة.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">كم من الوقت بيخد تجديد جواز سفر؟</div>
-      <div class="faq-a">زي الاستخراج: عادي 3-15 يوم عمل، مستعجل خلال 48 ساعة، عاجل نفس اليوم. ومن خارج مصر عبر القنصلية: 6-8 أسابيع تقريبًا.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">أقدر أعمل تجديد جواز سفر أونلاين؟</div>
-      <div class="faq-a">أيوه — التقديم الإلكتروني متاح من دليل خدمات الجوازات: بيانات + رفع مستندات + سداد أونلاين + استلام شخصي. ومن الخارج عن طريق القنصلية المصرية.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">إيه الرسوم؟</div>
-      <div class="faq-a">زي الاستخراج بالظبط: الرسم الأساسي 500ج والفئات حسب السرعة — العادي إجمالي حوالي 1200-1400ج بعد قرار يوليو 2025.</div>
-    </div>
-  </div>
-
-  <div class="ask-cta">
-    <h3>🤖 محتاج مساعدة؟</h3>
-    <p>اسأل خِدْمَتي AI — احكيلي مشكلتك بالعربي و هقولك تعمل إيه</p>
-    <a href="../index.html#ask-ai" class="ask-btn">اسأل خِدْمَتي AI ←</a>
-  </div>
-
-  <div class="related">
-    <h3>🔗 خدمات مشابهة</h3>
-    <div class="related-links">
-      <a href="new-passport.html">استخراج جواز سفر</a>
-      <a href="lost-passport.html">بدل فاقد لجواز السفر</a>
-      <a href="exit-return-visa.html">تأشيرة خروج وعودة</a>
-      <a href="egyptian-citizenship.html">إثبات الجنسية المصرية</a>
-    </div>
-  </div>
-
-  <div class="related">
-    <h3>📚 مقالات ممكن تفيدك</h3>
-    <div class="related-links">
-      <a href="../articles.html">دليل الخدمات الحكومية</a>
-      <a href="../calc.html">حاسبة الرسوم</a>
-    </div>
-  </div>
-</div>
-<div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:26px 16px 6px;max-width:900px;margin:0 auto;font-family:Cairo,sans-serif">
-  <span style="font-size:13px;color:#8ea0c4;font-weight:700">تابعنا 👇</span>
-  <a href="https://t.me/khdmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">✈️ تيلجرام</a>
-  <a href="https://youtube.com/@khidmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #ff0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">▶️ يوتيوب</a>
-  <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #25D366;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">📲 واتساب</a>
-  <a href="https://t.me/+ZYqNnOv8dy5kODU0" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">👥 الجروب</a>
-</div>
-
-<!-- ========== BOOK AD ========== -->
-<aside style="background:linear-gradient(145deg,#0d1a33,#162847);margin:20px 16px;padding:16px;border-radius:12px;border:1px solid #1e3556;display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:560px">
-  <img src="../assets/cover-book1-ar.webp" alt="غلاف قوة العقل" style="width:55px;height:75px;border-radius:6px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)">
-  <div style="flex:1;min-width:150px">
-    <div style="font-size:12px;color:#e6c258;font-weight:800">📚 قوة العقل وتطوير الذات</div>
-    <div style="font-size:11px;color:#8ea0c4;margin:2px 0">عربي 75ج | إنجليزي 100ج | <b style="color:#e6c258">الاثنين 129ج</b></div>
-    <div style="font-size:10px;color:#5a6a8a">📄 PDF فقط ⏰ عرض محدود</div>
-  </div>
-  <a href="https://wa.me/201005305955?text=أريد%20شراء%20سلسلة%20قوة%20العقل%20-%20العرض%20129ج" target="_blank" rel="noopener" style="background:#e6c258;color:#0F1E3D;text-decoration:none;font-size:13px;font-weight:800;padding:8px 16px;border-radius:8px;white-space:nowrap">📲 اطلب</a>
-</aside>
-<!-- ========== END BOOK AD ========== -->
-
-<div class="footer">
-  <p>© 2026 خِدْمَتي AI | <a href="../index.html">الرئيسية</a> | <a href="../services.html">الخدمات</a> | <a href="../articles.html">المقالات</a> | <a href="../calc.html">حاسبة الرسوم</a></p>
-</div>
-
-<!-- ===== BOOK MINI AD ===== -->
-<div class="book-mini-ad" id="bookMiniAd">
-  <button class="ad-close" onclick="closeBookAd()">&times;</button>
-  <div class="ad-icon">📚</div>
-  <div class="ad-content">
-    <div class="ad-title">سلسلة قوة العقل وتطوير الذات</div>
-    <div class="ad-text">
-      عربي <b>75ج</b> | إنجليزي <b>100ج</b> &nbsp;⏰ الاثنين: <span class="old-price">175ج</span> → <span class="new-price">129ج</span> &nbsp;📄 PDF فقط
-    </div>
-  </div>
-  <div class="ad-cta">
-    <a href="https://wa.me/201005305955?text=أريد%20شراء%20سلسلة%20قوة%20العقل%20-%20العرض%20129ج" target="_blank" rel="noopener">📲 اطلب</a>
-  </div>
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
 </div>
 <script>
-(function(){
-  var ad=document.getElementById('bookMiniAd');
-  if(!ad)return;
-  // Show after 15 seconds, hide after 10 seconds, repeat every 45 seconds
-  var shown=false;
-  function showAd(){ad.classList.add('show');ad.classList.remove('hide');shown=true;
-    setTimeout(function(){if(shown){ad.classList.remove('show');ad.classList.add('hide');shown=false;}},10000);
-  }
-  setTimeout(showAd,15000);
-  setInterval(showAd,45000);
-})();
-function closeBookAd(){var ad=document.getElementById('bookMiniAd');if(ad){ad.classList.remove('show');ad.classList.add('hide');}}
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
 </script>
-<link rel="stylesheet" href="/assets/book-mini-ad.css">
-<!-- ===== END BOOK MINI AD ===== -->
-
 </body>
 </html>

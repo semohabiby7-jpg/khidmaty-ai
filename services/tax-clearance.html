@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>براءة الذمة الضريبية (شهادة خلو الذمة) | خطوات وأوراق ورسوم | خِدْمَتي AI</title>
+<meta name="description" content="دليل كامل للحصول على براءة الذمة الضريبية من مصلحة الضرائب المصرية — المستندات والخطوات والمقاصة وفق قانون الإجراءات الضريبية الموحد (المادة 50).">
+<meta name="keywords" content="براءة الذمة الضريبية, خلو الذمة, مقاصة ضريبية, مصلحة الضرائب, شهادة ضريبية, الإجراءات الضريبية الموحدة, المادة 50, خِدْمَتي AI">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
+.tag-online{background:rgba(16,185,129,.15);color:#10b981}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
+.section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
+.steps-list li:last-child{border-bottom:none}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
+.ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
+.ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><a href="../index.html">← الرئيسية</a></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../service-finder.html">الخدمات</a> › ضرائب</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🧾</div>
+  <h1>براءة الذمة الضريبية (شهادة خلو الذمة)</h1>
+  <p>دليل كامل للحصول على براءة الذمة الضريبية من مصلحة الضرائب المصرية — المستندات والخطوات والمقاصة وفق قانون الإجراءات الضريبية الموحد (المادة</p>
+  <div class="hero-tags"><span class="tag tag-ضرائب">ضرائب</span><span class="tag tag-أعمال">أعمال</span><span class="tag tag-حكومي">حكومي</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">📅</div><div class="stat-value">40 يوم (حد أقصى)</div><div class="stat-label">الإصدار خلال</div></div><div class="stat-card"><div class="stat-emoji">🏛️</div><div class="stat-value">مصلحة الضرائب المصرية</div><div class="stat-label">الجهة المُصدِرة</div></div><div class="stat-card"><div class="stat-emoji">📄</div><div class="stat-value">شهادة رسمية</div><div class="stat-label">النوع</div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🧮 حاسبة المدة المتوقعة لإصدار براءة الذمة</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختر حالة ملفك الضريبي لتقدير المدة الزمنية</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="7" checked><span class="calc-opt-body"><span class="calc-opt-label">الإقرارات مقدمة والملف سليم</span><span class="calc-opt-desc">ملف نظيف بدون مديونيات — أسرع حالة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="15" ><span class="calc-opt-body"><span class="calc-opt-label">توجد مديونية مسددة لكن لم تُحدّث</span><span class="calc-opt-desc">يحتاج مطابقة وتحديث في النظام</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="40" ><span class="calc-opt-body"><span class="calc-opt-label">توجد مديونية لم تُسدد</span><span class="calc-opt-desc">يجب سداد المديونية أولاً ثم إصدار الشهادة</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="30" ><span class="calc-opt-body"><span class="calc-opt-label">الملف جديد أو لم يُسجل بعد</span><span class="calc-opt-desc">يحتاج تسجيل ومراجعة مبدئية</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">7</div><div class="lbl">يوم — المدة التقريبية لإصدار الشهادة</div></div>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>💰 الرسوم والمصاريف</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">🆓</span><div><div class="fee-name">رسوم الخدمة الأساسية</div><div class="fee-note">لا توجد رسوم على الخدمة الأساسية وفق دليل الخدمات الضريبية</div></div></div><div class="fee-price">مجانًا (أساسًا)</div><div class="fee-speed">حسب الحالة</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">💳</span><div><div class="fee-name">رسوم اللائحة المالية (إن وُجدت)</div><div class="fee-note">وفق اللائحة المالية للموازنة والحسابات إصدار 2021 — تُسدد ببطاقة الائتمان</div></div></div><div class="fee-price">رمزية لكل ورقة</div><div class="fee-speed">—</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">💰</span><div><div class="fee-name">سداد المستحقات المتأخرة</div><div class="fee-note">إذا وُجدت مديونيات ضريبية يجب سدادها قبل إصدار الشهادة</div></div></div><div class="fee-price">حسب المديونية</div><div class="fee-speed">—</div></div>
+  <div class="verify-note">⚠️ قد توجد رسوم رمزية وفق اللائحة المالية للموازنة والحسابات (إصدار 2021) تُسدد ببطاقة الائتمان. تأكد من الرسوم الحالية من المأمورية التابع لها.</div>
+ </div>
+
+ <div class="section">
+  <h2>📋 خطوات الحصول على براءة الذمة</h2>
+  <div class="tabs">
+   <button class="tab-btn active" onclick="switchTab(0)">💻 أونلاين (المنظومة الضريبية)</button>
+   <button class="tab-btn" onclick="switchTab(1)">🏛️ حضوري (المأمورية)</button>
+  </div>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">تسجيل الدخول للمنظومة</div><div class="step-desc">الدخول على المنظومة الضريبية الإلكترونية eta.gov.eg بحساب الممول</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">التحقق من الوضع الضريبي</div><div class="step-desc">مراجعة الإقرارات السابقة والتأكد من عدم وجود مديونيات</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">تقديم طلب براءة الذمة</div><div class="step-desc">اختيار خدمة براءة الذمة من قائمة الخدمات وتعبئة النموذج الإلكتروني</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">سداد المستحقات (إن وُجدت)</div><div class="step-desc">سداد أي مبالغ ضريبية متأخرة عبر نظام الدفع الإلكتروني</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">متابعة الطلب</div><div class="step-desc">متابعة حالة الطلب من صفحة التنبيهات حتى إصدار الشهادة</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">استلام الشهادة الإلكترونية</div><div class="step-desc">تحميل وطباعة شهادة براءة الذمة بعد إصدارها</div></div></li></ol></div>
+  <div class="tab-pane"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">التوجه للمأمورية</div><div class="step-desc">الذهاب للمأمورية الضريبية التابع لها الممول</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">شراء النموذج وتعبئته</div><div class="step-desc">الحصول على نموذج طلب براءة الذمة وتعبئة البيانات</div></div></li><li><div class="step-num">3</div><div class="step-body"><div class="step-title">تقديم المستندات</div><div class="step-desc">تقديم الطلب مع المستندات المطلوبة على شباك خدمة العملاء</div></div></li><li><div class="step-num">4</div><div class="step-body"><div class="step-title">مراجعة الملف</div><div class="step-desc">يقوم الموظف بمراجعة الملف ومطابقة الإقرارات مع المدفوعات</div></div></li><li><div class="step-num">5</div><div class="step-body"><div class="step-title">سداد المديونيات (إن وُجدت)</div><div class="step-desc">إذا وُجدت مستحقات ضريبية يتم إبلاغ الممول وسدادها والحصول على إيصال</div></div></li><li><div class="step-num">6</div><div class="step-body"><div class="step-title">استلام الشهادة</div><div class="step-desc">استلام شهادة براءة الذمة بعد التأكد من خلو الملف — مراجعة البيانات والتأكد من صحتها</div></div></li></ol></div>
+ </div>
+
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">بطاقة الرقم القومي للممول أو الممثل القانوني</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">البطاقة الضريبية للمنشأة</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">السجل التجاري (للشركات)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">توكيل أو تفويض مصدق على صحة توقيع مصدره من أحد البنوك (في حالة التوكيل)</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">نموذج طلب براءة الذمة الضريبية</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">إيصالات سداد الضرائب السابقة (إن وجدت)</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
+
+ <div class="section">
+  <h2>✅ شروط الحصول على الشهادة</h2>
+  <ul class="cond-list"><li>تقديم جميع الإقرارات الضريبية المطلوبة</li><li>سداد جميع المستحقات الضريبية (دخل + قيمة مضافة + غرامات)</li><li>عدم وجود منازعات ضريبية معلقة (إلا إذا تم إنهاؤها)</li><li>يجب أن تكون البطاقة الضريبية سارية</li><li>الجهات الحكومية لا تسدد مستحقاتها للممول إلا بعد التحقق من براءة ذمته (المادة 50)</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">المأمورية الضريبية</div><div class="where-desc">التقديم الحضوري على شباك خدمة العملاء بالمأمورية التابع لها الممول</div></div></div><div class="where-card"><div class="where-icon">💻</div><div><div class="where-name">المنظومة الضريبية الإلكترونية</div><div class="where-desc">تقديم الطلب ومتابعته إلكترونيًا عبر eta.gov.eg</div></div></div><div class="where-card"><div class="where-icon">🏢</div><div><div class="where-name">المراكز الضريبية المدمجة</div><div class="where-desc">في حالة نقل الملف الضريبي لمراكز ضريبية مدمجة حديثة</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>ما هي المقاصة الضريبية؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>وفق المادة 50 من قانون الإجراءات الضريبية الموحد، تقع المقاصة بقوة القانون بين ما هو مستحق للممول لدى المصلحة وما يكون مستحقًا عليه. يعني أن الضرائب المستحقة للممول تُخصم من الضرائب المستحقة عليه تلقائيًا.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>ما المدة القانونية لإصدار الشهادة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>وفق المادة 50، على المصلحة إصدار شهادة براءة الذمة خلال 40 يومًا من تاريخ طلبها، بعد التحقق من عدم وجود مستحقات ضريبية على الممول.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>هل يمكن للجهات الحكومية دفع مستحقاتها لي بدون براءة ذمة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لا. يحظر القانون على وحدات الجهاز الإداري للدولة والإدارة المحلية والهيئات العامة وشركات القطاع العام أداء أي مستحقات مالية للممول إلا بعد التحقق من براءة ذمته من الضريبة.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>ماذا لو كان لديّ مديونية ضريبية؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>يجب سداد المديونية (أصل الضريبة + الغرامات + الفوائد) قبل إصدار براءة الذمة. يمكنك أيضًا طلب تقسيط المديونية أو إنهاء المنازعة وفق قانون إنهاء المنازعات الضريبية (قانون 79/2016 المُجدد بالقانون 160/2024).</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>هل يمكن التقديم إلكترونيًا فقط؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>نعم، يمكن تقديم الطلب ومتابعته عبر المنظومة الضريبية الإلكترونية eta.gov.eg، لكن بعض الحالات قد تستدعي زيارة المأمورية لتقديم مستندات ورقية.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>ما صلاحية شهادة براءة الذمة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>الشهادة صالحة للاستخدام في الغرض الذي صدرت من أجله، خلال فترة صلاحيتها المحددة. بعض الجهات تطلب شهادة حديثة (خلال 3-6 أشهر).</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://eta.gov.eg/ar/your_guide_for_ETA_portalar" target="_blank" rel="noopener" class="src-badge">🏛️ مصلحة الضرائب المصرية - دليل الخدمات الضريبية</a><a href="https://eta.gov.eg/ar/home" target="_blank" rel="noopener" class="src-badge">🏛️ مصلحة الضرائب - الصفحة الرئيسية</a><a href="https://www.vetogate.com/5479052" target="_blank" rel="noopener" class="src-badge">🏛️ المقاصة وبراءة الذمة بقانون الإجراءات الضريبية الموحد</a><a href="https://eta.gov.eg/ar/content/qwanyn-aldrybt-ly-aldkhl" target="_blank" rel="noopener" class="src-badge">🏛️ قوانين الضريبة على الدخل | مصلحة الضرائب</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="real-estate-tax.html" class="rel-card">الضريبة العقارية</a><a href="profession-license.html" class="rel-card">رخصة مزاولة المهنة</a><a href="trademark-registration.html" class="rel-card">تسجيل علامة تجارية</a></div>
+ </div>
+
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
+
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
+</div>
+<script>
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
+</script>
+</body>
+</html>

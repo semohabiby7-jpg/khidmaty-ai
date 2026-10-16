@@ -241,7 +241,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
   <div class="calc-box">
    <div class="calc-sub">__CALC_SUB__</div>
    __CALC_OPTS__
-   <div class="calc-result"><div class="amt" id="calcAmt">__FIRST_VAL__</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
+   <div class="calc-result"><div class="amt" id="calcAmt">__FIRST_VAL__</div><div class="lbl">__CALC_LABEL__</div></div>
   </div>
  </div>
 
@@ -341,6 +341,7 @@ def render(data):
     t = t.replace('__CALC_TITLE__', esc(data['calculator'].get('title','🧮 حاسبة الرسوم التفاعلية')))
     t = t.replace('__CALC_OPTS__', calc_options(data))
     t = t.replace('__FIRST_VAL__', str(data['calculator']['options'][0]['value']))
+    t = t.replace('__CALC_LABEL__', esc(data.get('calcResultLabel','جنيه مصري — الرسوم الإجمالية')))
     t = t.replace('__FEES__', fees_table(data))
     t = t.replace('__FEES_TITLE__', esc(data.get('feesTitle','💰 مقارنة الرسوم والأنواع')))
     t = t.replace('__VERIFY_NOTE__', verify_note_html(data))

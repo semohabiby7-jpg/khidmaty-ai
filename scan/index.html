@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Scan Macaron AI — ماسح المستندات الذكي</title>
-<meta name="description" content="Scan Macaron AI — ماسح المستندات الذكي. صوّر، حسّن، اقصّ وادوّر، استخرج النصوص (OCR) عربي/إنجليزي، اسمعها بصوت عربي، وجمّعها في PDF متعدد الصفحات — كله جوه المتصفح. معالجة محلية 100%، مجاني، وشغّال offline.">
-<meta name="keywords" content="Scan Macaron AI, ماسح مستندات, استخراج نصوص, OCR عربي, CamScanner بديل, PDF, تعديل صور, قراءة صوتية, خِدْمَتي AI, مصر">
+<meta name="description" content="Scan Macaron AI — ماسح المستندات الذكي. صوّر، حسّن، اقصّ، صحّح المنظور، استخرج النصوص (OCR) عربي/إنجليزي، اسمعها بصوت عربي، وجمّعها في PDF متعدد الصفحات — كله جوه المتصفح. معالجة محلية 100%، مجاني، وشغّال offline.">
+<meta name="keywords" content="Scan Macaron AI, ماسح مستندات, استخراج نصوص, OCR عربي, CamScanner بديل, PDF, تعديل صور, قراءة صوتية, تصحيح منظور, خِدْمَتي AI, مصر">
 <meta name="theme-color" content="#0F1E3D">
 <meta name="robots" content="index, follow">
 <meta name="author" content="خِدْمَتي AI — Mohamed Ismail">
@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="icon.svg">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <meta property="og:title" content="Scan Macaron AI">
-<meta property="og:description" content="ماسح المستندات الذكي — صوّر، حسّن، استخرج النصوص، وسمعها بصوت عربي، وجمّعها في PDF. معالجة محلية 100%، مجاني، offline.">
+<meta property="og:description" content="ماسح المستندات الذكي — صوّر، حسّن، صحّح المنظور، استخرج النصوص، وسمعها بصوت عربي، وجمّعها في PDF. معالجة محلية 100%، مجاني، offline.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://khidmatyai.com/scan/">
 <meta property="og:site_name" content="خِدْمَتي AI">
@@ -32,7 +32,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Scan Macaron AI",
-  "description": "ماسح مستندات وتعديل صور واستخراج نصوص (OCR) وقراءة صوتية وPDF متعدد الصفحات داخل المتصفح بمعالجة محلية مجانية.",
+  "description": "ماسح مستندات وتعديل صور وتصحيح منظور واستخراج نصوص (OCR) وقراءة صوتية وPDF متعدد الصفحات داخل المتصفح بمعالجة محلية مجانية.",
   "url": "https://khidmatyai.com/scan/",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Web",
@@ -62,13 +62,14 @@
   <section class="hero">
     <div class="hero-emoji">📄✨</div>
     <h1>Scan Macaron AI</h1>
-    <p class="hero-sub">ماسح المستندات الذكي — صوّر، حسّن، اقصّ، استخرج النصوص واسمعها بصوت عربي، وجمّعها في PDF. بديل عربي ذكي ومجاني لـ CamScanner.</p>
+    <p class="hero-sub">ماسح المستندات الذكي — صوّر، حسّن، صحّح المنظور، استخرج النصوص واسمعها بصوت عربي، وجمّعها في PDF. بديل عربي ذكي ومجاني لـ CamScanner.</p>
     <div class="hero-pills">
       <span class="pill pill-priv">🔒 معالجة محلية 100% — ملفاتك ما بتخرجش من جهازك</span>
       <span class="pill pill-priv">📲 يتثبّت على الموبايل ويشتغل offline</span>
     </div>
     <div class="chips">
       <span class="chip on">📷 مسح وتحسين</span>
+      <span class="chip on">📐 تصحيح منظور</span>
       <span class="chip on">✂️ قص وتدوير</span>
       <span class="chip on">🧠 OCR عربي/إنجليزي</span>
       <span class="chip on">🔊 قراءة صوتية عربية</span>
@@ -105,6 +106,22 @@
       </div>
 
       <div class="controls">
+        <div class="ctrl-group">
+          <div class="ctrl-label">المسح السحري</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnPersp">📐 تصحيح المنظور</button>
+            <button class="btn btn-ghost" id="btnPerspApply" disabled>تطبيق</button>
+            <button class="btn btn-ghost" id="btnPerspCancel" disabled>إلغاء</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnDoc">📄 مستند</button>
+            <button class="btn btn-ghost" id="btnWhite">☀️ تبييض</button>
+            <button class="btn btn-ghost" id="btnVivid">🎨 لون حي</button>
+            <button class="btn btn-ghost" id="btnSharpen">🔪 حدّة</button>
+          </div>
+          <p class="micro">«تصحيح المنظور»: حرّك الـ٤ زوايا على حدود الورقة واضغط «تطبيق» لتفريدها مستوية.</p>
+        </div>
+
         <div class="ctrl-group">
           <div class="ctrl-label">التدوير</div>
           <div class="btn-row">

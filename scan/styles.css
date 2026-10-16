@@ -109,6 +109,7 @@ a{color:var(--gold);text-decoration:none}
 }
 .btn-primary:hover{box-shadow:0 8px 22px rgba(230,194,88,.3)}
 .btn-ghost{background:var(--bg2)}
+.btn.active{border-color:var(--gold);background:rgba(230,194,88,.14);color:var(--gold)}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 
 /* ===== المحرر ===== */

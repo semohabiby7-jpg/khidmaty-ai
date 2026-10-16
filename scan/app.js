@@ -4,13 +4,13 @@
    معماري self-contained: غيّر CONFIG لنقل القسم لموقع مستقل.
    ============================================================ */
 
-// ===== إعدادات العلامة (للتحويل لموقع مستقل ScanMate AI لاحقًا) =====
+// ===== إعدادات العلامة (للتحويل لموقع مستقل Scan Macaron AI لاحقًا) =====
 const CONFIG = {
-  brand: 'ماسح المستندات الذكي',
+  brand: 'Scan Macaron AI',
   parentSite: 'https://khidmatyai.com',
   maxDim: 2200,          // أقصى بُعد للصورة (أداء)
   thumbMax: 900,         // تصغير للعرض السريع
-  downloadPrefix: 'khidmaty-scan',
+  downloadPrefix: 'scan-macaron',
 };
 
 // ===== مراجع DOM =====

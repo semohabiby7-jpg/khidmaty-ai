@@ -191,6 +191,7 @@ def main():
     # 6. Daily trend
     print(f"\n📈 الزيارات اليومية (آخر 7 أيام):")
     daily = get_daily(client, property_id, last_7_days, today)
+    daily.sort(key=lambda x: x.get('date', ''), reverse=True)  # الأحدث أول — أمس فوق (مش حسب الزوار)
     for d in daily:
         date = d.get('date', '')
         if date:

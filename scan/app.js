@@ -33,6 +33,10 @@ const dom = {
   bri: $('bri'), con: $('con'), sat: $('sat'),
   briVal: $('briVal'), conVal: $('conVal'), satVal: $('satVal'),
   btnAuto: $('btnAuto'), btnBW: $('btnBW'),
+  // وضع اللون + التحسين الفوري (المرحلة ٥)
+  btnEnhance: $('btnEnhance'),
+  btnModeMagic: $('btnModeMagic'), btnModeColor: $('btnModeColor'),
+  btnModeGray: $('btnModeGray'), btnModeBW: $('btnModeBW'),
   btnCrop: $('btnCrop'), btnCropApply: $('btnCropApply'), btnCropCancel: $('btnCropCancel'), cropHint: $('cropHint'),
   btnBefore: $('btnBefore'), btnReset: $('btnReset'),
   fmt: $('fmt'), quality: $('quality'), qualityField: $('qualityField'), dims: $('dims'), btnDownload: $('btnDownload'),
@@ -60,6 +64,10 @@ const state = {
   base: null, baseW: 0, baseH: 0,
   rotate90: 0, fineRot: 0,
   bri: 100, con: 100, sat: 100, bw: false,
+  // وضع اللون: 'magic' | 'color' | 'gray' | 'bw'
+  // colorMode بتتحكّم في محرّك التحسين (المرحلة ٥).
+  // bw الموجود قبل كده بيبقى true لما colorMode = 'bw'.
+  colorMode: 'color',
   showOriginal: false,
   cropMode: false, cropRect: null, dragging: false, dragStart: null,
   perspMode: false, perspCorners: null, perspDrag: -1,
@@ -123,13 +131,15 @@ function setEditingEnabled(en){
   const els = [dom.btnAuto,dom.btnBW,dom.btnCrop,dom.btnBefore,dom.btnReset,
     dom.btnDoc,dom.btnWhite,dom.btnVivid,dom.btnSharpen,dom.btnRotL,dom.btnRotR,
     dom.rotFine,dom.bri,dom.con,dom.sat,
-    dom.btnAutoDetect,dom.btnAnnotate];
+    dom.btnAutoDetect,dom.btnAnnotate,dom.btnEnhance,
+    dom.btnModeMagic,dom.btnModeColor,dom.btnModeGray,dom.btnModeBW];
   els.forEach(b => { if(b) b.disabled = !en; });
 }
 
 function resetTransforms(){
   state.rotate90 = 0; state.fineRot = 0;
   state.bri = 100; state.con = 100; state.sat = 100; state.bw = false;
+  state.colorMode = 'color';
   state.showOriginal = false; state.cropMode = false; state.cropRect = null;
   if(state.perspMode){ state.perspMode=false; setEditingEnabled(true); dom.btnPerspApply.disabled=true; dom.btnPerspCancel.disabled=true; dom.btnPersp.classList.remove('active'); state.perspCorners=null; state.perspDrag=-1; dom.stage.style.cursor=''; dom.stageHint.textContent=''; }
   dom.rotFine.value = 0; dom.rotVal.textContent = '0°';
@@ -137,6 +147,8 @@ function resetTransforms(){
   dom.briVal.textContent = '100%'; dom.conVal.textContent = '100%'; dom.satVal.textContent = '100%';
   dom.btnBW.classList.remove('active');
   dom.btnBefore.classList.remove('active');
+  // اطفي كل شرائح وضع اللون
+  updateColorModeUI();
   exitCropMode();
   // مسح التعليقات والخروج من وضعها
   if(state.annotateMode) exitAnnotate();
@@ -172,24 +184,354 @@ function render(){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.filter = 'none';
 
-  if(state.bw) applyThreshold();
+  // محرّك التحسين (المرحلة ٥) — اطبق على بكسلات الـcanvas بعد الرسم.
+  // bw => Sauvola. color/gray/magic => فلاتر تحسين لونية/حدّة.
+  if(state.bw) applySauvola();
+  else enhanceColorMode();
   drawCropOverlay();
   drawAnnotations();
   updateDims();
 }
 
-function applyThreshold(){
-  const { width:w, height:h } = dom.canvas;
+// ============================================================
+//  المرحلة ٥ — محرّك تحسين جودة المستند (Phase 5 quality engine)
+//  Pure Canvas/JS, typed arrays, O(n), بلا مكتبات خارجية.
+//  خوارزميات: Sauvola B/W + موازنة خلفية + unsharp + Magic Color
+// ============================================================
+
+// ---- Sauvola adaptive binarization (استبدال العتبة البسيطة) ----
+// صورة تكاملية (integral image) بمصفوفتي Float64Array: المجموع والمجموع التربيعي.
+// لكل بكسل، نافذة مربعة نصف قطرها R، نحسب المتوسط المحلي m والتباين المحلي v،
+// ثم العتبة T = m * (1 + k*(std/128 - 1)). الناتج: نص أسود حاد على أبيض ناصع، بلا ظلال.
+// O(n) عن طريق الصورة التكاملية، O(1) لكل بكسل.
+const SAUVOLA_K = 0.5; // معامل Sauvola
+function applySauvola(){
+  const w = dom.canvas.width, h = dom.canvas.height;
   try{
     const d = ctx.getImageData(0,0,w,h);
-    const p = d.data;
-    for(let i=0;i<p.length;i+=4){
-      const lum = 0.299*p[i] + 0.587*p[i+1] + 0.114*p[i+2];
-      const v = lum > 150 ? 255 : 0;
-      p[i]=p[i+1]=p[i+2]=v;
+    const p = d.data, n = w * h;
+    // ١. رمادي + بناء الصورة التكاملية (sum و sum²)
+    // S[i] = مجموع القيم من (0,0) لـ(x,y) شامل. S2 = مجموع المربعات.
+    const S = new Float64Array(n);
+    const S2 = new Float64Array(n);
+    // عشان الكفاءة: نبني صف صف، نستخدم prefix-sum أفقي
+    const rowAcc = new Float64Array(w);  // prefix أفقي للصف الحالي
+    const rowAcc2 = new Float64Array(w);
+    for(let y = 0; y < h; y++){
+      const rowOff = y * w;
+      rowAcc[0] = 0.299*p[rowOff*4] + 0.587*p[rowOff*4+1] + 0.114*p[rowOff*4+2];
+      rowAcc2[0] = rowAcc[0] * rowAcc[0];
+      for(let x = 1; x < w; x++){
+        const idx4 = (rowOff + x) * 4;
+        const g = 0.299*p[idx4] + 0.587*p[idx4+1] + 0.114*p[idx4+2];
+        rowAcc[x] = rowAcc[x-1] + g;
+        rowAcc2[x] = rowAcc2[x-1] + g * g;
+      }
+      if(y === 0){
+        for(let x = 0; x < w; x++){ S[x] = rowAcc[x]; S2[x] = rowAcc2[x]; }
+      } else {
+        const prevRow = (y - 1) * w;
+        for(let x = 0; x < w; x++){
+          S[rowOff + x] = S[prevRow + x] + rowAcc[x];
+          S2[rowOff + x] = S2[prevRow + x] + rowAcc2[x];
+        }
+      }
     }
-    ctx.putImageData(d,0,0);
+    // ٢. نصف قطر النافذة التكيّفية
+    const R = Math.max(8, Math.round(Math.min(w, h) * 0.02));
+    const winN = (2 * R + 1) * (2 * R + 1); // عدد عناصر النافذة
+    // ٣. لكل بكسل: اجمع النافذة عبر ٤ زوايا تكاملية، احسب m و std، ثم العتبة
+    for(let y = 0; y < h; y++){
+      const rowOff = y * w;
+      // حدود النافذة (مع clamp)
+      const y0 = y - R < 0 ? 0 : y - R;
+      const y1 = y + R >= h ? h - 1 : y + R;
+      const row1Off = y1 * w;
+      for(let x = 0; x < w; x++){
+        const x0 = x - R < 0 ? 0 : x - R;
+        const x1 = x + R >= w ? w - 1 : x + R;
+        // مجموع النافذة = S(إيجابي) − أعلى − يسار + أعلى-يسار (صورة تكاملية)
+        let sum = S[row1Off + x1];
+        let sum2 = S2[row1Off + x1];
+        if(y0 > 0){ sum -= S[(y0-1)*w + x1]; sum2 -= S2[(y0-1)*w + x1]; }
+        if(x0 > 0){ sum -= S[row1Off + x0 - 1]; sum2 -= S2[row1Off + x0 - 1]; }
+        if(y0 > 0 && x0 > 0){ sum += S[(y0-1)*w + x0 - 1]; sum2 += S2[(y0-1)*w + x0 - 1]; }
+        const m = sum / winN;
+        const v = sum2 / winN - m * m;
+        const std = v > 0 ? Math.sqrt(v) : 0;
+        const T = m * (1 + SAUVOLA_K * (std / 128 - 1));
+        const idx4 = (rowOff + x) * 4;
+        const g = 0.299*p[idx4] + 0.587*p[idx4+1] + 0.114*p[idx4+2];
+        const v2 = g >= T ? 255 : 0;
+        p[idx4] = p[idx4+1] = p[idx4+2] = v2;
+      }
+    }
+    ctx.putImageData(d, 0, 0);
+  }catch(e){ /* تجاهل — fallback صامت */ }
+}
+
+// ---- موازنة الخلفية (background white-balance) ----
+// خلفية = النسبة المئوية ٩٥ من histogram الرمادي.
+// scale = 255 / bg → paper تقريبًا أبيض. يزيل الصبغة الصفراء/الرمادية.
+const BG_PERCENTILE = 0.95;
+// رجّع قيمة النسبة المئوية من histogram
+function grayPercentile(gray, n, pct){
+  const hist = new Uint32Array(256);
+  for(let i = 0; i < n; i++) hist[gray[i]]++;
+  const target = Math.floor(n * pct);
+  let acc = 0;
+  for(let i = 0; i < 256; i++){
+    acc += hist[i];
+    if(acc >= target) return i;
+  }
+  return 255;
+}
+// موازنة الخلفية على قناة رمادية (Uint8Array) — inplace
+function whiteBalanceGray(gray, n){
+  const bg = grayPercentile(gray, n, BG_PERCENTILE);
+  if(bg < 1) return; // صورة سوداء — مالهاش لازمه
+  const scale = 255 / bg;
+  for(let i = 0; i < n; i++){
+    let v = gray[i] * scale;
+    if(v > 255) v = 255;
+    gray[i] = v;
+  }
+}
+
+// ---- Unsharp mask (حدّة) ----
+// نعيد استخدام boxBlur بمصفوفة Float32Array. نطبّق على قناة واحدة (رمادي).
+// out = clamp(img + amount*(img - blurred)). amount = 0.7.
+const UNSHARP_AMOUNT = 0.7;
+const UNSHARP_RADIUS = 2;
+function unsharpGray(gray, w, h){
+  const blurred = boxBlur(gray, w, h, UNSHARP_RADIUS);
+  for(let i = 0; i < w * h; i++){
+    let v = gray[i] + UNSHARP_AMOUNT * (gray[i] - blurred[i]);
+    if(v < 0) v = 0; else if(v > 255) v = 255;
+    gray[i] = v;
+  }
+}
+
+// ---- تحسين وضع اللون (color / gray / magic) ----
+// بيتطبّق بعد الرسم بـ CSS filter. يشتغل على بكسلات الـcanvas الحالي.
+function enhanceColorMode(){
+  const w = dom.canvas.width, h = dom.canvas.height;
+  if(w < 1 || h < 1) return;
+  try{
+    const mode = state.colorMode;
+    if(mode === 'bw') return; // Sauvola بيتطبّق في المسار التاني
+    const d = ctx.getImageData(0,0,w,h);
+    const p = d.data, n = w * h;
+
+    if(mode === 'gray'){
+      // رمادي + موازنة خلفية + حدّة
+      const gray = new Uint8ClampedArray(n);
+      for(let i = 0; i < n; i++){
+        const j = i * 4;
+        gray[i] = 0.299*p[j] + 0.587*p[j+1] + 0.114*p[j+2];
+      }
+      whiteBalanceGray(gray, n);
+      unsharpGray(gray, w, h);
+      for(let i = 0; i < n; i++){
+        const j = i * 4, v = gray[i];
+        p[j] = p[j+1] = p[j+2] = v;
+      }
+    } else if(mode === 'color'){
+      // لون + موازنة خلفية (لكل قناة) + حدّة خفيفة
+      enhanceColorChannels(p, n, false);
+      unsharpChannels(p, w, h);
+    } else if(mode === 'magic'){
+      // Magic Color: RGB→HSL، رفع التشبّع ~١.٢×، contrast stretch لكل قناة،
+      // موازنة خلفية luminance → أبيض
+      enhanceMagic(p, n, w, h);
+    }
+    ctx.putImageData(d, 0, 0);
   }catch(e){ /* تجاهل */ }
+}
+
+// موازنة خلفية لكل قناة RGB (inplace) — تبيّض الورقة
+function enhanceColorChannels(p, n, isMagic){
+  // احسب histogram luminance للنسبة المئوية المشتركة
+  const gray = new Uint8ClampedArray(n);
+  for(let i = 0; i < n; i++){
+    const j = i * 4;
+    gray[i] = 0.299*p[j] + 0.587*p[j+1] + 0.114*p[j+2];
+  }
+  const bg = grayPercentile(gray, n, BG_PERCENTILE);
+  if(bg < 1) return;
+  const scale = 255 / bg;
+  // طبّق scale على كل قناة
+  for(let i = 0; i < n; i++){
+    const j = i * 4;
+    let r = p[j] * scale, g = p[j+1] * scale, b = p[j+2] * scale;
+    if(r > 255) r = 255; if(g > 255) g = 255; if(b > 255) b = 255;
+    p[j] = r; p[j+1] = g; p[j+2] = b;
+  }
+}
+
+// Unsharp على ٣ قنوات RGB
+function unsharpChannels(p, w, h){
+  const n = w * h;
+  for(let ch = 0; ch < 3; ch++){
+    const c = new Float32Array(n);
+    for(let i = 0; i < n; i++) c[i] = p[i*4 + ch];
+    const blurred = boxBlur(c, w, h, UNSHARP_RADIUS);
+    for(let i = 0; i < n; i++){
+      let v = c[i] + UNSHARP_AMOUNT * (c[i] - blurred[i]);
+      if(v < 0) v = 0; else if(v > 255) v = 255;
+      p[i*4 + ch] = v;
+    }
+  }
+}
+
+// ---- Magic Color mode ----
+// RGB→HSL، رفع التشبّع، contrast stretch لكل قناة (percentile)، موازنة خلفية luminance.
+const MAGIC_SAT_BOOST = 1.2;
+const MAGIC_STRETCH_LO = 0.02;
+const MAGIC_STRETCH_HI = 0.98;
+function enhanceMagic(p, n, w, h){
+  // ١. contrast stretch لكل قناة (percentile 2%–98%)
+  for(let ch = 0; ch < 3; ch++){
+    stretchChannel(p, n, ch, MAGIC_STRETCH_LO, MAGIC_STRETCH_HI);
+  }
+  // ٢. رفع التشبّع عبر RGB→HSL → boost S → RGB
+  for(let i = 0; i < n; i++){
+    const j = i * 4;
+    let r = p[j] / 255, g = p[j+1] / 255, b = p[j+2] / 255;
+    const hsl = rgb2hsl(r, g, b);
+    hsl[1] = Math.min(1, hsl[1] * MAGIC_SAT_BOOST);
+    const rgb = hsl2rgb(hsl[0], hsl[1], hsl[2]);
+    p[j]   = rgb[0] * 255;
+    p[j+1] = rgb[1] * 255;
+    p[j+2] = rgb[2] * 255;
+  }
+  // ٣. موازنة خلفية luminance → أبيض
+  enhanceColorChannels(p, n, true);
+}
+
+// contrast stretch لقناة واحدة (percentile)
+function stretchChannel(p, n, ch, loPct, hiPct){
+  const hist = new Uint32Array(256);
+  for(let i = 0; i < n; i++) hist[p[i*4 + ch]]++;
+  const loTarget = Math.floor(n * loPct), hiTarget = Math.floor(n * hiPct);
+  let acc = 0, lo = 0, hi = 255;
+  for(let i = 0; i < 256; i++){ acc += hist[i]; if(acc >= loTarget){ lo = i; break; } }
+  acc = 0;
+  for(let i = 255; i >= 0; i--){ acc += hist[i]; if(acc >= n - hiTarget){ hi = i; break; } }
+  if(hi - lo < 8) return; // تباين ضعيل — تجاهل
+  const range = hi - lo;
+  for(let i = 0; i < n; i++){
+    let v = p[i*4 + ch];
+    v = (v - lo) * 255 / range;
+    if(v < 0) v = 0; else if(v > 255) v = 255;
+    p[i*4 + ch] = v;
+  }
+}
+
+// ---- تحويلات RGB ↔ HSL ----
+function rgb2hsl(r, g, b){
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  let h, s;
+  const d = max - min;
+  if(d < 1e-9){ h = 0; s = 0; }
+  else {
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if(max === r) h = (g - b) / d + (g < b ? 6 : 0);
+    else if(max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h /= 6;
+  }
+  return [h, s, l];
+}
+function hsl2rgb(h, s, l){
+  let r, g, b;
+  if(s < 1e-9){ r = g = b = l; }
+  else {
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const pp = 2 * l - q;
+    r = hue2rgb(pp, q, h + 1/3);
+    g = hue2rgb(pp, q, h);
+    b = hue2rgb(pp, q, h - 1/3);
+  }
+  return [r, g, b];
+}
+function hue2rgb(p, q, t){
+  if(t < 0) t += 1; if(t > 1) t -= 1;
+  if(t < 1/6) return p + (q - p) * 6 * t;
+  if(t < 1/2) return q;
+  if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+  return p;
+}
+
+// ---- التحسين الفوري (one-tap auto-enhance) ----
+// اكتشف نوع المستند: لو متوسط التشبّع منخفض (<٠.١٢) أو تباين رمادي محلي عالي
+// => مستند نصّي => Sauvola B/W + حدّة. غير كده => Magic Color + حدّة.
+const AUTO_SAT_THRESH = 0.12;
+const AUTO_VAR_THRESH = 0.04;
+function oneTapEnhance(){
+  if(!state.base) return;
+  // عيّنة صغيرة (max 200px) لتحليل الإحصاءات — أسرع للموبايل
+  const sw = state.baseW, sh = state.baseH;
+  const sampleMax = 200;
+  const ss = sampleMax / Math.max(sw, sh);
+  const dw = Math.max(1, Math.round(sw * ss)), dh = Math.max(1, Math.round(sh * ss));
+  const off = document.createElement('canvas');
+  off.width = dw; off.height = dh;
+  const oc = off.getContext('2d');
+  oc.drawImage(state.base, 0, 0, dw, dh);
+  const d = oc.getImageData(0,0,dw,dh).data;
+  const n = dw * dh;
+  // متوسط التشبّع + تباين الرمادي
+  let satSum = 0, graySum = 0, graySum2 = 0;
+  for(let i = 0; i < n; i++){
+    const j = i * 4;
+    const r = d[j] / 255, g = d[j+1] / 255, b = d[j+2] / 255;
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+    const lum = (mx + mn) / 2;
+    const sat = mx - mn < 1e-9 ? 0 : (lum > 0.5 ? (mx - mn) / (2 - mx - mn) : (mx - mn) / (mx + mn));
+    satSum += sat;
+    const gray = 0.299*d[j] + 0.587*d[j+1] + 0.114*d[j+2];
+    graySum += gray; graySum2 += gray * gray;
+  }
+  const meanSat = satSum / n;
+  const meanGray = graySum / n;
+  const varGray = graySum2 / n - meanGray * meanGray;
+  const normVar = varGray / (255 * 255); // تطبيع لـ[0,1]
+
+  // قرار: نصّي لو تشبّع منخفض أو تباين عالي
+  const isTextDoc = meanSat < AUTO_SAT_THRESH || normVar > AUTO_VAR_THRESH;
+  if(isTextDoc){
+    // Sauvola B/W — نص أسود حاد على أبيض ناصع
+    state.colorMode = 'bw';
+    state.bw = true;
+  } else {
+    // Magic Color + حدّة — ألوان حيّة وخلفية بيضاء
+    state.colorMode = 'magic';
+    state.bw = false;
+  }
+  updateColorModeUI();
+  render();
+  toast('✨ اتحسّن');
+}
+
+// ---- تحديث واجهة شرائح وضع اللون ----
+function updateColorModeUI(){
+  const map = { magic: dom.btnModeMagic, color: dom.btnModeColor, gray: dom.btnModeGray, bw: dom.btnModeBW };
+  for(const k in map){
+    if(map[k]) map[k].classList.toggle('active', k === state.colorMode);
+  }
+  // btnBW الموجود قبل كده بيتزامن مع وضع bw
+  if(dom.btnBW) dom.btnBW.classList.toggle('active', state.colorMode === 'bw');
+}
+
+// ---- اختيار وضع اللون من الشريحة ----
+function setColorMode(mode){
+  if(!state.base || state.colorMode === mode) return;
+  state.colorMode = mode;
+  state.bw = (mode === 'bw'); // الحفاظ على توافق bw القديم
+  updateColorModeUI();
+  render();
 }
 
 function updateDims(){
@@ -837,7 +1179,7 @@ function autoDetectDoc(){
 // في نفس إحداثيات الصورة الأساسية
 function bakeTransforms(){
   if(state.rotate90 || state.fineRot || state.bri !== 100 || state.con !== 100 ||
-     state.sat !== 100 || state.bw){
+     state.sat !== 100 || state.bw || state.colorMode !== 'color'){
     const w = dom.canvas.width, h = dom.canvas.height;
     const c = document.createElement('canvas');
     c.width = w; c.height = h;
@@ -845,12 +1187,14 @@ function bakeTransforms(){
     state.base = c; state.baseW = w; state.baseH = h;
     state.rotate90 = 0; state.fineRot = 0;
     state.bri = 100; state.con = 100; state.sat = 100; state.bw = false;
+    state.colorMode = 'color';
     // تحديث الواجهة
     if(dom.rotFine){ dom.rotFine.value = 0; dom.rotVal.textContent = '0°'; }
     if(dom.bri){ dom.bri.value = 100; dom.con.value = 100; dom.sat.value = 100; }
     if(dom.briVal){ dom.briVal.textContent = '100%'; dom.conVal.textContent = '100%'; dom.satVal.textContent = '100%'; }
     if(dom.btnBW) dom.btnBW.classList.remove('active');
     if(dom.btnBefore) dom.btnBefore.classList.remove('active');
+    updateColorModeUI();
   }
 }
 
@@ -1146,7 +1490,13 @@ function bind(){
   bindSlider(dom.con, dom.conVal, 'con');
   bindSlider(dom.sat, dom.satVal, 'sat');
   dom.btnAuto.addEventListener('click', autoEnhance);
-  dom.btnBW.addEventListener('click', ()=>{ state.bw = !state.bw; dom.btnBW.classList.toggle('active', state.bw); render(); });
+  dom.btnBW.addEventListener('click', ()=>{ setColorMode(state.bw ? 'color' : 'bw'); });
+  // المرحلة ٥ — وضع اللون + التحسين الفوري
+  if(dom.btnEnhance) dom.btnEnhance.addEventListener('click', oneTapEnhance);
+  if(dom.btnModeMagic) dom.btnModeMagic.addEventListener('click', ()=> setColorMode('magic'));
+  if(dom.btnModeColor) dom.btnModeColor.addEventListener('click', ()=> setColorMode('color'));
+  if(dom.btnModeGray) dom.btnModeGray.addEventListener('click', ()=> setColorMode('gray'));
+  if(dom.btnModeBW) dom.btnModeBW.addEventListener('click', ()=> setColorMode('bw'));
 
   // قص
   dom.btnCrop.addEventListener('click', ()=> state.cropMode ? exitCropMode() : enterCropMode());

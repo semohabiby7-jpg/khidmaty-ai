@@ -112,6 +112,28 @@ a{color:var(--gold);text-decoration:none}
 .btn.active{border-color:var(--gold);background:rgba(230,194,88,.14);color:var(--gold)}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 
+/* ===== زر التحسين الفوري (المرحلة ٥) ===== */
+.btn-doc-mode{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);
+  border:none;font-weight:900;
+}
+.btn-doc-mode:hover{box-shadow:0 8px 22px rgba(230,194,88,.3)}
+.btn-doc-mode:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ===== شرائح وضع اللون (mode chips) ===== */
+.mode-chips{gap:8px}
+.mode-chip{
+  padding:9px 14px;border-radius:20px;font-size:13px;font-weight:800;
+  border:1px solid var(--border);background:var(--bg2);color:var(--text);
+  transition:all .2s;
+}
+.mode-chip:hover{border-color:var(--gold);transform:translateY(-2px)}
+.mode-chip.active{
+  border-color:var(--gold);background:rgba(230,194,88,.16);color:var(--gold);
+  box-shadow:0 0 0 1px var(--gold) inset;
+}
+.mode-chip:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
 /* ===== المحرر ===== */
 .editor{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
 .canvas-stage{

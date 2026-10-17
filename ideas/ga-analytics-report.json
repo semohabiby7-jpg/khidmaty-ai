@@ -1,48 +1,48 @@
 {
-  "timestamp": "2026-10-16T06:01:56.150297",
+  "timestamp": "2026-10-17T06:02:51.377728",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "155",
+      "totalUsers": "158",
       "sessions": "210",
-      "screenPageViews": "369",
-      "averageSessionDuration": "192.17879286666664",
-      "bounceRate": "0.60952380952380958"
+      "screenPageViews": "328",
+      "averageSessionDuration": "149.21924280952382",
+      "bounceRate": "0.6"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "9",
-      "sessions": "11",
-      "screenPageViews": "14",
-      "averageSessionDuration": "24.294383090909093",
-      "bounceRate": "1"
+      "totalUsers": "6",
+      "sessions": "8",
+      "screenPageViews": "12",
+      "averageSessionDuration": "45.13407525",
+      "bounceRate": "0.5"
     }
   ],
   "top_pages": [
     {
-      "pagePath": "/khidmaty-ai/",
-      "screenPageViews": "136",
-      "totalUsers": "26",
-      "averageSessionDuration": "400.08698038596486"
+      "pagePath": "/",
+      "screenPageViews": "133",
+      "totalUsers": "100",
+      "averageSessionDuration": "40.787669220338984"
     },
     {
-      "pagePath": "/",
-      "screenPageViews": "128",
-      "totalUsers": "98",
-      "averageSessionDuration": "41.888358513274333"
+      "pagePath": "/khidmaty-ai/",
+      "screenPageViews": "85",
+      "totalUsers": "26",
+      "averageSessionDuration": "262.883575745098"
     },
     {
       "pagePath": "/index.html",
-      "screenPageViews": "29",
-      "totalUsers": "8",
-      "averageSessionDuration": "244.65073033333331"
+      "screenPageViews": "30",
+      "totalUsers": "9",
+      "averageSessionDuration": "224.5884085625"
     },
     {
       "pagePath": "/store.html",
-      "screenPageViews": "26",
+      "screenPageViews": "28",
       "totalUsers": "3",
-      "averageSessionDuration": "252.82363337500001"
+      "averageSessionDuration": "217.7811682"
     },
     {
       "pagePath": "/khidmaty-ai/index.html",
@@ -51,16 +51,16 @@
       "averageSessionDuration": "793.14391775"
     },
     {
+      "pagePath": "/services/insurance-periods-inquiry.html",
+      "screenPageViews": "8",
+      "totalUsers": "7",
+      "averageSessionDuration": "54.343852142857145"
+    },
+    {
       "pagePath": "/services/vaccination-certificate.html",
       "screenPageViews": "7",
       "totalUsers": "6",
-      "averageSessionDuration": "79.94279383333334"
-    },
-    {
-      "pagePath": "/services/insurance-periods-inquiry.html",
-      "screenPageViews": "6",
-      "totalUsers": "6",
-      "averageSessionDuration": "37.623177333333338"
+      "averageSessionDuration": "90.488184833333321"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
@@ -96,7 +96,7 @@
       "pagePath": "/services/egyptian-citizenship.html",
       "screenPageViews": "2",
       "totalUsers": "2",
-      "averageSessionDuration": "47.631482500000004"
+      "averageSessionDuration": "47.638036"
     },
     {
       "pagePath": "/services/pension-postal-payment.html",
@@ -144,23 +144,23 @@
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "137",
-      "totalUsers": "95"
+      "sessions": "135",
+      "totalUsers": "98"
     },
     {
       "sessionSource": "google",
-      "sessions": "25",
-      "totalUsers": "24"
-    },
-    {
-      "sessionSource": "(not set)",
-      "sessions": "16",
-      "totalUsers": "8"
+      "sessions": "29",
+      "totalUsers": "28"
     },
     {
       "sessionSource": "m.facebook.com",
       "sessions": "14",
       "totalUsers": "13"
+    },
+    {
+      "sessionSource": "(not set)",
+      "sessions": "11",
+      "totalUsers": "5"
     },
     {
       "sessionSource": "facebook.com",
@@ -173,14 +173,14 @@
       "totalUsers": "6"
     },
     {
-      "sessionSource": "(data not available)",
-      "sessions": "3",
-      "totalUsers": "3"
-    },
-    {
       "sessionSource": "dataindex.pro",
       "sessions": "2",
       "totalUsers": "2"
+    },
+    {
+      "sessionSource": "youtube.com",
+      "sessions": "2",
+      "totalUsers": "1"
     },
     {
       "sessionSource": "gemini.google.com",
@@ -191,13 +191,13 @@
   "devices": [
     {
       "deviceCategory": "desktop",
-      "sessions": "114",
-      "totalUsers": "87"
+      "sessions": "111",
+      "totalUsers": "88"
     },
     {
       "deviceCategory": "mobile",
-      "sessions": "96",
-      "totalUsers": "68"
+      "sessions": "99",
+      "totalUsers": "70"
     }
   ],
   "daily_7d": [
@@ -232,16 +232,10 @@
       "screenPageViews": "17"
     },
     {
-      "date": "20261009",
-      "totalUsers": "6",
-      "sessions": "6",
-      "screenPageViews": "12"
-    },
-    {
       "date": "20261016",
-      "totalUsers": "2",
-      "sessions": "2",
-      "screenPageViews": "2"
+      "totalUsers": "6",
+      "sessions": "8",
+      "screenPageViews": "12"
     },
     {
       "date": "20261010",

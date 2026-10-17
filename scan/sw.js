@@ -1,6 +1,6 @@
 /* ===== Scan Macaron AI — Service Worker (offline + installable) ===== */
-const CACHE = 'scan-macaron-v4';
-const CORE = ['./', './index.html', './styles.css', './app.js', './manifest.json', './icon.svg'];
+const CACHE = 'scan-macaron-v5';
+const CORE = ['./', './index.html', './styles.css', './app.js', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './icon-512-maskable.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));

@@ -1,0 +1,24 @@
+{
+  "packageId": "com.khidmatyai.scanmacaron",
+  "host": "khidmatyai.com",
+  "name": "Scan Macaron AI",
+  "launcherName": "Scan Macaron",
+  "themeColor": "#0F1E3D",
+  "themeColorDark": "#0F1E3D",
+  "navigationColor": "#0F1E3D",
+  "backgroundColor": "#0F1E3D",
+  "enableNotifications": false,
+  "startUrl": "/scan/",
+  "iconUrl": "https://raw.githubusercontent.com/semohabiby7-jpg/khidmaty-ai/main/scan/icon-512.png",
+  "maskableIconUrl": "https://raw.githubusercontent.com/semohabiby7-jpg/khidmaty-ai/main/scan/icon-512-maskable.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/tmp/scanmacaron.keystore",
+    "alias": "scanmacaron"
+  },
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://raw.githubusercontent.com/semohabiby7-jpg/khidmaty-ai/main/scan/manifest.json"
+}

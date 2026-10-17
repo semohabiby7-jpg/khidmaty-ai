@@ -182,6 +182,32 @@ a{color:var(--gold);text-decoration:none}
 .pdf-export-row{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-top:14px}
 .pdf-export-row .field{flex:1;min-width:160px}
 
+/* ===== التعليقات / التوقيع ===== */
+.annotate-bar{
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;margin-top:8px;
+}
+.annotate-bar.hidden{display:none}
+.annotate-bar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;font-weight:700}
+.annotate-bar input[type=color]{
+  width:36px;height:36px;border:1px solid var(--border);border-radius:8px;
+  background:none;cursor:pointer;padding:2px;
+}
+.annotate-bar input[type=range]{accent-color:var(--gold);width:90px}
+
+/* ===== السجل / الأرشيف ===== */
+.history-tray{display:flex;gap:12px;overflow-x:auto;padding:8px 2px 12px;min-height:140px;border:1px dashed var(--border);border-radius:12px;background:rgba(0,0,0,.12)}
+.history-thumb{position:relative;flex:0 0 auto;width:140px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg3)}
+.history-thumb img{width:100%;display:block;max-height:170px;object-fit:cover}
+.hist-info{font-size:11px;color:var(--muted);padding:5px 8px;text-align:center;line-height:1.5;background:var(--bg3)}
+.hist-info b{color:var(--text);font-weight:700}
+.hist-open,.hist-del{position:absolute;top:5px;border:none;width:26px;height:26px;border-radius:50%;font-size:14px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center}
+.hist-open{inset-inline-end:5px;background:rgba(15,30,61,.88);color:var(--gold)}
+.hist-del{inset-inline-start:5px;background:rgba(15,30,61,.88);color:#ffb4b4}
+.hist-open:hover{background:rgba(230,194,88,.25)}
+.hist-del:hover{background:rgba(255,100,100,.25)}
+
 /* ===== التذييل ===== */
 .footer{text-align:center;padding:24px 20px;color:var(--muted);font-size:13px}
 .footer-brand a{font-weight:700}

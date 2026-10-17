@@ -110,6 +110,7 @@
           <div class="ctrl-label">المسح السحري</div>
           <div class="btn-row">
             <button class="btn btn-ghost" id="btnPersp">📐 تصحيح المنظور</button>
+            <button class="btn btn-ghost" id="btnAutoDetect">🔍 كشف تلقائي</button>
             <button class="btn btn-ghost" id="btnPerspApply" disabled>تطبيق</button>
             <button class="btn btn-ghost" id="btnPerspCancel" disabled>إلغاء</button>
           </div>
@@ -119,7 +120,7 @@
             <button class="btn btn-ghost" id="btnVivid">🎨 لون حي</button>
             <button class="btn btn-ghost" id="btnSharpen">🔪 حدّة</button>
           </div>
-          <p class="micro">«تصحيح المنظور»: حرّك الـ٤ زوايا على حدود الورقة واضغط «تطبيق» لتفريدها مستوية.</p>
+          <p class="micro">«كشف تلقائي»: بيلاقي حدود الورقة أوتوماتيك. «تصحيح المنظور»: حرّك الـ٤ زوايا يدويًا واضغط «تطبيق» لتفريدها مستوية.</p>
         </div>
 
         <div class="ctrl-group">
@@ -153,6 +154,21 @@
             <button class="btn btn-ghost" id="btnCropCancel" disabled>إلغاء</button>
           </div>
           <p class="micro" id="cropHint">اضغط «وضع القص» ورسم مربّع على الصورة بالماوس/الإصبع.</p>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">تعليق / توقيع</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnAnnotate">✍️ تعليق/توقيع</button>
+            <button class="btn btn-ghost" id="btnAnnoText">📝 نص</button>
+            <button class="btn btn-ghost" id="btnAnnoClear">🗑️ مسح التعليقات</button>
+            <button class="btn btn-ghost" id="btnAnnoExit">✅ خروج</button>
+          </div>
+          <div class="annotate-bar hidden" id="annotateBar">
+            <label>اللون <input type="color" id="annoColor" value="#e6c258"></label>
+            <label>السمك <input type="range" id="annoWidth" min="1" max="20" value="3" step="1"></label>
+            <span class="micro" id="annoModeHint">ارسم بإصبعك/القلم فوق الصورة. اضغط «نص» لإضافة ملاحظة مكتوبة.</span>
+          </div>
         </div>
 
         <div class="ctrl-group">
@@ -208,6 +224,7 @@
       <button class="btn btn-ghost" id="btnTxt">⬇️ تنزيل .txt</button>
       <button class="btn btn-ghost" id="btnSpeak">🔊 اقرأ بصوت عربي</button>
       <button class="btn btn-ghost" id="btnStopSpeak" disabled>⏹ وقّف القراءة</button>
+      <button class="btn btn-primary" id="btnSave">💾 احفظ المستند</button>
     </div>
     <p class="micro">🧠 كل المعالجة على جهازك. أول مرة تستخرج فيها نص عربي بيتم تحميل ملف بيانات صغير (مرة واحدة بس).</p>
   </section>
@@ -231,6 +248,15 @@
         </select>
       </label>
       <button class="btn btn-primary" id="btnPdf">⬇️ نزّل PDF</button>
+    </div>
+  </section>
+
+  <!-- مستنداتي المحفوظة -->
+  <section class="card" id="historyCard">
+    <h2 class="card-title">٦. مستنداتي المحفوظة</h2>
+    <p class="micro" style="margin-bottom:12px">المستندات المحفوظة محليًا على جهازك (IndexedDB). اضغط 📂 لفتح مستند أو 🗑️ لمسحه.</p>
+    <div class="history-tray" id="historyTray">
+      <div class="empty-hint">لسه مفيش مستندات محفوظة. استخدم زر «احفظ المستند» في قسم OCR.</div>
     </div>
   </section>
 

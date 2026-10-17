@@ -36,6 +36,16 @@ const dom = {
   btnCrop: $('btnCrop'), btnCropApply: $('btnCropApply'), btnCropCancel: $('btnCropCancel'), cropHint: $('cropHint'),
   btnBefore: $('btnBefore'), btnReset: $('btnReset'),
   fmt: $('fmt'), quality: $('quality'), qualityField: $('qualityField'), dims: $('dims'), btnDownload: $('btnDownload'),
+  // كشف تلقائي
+  btnAutoDetect: $('btnAutoDetect'),
+  // تعليقات / توقيع
+  btnAnnotate: $('btnAnnotate'), annotateBar: $('annotateBar'),
+  annoColor: $('annoColor'), annoWidth: $('annoWidth'), annoModeHint: $('annoModeHint'),
+  btnAnnoText: $('btnAnnoText'), btnAnnoClear: $('btnAnnoClear'), btnAnnoExit: $('btnAnnoExit'),
+  // حفظ محلي
+  btnSave: $('btnSave'),
+  // سجل / أرشيف
+  historyCard: $('historyCard'), historyTray: $('historyTray'),
   // OCR
   ocrLang: $('ocrLang'), btnOCR: $('btnOCR'),
   ocrProgress: $('ocrProgress'), ocrBar: $('ocrBar'), ocrPct: $('ocrPct'), ocrText: $('ocrText'),
@@ -54,6 +64,10 @@ const state = {
   cropMode: false, cropRect: null, dragging: false, dragStart: null,
   perspMode: false, perspCorners: null, perspDrag: -1,
   pages: [],
+  // تعليقات / توقيع
+  annotateMode: false, annoTextMode: false,
+  annotations: [], currentStroke: null,
+  annoColor: '#e6c258', annoWidth: 3,
 };
 
 // ===== أدوات =====
@@ -108,7 +122,8 @@ function setBaseFromImage(img){
 function setEditingEnabled(en){
   const els = [dom.btnAuto,dom.btnBW,dom.btnCrop,dom.btnBefore,dom.btnReset,
     dom.btnDoc,dom.btnWhite,dom.btnVivid,dom.btnSharpen,dom.btnRotL,dom.btnRotR,
-    dom.rotFine,dom.bri,dom.con,dom.sat];
+    dom.rotFine,dom.bri,dom.con,dom.sat,
+    dom.btnAutoDetect,dom.btnAnnotate];
   els.forEach(b => { if(b) b.disabled = !en; });
 }
 
@@ -123,6 +138,9 @@ function resetTransforms(){
   dom.btnBW.classList.remove('active');
   dom.btnBefore.classList.remove('active');
   exitCropMode();
+  // مسح التعليقات والخروج من وضعها
+  if(state.annotateMode) exitAnnotate();
+  state.annotations = []; state.currentStroke = null;
 }
 
 // ===== الرسم =====
@@ -135,7 +153,7 @@ function render(){
     dom.canvas.width = w; dom.canvas.height = h;
     ctx.setTransform(1,0,0,1,0,0); ctx.filter = 'none';
     ctx.clearRect(0,0,w,h); ctx.drawImage(base,0,0);
-    drawCropOverlay(); updateDims(); return;
+    drawCropOverlay(); drawAnnotations(); updateDims(); return;
   }
 
   const angle = (state.rotate90 * 90 + state.fineRot) * Math.PI / 180;
@@ -156,6 +174,7 @@ function render(){
 
   if(state.bw) applyThreshold();
   drawCropOverlay();
+  drawAnnotations();
   updateDims();
 }
 
@@ -653,6 +672,426 @@ async function downloadPDF(){
   }
 }
 
+// ============================================================
+//  كشف تلقائي للمستند — pure Canvas (ممنوع OpenCV.js للموبايل)
+//  الخطوات: صغّر → رمادي → blur → Sobel → threshold →
+//  ابحث عن أكبر رباعي (scanline + refine) → اربط بـperspCorners → applyPersp
+// ============================================================
+
+// Box blur بسيط (نصف القطر r) — sliding window O(n)
+function boxBlur(src, w, h, r){
+  const tmp = new Float32Array(w * h);
+  const out = new Float32Array(w * h);
+  const d = r * 2 + 1;
+  // blur أفقي
+  for(let y = 0; y < h; y++){
+    let sum = 0;
+    const row = y * w;
+    for(let x = -r; x <= r; x++) sum += src[row + clamp(x, 0, w-1)];
+    for(let x = 0; x < w; x++){
+      tmp[row + x] = sum / d;
+      sum += src[row + clamp(x + r + 1, 0, w-1)] - src[row + clamp(x - r, 0, w-1)];
+    }
+  }
+  // blur رأسي
+  for(let x = 0; x < w; x++){
+    let sum = 0;
+    for(let y = -r; y <= r; y++) sum += tmp[clamp(y, 0, h-1) * w + x];
+    for(let y = 0; y < h; y++){
+      out[y * w + x] = sum / d;
+      sum += tmp[clamp(y + r + 1, 0, h-1) * w + x] - tmp[clamp(y - r, 0, h-1) * w + x];
+    }
+  }
+  return out;
+}
+
+// Sobel لكشف الحواف — يرجّع مصفوفة magnitude
+function sobelEdges(src, w, h){
+  const out = new Uint8ClampedArray(w * h);
+  for(let y = 1; y < h - 1; y++){
+    for(let x = 1; x < w - 1; x++){
+      const i = y * w + x;
+      // Sobel X
+      const gx = -src[i - w - 1] - 2 * src[i - 1] - src[i + w - 1]
+                 + src[i - w + 1] + 2 * src[i + 1] + src[i + w + 1];
+      // Sobel Y
+      const gy = -src[i - w - 1] - 2 * src[i - w] - src[i - w + 1]
+                 + src[i + w - 1] + 2 * src[i + w] + src[i + w + 1];
+      out[i] = Math.min(255, Math.abs(gx) + Math.abs(gy));
+    }
+  }
+  return out;
+}
+
+// ابحث عن أكبر رباعي مضلّع من خريطة الحواف الثنائية
+function findDocumentCorners(binary, w, h){
+  // اجمع الحواف لكل صف وكل عمود
+  const rowSum = new Float32Array(h);
+  const colSum = new Float32Array(w);
+  for(let y = 0; y < h; y++){
+    for(let x = 0; x < w; x++){
+      const v = binary[y * w + x];
+      rowSum[y] += v;
+      colSum[x] += v;
+    }
+  }
+  // عتبة دنيا — حد edges لاعتبار الصف/العمود به حواف
+  const minEdges = 3;
+  // ابحث عن الحدود الأربعة (أول/آخر صف/عمود به كثافة حواف)
+  let top = -1, bottom = -1, left = -1, right = -1;
+  for(let y = 0; y < h; y++){ if(rowSum[y] >= minEdges){ top = y; break; } }
+  for(let y = h - 1; y >= 0; y--){ if(rowSum[y] >= minEdges){ bottom = y; break; } }
+  for(let x = 0; x < w; x++){ if(colSum[x] >= minEdges){ left = x; break; } }
+  for(let x = w - 1; x >= 0; x--){ if(colSum[x] >= minEdges){ right = x; break; } }
+  if(top < 0 || bottom < 0 || left < 0 || right < 0) return null;
+  if(right - left < w * 0.15 || bottom - top < h * 0.15) return null;
+  // ابحث عن الزوايا الفعلية بمسح من كل ركن ناحية المركز
+  const tl = refineCorner(binary, w, h, left, top, 1, 1);
+  const tr = refineCorner(binary, w, h, right, top, -1, 1);
+  const bl = refineCorner(binary, w, h, left, bottom, 1, -1);
+  const br = refineCorner(binary, w, h, right, bottom, -1, -1);
+  // ترتيب: أعلى-يسار، أعلى-يمين، أسفل-يمين، أسفل-يسار
+  return [tl, tr, br, bl];
+}
+
+// ابحث عن أقوى نقطة حافة بالقرب من (startX,startY) باتجاه (dx,dy)
+function refineCorner(binary, w, h, startX, startY, dx, dy){
+  const searchR = Math.max(8, Math.floor(Math.min(w, h) * 0.15));
+  let bestX = startX, bestY = startY, bestScore = 0;
+  const r = 3; // نصف قطر نافذة جمع الحواف
+  for(let oy = 0; oy < searchR; oy++){
+    for(let ox = 0; ox < searchR; ox++){
+      const x = startX + dx * ox, y = startY + dy * oy;
+      if(x < 0 || x >= w || y < 0 || y >= h) continue;
+      let score = 0;
+      for(let ny = -r; ny <= r; ny++){
+        for(let nx = -r; nx <= r; nx++){
+          const px = x + nx, py = y + ny;
+          if(px >= 0 && px < w && py >= 0 && py < h) score += binary[py * w + px];
+        }
+      }
+      if(score > bestScore){ bestScore = score; bestX = x; bestY = y; }
+    }
+  }
+  return { x: bestX, y: bestY };
+}
+
+// الدالة الرئيسية للكشف التلقائي
+function autoDetectDoc(){
+  if(!state.base){ toast('اختار صورة الأول'); return; }
+  // ١. صغّر الصورة لـ~300px
+  const smallMax = 300;
+  const sw = state.baseW, sh = state.baseH;
+  const scale = smallMax / Math.max(sw, sh);
+  const dw = Math.max(1, Math.round(sw * scale));
+  const dh = Math.max(1, Math.round(sh * scale));
+  const sc = document.createElement('canvas');
+  sc.width = dw; sc.height = dh;
+  const sctx = sc.getContext('2d');
+  sctx.drawImage(state.base, 0, 0, dw, dh);
+  // ٢. رمادي
+  const imgData = sctx.getImageData(0, 0, dw, dh);
+  const data = imgData.data;
+  const gray = new Float32Array(dw * dh);
+  for(let i = 0; i < dw * dh; i++){
+    const j = i * 4;
+    gray[i] = 0.299 * data[j] + 0.587 * data[j+1] + 0.114 * data[j+2];
+  }
+  // ٣. Box blur لتنعيم الضوضاء
+  const blurred = boxBlur(gray, dw, dh, 1);
+  // ٤. Sobel لكشف الحواف
+  const edges = sobelEdges(blurred, dw, dh);
+  // ٥. Threshold للحصول على خريطة ثنائية
+  const edgeThresh = 60;
+  const binary = new Uint8Array(dw * dh);
+  for(let i = 0; i < edges.length; i++) binary[i] = edges[i] > edgeThresh ? 1 : 0;
+  // ٦. ابحث عن أكبر رباعي مضلّع
+  const corners = findDocumentCorners(binary, dw, dh);
+  if(!corners){
+    toast('ماقدرش ألاقي حدود واضحة — ارسمها يدويًا بـ«تصحيح المنظور»');
+    return;
+  }
+  // ٧. اربط النتائج بمقاييس الصورة الأصلية
+  const invScale = 1 / scale;
+  state.perspCorners = corners.map(c => ({
+    x: clamp(c.x * invScale, 0, sw),
+    y: clamp(c.y * invScale, 0, sh)
+  }));
+  // ٨. ادخل وضع المنظور واعرض النتيجة
+  state.perspMode = true;
+  state.perspDrag = -1;
+  setEditingEnabled(false);
+  dom.btnPerspApply.disabled = false;
+  dom.btnPerspCancel.disabled = false;
+  dom.btnPersp.classList.add('active');
+  dom.stageHint.textContent = 'كشف تلقائي — راجع الزوايا واضغط «تطبيق»';
+  renderPersp();
+  toast('🔍 اتكشف المستند — راجع الزوايا');
+}
+
+// ============================================================
+//  التعليقات / التوقيع — وضع الرسم فوق الـcanvas
+// ============================================================
+
+// اطبق التحويلات الحالية على الـbase (bake) عشان التعليقات تترسم
+// في نفس إحداثيات الصورة الأساسية
+function bakeTransforms(){
+  if(state.rotate90 || state.fineRot || state.bri !== 100 || state.con !== 100 ||
+     state.sat !== 100 || state.bw){
+    const w = dom.canvas.width, h = dom.canvas.height;
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(dom.canvas, 0, 0);
+    state.base = c; state.baseW = w; state.baseH = h;
+    state.rotate90 = 0; state.fineRot = 0;
+    state.bri = 100; state.con = 100; state.sat = 100; state.bw = false;
+    // تحديث الواجهة
+    if(dom.rotFine){ dom.rotFine.value = 0; dom.rotVal.textContent = '0°'; }
+    if(dom.bri){ dom.bri.value = 100; dom.con.value = 100; dom.sat.value = 100; }
+    if(dom.briVal){ dom.briVal.textContent = '100%'; dom.conVal.textContent = '100%'; dom.satVal.textContent = '100%'; }
+    if(dom.btnBW) dom.btnBW.classList.remove('active');
+    if(dom.btnBefore) dom.btnBefore.classList.remove('active');
+  }
+}
+
+function enterAnnotate(){
+  if(!state.base) return;
+  if(state.perspMode) exitPersp();
+  if(state.cropMode) exitCropMode();
+  bakeTransforms(); // اطبق التحويلات الحالية
+  state.annotateMode = true;
+  state.annoTextMode = false;
+  setEditingEnabled(false);
+  dom.btnAnnotate.classList.add('active');
+  if(dom.annotateBar) dom.annotateBar.classList.remove('hidden');
+  dom.stageHint.textContent = 'ارسم أو أضف نص فوق المستند';
+  dom.stage.style.cursor = 'crosshair';
+  render();
+}
+
+function exitAnnotate(){
+  state.annotateMode = false;
+  state.annoTextMode = false;
+  state.currentStroke = null;
+  setEditingEnabled(true);
+  if(dom.btnAnnotate) dom.btnAnnotate.classList.remove('active');
+  if(dom.btnAnnoText) dom.btnAnnoText.classList.remove('active');
+  if(dom.annotateBar) dom.annotateBar.classList.add('hidden');
+  dom.stageHint.textContent = '';
+  dom.stage.style.cursor = '';
+  render();
+}
+
+// ارسم طبقة التعليقات فوق الصورة
+function drawAnnotations(){
+  if(!state.annotations || state.annotations.length === 0) return;
+  ctx.save();
+  for(const ann of state.annotations){
+    if(ann.type === 'stroke'){
+      ctx.strokeStyle = ann.color;
+      ctx.lineWidth = ann.width;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      const pts = ann.points;
+      if(pts.length < 2){
+        // نقطة واحدة — ارسم دائرة صغيرة
+        ctx.beginPath();
+        ctx.arc(pts[0].x, pts[0].y, ann.width / 2, 0, Math.PI * 2);
+        ctx.fillStyle = ann.color;
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for(let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+        ctx.stroke();
+      }
+    } else if(ann.type === 'text'){
+      ctx.font = ann.fontSize + 'px Cairo, sans-serif';
+      ctx.textBaseline = 'top';
+      const metrics = ctx.measureText(ann.text);
+      // خلفية شفافة خلف النص
+      ctx.fillStyle = 'rgba(6,12,26,.72)';
+      ctx.fillRect(ann.x - 5, ann.y - 4, metrics.width + 10, ann.fontSize + 8);
+      ctx.fillStyle = ann.color;
+      ctx.fillText(ann.text, ann.x, ann.y);
+    }
+  }
+  ctx.restore();
+}
+
+// أحداث الرسم (التعليقات) — على الـcanvas
+function bindAnnotateEvents(){
+  const aDown = (e) => {
+    if(!state.annotateMode) return;
+    e.preventDefault();
+    if(state.annoTextMode){
+      // وضع النص: انقر لوضع التعليق النصي
+      const p = toCanvasCoords(e);
+      const text = prompt('اكتب التعليق:');
+      if(text){
+        state.annotations.push({
+          type: 'text', text, x: p.x, y: p.y,
+          color: state.annoColor, fontSize: 24
+        });
+        render();
+      }
+      return;
+    }
+    // وضع الرسم الحر
+    const p = toCanvasCoords(e);
+    state.currentStroke = {
+      type: 'stroke', points: [p],
+      color: state.annoColor, width: state.annoWidth
+    };
+    state.annotations.push(state.currentStroke);
+    render();
+  };
+  let aRaf = 0;
+  const aMove = (e) => {
+    if(!state.annotateMode || !state.currentStroke || state.annoTextMode) return;
+    e.preventDefault();
+    const p = toCanvasCoords(e);
+    state.currentStroke.points.push(p);
+    cancelAnimationFrame(aRaf);
+    aRaf = requestAnimationFrame(render);
+  };
+  const aUp = () => {
+    if(state.annotateMode) state.currentStroke = null;
+  };
+  dom.canvas.addEventListener('pointerdown', aDown);
+  dom.canvas.addEventListener('pointermove', aMove);
+  window.addEventListener('pointerup', aUp);
+  dom.canvas.addEventListener('touchstart', aDown, {passive:false});
+  dom.canvas.addEventListener('touchmove', aMove, {passive:false});
+}
+
+// ============================================================
+//  حفظ محلي (IndexedDB) — قاعدة بيانات scan-macaron
+// ============================================================
+let scanDB = null;
+
+function openScanDB(){
+  return new Promise((resolve, reject) => {
+    if(scanDB){ resolve(scanDB); return; }
+    const req = indexedDB.open('scan-macaron', 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if(!db.objectStoreNames.contains('scans')){
+        db.createObjectStore('scans', { keyPath: 'id', autoIncrement: true });
+      }
+    };
+    req.onsuccess = (e) => { scanDB = e.target.result; resolve(scanDB); };
+    req.onerror = (e) => reject(e.target.error);
+  });
+}
+
+// احفظ المستند الحالي في IndexedDB
+async function saveScan(){
+  if(!state.base){ toast('اختار صورة الأول'); return; }
+  try{
+    const db = await openScanDB();
+    // الصورة الكاملة (للفتح لاحقًا) — JPEG بجودة 85
+    const fc = document.createElement('canvas');
+    fc.width = state.baseW; fc.height = state.baseH;
+    fc.getContext('2d').drawImage(state.base, 0, 0);
+    const image = fc.toDataURL('image/jpeg', 0.85);
+    // مصغّر ~300px (لعرض السجل)
+    const maxThumb = 300;
+    const ts = Math.min(1, maxThumb / Math.max(state.baseW, state.baseH));
+    const tw = Math.round(state.baseW * ts), th = Math.round(state.baseH * ts);
+    const tc = document.createElement('canvas');
+    tc.width = tw; tc.height = th;
+    tc.getContext('2d').drawImage(state.base, 0, 0, tw, th);
+    const thumb = tc.toDataURL('image/jpeg', 0.7);
+    const text = dom.ocrText ? (dom.ocrText.value || '') : '';
+    const date = Date.now();
+    const tx = db.transaction('scans', 'readwrite');
+    const store = tx.objectStore('scans');
+    const req = store.add({ thumb, image, text, date, w: state.baseW, h: state.baseH });
+    req.onsuccess = () => { toast('💾 اتحفظ المستند'); renderHistory(); };
+    req.onerror = () => toast('تعذّر الحفظ');
+  }catch(e){
+    console.error(e);
+    toast('تعذّر فتح قاعدة البيانات');
+  }
+}
+
+// اعرض السجل (الأحدث أولًا)
+async function renderHistory(){
+  if(!dom.historyTray) return;
+  try{
+    const db = await openScanDB();
+    const tx = db.transaction('scans', 'readonly');
+    const store = tx.objectStore('scans');
+    const req = store.getAll();
+    req.onsuccess = () => {
+      const items = (req.result || []).sort((a, b) => b.date - a.date);
+      dom.historyTray.innerHTML = '';
+      if(items.length === 0){
+        const hint = document.createElement('div');
+        hint.className = 'empty-hint';
+        hint.textContent = 'لسه مفيش مستندات محفوظة. استخدم زر «احفظ المستند» في قسم OCR.';
+        dom.historyTray.appendChild(hint);
+        return;
+      }
+      for(const item of items){
+        const card = document.createElement('div');
+        card.className = 'history-thumb';
+        const dateStr = new Date(item.date).toLocaleDateString('ar-EG', {
+          year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+        });
+        card.innerHTML =
+          '<img src="' + item.thumb + '" alt="مستند محفوظ">' +
+          '<button class="hist-del" title="امسح">🗑️</button>' +
+          '<button class="hist-open" title="افتح">📂</button>' +
+          '<div class="hist-info"><b>' + dateStr + '</b><br>' + item.w + '×' + item.h + 'px</div>';
+        card.querySelector('.hist-open').addEventListener('click', () => openScan(item.id));
+        card.querySelector('.hist-del').addEventListener('click', () => deleteScan(item.id));
+        dom.historyTray.appendChild(card);
+      }
+    };
+  }catch(e){ console.error(e); }
+}
+
+// افتح مستند محفوظ — يعيد تحميل الصورة للكانفس
+async function openScan(id){
+  try{
+    const db = await openScanDB();
+    const tx = db.transaction('scans', 'readonly');
+    const store = tx.objectStore('scans');
+    const req = store.get(id);
+    req.onsuccess = () => {
+      const item = req.result;
+      if(!item || !item.image){ toast('المستند غير موجود'); return; }
+      const img = new Image();
+      img.onload = () => {
+        setBaseFromImage(img);
+        resetTransforms();
+        state.annotations = []; state.currentStroke = null;
+        render();
+        show(dom.editorCard); show(dom.exportCard); show(dom.ocrCard); show(dom.pdfCard);
+        if(item.text && dom.ocrText) dom.ocrText.value = item.text;
+        dom.canvas.scrollIntoView({ behavior:'smooth', block:'center' });
+        toast('📂 اتفتح المستند');
+      };
+      img.onerror = () => toast('تعذّر فتح الصورة');
+      img.src = item.image;
+    };
+  }catch(e){ toast('تعذّر فتح المستند'); }
+}
+
+// امسح مستند محفوظ
+async function deleteScan(id){
+  try{
+    const db = await openScanDB();
+    const tx = db.transaction('scans', 'readwrite');
+    const store = tx.objectStore('scans');
+    const req = store.delete(id);
+    req.onsuccess = () => { toast('🗑️ اتمسح'); renderHistory(); };
+    req.onerror = () => toast('تعذّر الحذف');
+  }catch(e){ toast('تعذّر الحذف'); }
+}
+
 // ===== Toast =====
 let toastT;
 function toast(msg){
@@ -741,6 +1180,33 @@ function bind(){
   // PDF
   dom.btnAddPage.addEventListener('click', addPage);
   dom.btnPdf.addEventListener('click', downloadPDF);
+
+  // كشف تلقائي
+  if(dom.btnAutoDetect) dom.btnAutoDetect.addEventListener('click', autoDetectDoc);
+
+  // تعليقات / توقيع
+  if(dom.btnAnnotate) dom.btnAnnotate.addEventListener('click', () => state.annotateMode ? exitAnnotate() : enterAnnotate());
+  if(dom.btnAnnoText) dom.btnAnnoText.addEventListener('click', () => {
+    if(!state.annotateMode){ enterAnnotate(); }
+    state.annoTextMode = !state.annoTextMode;
+    dom.btnAnnoText.classList.toggle('active', state.annoTextMode);
+    if(dom.annoModeHint) dom.annoModeHint.textContent = state.annoTextMode
+      ? 'اضغط على الصورة لوضع نص.'
+      : 'ارسم بإصبعك/القلم فوق الصورة. اضغط «نص» لإضافة ملاحظة مكتوبة.';
+  });
+  if(dom.btnAnnoClear) dom.btnAnnoClear.addEventListener('click', () => {
+    state.annotations = []; state.currentStroke = null; render();
+    toast('🗑️ اتمسحت التعليقات');
+  });
+  if(dom.btnAnnoExit) dom.btnAnnoExit.addEventListener('click', exitAnnotate);
+  if(dom.annoColor) dom.annoColor.addEventListener('input', () => { state.annoColor = dom.annoColor.value; });
+  if(dom.annoWidth) dom.annoWidth.addEventListener('input', () => { state.annoWidth = +dom.annoWidth.value; });
+
+  // أحداث الرسم فوق الـcanvas
+  bindAnnotateEvents();
+
+  // حفظ محلي
+  if(dom.btnSave) dom.btnSave.addEventListener('click', saveScan);
 }
 function bindSlider(slider, valEl, key){
   let raf=0;
@@ -752,6 +1218,7 @@ function bindSlider(slider, valEl, key){
 
 // ===== Init =====
 bind();
+renderHistory(); // حمّل السجل المحفوظ عند بدء التشغيل
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }

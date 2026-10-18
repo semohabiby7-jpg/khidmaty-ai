@@ -855,7 +855,7 @@ async function getOcrWorker(lang){
     },
   });
   // ضبط تقسيم الصفحة: كتلة نص واحدة + حفظ المسافات → نص أنظف للمستندات
-  try{ await ocrWorker.setParameters({ tessedit_pageseg_mode: '6', preserve_interword_spaces: '1' }); }catch(e){}
+  try{ await ocrWorker.setParameters({ tessedit_pageseg_mode: '3', preserve_interword_spaces: '1' }); }catch(e){}
   ocrLangCached = lang;
   return ocrWorker;
 }
@@ -867,18 +867,48 @@ function warmOcrWorker(){
   ocrWarming = true;
   getOcrWorker(lang).then(()=>{ ocrWarming=false; }).catch(()=>{ ocrWarming=false; });
 }
-// نسخة معالَجة للـOCR: رمادي + تباين + PNG بلا فقدان + دقّة أعلى (max 2000px)
-// → مدخل أنظف لـTesseract = استخراج عربي أدقّ (الإتقان قبل السرعة).
+// نسخة أصلية للـGemini Vision: تكبير 2x + PNG بلا فقدان (صورة ملونة واضحة — الـAI بيقراها أحسن من الـthresholded).
 function ocrInputBlob(){
-  const src = dom.canvas, max = 2000;
-  const scale = Math.min(1, max / Math.max(src.width, src.height));
+  const src = dom.canvas, MAX = 2500;
+  const scale = Math.min(2, MAX / Math.max(src.width, src.height)); // تكبير لحد 2x للنص الصغير
   const w = Math.round(src.width*scale), h = Math.round(src.height*scale);
   const c = document.createElement('canvas'); c.width=w; c.height=h;
   const cc = c.getContext('2d');
   cc.imageSmoothingEnabled = true; cc.imageSmoothingQuality = 'high';
-  cc.filter = 'grayscale(1) contrast(1.15)';
+  cc.drawImage(src, 0, 0, w, h); // صورة أصلية ملونة
+  return new Promise((res)=> c.toBlob(res, 'image/png'));
+}
+// نسخة محلية للـTesseract (fallback): رمادي + عتبة محلية (local adaptive threshold) بـintegral image.
+// العتبة المحلية تحل الإضاءة غير المتساوية + الظلال = استخراج عربي أدقّ offline.
+// مكافئة لـImageMagick -lat 25x25+10% — اختُبرت على ورقة فعلية (الإتقان قبل السرعة).
+function ocrLocalBlob(){
+  const src = dom.canvas, MAX = 2500;
+  const scale = Math.min(2, MAX / Math.max(src.width, src.height));
+  const w = Math.round(src.width*scale), h = Math.round(src.height*scale);
+  const c = document.createElement('canvas'); c.width=w; c.height=h;
+  const cc = c.getContext('2d', { willReadFrequently: true });
+  cc.imageSmoothingEnabled = true; cc.imageSmoothingQuality = 'high';
+  cc.filter = 'grayscale(1)';
   cc.drawImage(src, 0, 0, w, h);
   cc.filter = 'none';
+  const img = cc.getImageData(0,0,w,h), d = img.data;
+  const WIN = 25, HALF = WIN>>1, OFF = 0.10*255;
+  const I = new Float64Array((w+1)*(h+1));
+  for(let y=0;y<h;y++){ let rs=0;
+    for(let x=0;x<w;x++){ rs += d[(y*w+x)*4];
+      I[(y+1)*(w+1)+(x+1)] = I[y*(w+1)+(x+1)] + rs; } }
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const x1=Math.max(0,x-HALF), x2=Math.min(w,x+HALF+1);
+      const y1=Math.max(0,y-HALF), y2=Math.min(h,y+HALF+1);
+      const area=(x2-x1)*(y2-y1);
+      const sum=I[y2*(w+1)+x2]-I[y1*(w+1)+x2]-I[y2*(w+1)+x1]+I[y1*(w+1)+x1];
+      const mean=sum/area;
+      const idx=(y*w+x)*4;
+      const v = d[idx] < (mean - OFF) ? 0 : 255;
+      d[idx]=d[idx+1]=d[idx+2]=v;
+    } }
+  cc.putImageData(img,0,0);
   return new Promise((res)=> c.toBlob(res, 'image/png'));
 }
 async function runOCR(){
@@ -898,7 +928,8 @@ async function runOCR(){
       console.warn('Gemini OCR فشل → محرّك الجهاز:', ge);
       setOcrProgress(0.55, 'محرّك الجهاز (احتياطي)');
       const worker = await getOcrWorker(lang);
-      const { data } = await worker.recognize(blob);
+      const locBlob = await ocrLocalBlob();
+      const { data } = await worker.recognize(locBlob);
       text = (data && data.text ? data.text : '').trim();
     }
     dom.ocrText.value = text || 'مفيش نص واضح — جرّب تحسّن الصورة (✨) أو غيّر اللغة.';

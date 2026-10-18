@@ -1,0 +1,9 @@
+name = "khidmaty-ocr"
+main = "ocr-worker.js"
+compatibility_date = "2024-09-01"
+account_id = "2ecca5a2aafc2abbc50e0e5fb30cad5b"
+
+[vars]
+GEMINI_MODEL = "gemini-3.6-flash"
+GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent"
+# GEMINI_API_KEY = يُحقن كـsecret عبر: wrangler secret put GEMINI_API_KEY

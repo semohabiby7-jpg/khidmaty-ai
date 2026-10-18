@@ -57,6 +57,7 @@ const dom = {
   btnPauseSpeak: $('btnPauseSpeak'), btnPrevChunk: $('btnPrevChunk'), btnNextChunk: $('btnNextChunk'),
   speakControls: $('speakControls'), speakProgress: $('speakProgress'),
   ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
+  btnTheme: $('btnTheme'),
   // الصوت الطبيعي (Cloud TTS)
   voiceCard: $('voiceCard'), ttsKey: $('ttsKey'), ttsVoice: $('ttsVoice'),
   btnTtsSave: $('btnTtsSave'), btnTtsTest: $('btnTtsTest'), btnTtsClear: $('btnTtsClear'), ttsStatus: $('ttsStatus'),
@@ -1163,6 +1164,14 @@ async function ttsExport(){
   }catch(e){ console.error(e); toast('⚠️ فشل تصدير الصوت — تأكد من النت'); }
   finally{ if(btn){btn.disabled=false;btn.textContent='🎵 صدّر صوت (MP3)';} }
 }
+function initTheme(){
+  const root=document.documentElement;
+  const meta=document.querySelector('meta[name="theme-color"]');
+  const apply=(t)=>{ root.setAttribute('data-theme',t); if(dom.btnTheme)dom.btnTheme.textContent=(t==='light'?'☀️':'🌙'); if(meta)meta.setAttribute('content',t==='light'?'#f4f6fb':'#0F1E3D'); };
+  let cur=localStorage.getItem('scan_theme')||'dark';
+  apply(cur);
+  if(dom.btnTheme) dom.btnTheme.addEventListener('click', ()=>{ cur=(cur==='dark'?'light':'dark'); localStorage.setItem('scan_theme',cur); apply(cur); });
+}
 function initTtsSettings(){
   if(!dom.ttsVoice) return;
   dom.ttsVoice.value = ttsCfg().voice;
@@ -1777,6 +1786,7 @@ function bind(){
   dom.btnSpeak.addEventListener('click', speak);
   dom.btnStopSpeak.addEventListener('click', stopSpeak);
   initTtsSettings(); // إعدادات الصوت الطبيعي (Cloud TTS)
+  initTheme(); // الوضع الليلي/النهاري
 
   // PDF
   dom.btnAddPage.addEventListener('click', addPage);

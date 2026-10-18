@@ -53,6 +53,7 @@
     <nav class="topnav">
       <a href="../index.html">← الرئيسية</a>
       <a href="../store.html">المتجر</a>
+      <button class="theme-toggle" id="btnTheme" title="تبديل الوضع الليلي/النهاري" aria-label="تبديل الوضع">🌙</button>
     </nav>
   </div>
 </header>
@@ -236,7 +237,14 @@
       <button class="btn btn-ghost" id="btnTxt">⬇️ تنزيل .txt</button>
       <button class="btn btn-ghost" id="btnSpeak">🔊 اقرأ بصوت عربي</button>
       <button class="btn btn-ghost" id="btnStopSpeak" disabled>⏹ وقّف القراءة</button>
+      <button class="btn btn-ghost" id="btnExportAudio" disabled>🎵 صدّر صوت (MP3)</button>
       <button class="btn btn-primary" id="btnSave">💾 احفظ المستند</button>
+    </div>
+    <div class="speak-controls hidden" id="speakControls">
+      <button class="sc-btn" id="btnPrevChunk" disabled title="الجملة السابقة">⏮️</button>
+      <button class="sc-btn" id="btnPauseSpeak" disabled>⏸️ إيقاف مؤقت</button>
+      <button class="sc-btn" id="btnNextChunk" disabled title="الجملة التالية">⏭️</button>
+      <span class="sc-progress" id="speakProgress">جملة 0 من 0</span>
     </div>
     <p class="micro">🧠 كل المعالجة على جهازك. أول مرة تستخرج فيها نص عربي بيتم تحميل ملف بيانات صغير (مرة واحدة بس).</p>
   </section>
@@ -255,6 +263,10 @@
           <option value="ar-AE-HamdanNeural">حمدان — راجل (إماراتي)</option>
           <option value="ar-AE-FatimaNeural">فاطمة — ست (إماراتية)</option>
         </select>
+      </label>
+      <label class="field"><span>السرعة</span>
+        <input type="range" id="ttsRate" min="0.6" max="1.4" step="0.1" value="1">
+        <span class="micro" id="ttsRateVal">عادية</span>
       </label>
     </div>
     <div class="btn-row">

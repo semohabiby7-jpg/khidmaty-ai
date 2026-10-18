@@ -14,6 +14,17 @@
   --shadow:0 12px 30px rgba(0,0,0,.35);
   --font:'Cairo',Tahoma,sans-serif;
 }
+[data-theme="light"]{
+  --bg:#f4f6fb;
+  --bg2:#ffffff;
+  --bg3:#eef1f7;
+  --gold:#b8860b;
+  --gold2:#a67408;
+  --text:#1a2340;
+  --muted:#5a6b8c;
+  --border:#d0d8e8;
+  --shadow:0 12px 30px rgba(0,0,0,.12);
+}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
@@ -45,6 +56,8 @@ a{color:var(--gold);text-decoration:none}
 }
 .topnav{display:flex;gap:18px}
 .topnav a{font-weight:700;font-size:14px}
+.theme-toggle{background:transparent;border:1px solid var(--border);color:var(--text);font-size:16px;width:38px;height:38px;border-radius:10px;cursor:pointer;transition:.15s;padding:0;line-height:1}
+.theme-toggle:hover{background:rgba(230,194,88,.12)}
 
 /* ===== الحاوية ===== */
 .wrap{max-width:1100px;margin:0 auto;padding:26px 20px 60px}
@@ -111,6 +124,13 @@ a{color:var(--gold);text-decoration:none}
 .btn-ghost{background:var(--bg2)}
 .btn.active{border-color:var(--gold);background:rgba(230,194,88,.14);color:var(--gold)}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+
+/* ===== شريط التحكم في القراءة الصوتية ===== */
+.speak-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0;padding:10px 12px;background:rgba(230,194,88,.06);border:1px solid rgba(230,194,88,.18);border-radius:14px}
+.sc-btn{min-width:46px;height:40px;padding:0 12px;border-radius:10px;border:1px solid rgba(230,194,88,.35);background:var(--card);color:var(--text);font-size:15px;cursor:pointer;transition:.15s}
+.sc-btn:hover:not(:disabled){background:rgba(230,194,88,.12)}
+.sc-btn:disabled{opacity:.4;cursor:not-allowed}
+.sc-progress{font-size:13px;color:var(--muted);font-weight:700;margin-inline-start:auto}
 
 /* ===== زر التحسين الفوري (المرحلة ٥) ===== */
 .btn-doc-mode{
@@ -185,8 +205,8 @@ a{color:var(--gold);text-decoration:none}
 .ocr-text{
   width:100%;min-height:160px;resize:vertical;margin-top:12px;
   background:var(--bg3);border:1px solid var(--border);color:var(--text);
-  border-radius:12px;padding:12px 14px;font-family:var(--font);font-size:15px;
-  line-height:1.8;direction:rtl;
+  border-radius:12px;padding:14px 16px;font-family:var(--font);font-size:16px;
+  line-height:1.85;direction:rtl;
 }
 .ocr-text:focus{outline:none;border-color:var(--gold)}
 

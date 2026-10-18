@@ -49,6 +49,7 @@ const dom = {
   btnAnnoText: $('btnAnnoText'), btnAnnoClear: $('btnAnnoClear'), btnAnnoExit: $('btnAnnoExit'),
   // حفظ محلي
   btnSave: $('btnSave'),
+  btnAnalyzeDoc: $('btnAnalyzeDoc'), docInfo: $('docInfo'),
   // سجل / أرشيف
   historyCard: $('historyCard'), historyTray: $('historyTray'),
   // OCR
@@ -2417,6 +2418,9 @@ function bind(){
   // حفظ محلي
   if(dom.btnSave) dom.btnSave.addEventListener('click', saveScan);
 
+  // ميزة: الاستخراج الذكي للبيانات + التصنيف التلقائي
+  if(dom.btnAnalyzeDoc) dom.btnAnalyzeDoc.addEventListener('click', analyzeDocument);
+
   // اقتراح ٧: أنماط بصرية للسحب والإفلات (بدون ملف CSS خارجي)
   if(!document.getElementById('dragdrop-style')){
     const s = document.createElement('style');
@@ -2436,6 +2440,65 @@ function bindSlider(slider, valEl, key){
     const v = +slider.value; state[key] = v; valEl.textContent = v+'%';
     cancelAnimationFrame(raf); raf = requestAnimationFrame(render);
   });
+}
+
+// ============================================================
+//  ميزة: الاستخراج الذكي للبيانات + التصنيف التلقائي (Gemini عبر chat-worker)
+// ============================================================
+const ANALYZE_WORKER = 'https://khidmaty-chat.semohabiby7.workers.dev';
+async function analyzeDocument(){
+  const text = (dom.ocrText && dom.ocrText.value || '').trim();
+  if(!text){ toast('استخرج النص الأول بالـOCR'); return; }
+  const btn = $('btnAnalyzeDoc');
+  if(btn){ btn.disabled = true; btn.textContent = '⏳ بيحلّل...'; }
+  const info = $('docInfo');
+  try{
+    const question = 'حلّل نص المستند التالي. حدد نوع المستند (فاتورة/عقد/شهادة/مستند شخصي/عام) واستخرج البيانات المنظمة. رجع JSON فقط (بدون شرح) بالصيغة: {"type":"نوع_المستند","category":"الفئة","fields":{"المبلغ":"...","التاريخ":"...","اسم_المتجر":"...","رقم_الفاتورة":"...","الأطراف":"...","البنود":"...","الكلمات_المفتاحية":"..."}} — خلي الحقول المش موجودة null. الفئات: فواتير / مستندات شخصية / شهادات / دراسة / عمل / عام.';
+    const r = await fetch(ANALYZE_WORKER, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ document_text: text, question })
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d = await r.json();
+    const answer = (d.answer || d.text || d.response || '').trim();
+    let parsed = null;
+    try{ parsed = JSON.parse(answer.replace(/```json|```/g,'').trim()); }catch(e){ /* ممكن الرد نص */ }
+    if(parsed && typeof parsed === 'object' && parsed.fields){
+      renderDocInfo(parsed);
+      toast('🏷️ اتحلّل المستند: '+ (parsed.category || parsed.type || 'عام'));
+    } else if(info){
+      info.classList.remove('hidden');
+      info.innerHTML = '<div class="doc-info-head">📊 تحليل المستند</div><p class="doc-info-text">'+answer+'</p>';
+      toast('📊 التحليل اتعمل');
+    } else {
+      toast('⚠️ ما قدرتش أحلّل — جرّب تاني');
+    }
+  }catch(e){
+    console.error('analyzeDocument error:', e);
+    toast('⚠️ فشل التحليل — تأكد من الإنترنت');
+  }finally{
+    if(btn){ btn.disabled = false; btn.textContent = '🏷️ استخرج البيانات'; }
+  }
+}
+function renderDocInfo(info){
+  const el = $('docInfo');
+  if(!el) return;
+  el.classList.remove('hidden');
+  let html = '<div class="doc-info-head">📊 بيانات المستند';
+  if(info.category) html += ' · <span class="doc-badge">🏷️ '+info.category+'</span>';
+  if(info.type) html += ' · <span class="doc-badge">'+info.type+'</span>';
+  html += '</div>';
+  if(info.fields && typeof info.fields === 'object'){
+    html += '<table class="doc-info-table">';
+    for(const [k,v] of Object.entries(info.fields)){
+      if(v !== null && v !== undefined && v !== ''){
+        html += '<tr><th>'+k+'</th><td>'+String(v)+'</td></tr>';
+      }
+    }
+    html += '</table>';
+  }
+  el.innerHTML = html;
 }
 
 // ===== Init =====

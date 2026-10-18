@@ -369,3 +369,14 @@ body.a11y .micro{font-size:14px}
   color:var(--muted);font-size:13px;
   padding:8px 0;
 }
+
+/* ميزة: الاستخراج الذكي للبيانات + التصنيف التلقائي */
+.doc-analyze-bar{margin:12px 0 8px;text-align:center}
+.doc-info{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:16px 18px;margin-top:10px}
+.doc-info.hidden{display:none}
+.doc-info-head{font-size:16px;font-weight:800;color:var(--gold,#e6c258);margin-bottom:10px}
+.doc-badge{display:inline-block;font-size:12px;font-weight:700;color:#0F1E3D;background:var(--gold,#e6c258);padding:3px 12px;border-radius:20px;margin:2px}
+.doc-info-table{width:100%;border-collapse:collapse;font-size:14px}
+.doc-info-table th{background:rgba(230,194,88,.12);color:var(--gold,#e6c258);padding:8px 10px;text-align:right;font-weight:700;border:1px solid #2a4068;width:35%}
+.doc-info-table td{padding:8px 10px;border:1px solid #1e3556;color:var(--text,#e8eef8);line-height:1.7}
+.doc-info-text{font-size:14px;color:var(--text,#e8eef8);line-height:1.8;white-space:pre-wrap}

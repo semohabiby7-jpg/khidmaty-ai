@@ -26,19 +26,28 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Setup Android SDK (ensure cmdline-tools for bubblewrap)
+      - name: Setup Android SDK (bubblewrap expects 'tools' + build-tools)
         run: |
-          if [ ! -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" ]; then
-            echo "cmdline-tools/latest مش موجودة — بتثبتها..."
+          # bubblewrap بيتحقق من $SDK/tools/bin/sdkmanager + build-tools
+          if [ ! -x "$ANDROID_HOME/tools/bin/sdkmanager" ]; then
+            echo "Installing cmdline-tools as 'tools' (bubblewrap structure)..."
             curl -sL "https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip" -o /tmp/cmd.zip
             unzip -q /tmp/cmd.zip -d /tmp/cmdtmp
+            rm -rf "$ANDROID_HOME/tools"
+            mv /tmp/cmdtmp/cmdline-tools "$ANDROID_HOME/tools"
+            # symlink cmdline-tools/latest too (للإصدارات الجديدة)
             mkdir -p "$ANDROID_HOME/cmdline-tools"
-            mv /tmp/cmdtmp/cmdline-tools "$ANDROID_HOME/cmdline-tools/latest"
+            ln -sf "$ANDROID_HOME/tools" "$ANDROID_HOME/cmdline-tools/latest"
           fi
           echo "ANDROID_HOME=$ANDROID_HOME"
-          ls "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --version
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-34" "build-tools;34.0.0" >/dev/null 2>&1 || true
+          ls -la "$ANDROID_HOME/tools/bin/sdkmanager"
+          "$ANDROID_HOME/tools/bin/sdkmanager" --version
+          echo "Installing build-tools + platforms + platform-tools..."
+          yes | "$ANDROID_HOME/tools/bin/sdkmanager" "platform-tools" "platforms;android-34" "build-tools;34.0.0" >/dev/null 2>&1 || true
+          echo "---structure---"
+          ls "$ANDROID_HOME" | head -20
+          ls "$ANDROID_HOME/build-tools" 2>/dev/null | tail -2
+          ls "$ANDROID_HOME/platforms" 2>/dev/null | tail -2
           echo "SDK ready"
 
       - name: Install Bubblewrap CLI

@@ -173,6 +173,29 @@
     </div>
 </section>
 
+<!-- ========== شريط الأيقونات السريعة (المحطة) ========== -->
+<style>
+.quick-nav{padding:20px 0 10px;background:linear-gradient(180deg,#0F1E3D,#0a1730)}
+.quick-nav .container{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:980px;margin:0 auto;padding:0 16px}
+.qn-item{flex:1 1 140px;min-width:120px;max-width:180px;display:flex;flex-direction:column;align-items:center;gap:9px;background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #2a4068;border-radius:16px;padding:18px 12px;text-decoration:none;transition:all .25s;box-shadow:0 6px 20px rgba(0,0,0,.25);position:relative;overflow:hidden}
+.qn-item::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(230,194,88,.08),transparent);opacity:0;transition:opacity .25s}
+.qn-item:hover{transform:translateY(-4px);border-color:#e6c258;box-shadow:0 12px 30px rgba(230,194,88,.25)}
+.qn-item:hover::before{opacity:1}
+.qn-ico{font-size:34px;line-height:1;z-index:1}
+.qn-label{font-size:14.5px;font-weight:800;color:#fff;font-family:Cairo,sans-serif;z-index:1}
+.qn-sub{font-size:11px;color:#8ea0c4;font-weight:600;z-index:1}
+@media(max-width:560px){.quick-nav{padding:14px 0 6px}.qn-item{flex:1 1 90px;min-width:80px;padding:13px 6px;gap:6px}.qn-ico{font-size:28px}.qn-label{font-size:12.5px}.qn-sub{display:none}}
+</style>
+<section class="quick-nav" id="quickNav" aria-label="روابط سريعة">
+  <div class="container">
+    <a href="#ask-ai" class="qn-item" title="اسأل خِدْمَتي AI"><span class="qn-ico">🤖</span><span class="qn-label">اسأل خِدْمَتي</span><span class="qn-sub">المساعد الذكي</span></a>
+    <a href="services.html" class="qn-item" title="كل الخدمات"><span class="qn-ico">📋</span><span class="qn-label">الخدمات</span><span class="qn-sub">دليل كامل</span></a>
+    <a href="offices.html" class="qn-item" title="خريطة المكاتب"><span class="qn-ico">🗺️</span><span class="qn-label">المكاتب</span><span class="qn-sub">خريطة حكومية</span></a>
+    <a href="store.html" class="qn-item" title="متجر الكتب"><span class="qn-ico">🛒</span><span class="qn-label">المتجر</span><span class="qn-sub">كتب رقمية</span></a>
+    <a href="scan/" class="qn-item" title="Scan Macaron AI"><span class="qn-ico">📄</span><span class="qn-label">Scan Macaron</span><span class="qn-sub">ماسح ذكي</span></a>
+  </div>
+</section>
+
 <!-- ========== احتياج اليوم ========== -->
 <style>
 .daily-need-section{padding:40px 0 20px;background:linear-gradient(180deg,#0a1730,#0F1E3D)}

@@ -952,7 +952,7 @@ if('speechSynthesis' in window){
 function cleanForSpeech(t){
   return (t||'')
     .replace(/\u0640/g, '')            // شل التطويل (ـــ)
-    .replace(/[|{}\[\]~`_<>]/g, ' ')  // رموز OCR زايدة
+    .replace(/[^0-9A-Za-z\u0600-\u06FF\u0750-\u077F\s،.؟!؛:\-()]/g, ' ')  // شيل كل الرموز الزايدة، ابقِ عربي/لاتيني/أرقام + علامات وقف
     .replace(/\s*\n\s*/g, '\n')
     .replace(/[ \t]+/g, ' ')
     .replace(/\n{2,}/g, '\n')
@@ -998,7 +998,7 @@ function speak(){
     }
     const u = new SpeechSynthesisUtterance(speakQueue[speakIdx]);
     u.lang = v ? v.lang : 'ar-EG';
-    u.rate = 0.95; u.pitch = 1;
+    u.rate = 0.92; u.pitch = 1;
     if(v) u.voice = v;
     u.onend  = () => { if(token !== speakToken) return; speakIdx++; playChunk(); };
     u.onerror = () => { if(token !== speakToken) return; speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('فيه مشكلة في القراءة'); };

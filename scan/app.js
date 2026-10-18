@@ -2501,6 +2501,7 @@ function renderDocInfo(info){
   el.innerHTML = html;
 }
 
+
 // ===== Init =====
 bind();
 renderHistory(); // حمّل السجل المحفوظ عند بدء التشغيل

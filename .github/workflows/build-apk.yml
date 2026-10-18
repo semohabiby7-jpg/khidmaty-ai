@@ -26,35 +26,42 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'tools platform-tools build-tools;34.0.0 platforms;android-34'
+
       - name: Install Bubblewrap CLI
         run: npm install -g @bubblewrap/cli
 
       - name: Decode signing keystore
         env:
           KS_BASE64: ${{ secrets.SCANMACARON_KEYSTORE_BASE64 }}
-          KS_PASS: ${{ secrets.SCANMACARON_KS_PASS }}
+        run: echo "$KS_BASE64" | base64 -d > /tmp/scanmacaron.keystore
+
+      - name: Write Bubblewrap config (non-interactive)
         run: |
-          echo "$KS_BASE64" | base64 -d > /tmp/scanmacaron.keystore
-          echo "$KS_PASS" > /tmp/scanmacaron.ks-pass
+          mkdir -p ~/.bubblewrap
+          cat > ~/.bubblewrap/config.json <<EOF
+          {"jdkPath":"$JAVA_HOME","androidSdkPath":"$ANDROID_SDK_ROOT"}
+          EOF
+          cat ~/.bubblewrap/config.json
 
       - name: Build TWA APK
         working-directory: twa-build
         env:
-          KS_PASS: ${{ secrets.SCANMACARON_KS_PASS }}
-        run: |
-          bubblewrap build --manifest twa-manifest.json \
-            --keystore /tmp/scanmacaron.keystore \
-            --keystore-pass "$KS_PASS" \
-            --alias scanmacaron \
-            --key-pass "$KS_PASS" || true
-          ls -la app-release-signed.apk 2>/dev/null && echo "APK found" || (ls -la *.apk 2>/dev/null; find . -name "*.apk" -type f)
+          BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.SCANMACARON_KS_PASS }}
+          BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.SCANMACARON_KS_PASS }}
+        run: bubblewrap build --manifest . --signingKeyPath=/tmp/scanmacaron.keystore --signingKeyAlias=scanmacaron --skipPwaValidation
+
+      - name: Locate APK
+        working-directory: twa-build
+        run: find . -name "*.apk" -type f -exec ls -la {} \;
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: scan-macaron-apk
-          path: |
-            twa-build/*.apk
-            twa-build/app-release-signed.apk
-          if-no-files-found: warn
+          path: twa-build/**/*.apk
+          if-no-files-found: error
           retention-days: 30

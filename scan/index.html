@@ -241,31 +241,25 @@
     <p class="micro">🧠 كل المعالجة على جهازك. أول مرة تستخرج فيها نص عربي بيتم تحميل ملف بيانات صغير (مرة واحدة بس).</p>
   </section>
 
-  <!-- الصوت الطبيعي (Cloud TTS اختياري) -->
+  <!-- الصوت الطبيعي (edge-tts — مجاني، بلا مفتاح) -->
   <section class="card hidden" id="voiceCard">
-    <h2 class="card-title">⚙️ الصوت الطبيعي (اختياري)</h2>
-    <p class="micro">حط مفتاح Google Cloud TTS بتاعك → صوت عربي بشري بدل الآلة. المفتاح على جهازك بس. <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">إزاي تجيب مفتاح؟</a></p>
+    <h2 class="card-title">⚙️ الصوت الطبيعي (مجاني)</h2>
+    <p class="micro">صوت عربي طبيعي مجاني — بلا مفتاح وبلا فاتورة. اختار الصوت واضغط «جرّب». (صوت الجهاز بيشتغل تلقائي لو مفيش نت.)</p>
     <div class="ocr-row">
-      <label class="field"><span>مفتاح API</span>
-        <input type="password" id="ttsKey" placeholder="AIza..." autocomplete="off">
-      </label>
       <label class="field"><span>الصوت</span>
         <select id="ttsVoice">
-          <option value="ar-XA-Wavenet-A">ست (Wavenet A)</option>
-          <option value="ar-XA-Wavenet-B">راجل (Wavenet B)</option>
-          <option value="ar-XA-Wavenet-C">راجل (Wavenet C)</option>
-          <option value="ar-XA-Wavenet-D">ست (Wavenet D)</option>
-          <option value="ar-XA-Standard-A">ست (Standard A) — أرخص</option>
-          <option value="ar-XA-Standard-B">راجل (Standard B) — أرخص</option>
+          <option value="ar-EG-ShakirNeural">شاكِر — راجل (مصري)</option>
+          <option value="ar-EG-SalmaNeural">سلمى — ست (مصرية)</option>
+          <option value="ar-SA-HamedNeural">حامد — راجل (سعودي)</option>
+          <option value="ar-SA-ZariyahNeural">زارية — ست (سعودية)</option>
+          <option value="ar-AE-HamdanNeural">حمدان — راجل (إماراتي)</option>
+          <option value="ar-AE-FatimaNeural">فاطمة — ست (إماراتية)</option>
         </select>
       </label>
     </div>
     <div class="btn-row">
-      <button class="btn btn-ghost" id="btnTtsSave">💾 احفظ</button>
       <button class="btn btn-ghost" id="btnTtsTest">🔔 جرّب الصوت</button>
-      <button class="btn btn-ghost" id="btnTtsClear">🗑 امسح المفتاح</button>
     </div>
-    <p class="micro" id="ttsStatus">مفيش مفتاح — هتستخدم صوت الجهاز (آلة).</p>
   </section>
 
   <!-- PDF متعدد الصفحات -->

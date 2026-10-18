@@ -997,8 +997,10 @@ function filterOcrForSpeech(t){
 function speak(){
   const text = (dom.ocrText.value || '').trim();
   if(!text){ toast('مفيش نص للقراءة'); return; }
-  // لو فيه مفتاح Cloud TTS → صوت عربي بشري. غير كده → صوت الجهاز.
-  if(ttsCfg().key){ speakCloud(text); return; }
+  speakCloud(text); // صوت طبيعي سحابي (لو فشل/offline، يقع على صوت الجهاز جوه speakCloud)
+}
+// صوت الجهاز (on-device) — fallback لما الصوت السحابي يفشل أو الجهاز offline
+function speakLocal(text){
   if(!('speechSynthesis' in window)){ toast('المتصفح مش بيدعم القراءة الصوتية'); return; }
   const chunks = splitForSpeech(filterOcrForSpeech(text));
   if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
@@ -1020,9 +1022,9 @@ function speak(){
     u.onerror = () => { if(token !== speakToken) return; speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('فيه مشكلة في القراءة'); };
     window.speechSynthesis.speak(u);
   };
-  setTimeout(playChunk, 80); // تأخير بسيط بعد cancel() علشان متتسابقش (Chrome)
+  setTimeout(playChunk, 80);
   speaking = true; dom.btnSpeak.disabled = true; dom.btnStopSpeak.disabled = false;
-  toast('🔊 بيقرا... (' + chunks.length + ' جملة)');
+  toast('🔊 بيقرا بصوت الجهاز... (' + chunks.length + ' جملة)');
 }
 function stopSpeak(){
   ttsToken++; if(ttsAudio){ try{ ttsAudio.pause(); }catch(e){} ttsAudio=null; }
@@ -1032,47 +1034,55 @@ function stopSpeak(){
 }
 
 // ============================================================
-// ---- الصوت الطبيعي السحابي (Google Cloud TTS) — بمفتاح المستخدم ----
-//  التطبيق مجاني + على الجهاز افتراضيًا. لو المستخدم حط مفتاحه
-//  → صوت عربي بشري (راجل/ست) بدل آلة المتصفح. المفتاح على جهازه بس.
+// ---- الصوت الطبيعي السحابي (edge-tts proxy على Cloudflare Worker) ----
+//  مجاني 100% — بلا مفتاح، بلا فاتورة. أصوات Microsoft Neural العربية.
+//  Worker: khidmaty-tts.semohabiby7.workers.dev (مسموح لـ khidmatyai.com).
+//  لو فشل أو offline → يقع على صوت الجهاز (speakLocal).
 // ----------------------------------------------------------------
-let TTS_KEY='scan_tts_key', TTS_VOICE='scan_tts_voice';
-function ttsCfg(){ return { key: localStorage.getItem(TTS_KEY)||'', voice: localStorage.getItem(TTS_VOICE)||'ar-XA-Wavenet-A' }; }
-function ttsStatus(){ if(!dom.ttsStatus) return; const c=ttsCfg(); dom.ttsStatus.textContent = c.key ? ('✅ مفتاح محفوظ — صوت بشري: '+c.voice) : 'مفيش مفتاح — هتستخدم صوت الجهاز (آلة).'; }
-async function ttsSynth(text, key, voiceName){
-  const url='https://texttospeech.googleapis.com/v1/text:synthesize?key='+encodeURIComponent(key);
-  const body={ input:{text}, voice:{languageCode:'ar-XA', name:voiceName}, audioConfig:{audioEncoding:'MP3', speakingRate:0.92, pitch:0} };
-  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){ let m='TTS '+r.status; try{ const e=await r.json(); m+=' '+(e.error&&e.error.message||''); }catch(_){} throw new Error(m); }
-  const j=await r.json(); if(!j.audioContent) throw new Error('مفيش صوت راجع');
-  return 'data:audio/mp3;base64,'+j.audioContent;
+const TTS_WORKER='https://khidmaty-tts.semohabiby7.workers.dev/tts';
+const TTS_VOICE='scan_tts_voice';
+function ttsCfg(){ return { voice: localStorage.getItem(TTS_VOICE) || 'ar-EG-ShakirNeural' }; }
+async function ttsSynth(text, voiceName, rate){
+  const url = TTS_WORKER + '?text=' + encodeURIComponent(text) + '&voice=' + encodeURIComponent(voiceName) + '&rate=' + encodeURIComponent(rate||'-8%');
+  const r = await fetch(url);
+  if(!r.ok) throw new Error('TTS HTTP '+r.status);
+  return URL.createObjectURL(await r.blob());
 }
 let ttsAudio=null, ttsToken=0;
 async function speakCloud(text){
-  const cfg=ttsCfg(); if(!cfg.key) return;
   const chunks=splitForSpeech(filterOcrForSpeech(text));
   if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
   ttsToken++; const token=ttsToken;
   if(ttsAudio){ try{ttsAudio.pause();}catch(e){} ttsAudio=null; }
   speaking=true; dom.btnSpeak.disabled=true; dom.btnStopSpeak.disabled=false;
-  toast('🔊 بيقرا بصوت بشري... ('+chunks.length+' جملة)');
+  const voice=ttsCfg().voice;
+  toast('🔊 بيقرا بصوت طبيعي... ('+chunks.length+' جملة)');
   for(let i=0;i<chunks.length;i++){
-    if(token!==ttsToken) break;
+    if(token!==ttsToken) return;
     try{
-      const uri=await ttsSynth(chunks[i], cfg.key, cfg.voice);
-      if(token!==ttsToken) break;
-      await new Promise((res)=>{ const a=new Audio(uri); ttsAudio=a; a.onended=res; a.onerror=()=>{toast('⚠️ مشكلة تشغيل'); res();}; a.play().catch(()=>res()); });
-    }catch(e){ console.error(e); toast('⚠️ خطأ في الصوت السحابي: '+(e.message||'')); break; }
+      const uri=await ttsSynth(chunks[i], voice, '-8%');
+      if(token!==ttsToken){ URL.revokeObjectURL(uri); return; }
+      await new Promise((res)=>{ const a=new Audio(uri); ttsAudio=a; a.onended=()=>{URL.revokeObjectURL(uri);res();}; a.onerror=()=>{URL.revokeObjectURL(uri);res();}; a.play().catch(()=>res()); });
+    }catch(e){ console.error(e); ttsAudio=null; speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('⚠️ الصوت السحابي فشل — بنقلب على صوت الجهاز'); speakLocal(text); return; }
   }
   if(token===ttsToken){ speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('انتهت القراءة ✓'); }
   ttsAudio=null;
 }
 function initTtsSettings(){
-  if(!dom.ttsKey) return;
-  const c=ttsCfg(); dom.ttsKey.value=c.key; if(dom.ttsVoice) dom.ttsVoice.value=c.voice; ttsStatus();
-  dom.btnTtsSave.onclick=()=>{ localStorage.setItem(TTS_KEY, dom.ttsKey.value.trim()); localStorage.setItem(TTS_VOICE, dom.ttsVoice.value); ttsStatus(); toast('💾 اتحفظت إعدادات الصوت'); };
-  dom.btnTtsTest.onclick=async()=>{ if(!dom.ttsKey.value.trim()){ toast('حط المفتاح الأول'); return; } localStorage.setItem(TTS_KEY, dom.ttsKey.value.trim()); localStorage.setItem(TTS_VOICE, dom.ttsVoice.value); ttsStatus(); toast('🔔 بيجرّب الصوت...'); try{ const uri=await ttsSynth('أهلاً، ده صوت Scan Macaron الطبيعي.', dom.ttsKey.value.trim(), dom.ttsVoice.value); new Audio(uri).play(); }catch(e){ toast('⚠️ '+(e.message||'فشل')); } };
-  dom.btnTtsClear.onclick=()=>{ localStorage.removeItem(TTS_KEY); dom.ttsKey.value=''; ttsStatus(); toast('اتمسح المفتاح'); };
+  if(!dom.ttsVoice) return;
+  dom.ttsVoice.value = ttsCfg().voice;
+  dom.btnTtsTest.onclick = async ()=>{
+    localStorage.setItem(TTS_VOICE, dom.ttsVoice.value);
+    toast('🔔 بيجرّب الصوت...');
+    try{
+      const v = dom.ttsVoice.value;
+      const r = await fetch(TTS_WORKER + '?text=' + encodeURIComponent('أهلاً يا محمد، ده صوت Scan Macaron الطبيعي.') + '&voice=' + encodeURIComponent(v) + '&rate=-8%');
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const a = new Audio(URL.createObjectURL(await r.blob()));
+      a.onended = () => URL.revokeObjectURL(a.src);
+      a.play();
+    }catch(e){ toast('⚠️ '+(e.message||'فشل — تأكد من النت')); }
+  };
 }
 
 //  PDF متعدد الصفحات (pdf-lib)

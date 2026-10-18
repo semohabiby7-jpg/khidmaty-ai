@@ -914,28 +914,96 @@ function downloadTxt(){
 // ============================================================
 //  القراءة الصوتية العربية (SpeechSynthesis) — محلي 100%
 // ============================================================
-let speaking = false;
-function arVoice(){
-  if(!('speechSynthesis' in window)) return null;
-  const vs = window.speechSynthesis.getVoices() || [];
-  return vs.find(v => v.lang && v.lang.toLowerCase().startsWith('ar')) || null;
+let speaking = false; // حالة القراءة الصوتية
+let speakQueue = [];
+let speakIdx = 0;
+let speakToken = 0; // يلغي الـqueue القديم لما المستخدم يوقف/يعيد
+
+// تحميل + ترتيب الأصوات العربية مسبقًا (أول مرة getVoices بترجع فاضي)
+let arVoices = [];
+function loadArVoices(){
+  if(!('speechSynthesis' in window)) return;
+  arVoices = (window.speechSynthesis.getVoices() || []).filter(v => v.lang && v.lang.toLowerCase().startsWith('ar'));
+  arVoices.sort((a,b) => {
+    const score = v => {
+      let s = 0; const n = (v.name||'').toLowerCase(), l = (v.lang||'').toLowerCase();
+      if(n.includes('google')) s += 3;   // أصوات Google أنشط وأنقى
+      if(l.startsWith('ar-eg')) s += 2;   // المصرية أفهمها للجمهور
+      if(n.includes('arabic')) s += 1;
+      return s;
+    };
+    return score(b) - score(a);
+  });
 }
+function arVoice(){ return arVoices[0] || null; }
+if('speechSynthesis' in window){
+  loadArVoices();
+  window.speechSynthesis.onvoiceschanged = loadArVoices;
+}
+
+// تنظيف نص الـOCR قبل النطق => صوت أنظف وأطبع
+function cleanForSpeech(t){
+  return (t||'')
+    .replace(/\u0640/g, '')            // شل التطويل (ـــ)
+    .replace(/[|{}\[\]~`_<>]/g, ' ')  // رموز OCR زايدة
+    .replace(/\s*\n\s*/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n{2,}/g, '\n')
+    .replace(/\n/g, '، ')              // السطر الجديد => وقفة خفيفة
+    .replace(/\s*،\s*،\s*/g, '، ')
+    .replace(/\s*\.\s*\.\s*/g, '. ')
+    .replace(/\s+([،\.؟!\؛])/g, '$1')  // مسافة قبل الفاصلة = شيلها
+    .trim();
+}
+
+// تقسيم النص لجمل قصيرة: وقفات طبيعية + بلا تقطّع على الموبايل
+function splitForSpeech(t){
+  const clean = cleanForSpeech(t);
+  if(!clean) return [];
+  const rough = clean.replace(/([\.\؟!\؛])\s*/g, '$1\n').split('\n');
+  const chunks = [];
+  let buf = '';
+  for(const piece of rough){
+    const p = piece.trim();
+    if(!p) continue;
+    if((buf + ' ' + p).length > 220 && buf){ chunks.push(buf.trim()); buf = p; }
+    else { buf = buf ? buf + ' ' + p : p; }
+  }
+  if(buf.trim()) chunks.push(buf.trim());
+  return chunks.filter(Boolean);
+}
+
 function speak(){
   const text = (dom.ocrText.value || '').trim();
   if(!text){ toast('مفيش نص للقراءة'); return; }
   if(!('speechSynthesis' in window)){ toast('المتصفح مش بيدعم القراءة الصوتية'); return; }
+  const chunks = splitForSpeech(text);
+  if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ar-EG'; u.rate = 0.95; u.pitch = 1;
-  const v = arVoice(); if(v) u.voice = v;
-  u.onend = () => { speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; };
-  u.onerror = () => { speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; };
-  window.speechSynthesis.speak(u);
+  speakQueue = chunks; speakIdx = 0;
+  const token = ++speakToken;
+  const v = arVoice();
+  const playChunk = () => {
+    if(token !== speakToken) return; // الـqueue اتلغى
+    if(speakIdx >= speakQueue.length){
+      speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true;
+      toast('انتهت القراءة ✓'); return;
+    }
+    const u = new SpeechSynthesisUtterance(speakQueue[speakIdx]);
+    u.lang = v ? v.lang : 'ar-EG';
+    u.rate = 0.95; u.pitch = 1;
+    if(v) u.voice = v;
+    u.onend  = () => { if(token !== speakToken) return; speakIdx++; playChunk(); };
+    u.onerror = () => { if(token !== speakToken) return; speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('فيه مشكلة في القراءة'); };
+    window.speechSynthesis.speak(u);
+  };
+  setTimeout(playChunk, 80); // تأخير بسيط بعد cancel() علشان متتسابقش (Chrome)
   speaking = true; dom.btnSpeak.disabled = true; dom.btnStopSpeak.disabled = false;
-  toast('🔊 بيقرا...');
+  toast('🔊 بيقرا... (' + chunks.length + ' جملة)');
 }
 function stopSpeak(){
   if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  speakToken++; // يبطل أي queue شغّال
   speaking = false; dom.btnSpeak.disabled = false; dom.btnStopSpeak.disabled = true;
 }
 

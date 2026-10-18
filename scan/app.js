@@ -58,6 +58,7 @@ const dom = {
   speakControls: $('speakControls'), speakProgress: $('speakProgress'),
   ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
   btnTheme: $('btnTheme'),
+  btnA11y: $('btnA11y'),
   // الصوت الطبيعي (Cloud TTS)
   voiceCard: $('voiceCard'), ttsKey: $('ttsKey'), ttsVoice: $('ttsVoice'),
   btnTtsSave: $('btnTtsSave'), btnTtsTest: $('btnTtsTest'), btnTtsClear: $('btnTtsClear'), ttsStatus: $('ttsStatus'),
@@ -1172,6 +1173,13 @@ function initTheme(){
   apply(cur);
   if(dom.btnTheme) dom.btnTheme.addEventListener('click', ()=>{ cur=(cur==='dark'?'light':'dark'); localStorage.setItem('scan_theme',cur); apply(cur); });
 }
+function initA11y(){
+  if(!dom.btnA11y) return;
+  const apply=(on)=>{ document.body.classList.toggle('a11y',on); dom.btnA11y.textContent=on?'👁️✓':'👁️'; dom.btnA11y.style.borderColor=on?'var(--gold)':'var(--border)'; };
+  let on=localStorage.getItem('scan_a11y')==='1';
+  apply(on);
+  dom.btnA11y.addEventListener('click',()=>{ on=!on; localStorage.setItem('scan_a11y',on?'1':'0'); apply(on); toast(on?'👁️ وضع الإتاحة شغّال':'وضع الإتاحة اتقفل'); });
+}
 function initTtsSettings(){
   if(!dom.ttsVoice) return;
   dom.ttsVoice.value = ttsCfg().voice;
@@ -1787,6 +1795,7 @@ function bind(){
   dom.btnStopSpeak.addEventListener('click', stopSpeak);
   initTtsSettings(); // إعدادات الصوت الطبيعي (Cloud TTS)
   initTheme(); // الوضع الليلي/النهاري
+  initA11y(); // وضع الإتاحة (أزرار أكبر)
 
   // PDF
   dom.btnAddPage.addEventListener('click', addPage);

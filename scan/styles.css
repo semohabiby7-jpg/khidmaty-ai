@@ -13,6 +13,7 @@
   --radius:16px;
   --shadow:0 12px 30px rgba(0,0,0,.35);
   --font:'Cairo',Tahoma,sans-serif;
+  --font-read:'Amiri','Cairo',serif;
 }
 [data-theme="light"]{
   --bg:#f4f6fb;
@@ -58,6 +59,12 @@ a{color:var(--gold);text-decoration:none}
 .topnav a{font-weight:700;font-size:14px}
 .theme-toggle{background:transparent;border:1px solid var(--border);color:var(--text);font-size:16px;width:38px;height:38px;border-radius:10px;cursor:pointer;transition:.15s;padding:0;line-height:1}
 .theme-toggle:hover{background:rgba(230,194,88,.12)}
+body.a11y{font-size:18px}
+body.a11y .btn{font-size:18px;padding:14px 22px;border-width:2px;font-weight:700}
+body.a11y .sc-btn{width:54px;height:52px;font-size:20px}
+body.a11y .card{border-width:2px}
+body.a11y .ocr-text{font-size:19px;line-height:1.9}
+body.a11y .micro{font-size:14px}
 
 /* ===== الحاوية ===== */
 .wrap{max-width:1100px;margin:0 auto;padding:26px 20px 60px}
@@ -65,7 +72,7 @@ a{color:var(--gold);text-decoration:none}
 /* ===== البطل ===== */
 .hero{text-align:center;padding:14px 0 26px}
 .hero-emoji{font-size:46px;margin-bottom:6px}
-.hero h1{font-size:30px;font-weight:900;margin:0 0 8px;letter-spacing:-.5px}
+.hero h1{font-size:30px;font-weight:900;margin:0 0 8px;letter-spacing:-.5px;font-family:var(--font-read)}
 .hero-sub{color:var(--muted);font-size:15px;margin:0 auto 16px;max-width:620px}
 .hero-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
 .pill{
@@ -87,7 +94,7 @@ a{color:var(--gold);text-decoration:none}
   box-shadow:var(--shadow);
 }
 .card.hidden{display:none}
-.card-title{font-size:18px;font-weight:800;margin:0 0 16px}
+.card-title{font-size:18px;font-weight:800;margin:0 0 16px;font-family:var(--font-read)}
 
 /* ===== رفع ===== */
 .dropzone{
@@ -205,7 +212,7 @@ a{color:var(--gold);text-decoration:none}
 .ocr-text{
   width:100%;min-height:160px;resize:vertical;margin-top:12px;
   background:var(--bg3);border:1px solid var(--border);color:var(--text);
-  border-radius:12px;padding:14px 16px;font-family:var(--font);font-size:16px;
+  border-radius:12px;padding:14px 16px;font-family:var(--font-read);font-size:16px;
   line-height:1.85;direction:rtl;
 }
 .ocr-text:focus{outline:none;border-color:var(--gold)}

@@ -54,6 +54,9 @@ const dom = {
   ocrLang: $('ocrLang'), btnOCR: $('btnOCR'),
   ocrProgress: $('ocrProgress'), ocrBar: $('ocrBar'), ocrPct: $('ocrPct'), ocrText: $('ocrText'),
   btnCopy: $('btnCopy'), btnTxt: $('btnTxt'), btnSpeak: $('btnSpeak'), btnStopSpeak: $('btnStopSpeak'),
+  // الصوت الطبيعي (Cloud TTS)
+  voiceCard: $('voiceCard'), ttsKey: $('ttsKey'), ttsVoice: $('ttsVoice'),
+  btnTtsSave: $('btnTtsSave'), btnTtsTest: $('btnTtsTest'), btnTtsClear: $('btnTtsClear'), ttsStatus: $('ttsStatus'),
   // PDF
   btnAddPage: $('btnAddPage'), pageCount: $('pageCount'), pagesTray: $('pagesTray'), pageSize: $('pageSize'), btnPdf: $('btnPdf'),
 };
@@ -110,7 +113,7 @@ function loadFile(file){
     setBaseFromImage(img);
     resetTransforms();
     render();
-    show(dom.editorCard); show(dom.exportCard); show(dom.ocrCard); show(dom.pdfCard);
+    show(dom.editorCard); show(dom.exportCard); show(dom.ocrCard); show(dom.voiceCard); show(dom.pdfCard);
     warmOcrWorker(); // تسخين OCR في الخلفية = أول استخراج نص فوري
     dom.canvas.scrollIntoView({ behavior:'smooth', block:'center' });
   };
@@ -994,6 +997,8 @@ function filterOcrForSpeech(t){
 function speak(){
   const text = (dom.ocrText.value || '').trim();
   if(!text){ toast('مفيش نص للقراءة'); return; }
+  // لو فيه مفتاح Cloud TTS → صوت عربي بشري. غير كده → صوت الجهاز.
+  if(ttsCfg().key){ speakCloud(text); return; }
   if(!('speechSynthesis' in window)){ toast('المتصفح مش بيدعم القراءة الصوتية'); return; }
   const chunks = splitForSpeech(filterOcrForSpeech(text));
   if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
@@ -1020,12 +1025,56 @@ function speak(){
   toast('🔊 بيقرا... (' + chunks.length + ' جملة)');
 }
 function stopSpeak(){
+  ttsToken++; if(ttsAudio){ try{ ttsAudio.pause(); }catch(e){} ttsAudio=null; }
   if('speechSynthesis' in window) window.speechSynthesis.cancel();
   speakToken++; // يبطل أي queue شغّال
   speaking = false; dom.btnSpeak.disabled = false; dom.btnStopSpeak.disabled = true;
 }
 
 // ============================================================
+// ---- الصوت الطبيعي السحابي (Google Cloud TTS) — بمفتاح المستخدم ----
+//  التطبيق مجاني + على الجهاز افتراضيًا. لو المستخدم حط مفتاحه
+//  → صوت عربي بشري (راجل/ست) بدل آلة المتصفح. المفتاح على جهازه بس.
+// ----------------------------------------------------------------
+let TTS_KEY='scan_tts_key', TTS_VOICE='scan_tts_voice';
+function ttsCfg(){ return { key: localStorage.getItem(TTS_KEY)||'', voice: localStorage.getItem(TTS_VOICE)||'ar-XA-Wavenet-A' }; }
+function ttsStatus(){ if(!dom.ttsStatus) return; const c=ttsCfg(); dom.ttsStatus.textContent = c.key ? ('✅ مفتاح محفوظ — صوت بشري: '+c.voice) : 'مفيش مفتاح — هتستخدم صوت الجهاز (آلة).'; }
+async function ttsSynth(text, key, voiceName){
+  const url='https://texttospeech.googleapis.com/v1/text:synthesize?key='+encodeURIComponent(key);
+  const body={ input:{text}, voice:{languageCode:'ar-XA', name:voiceName}, audioConfig:{audioEncoding:'MP3', speakingRate:0.92, pitch:0} };
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){ let m='TTS '+r.status; try{ const e=await r.json(); m+=' '+(e.error&&e.error.message||''); }catch(_){} throw new Error(m); }
+  const j=await r.json(); if(!j.audioContent) throw new Error('مفيش صوت راجع');
+  return 'data:audio/mp3;base64,'+j.audioContent;
+}
+let ttsAudio=null, ttsToken=0;
+async function speakCloud(text){
+  const cfg=ttsCfg(); if(!cfg.key) return;
+  const chunks=splitForSpeech(filterOcrForSpeech(text));
+  if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
+  ttsToken++; const token=ttsToken;
+  if(ttsAudio){ try{ttsAudio.pause();}catch(e){} ttsAudio=null; }
+  speaking=true; dom.btnSpeak.disabled=true; dom.btnStopSpeak.disabled=false;
+  toast('🔊 بيقرا بصوت بشري... ('+chunks.length+' جملة)');
+  for(let i=0;i<chunks.length;i++){
+    if(token!==ttsToken) break;
+    try{
+      const uri=await ttsSynth(chunks[i], cfg.key, cfg.voice);
+      if(token!==ttsToken) break;
+      await new Promise((res)=>{ const a=new Audio(uri); ttsAudio=a; a.onended=res; a.onerror=()=>{toast('⚠️ مشكلة تشغيل'); res();}; a.play().catch(()=>res()); });
+    }catch(e){ console.error(e); toast('⚠️ خطأ في الصوت السحابي: '+(e.message||'')); break; }
+  }
+  if(token===ttsToken){ speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('انتهت القراءة ✓'); }
+  ttsAudio=null;
+}
+function initTtsSettings(){
+  if(!dom.ttsKey) return;
+  const c=ttsCfg(); dom.ttsKey.value=c.key; if(dom.ttsVoice) dom.ttsVoice.value=c.voice; ttsStatus();
+  dom.btnTtsSave.onclick=()=>{ localStorage.setItem(TTS_KEY, dom.ttsKey.value.trim()); localStorage.setItem(TTS_VOICE, dom.ttsVoice.value); ttsStatus(); toast('💾 اتحفظت إعدادات الصوت'); };
+  dom.btnTtsTest.onclick=async()=>{ if(!dom.ttsKey.value.trim()){ toast('حط المفتاح الأول'); return; } localStorage.setItem(TTS_KEY, dom.ttsKey.value.trim()); localStorage.setItem(TTS_VOICE, dom.ttsVoice.value); ttsStatus(); toast('🔔 بيجرّب الصوت...'); try{ const uri=await ttsSynth('أهلاً، ده صوت Scan Macaron الطبيعي.', dom.ttsKey.value.trim(), dom.ttsVoice.value); new Audio(uri).play(); }catch(e){ toast('⚠️ '+(e.message||'فشل')); } };
+  dom.btnTtsClear.onclick=()=>{ localStorage.removeItem(TTS_KEY); dom.ttsKey.value=''; ttsStatus(); toast('اتمسح المفتاح'); };
+}
+
 //  PDF متعدد الصفحات (pdf-lib)
 // ============================================================
 function addPage(){
@@ -1499,7 +1548,7 @@ async function openScan(id){
         resetTransforms();
         state.annotations = []; state.currentStroke = null;
         render();
-        show(dom.editorCard); show(dom.exportCard); show(dom.ocrCard); show(dom.pdfCard);
+        show(dom.editorCard); show(dom.exportCard); show(dom.ocrCard); show(dom.voiceCard); show(dom.pdfCard);
         if(item.text && dom.ocrText) dom.ocrText.value = item.text;
         dom.canvas.scrollIntoView({ behavior:'smooth', block:'center' });
         toast('📂 اتفتح المستند');
@@ -1612,6 +1661,7 @@ function bind(){
   dom.btnTxt.addEventListener('click', downloadTxt);
   dom.btnSpeak.addEventListener('click', speak);
   dom.btnStopSpeak.addEventListener('click', stopSpeak);
+  initTtsSettings(); // إعدادات الصوت الطبيعي (Cloud TTS)
 
   // PDF
   dom.btnAddPage.addEventListener('click', addPage);

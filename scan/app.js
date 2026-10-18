@@ -1003,7 +1003,7 @@ function speak(){
   const chunks = splitForSpeech(filterOcrForSpeech(text));
   if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
   window.speechSynthesis.cancel();
-  speakQueue = chunks; speakIdx = 0;
+  speakQueue = chunks.map(c=>c.replace(/[^0-9A-Za-z\u0600-\u06FF\u0750-\u077F\s]/g,' ').replace(/\s+/g,' ').trim()); speakIdx = 0;
   const token = ++speakToken;
   const v = arVoice();
   const playChunk = () => {

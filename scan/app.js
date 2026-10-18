@@ -54,6 +54,9 @@ const dom = {
   ocrLang: $('ocrLang'), btnOCR: $('btnOCR'),
   ocrProgress: $('ocrProgress'), ocrBar: $('ocrBar'), ocrPct: $('ocrPct'), ocrText: $('ocrText'),
   btnCopy: $('btnCopy'), btnTxt: $('btnTxt'), btnSpeak: $('btnSpeak'), btnStopSpeak: $('btnStopSpeak'),
+  btnPauseSpeak: $('btnPauseSpeak'), btnPrevChunk: $('btnPrevChunk'), btnNextChunk: $('btnNextChunk'),
+  speakControls: $('speakControls'), speakProgress: $('speakProgress'),
+  ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
   // الصوت الطبيعي (Cloud TTS)
   voiceCard: $('voiceCard'), ttsKey: $('ttsKey'), ttsVoice: $('ttsVoice'),
   btnTtsSave: $('btnTtsSave'), btnTtsTest: $('btnTtsTest'), btnTtsClear: $('btnTtsClear'), ttsStatus: $('ttsStatus'),
@@ -1070,7 +1073,7 @@ function stopSpeak(){
   ttsToken++; if(ttsAudio){ try{ ttsAudio.pause(); }catch(e){} ttsAudio=null; }
   if('speechSynthesis' in window) window.speechSynthesis.cancel();
   speakToken++; // يبطل أي queue شغّال
-  speaking = false; dom.btnSpeak.disabled = false; dom.btnStopSpeak.disabled = true;
+  speaking = false; ttsPaused=false; dom.btnSpeak.disabled = false; dom.btnStopSpeak.disabled = true; setSpeakControls(false);
 }
 
 // ============================================================
@@ -1106,34 +1109,79 @@ async function ttsSynth(text, voiceName, rate){
   return URL.createObjectURL(await r.blob());
 }
 let ttsAudio=null, ttsToken=0;
+// تحويل الـslider (0.6-1.4) لصيغة edge-tts (-40%..+40%)
+function ttsRateFor(){ const v=parseFloat((dom.ttsRate&&dom.ttsRate.value)||'1'); const pct=Math.round((v-1)*100); return (pct>=0?'+':'')+pct+'%'; }
+function ttsRateLabel(){ const v=parseFloat((dom.ttsRate&&dom.ttsRate.value)||'1'); if(v<0.85)return 'بطيئة'; if(v>1.15)return 'سريعة'; return 'عادية'; }
+let ttsChunks=[], ttsChunkIdx=0, ttsPaused=false;
+function setSpeakControls(on){ if(!dom.speakControls)return; if(on){dom.speakControls.classList.remove('hidden');}else{dom.speakControls.classList.add('hidden');} if(dom.btnPrevChunk)dom.btnPrevChunk.disabled=!on; if(dom.btnNextChunk)dom.btnNextChunk.disabled=!on; if(dom.btnPauseSpeak)dom.btnPauseSpeak.disabled=!on; if(!on&&dom.btnPauseSpeak)dom.btnPauseSpeak.textContent='⏸️ إيقاف مؤقت'; }
+function updateSpeakProgress(){ if(dom.speakProgress)dom.speakProgress.textContent='جملة '+(ttsChunkIdx+1)+' من '+ttsChunks.length; }
+function finishSpeak(token,fail){ if(token!==ttsToken&&!fail)return; speaking=false; ttsAudio=null; ttsPaused=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; setSpeakControls(false); if(!fail)toast('انتهت القراءة ✓'); }
+async function playTtsChunk(token){
+  if(token!==ttsToken||ttsChunkIdx<0||ttsChunkIdx>=ttsChunks.length){ finishSpeak(token); return; }
+  updateSpeakProgress();
+  try{
+    const uri=await ttsSynth(ttsChunks[ttsChunkIdx], ttsCfg().voice, ttsRateFor());
+    if(token!==ttsToken){ URL.revokeObjectURL(uri); return; }
+    await new Promise((res)=>{ const a=new Audio(uri); ttsAudio=a; a.onended=()=>{URL.revokeObjectURL(uri);res();}; a.onerror=()=>{URL.revokeObjectURL(uri);res();}; a.play().catch(()=>res()); });
+    if(token!==ttsToken) return;
+    ttsChunkIdx++; playTtsChunk(token);
+  }catch(e){ console.error(e); finishSpeak(token,true); toast('⚠️ الصوت السحابي فشل — بنقلب على صوت الجهاز'); speakLocal(dom.ocrText.value||''); }
+}
 async function speakCloud(text){
-  const chunks=splitForSpeech(filterOcrForSpeech(text));
-  if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
+  ttsChunks=splitForSpeech(filterOcrForSpeech(text));
+  if(!ttsChunks.length){ toast('مفيش نص صالح للقراءة'); return; }
   ttsToken++; const token=ttsToken;
   if(ttsAudio){ try{ttsAudio.pause();}catch(e){} ttsAudio=null; }
-  speaking=true; dom.btnSpeak.disabled=true; dom.btnStopSpeak.disabled=false;
-  const voice=ttsCfg().voice;
-  toast('🔊 بيقرا بصوت طبيعي... ('+chunks.length+' جملة)');
-  for(let i=0;i<chunks.length;i++){
-    if(token!==ttsToken) return;
-    try{
-      const uri=await ttsSynth(chunks[i], voice, '-8%');
-      if(token!==ttsToken){ URL.revokeObjectURL(uri); return; }
-      await new Promise((res)=>{ const a=new Audio(uri); ttsAudio=a; a.onended=()=>{URL.revokeObjectURL(uri);res();}; a.onerror=()=>{URL.revokeObjectURL(uri);res();}; a.play().catch(()=>res()); });
-    }catch(e){ console.error(e); ttsAudio=null; speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('⚠️ الصوت السحابي فشل — بنقلب على صوت الجهاز'); speakLocal(text); return; }
-  }
-  if(token===ttsToken){ speaking=false; dom.btnSpeak.disabled=false; dom.btnStopSpeak.disabled=true; toast('انتهت القراءة ✓'); }
-  ttsAudio=null;
+  speaking=true; ttsPaused=false; ttsChunkIdx=0;
+  dom.btnSpeak.disabled=true; dom.btnStopSpeak.disabled=false; setSpeakControls(true);
+  toast('🔊 بيقرا بصوت طبيعي... ('+ttsChunks.length+' جملة)');
+  playTtsChunk(token);
+}
+function togglePauseSpeak(){ if(!ttsAudio)return; if(ttsPaused){ ttsAudio.play().catch(()=>{}); ttsPaused=false; if(dom.btnPauseSpeak)dom.btnPauseSpeak.textContent='⏸️ إيقاف مؤقت'; } else { ttsAudio.pause(); ttsPaused=true; if(dom.btnPauseSpeak)dom.btnPauseSpeak.textContent='▶️ كمّل'; } }
+function skipChunk(dir){ if(!ttsChunks.length)return; if(ttsAudio){ const a=ttsAudio; a.onended=null; try{a.pause();}catch(e){} if(a.src&&a.src.startsWith('blob:'))URL.revokeObjectURL(a.src); ttsAudio=null; } ttsChunkIdx=Math.max(0,Math.min(ttsChunks.length-1,ttsChunkIdx+dir)); playTtsChunk(ttsToken); }
+async function ttsExport(){
+  const text=(dom.ocrText.value||'').trim();
+  if(!text){ toast('مفيش نص للتصدير'); return; }
+  const chunks=splitForSpeech(filterOcrForSpeech(text));
+  if(!chunks.length){ toast('مفيش نص صالح'); return; }
+  const btn=dom.btnExportAudio; if(btn){btn.disabled=true;btn.textContent='⏳ بيجهّز الصوت...';}
+  toast('🎵 بيجمع الصوت... ('+chunks.length+' جملة)');
+  try{
+    const voice=ttsCfg().voice, rate=ttsRateFor(); const blobs=[];
+    for(let i=0;i<chunks.length;i++){
+      const r=await fetch(TTS_WORKER+'?text='+encodeURIComponent(chunks[i])+'&voice='+encodeURIComponent(voice)+'&rate='+encodeURIComponent(rate));
+      if(!r.ok) throw new Error('TTS HTTP '+r.status);
+      blobs.push(await r.blob());
+      if(btn)btn.textContent='⏳ '+(i+1)+'/'+chunks.length+' جملة...';
+    }
+    const merged=new Blob(blobs,{type:'audio/mpeg'});
+    const url=URL.createObjectURL(merged);
+    const a=document.createElement('a'); a.href=url; a.download='scan-macaron-'+Date.now()+'.mp3';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    toast('✅ اتصدّر الصوت ('+chunks.length+' جملة)');
+  }catch(e){ console.error(e); toast('⚠️ فشل تصدير الصوت — تأكد من النت'); }
+  finally{ if(btn){btn.disabled=false;btn.textContent='🎵 صدّر صوت (MP3)';} }
 }
 function initTtsSettings(){
   if(!dom.ttsVoice) return;
   dom.ttsVoice.value = ttsCfg().voice;
+  if(dom.ttsRate){
+    const savedRate = localStorage.getItem('scan_tts_rate');
+    if(savedRate) dom.ttsRate.value = savedRate;
+    const updRate = ()=>{ if(dom.ttsRateVal)dom.ttsRateVal.textContent = ttsRateLabel(); localStorage.setItem('scan_tts_rate', dom.ttsRate.value); };
+    dom.ttsRate.addEventListener('input', updRate); updRate();
+  }
+  if(dom.btnPauseSpeak) dom.btnPauseSpeak.onclick = togglePauseSpeak;
+  if(dom.btnPrevChunk) dom.btnPrevChunk.onclick = ()=>skipChunk(-1);
+  if(dom.btnNextChunk) dom.btnNextChunk.onclick = ()=>skipChunk(+1);
+  if(dom.btnExportAudio) dom.btnExportAudio.onclick = ttsExport;
   dom.btnTtsTest.onclick = async ()=>{
     localStorage.setItem(TTS_VOICE, dom.ttsVoice.value);
     toast('🔔 بيجرّب الصوت...');
     try{
-      const v = dom.ttsVoice.value;
-      const r = await fetch(TTS_WORKER + '?text=' + encodeURIComponent('أهلاً يا محمد، ده صوت Scan Macaron الطبيعي.') + '&voice=' + encodeURIComponent(v) + '&rate=-8%');
+      const v = dom.ttsVoice.value, rate = ttsRateFor();
+      const r = await fetch(TTS_WORKER + '?text=' + encodeURIComponent('أهلاً يا محمد، ده صوت Scan Macaron الطبيعي.') + '&voice=' + encodeURIComponent(v) + '&rate=' + encodeURIComponent(rate));
       if(!r.ok) throw new Error('HTTP '+r.status);
       const a = new Audio(URL.createObjectURL(await r.blob()));
       a.onended = () => URL.revokeObjectURL(a.src);

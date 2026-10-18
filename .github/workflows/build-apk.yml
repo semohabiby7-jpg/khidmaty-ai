@@ -65,7 +65,7 @@ jobs:
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.SCANMACARON_KS_PASS }}
           BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.SCANMACARON_KS_PASS }}
-        run: bubblewrap build --manifest twa-manifest.json --signingKeyPath=/tmp/scanmacaron.keystore --signingKeyAlias=scanmacaron --skipPwaValidation
+        run: yes n | bubblewrap build --manifest twa-manifest.json --signingKeyPath=/tmp/scanmacaron.keystore --signingKeyAlias=scanmacaron --skipPwaValidation
 
       - name: Locate APK
         working-directory: twa-build

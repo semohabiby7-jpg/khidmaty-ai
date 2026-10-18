@@ -59,6 +59,7 @@ const dom = {
   ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
   btnTheme: $('btnTheme'),
   btnA11y: $('btnA11y'),
+  btnInstallApp: $('btnInstallApp'),
   // الصوت الطبيعي (Cloud TTS)
   voiceCard: $('voiceCard'), ttsKey: $('ttsKey'), ttsVoice: $('ttsVoice'),
   btnTtsSave: $('btnTtsSave'), btnTtsTest: $('btnTtsTest'), btnTtsClear: $('btnTtsClear'), ttsStatus: $('ttsStatus'),
@@ -1180,6 +1181,28 @@ function initA11y(){
   apply(on);
   dom.btnA11y.addEventListener('click',()=>{ on=!on; localStorage.setItem('scan_a11y',on?'1':'0'); apply(on); toast(on?'👁️ وضع الإتاحة شغّال':'وضع الإتاحة اتقفل'); });
 }
+let deferredInstallPrompt=null;
+function initInstallPrompt(){
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredInstallPrompt = e;
+    if(dom.btnInstallApp){ dom.btnInstallApp.style.display='inline-block'; }
+  });
+  if(dom.btnInstallApp){
+    dom.btnInstallApp.addEventListener('click', async () => {
+      if(!deferredInstallPrompt){ toast('افتح قائمة المتصفح (⋮) واختار «إضافة للشاشة الرئيسية»'); return; }
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      dom.btnInstallApp.style.display='none';
+      toast(outcome==='accepted' ? '✅ التطبيق اتثبت!' : 'تمام، تقدر تثبته بعدين من قائمة المتصفح (⋮)');
+    });
+  }
+  window.addEventListener('appinstalled', () => {
+    if(dom.btnInstallApp) dom.btnInstallApp.style.display='none';
+    deferredInstallPrompt = null;
+    toast('🎉 شكراً! التطبيق اتثبت على جهازك');
+  });
+}
 function initTtsSettings(){
   if(!dom.ttsVoice) return;
   dom.ttsVoice.value = ttsCfg().voice;
@@ -1796,6 +1819,7 @@ function bind(){
   initTtsSettings(); // إعدادات الصوت الطبيعي (Cloud TTS)
   initTheme(); // الوضع الليلي/النهاري
   initA11y(); // وضع الإتاحة (أزرار أكبر)
+  initInstallPrompt(); // زر تثبيت التطبيق (PWA install)
 
   // PDF
   dom.btnAddPage.addEventListener('click', addPage);

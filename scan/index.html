@@ -331,6 +331,13 @@
       <button class="btn btn-primary" id="btnAddPage">➕ ضيف الصورة الحالية كصفحة</button>
       <span class="page-count" id="pageCount">0 صفحة</span>
     </div>
+    <!-- ميزات متقدمة: مسح متسلسل + بطاقة + فرد انحناء -->
+    <div class="batch-row">
+      <button class="btn btn-ghost" id="btnBatch" title="مسح متسلسل سريع — كل صورة تتصورها تتضاف تلقائيًا كصفحة">⚡ مسح متسلسل</button>
+      <button class="btn btn-ghost" id="btnIdCard" title="دمج وجه وظهر البطاقة في صفحة واحدة">🆔 وضع البطاقة</button>
+      <button class="btn btn-ghost" id="btnFlatten" title="فرد انحناء صفحات الكتب">📖 فرد انحناء</button>
+      <span class="id-card-status" id="idCardStatus"></span>
+    </div>
     <div class="pages-tray" id="pagesTray">
       <div class="empty-hint">اضغط «ضيف الصورة الحالية كصفحة»، رتّب الصفحات أو امسحها، وبعدين نزّلها PDF واحد.</div>
     </div>
@@ -341,6 +348,10 @@
           <option value="letter">Letter</option>
           <option value="fit">ملاءمة للصورة</option>
         </select>
+      </label>
+      <label class="compress-chk" title="يصغّر حجم الصور داخل الـPDF (أقصى 1500px + جودة 72%) — ملف أصغر بسرعة">
+        <input type="checkbox" id="chkCompress">
+        <span>📦 ضغط فائق</span>
       </label>
       <button class="btn btn-primary" id="btnPdf">⬇️ نزّل PDF</button>
     </div>

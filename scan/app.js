@@ -887,12 +887,20 @@ async function runOCR(){
   show(dom.ocrProgress); setOcrProgress(0, 'بيبدأ');
   dom.btnOCR.disabled = true;
   dom.ocrText.value = '';
-  dom.ocrText.placeholder = 'بيشتغل… لو أول مرة ممكن يستني تحميل محرّك العربي شوية.';
+  dom.ocrText.placeholder = 'بيشتغل… بـالذكاء الاصطناعي (Gemini). لو الإنترنت قطع بيستخدم محرّك الجهاز.';
   try{
     const blob = await ocrInputBlob();
-    const worker = await getOcrWorker(lang);
-    const { data } = await worker.recognize(blob);
-    const text = (data && data.text ? data.text : '').trim();
+    let text = '';
+    try{
+      setOcrProgress(0.35, 'الذكاء الاصطناعي بيقرا');
+      text = await ocrGemini(blob);
+    }catch(ge){
+      console.warn('Gemini OCR فشل → محرّك الجهاز:', ge);
+      setOcrProgress(0.55, 'محرّك الجهاز (احتياطي)');
+      const worker = await getOcrWorker(lang);
+      const { data } = await worker.recognize(blob);
+      text = (data && data.text ? data.text : '').trim();
+    }
     dom.ocrText.value = text || 'مفيش نص واضح — جرّب تحسّن الصورة (✨) أو غيّر اللغة.';
     if(text) toast('🧠 النص اتاستخرج');
   }catch(e){
@@ -900,6 +908,7 @@ async function runOCR(){
     dom.ocrText.value = 'حصل خطأ في الاستخراج: ' + (e && e.message ? e.message : 'حاول تاني.');
   }finally{
     dom.btnOCR.disabled = false;
+    setOcrProgress(1, 'خلص');
     hide(dom.ocrProgress);
   }
 }
@@ -1040,6 +1049,23 @@ function stopSpeak(){
 //  لو فشل أو offline → يقع على صوت الجهاز (speakLocal).
 // ----------------------------------------------------------------
 const TTS_WORKER='https://khidmaty-tts.semohabiby7.workers.dev/tts';
+
+//  OCR أساسي عبر Gemini Vision (Cloudflare Worker) — استخراج عربي شبه 100% + أرقام هندية.
+//  مجاني 100% — المفتاح مخفي في الـWorker (مش في التطبيق). مسموح لـ khidmatyai.com.
+//  لو فشل أو offline → يقع على Tesseract المحلي (احتياطي) جوه runOCR.
+// ----------------------------------------------------------------
+const OCR_WORKER='https://khidmaty-ocr.semohabiby7.workers.dev';
+function blobToB64(blob){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onloadend=()=>res((r.result||'').split(',')[1]||''); r.onerror=()=>rej(r.error); r.readAsDataURL(blob); }); }
+async function ocrGemini(blob){
+  const b64 = await blobToB64(blob);
+  if(!b64) throw new Error('فشل تحضير الصورة');
+  const r = await fetch(OCR_WORKER, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({image:b64, mime:(blob.type||'image/png')})});
+  if(!r.ok) throw new Error('OCR HTTP '+r.status);
+  const d = await r.json();
+  const t = (d && d.text ? String(d.text) : '').trim();
+  if(!t) throw new Error('الذكاء الاصطناعي رجع فاضي');
+  return t;
+}
 const TTS_VOICE='scan_tts_voice';
 function ttsCfg(){ return { voice: localStorage.getItem(TTS_VOICE) || 'ar-EG-ShakirNeural' }; }
 async function ttsSynth(text, voiceName, rate){

@@ -118,7 +118,9 @@
     <div class="upload-actions">
       <button class="btn btn-ghost" id="btnPick">📂 اختيار صورة</button>
       <button class="btn btn-ghost" id="btnCamera">📸 التقاط بالكاميرا</button>
+      <button class="btn btn-ghost" id="btnAutoCapture" title="التقاط تلقائي — يصوّر لما المستند يكون ثابت وواضح">📷 التقاط تلقائي</button>
       <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+      <video id="autoCapVideo" hidden autoplay playsinline muted></video>
     </div>
   </section>
 
@@ -265,6 +267,7 @@
       <button class="btn btn-ghost" id="btnSpeak">🔊 اقرأ بصوت عربي</button>
       <button class="btn btn-ghost" id="btnStopSpeak" disabled>⏹ وقّف القراءة</button>
       <button class="btn btn-ghost" id="btnExportAudio" disabled>🎵 صدّر صوت (MP3)</button>
+      <button class="btn btn-ghost" id="btnSpeakAll" disabled title="اقرأ كل صفحات المستند بالترتيب">📖 اقرأ الكل</button>
       <button class="btn btn-primary" id="btnSave">💾 احفظ المستند</button>
     </div>
     <div class="speak-controls hidden" id="speakControls">

@@ -21,6 +21,7 @@ const $ = (id) => document.getElementById(id);
 const dom = {
   dropzone: $('dropzone'), fileInput: $('fileInput'), cameraInput: $('cameraInput'),
   btnPick: $('btnPick'), btnCamera: $('btnCamera'),
+  btnAutoCapture: $('btnAutoCapture'), autoCapVideo: $('autoCapVideo'),
   uploadCard: $('uploadCard'), editorCard: $('editorCard'), exportCard: $('exportCard'),
   ocrCard: $('ocrCard'), pdfCard: $('pdfCard'),
   canvas: $('canvas'), stage: $('stage'), stageHint: $('stageHint'),
@@ -57,6 +58,7 @@ const dom = {
   btnPauseSpeak: $('btnPauseSpeak'), btnPrevChunk: $('btnPrevChunk'), btnNextChunk: $('btnNextChunk'),
   speakControls: $('speakControls'), speakProgress: $('speakProgress'),
   ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
+  btnSpeakAll: $('btnSpeakAll'),
   btnTheme: $('btnTheme'),
   btnA11y: $('btnA11y'),
   btnInstallApp: $('btnInstallApp'),
@@ -919,6 +921,11 @@ function ocrLocalBlob(){
 }
 async function runOCR(){
   if(!state.base){ toast('اختار صورة الأول'); return; }
+  // اقتراح ٥: فحص جودة الصورة قبل الـOCR
+  const quality = checkImageQuality(state.base);
+  if(quality.warnings.length){
+    toast('⚠️ ' + quality.warnings.join(' · '));
+  }
   const lang = dom.ocrLang.value;
   show(dom.ocrProgress); setOcrProgress(0, 'بيبدأ');
   dom.btnOCR.disabled = true;
@@ -1249,6 +1256,8 @@ function addPage(){
 function renderPages(){
   dom.pagesTray.innerHTML = '';
   dom.pageCount.textContent = state.pages.length + ' صفحة';
+  // اقتراح ٤: فعّل زر «اقرأ الكل» لما فيه صفحات
+  if(dom.btnSpeakAll) dom.btnSpeakAll.disabled = state.pages.length === 0;
   if(state.pages.length === 0){
     const hint = document.createElement('div');
     hint.className = 'empty-hint';
@@ -1259,14 +1268,32 @@ function renderPages(){
   state.pages.forEach((p, i) => {
     const card = document.createElement('div');
     card.className = 'page-thumb';
+    card.draggable = true; // اقتراح ٧: سحب وإفلات لإعادة الترتيب
+    card.dataset.idx = i;
     card.innerHTML =
-      `<img src="${p.dataURL}" alt="صفحة ${i+1}">` +
+      `<img src="${p.dataURL}" alt="صفحة ${i+1}" draggable="false">` +
       `<button class="thumb-del" title="امسح">×</button>` +
       `<div class="thumb-idx">${i+1}</div>` +
       `<div class="thumb-move"><button class="mv-l" title="حرّك لليسار">◀</button><button class="mv-r" title="حرّك لليمين">▶</button></div>`;
     card.querySelector('.thumb-del').addEventListener('click', () => { state.pages.splice(i,1); renderPages(); });
     card.querySelector('.mv-l').addEventListener('click', () => movePage(i, i-1));
     card.querySelector('.mv-r').addEventListener('click', () => movePage(i, i+1));
+    // اقتراح ٧: سحب وإفلات — HTML5 Drag-and-Drop API
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(i));
+      card.classList.add('dragging');
+    });
+    card.addEventListener('dragend', () => { card.classList.remove('dragging'); document.querySelectorAll('.page-thumb.drag-over').forEach(el => el.classList.remove('drag-over')); });
+    card.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; card.classList.add('drag-over'); });
+    card.addEventListener('dragleave', () => { card.classList.remove('drag-over'); });
+    card.addEventListener('drop', (e) => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      const from = parseInt(e.dataTransfer.getData('text/plain'), 10);
+      const to = i;
+      if(!isNaN(from) && from !== to) movePage(from, to);
+    });
     dom.pagesTray.appendChild(card);
   });
 }
@@ -1741,6 +1768,248 @@ function toast(msg){
   clearTimeout(toastT); toastT = setTimeout(()=>{ t.style.opacity='0'; }, 1800);
 }
 
+// ============================================================
+//  اقتراح ٤: القراءة المتتابعة (اقرأ الكل) — يجمع نصوص كل الصفحات
+// ============================================================
+let speakAllRunning = false;
+
+async function speakAll(){
+  if(speaking){ toast('القراءة شغّالة دلوقتي — اضغط إيقاف الأول'); return; }
+  if(speakAllRunning){ toast('بيشتغل بالفعل... استنى'); return; }
+  if(state.pages.length === 0){ toast('ضيف صفحة واحدة على الأقل'); return; }
+
+  speakAllRunning = true;
+  const orig = dom.btnSpeakAll.textContent;
+  dom.btnSpeakAll.disabled = true;
+  const lang = dom.ocrLang.value;
+  let allText = '';
+
+  for(let i = 0; i < state.pages.length; i++){
+    dom.btnSpeakAll.textContent = `📖 ${i+1}/${state.pages.length}…`;
+    try{
+      const blob = await (await fetch(state.pages[i].dataURL)).blob();
+      let text = '';
+      try{
+        text = await ocrGemini(blob);
+      }catch(ge){
+        console.warn('Gemini فشل للصفحة', i+1, '→ محرّك الجهاز:', ge);
+        const img = await dataURLToImage(state.pages[i].dataURL);
+        const localBlob = await imgToThresholdBlob(img);
+        const worker = await getOcrWorker(lang);
+        const { data } = await worker.recognize(localBlob);
+        text = (data && data.text ? data.text : '').trim();
+      }
+      if(text) allText += text + '\n\n';
+    }catch(e){ console.warn('OCR صفحة', i+1, 'فشل:', e); }
+  }
+
+  dom.btnSpeakAll.disabled = false;
+  dom.btnSpeakAll.textContent = orig;
+  speakAllRunning = false;
+
+  if(allText.trim()){
+    speakCloud(allText.trim());
+  } else {
+    toast('مفيش نص قابل للقراءة في الصفحات');
+  }
+}
+
+// دالة مساعدة: تحويل dataURL إلى Image
+function dataURLToImage(dataURL){
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = rej;
+    img.src = dataURL;
+  });
+}
+
+// دالة مساعدة: تحويل Image إلى blob بعتبة محلية (للـTesseract)
+function imgToThresholdBlob(img){
+  const MAX = 2500;
+  const scale = Math.min(2, MAX / Math.max(img.naturalWidth, img.naturalHeight));
+  const w = Math.round(img.naturalWidth * scale), h = Math.round(img.naturalHeight * scale);
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const cc = c.getContext('2d', { willReadFrequently: true });
+  cc.imageSmoothingEnabled = true; cc.imageSmoothingQuality = 'high';
+  cc.filter = 'grayscale(1)';
+  cc.drawImage(img, 0, 0, w, h);
+  cc.filter = 'none';
+  const imgData = cc.getImageData(0, 0, w, h), d = imgData.data;
+  const WIN = 25, HALF = WIN >> 1, OFF = 0.10 * 255;
+  const I = new Float64Array((w + 1) * (h + 1));
+  for(let y = 0; y < h; y++){ let rs = 0;
+    for(let x = 0; x < w; x++){ rs += d[(y * w + x) * 4];
+      I[(y + 1) * (w + 1) + (x + 1)] = I[y * (w + 1) + (x + 1)] + rs; } }
+  for(let y = 0; y < h; y++){
+    for(let x = 0; x < w; x++){
+      const x1 = Math.max(0, x - HALF), x2 = Math.min(w, x + HALF + 1);
+      const y1 = Math.max(0, y - HALF), y2 = Math.min(h, y + HALF + 1);
+      const area = (x2 - x1) * (y2 - y1);
+      const sum = I[y2 * (w + 1) + x2] - I[y1 * (w + 1) + x2] - I[y2 * (w + 1) + x1] + I[y1 * (w + 1) + x1];
+      const mean = sum / area;
+      const idx = (y * w + x) * 4;
+      const v = d[idx] < (mean - OFF) ? 0 : 255;
+      d[idx] = d[idx + 1] = d[idx + 2] = v;
+    }
+  }
+  cc.putImageData(imgData, 0, 0);
+  return new Promise((res) => c.toBlob(res, 'image/png'));
+}
+
+// ============================================================
+//  اقتراح ٥: فحص جودة الصورة قبل الـOCR (blur + brightness)
+// ============================================================
+function checkImageQuality(canvasOrImg){
+  const w = 128, h = 128;
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const cc = c.getContext('2d', { willReadFrequently: true });
+  cc.drawImage(canvasOrImg, 0, 0, w, h);
+  const { data } = cc.getImageData(0, 0, w, h);
+  // المتوسط (سطوع)
+  let sum = 0;
+  for(let i = 0; i < data.length; i += 4){ sum += (data[i] + data[i + 1] + data[i + 2]) / 3; }
+  const brightness = sum / (w * h);
+  // التباين (variance) — مؤشر للوضوح (ضبابية = variance منخفض)
+  let sumSq = 0;
+  for(let i = 0; i < data.length; i += 4){
+    const v = (data[i] + data[i + 1] + data[i + 2]) / 3;
+    sumSq += (v - brightness) * (v - brightness);
+  }
+  const variance = sumSq / (w * h);
+  // Laplacian variance (أدق لكشف الضبابية)
+  let lapSum = 0, lapSqSum = 0, lapCount = 0;
+  for(let y = 1; y < h - 1; y++){
+    for(let x = 1; x < w - 1; x++){
+      const idx = (y * w + x) * 4;
+      const v = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
+      const l = -v * 4 +
+        (data[((y - 1) * w + x) * 4] + data[((y + 1) * w + x) * 4] +
+         data[(y * w + x - 1) * 4] + data[(y * w + x + 1) * 4]) / 3 * 4;
+      lapSum += l; lapSqSum += l * l; lapCount++;
+    }
+  }
+  const lapVar = lapCount ? (lapSqSum / lapCount) - (lapSum / lapCount) ** 2 : 0;
+
+  const warnings = [];
+  if(brightness < 50) warnings.push('الصورة غامقة جدًا — زوّد الإضاءة');
+  else if(brightness > 235) warnings.push('الصورة فاتحة جدًا — خفّف الإضاءة أو الوميض');
+  if(lapVar < 100) warnings.push('الصورة ضبابية أو غير واضحة');
+  return { brightness, variance, lapVar, warnings };
+}
+
+// ============================================================
+//  اقتراح ٦: الالتقاط التلقائي — يصوّر لما المستند ثابت وواضح
+// ============================================================
+let autoCapStream = null;
+let autoCapRAF = null;
+let autoCapLastGray = null;
+let autoCapStable = 0;
+let autoCapBusy = false;
+
+async function startAutoCapture(){
+  if(autoCapStream){ stopAutoCapture(); return; }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    toast('الالتقاط التلقائي غير مدعوم على هذا الجهاز'); return;
+  }
+  try{
+    autoCapStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }
+    });
+    dom.autoCapVideo.srcObject = autoCapStream;
+    dom.autoCapVideo.hidden = false;
+    dom.btnAutoCapture.textContent = '⏹️ إيقاف الالتقاط';
+    dom.btnAutoCapture.classList.add('active');
+    autoCapStable = 0;
+    autoCapLastGray = null;
+    autoCapBusy = false;
+    autoCapLoop();
+    toast('📷 الالتقاط التلقائي شغّال — ثبّت الكاميرا على المستند');
+  }catch(e){
+    console.error(e);
+    toast('تعذّر تشغيل الكاميرا — تأكّد من الأذونات');
+    autoCapStream = null;
+  }
+}
+
+function autoCapLoop(){
+  if(!autoCapStream) return;
+  const v = dom.autoCapVideo;
+  if(v.readyState >= 2 && !autoCapBusy){
+    const w = 120, h = 120;
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const cc = c.getContext('2d', { willReadFrequently: true });
+    cc.drawImage(v, 0, 0, w, h);
+    const { data } = cc.getImageData(0, 0, w, h);
+    // مستوى رمادي للإطار الحالي
+    const gray = new Uint8ClampedArray(w * h);
+    for(let i = 0, j = 0; i < data.length; i += 4, j++){
+      gray[j] = (data[i] + data[i + 1] + data[i + 2]) / 3;
+    }
+    // كشف الثبات: فرق الإطارات
+    let diff = 0;
+    if(autoCapLastGray){
+      for(let i = 0; i < gray.length; i++) diff += Math.abs(gray[i] - autoCapLastGray[i]);
+      diff /= gray.length;
+    }
+    // كشف الوضوح: تباين Laplacian
+    let lapVar = 0, cnt = 0;
+    for(let y = 1; y < h - 1; y++){
+      for(let x = 1; x < w - 1; x++){
+        const v = gray[y * w + x];
+        const l = Math.abs(4 * v - gray[(y-1)*w+x] - gray[(y+1)*w+x] - gray[y*w+x-1] - gray[y*w+x+1]);
+        lapVar += l; cnt++;
+      }
+    }
+    lapVar /= cnt;
+
+    if(diff < 3 && lapVar > 15){
+      autoCapStable++;
+      if(autoCapStable >= 12){ // ~0.4 ثانية ثبات
+        autoCapBusy = true;
+        autoCapCapture();
+        return;
+      }
+    } else {
+      autoCapStable = 0;
+    }
+    autoCapLastGray = gray;
+  }
+  autoCapRAF = requestAnimationFrame(autoCapLoop);
+}
+
+function autoCapCapture(){
+  const v = dom.autoCapVideo;
+  const c = document.createElement('canvas');
+  c.width = v.videoWidth; c.height = v.videoHeight;
+  c.getContext('2d').drawImage(v, 0, 0);
+  c.toBlob((blob) => {
+    if(blob){
+      const file = new File([blob], 'auto-capture-' + Date.now() + '.jpg', { type: 'image/jpeg' });
+      loadFile(file);
+      toast('📸 اتالتقطت الصورة!');
+    }
+    stopAutoCapture();
+  }, 'image/jpeg', 0.92);
+}
+
+function stopAutoCapture(){
+  if(autoCapRAF){ cancelAnimationFrame(autoCapRAF); autoCapRAF = null; }
+  if(autoCapStream){
+    autoCapStream.getTracks().forEach(t => t.stop());
+    autoCapStream = null;
+  }
+  if(dom.autoCapVideo){ dom.autoCapVideo.srcObject = null; dom.autoCapVideo.hidden = true; }
+  if(dom.btnAutoCapture){
+    dom.btnAutoCapture.textContent = '📷 التقاط تلقائي';
+    dom.btnAutoCapture.classList.remove('active');
+    dom.btnAutoCapture.disabled = false;
+  }
+  autoCapLastGray = null;
+  autoCapStable = 0;
+  autoCapBusy = false;
+}
+
 // ===== ربط الأحداث =====
 function bind(){
   // رفع
@@ -1752,6 +2021,7 @@ function bind(){
   dom.fileInput.addEventListener('change', (e)=>{ if(e.target.files[0]) loadFile(e.target.files[0]); });
   dom.btnPick.addEventListener('click', ()=> dom.fileInput.click());
   dom.btnCamera.addEventListener('click', ()=> dom.cameraInput.click());
+  dom.btnAutoCapture.addEventListener('click', startAutoCapture); // اقتراح ٦: الالتقاط التلقائي
   dom.cameraInput.addEventListener('change', (e)=>{ if(e.target.files[0]) loadFile(e.target.files[0]); });
   window.addEventListener('paste', (e)=>{ const it = (e.clipboardData||{}).items; if(it) for(const i of it){ if(i.type && i.type.startsWith('image/')){ loadFile(i.getAsFile()); break; } } });
 
@@ -1820,6 +2090,7 @@ function bind(){
   dom.btnTxt.addEventListener('click', downloadTxt);
   dom.btnSpeak.addEventListener('click', speak);
   dom.btnStopSpeak.addEventListener('click', stopSpeak);
+  if(dom.btnSpeakAll) dom.btnSpeakAll.addEventListener('click', speakAll); // اقتراح ٤: اقرأ الكل
   initTtsSettings(); // إعدادات الصوت الطبيعي (Cloud TTS)
   initTheme(); // الوضع الليلي/النهاري
   initA11y(); // وضع الإتاحة (أزرار أكبر)
@@ -1855,6 +2126,19 @@ function bind(){
 
   // حفظ محلي
   if(dom.btnSave) dom.btnSave.addEventListener('click', saveScan);
+
+  // اقتراح ٧: أنماط بصرية للسحب والإفلات (بدون ملف CSS خارجي)
+  if(!document.getElementById('dragdrop-style')){
+    const s = document.createElement('style');
+    s.id = 'dragdrop-style';
+    s.textContent = [
+      '.page-thumb.dragging{opacity:.4;border:2px dashed #e6c258;}',
+      '.page-thumb.drag-over{border:2px dashed #34d399;transform:scale(1.05);}',
+      '#autoCapVideo{max-width:100%;border-radius:12px;margin-top:8px;}',
+      '.btn.active{background:#1a3556;border-color:#34d399;}'
+    ].join('');
+    document.head.appendChild(s);
+  }
 }
 function bindSlider(slider, valEl, key){
   let raf=0;

@@ -844,13 +844,15 @@ async function getOcrWorker(lang){
   if(ocrWorker && ocrLangCached === lang) return ocrWorker;
   if(ocrWorker){ try{ await ocrWorker.terminate(); }catch(e){} ocrWorker = null; }
   ocrWorker = await Tesseract.createWorker(lang, 1, {
-    langPath: 'https://tessdata.projectnaptha.com/4.0.0_fast', // بيانات سريعة (int8): تحميل وتحليل أسرع للموبايل
+    langPath: 'https://tessdata.projectnaptha.com/4.0.0_best', // أعلى دقّة للعربية (float) — «الإتقان قبل السرعة»
     logger: (m) => {
       if(!m || !m.status) return;
       const ph = OCR_PHASES[m.status];
       if(ph) setOcrProgress(ph.r[0] + (ph.r[1]-ph.r[0])*(m.progress||0), ph.t);
     },
   });
+  // ضبط تقسيم الصفحة: كتلة نص واحدة + حفظ المسافات → نص أنظف للمستندات
+  try{ await ocrWorker.setParameters({ tessedit_pageseg_mode: '6', preserve_interword_spaces: '1' }); }catch(e){}
   ocrLangCached = lang;
   return ocrWorker;
 }
@@ -862,14 +864,19 @@ function warmOcrWorker(){
   ocrWarming = true;
   getOcrWorker(lang).then(()=>{ ocrWarming=false; }).catch(()=>{ ocrWarming=false; });
 }
-// نسخة مصغّرة من الكانفس (max 1600px) كـJPEG لـOCR — أسرع ٢-٤ أضعاف بدون فقدان دقّة تذكر
+// نسخة معالَجة للـOCR: رمادي + تباين + PNG بلا فقدان + دقّة أعلى (max 2000px)
+// → مدخل أنظف لـTesseract = استخراج عربي أدقّ (الإتقان قبل السرعة).
 function ocrInputBlob(){
-  const src = dom.canvas, max = 1600;
+  const src = dom.canvas, max = 2000;
   const scale = Math.min(1, max / Math.max(src.width, src.height));
   const w = Math.round(src.width*scale), h = Math.round(src.height*scale);
   const c = document.createElement('canvas'); c.width=w; c.height=h;
-  c.getContext('2d').drawImage(src, 0, 0, w, h);
-  return new Promise((res)=> c.toBlob(res, 'image/jpeg', 0.85));
+  const cc = c.getContext('2d');
+  cc.imageSmoothingEnabled = true; cc.imageSmoothingQuality = 'high';
+  cc.filter = 'grayscale(1) contrast(1.15)';
+  cc.drawImage(src, 0, 0, w, h);
+  cc.filter = 'none';
+  return new Promise((res)=> c.toBlob(res, 'image/png'));
 }
 async function runOCR(){
   if(!state.base){ toast('اختار صورة الأول'); return; }

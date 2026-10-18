@@ -940,6 +940,10 @@ async function runOCR(){
     }
     dom.ocrText.value = text || 'مفيش نص واضح — جرّب تحسّن الصورة (✨) أو غيّر اللغة.';
     if(text) toast('🧠 النص اتاستخرج');
+    // اقتراح ٣: قراءة أوتوماتيك بعد OCR لما وضع الإتاحة شغّال (للمكفوفين)
+    if(text && localStorage.getItem('scan_a11y')==='1'){
+      setTimeout(()=>{ try{ speakCloud(text); }catch(e){ console.warn('auto-speak failed:',e); } }, 500);
+    }
   }catch(e){
     console.error(e);
     dom.ocrText.value = 'حصل خطأ في الاستخراج: ' + (e && e.message ? e.message : 'حاول تاني.');

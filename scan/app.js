@@ -980,11 +980,22 @@ function splitForSpeech(t){
   return chunks.filter(Boolean);
 }
 
+function filterOcrForSpeech(t){
+  // شيل أسطر واجهة التطبيق + الأسطر بلا عربي واضح (أرقام/شوشرة) — اقرأ المحتوى بس
+  const UI=/^(الرئيسية|خدماتي|المتجر|استخرج النص|استخراج النص|انتهت القراءة|نسخ|تنزيل|استماع|إيقاف|إعدادات|عربي\s*\+\s*إنجليزي|Scan Macaron AI|ماسح المستندات)\s*$/i;
+  return (t||'').split(/\n+/).map(l=>l.trim()).filter(l=>{
+    if(!l) return false;
+    if(UI.test(l)) return false;
+    const ar=(l.match(/[\u0600-\u06FF]/g)||[]).length;
+    return ar>=3;
+  }).join('\n');
+}
+
 function speak(){
   const text = (dom.ocrText.value || '').trim();
   if(!text){ toast('مفيش نص للقراءة'); return; }
   if(!('speechSynthesis' in window)){ toast('المتصفح مش بيدعم القراءة الصوتية'); return; }
-  const chunks = splitForSpeech(text);
+  const chunks = splitForSpeech(filterOcrForSpeech(text));
   if(!chunks.length){ toast('مفيش نص صالح للقراءة'); return; }
   window.speechSynthesis.cancel();
   speakQueue = chunks; speakIdx = 0;

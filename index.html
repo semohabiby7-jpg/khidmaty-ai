@@ -703,7 +703,7 @@ window.addEventListener('beforeinstallprompt',(e)=>{
   deferredPrompt=e
   const btn=document.createElement('button')
   btn.innerHTML='📲 حمل التطبيق من هنا'
-  btn.style.cssText='background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:10px 24px;border-radius:30px;font-weight:800;font-size:14px;box-shadow:0 4px 16px rgba(212,169,55,.4);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
+  btn.style.cssText='background:linear-gradient(135deg,#e6c258,#b8923a);color:#0F1E3D;border:none;padding:6px 14px;border-radius:30px;font-weight:800;font-size:12px;box-shadow:0 4px 16px rgba(212,169,55,.4);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
   btn.onclick=()=>{
     deferredPrompt.prompt()
     deferredPrompt.userChoice.then(()=>{btn.remove();deferredPrompt=null})
@@ -734,7 +734,7 @@ setTimeout(()=>{
         wrap.style.display='flex'
         const btn=document.createElement('button')
         btn.innerHTML='💻 حمّل التطبيق على الكمبيوتر'
-        btn.style.cssText='background:linear-gradient(135deg,#0F1E3D,#1a2d5a);color:#e6c258;border:none;padding:10px 24px;border-radius:30px;font-weight:800;font-size:14px;box-shadow:0 4px 16px rgba(15,30,61,.3);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
+        btn.style.cssText='background:linear-gradient(135deg,#0F1E3D,#1a2d5a);color:#e6c258;border:none;padding:6px 14px;border-radius:30px;font-weight:800;font-size:12px;box-shadow:0 4px 16px rgba(15,30,61,.3);cursor:pointer;font-family:Cairo,sans-serif;animation:installPulse 2s ease-in-out infinite'
         btn.onclick=()=>{
           alert('لتثبيت خِدْمَتي AI على الكمبيوتر:\n\n🌐 Chrome أو Edge:\n1️⃣ اضغط زر التثبيت 📲 في شريط العنوان\n2️⃣ اضغط "Install"\n\nهتلاقي خِدْمَتي AI على سطح المكتب! 🎉')
         }

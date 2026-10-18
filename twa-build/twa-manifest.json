@@ -18,6 +18,7 @@
   },
   "appVersion": "1.0.0",
   "appVersionCode": 1,
+  "minSdkVersion": 24,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://raw.githubusercontent.com/semohabiby7-jpg/khidmaty-ai/main/scan/manifest.json"

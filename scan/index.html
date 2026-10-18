@@ -80,6 +80,9 @@
       <span class="chip on">🔊 قراءة صوتية عربية</span>
       <span class="chip on">📑 PDF متعدد الصفحات</span>
       <span class="chip on">📤 تصدير PNG/JPG</span>
+      <span class="chip on">✍️ توقيع رقمي</span>
+      <span class="chip on">🚫 إخفاء معلومات</span>
+      <span class="chip on">✨ إزالة ظلال</span>
     </div>
   </section>
 
@@ -214,6 +217,18 @@
         </div>
 
         <div class="ctrl-group">
+          <div class="ctrl-label">أدوات متقدّمة</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="btnSignPad">✍️ توقيع بخط اليد</button>
+            <button class="btn btn-ghost" id="btnRedact">🚫 إخفاء معلومات</button>
+            <button class="btn btn-ghost" id="btnRedactApply" disabled>✅ تطبيق الإخفاء</button>
+            <button class="btn btn-ghost" id="btnRedactClear" disabled>🗑️ مسح الإخفاء</button>
+            <button class="btn btn-ghost" id="btnRemoveShadow">✨ إزالة الظلال</button>
+          </div>
+          <p class="micro" id="redactHint">«توقيع»: ارسم توقيعك في نافذة منفصلة وضعه على المستند. «إخفاء»: ارسم مربعات سوداء فوق المعلومات الحساسة. «إزالة الظلال»: بيفرّد الإضاءة وبيشيل ظلال الأصابع.</p>
+        </div>
+
+        <div class="ctrl-group">
           <div class="ctrl-label">مقارنة وإعادة</div>
           <div class="btn-row">
             <button class="btn btn-ghost" id="btnBefore">👁️ الأصل مقابل النتيجة</button>
@@ -277,6 +292,11 @@
       <span class="sc-progress" id="speakProgress">جملة 0 من 0</span>
     </div>
     <p class="micro">🧠 كل المعالجة على جهازك. أول مرة تستخرج فيها نص عربي بيتم تحميل ملف بيانات صغير (مرة واحدة بس).</p>
+    <!-- استخراج البيانات الذكي + التصنيف التلقائي -->
+    <div class="doc-analyze-bar">
+      <button class="btn btn-primary" id="btnAnalyzeDoc" title="حلّل النص وصنّف المستند واستخرج البيانات">🏷️ استخرج البيانات</button>
+    </div>
+    <div id="docInfo" class="doc-info hidden"></div>
   </section>
 
   <!-- الصوت الطبيعي (edge-tts — مجاني، بلا مفتاح) -->
@@ -336,6 +356,25 @@
   </section>
 
 </main>
+
+
+<!-- نافذة التوقيع الرقمي -->
+<div class="modal-overlay hidden" id="sigOverlay">
+  <div class="sig-modal">
+    <h3>✍️ توقيعك بخط اليد</h3>
+    <p class="micro">وقّع بإصبعك أو بقلم اللمس في المربع ده، بعدين اختار اللون والمكان على المستند.</p>
+    <canvas id="sigCanvas" width="500" height="200"></canvas>
+    <div class="sig-controls">
+      <label>اللون <input type="color" id="sigColor" value="#1a2340"></label>
+      <label>السمك <input type="range" id="sigWidth" min="1" max="8" value="3" step="1"></label>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="btnSigClear">🗑️ مسح التوقيع</button>
+      <button class="btn btn-primary" id="btnSigApply" disabled>✅ ضع التوقيع على المستند</button>
+      <button class="btn btn-ghost" id="btnSigCancel">إلغاء</button>
+    </div>
+  </div>
+</div>
 
 <footer class="footer">
   <p>🔒 كل المعالجة بتحصل على جهازك. ما بنرفعش ولا صورة ولا نص لأي سيرفر.</p>

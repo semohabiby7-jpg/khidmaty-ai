@@ -380,3 +380,27 @@ body.a11y .micro{font-size:14px}
 .doc-info-table th{background:rgba(230,194,88,.12);color:var(--gold,#e6c258);padding:8px 10px;text-align:right;font-weight:700;border:1px solid #2a4068;width:35%}
 .doc-info-table td{padding:8px 10px;border:1px solid #1e3556;color:var(--text,#e8eef8);line-height:1.7}
 .doc-info-text{font-size:14px;color:var(--text,#e8eef8);line-height:1.8;white-space:pre-wrap}
+
+/* ===== كشف التزوير (Forgery Detection) ===== */
+.forgery-verdict{padding:16px 18px;border-radius:14px;font-weight:800;text-align:center;margin:12px 0;font-size:1.15em}
+.forgery-verdict.safe{background:rgba(34,197,94,.13);color:#22c55e;border:1.5px solid rgba(34,197,94,.4)}
+.forgery-verdict.warn{background:rgba(234,179,8,.13);color:#eab308;border:1.5px solid rgba(234,179,8,.4)}
+.forgery-verdict.danger{background:rgba(239,68,68,.13);color:#ef4444;border:1.5px solid rgba(239,68,68,.4)}
+.forgery-risk-bar{height:10px;border-radius:6px;background:linear-gradient(90deg,#22c55e 0%,#eab308 50%,#ef4444 100%);position:relative;margin:8px 0 2px;overflow:hidden}
+.forgery-risk-fill{position:absolute;top:0;bottom:0;right:0;background:rgba(15,30,61,.85);border-left:2px solid #fff}
+.forgery-canvases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.forgery-canvas-box{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:12px;padding:10px}
+.forgery-canvas-box h3{font-size:.92em;margin:0 0 8px;color:var(--gold,#e6c258);font-weight:700}
+.forgery-canvas-box canvas{width:100%;height:auto;border-radius:8px;background:#000;display:block}
+.forgery-canvas-box .micro{margin:6px 0 0;text-align:center}
+.forgery-reasons{padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid #1e3556;border-radius:12px;font-size:.92em;line-height:1.8;margin-top:8px}
+.forgery-reasons h3{margin:0 0 8px;color:var(--gold,#e6c258);font-size:1em;font-weight:700}
+.forgery-reasons ul{margin:0;padding-right:20px}
+.forgery-reasons li{margin:6px 0}
+.forgery-reasons li.warn{color:#eab308}
+.forgery-reasons li.danger{color:#ef4444}
+.forgery-reasons li.ok{color:#22c55e}
+.forgery-reasons li.info{color:#93c5fd}
+.forgery-meta{margin-top:10px;padding-top:10px;border-top:1px solid #1e3556}
+.forgery-meta b{color:var(--gold,#e6c258)}
+@media(max-width:640px){.forgery-canvases{grid-template-columns:1fr}}

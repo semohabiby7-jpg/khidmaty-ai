@@ -61,6 +61,9 @@ const dom = {
   speakControls: $('speakControls'), speakProgress: $('speakProgress'),
   ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
   btnSpeakAll: $('btnSpeakAll'),
+  btnTranslate: $('btnTranslate'), translateLang: $('translateLang'), transText: $('transText'), btnCopyTrans: $('btnCopyTrans'),
+  // كشف التزوير (Forgery Detection)
+  btnForgery: $('btnForgery'), btnForgeryClear: $('btnForgeryClear'), forgeryProgress: $('forgeryProgress'), forgeryBar: $('forgeryBar'), forgeryPct: $('forgeryPct'), forgeryResult: $('forgeryResult'), forgeryVerdict: $('forgeryVerdict'), elaCanvas: $('elaCanvas'), noiseCanvas: $('noiseCanvas'), forgeryReasons: $('forgeryReasons'),
   btnTheme: $('btnTheme'),
   btnA11y: $('btnA11y'),
   btnInstallApp: $('btnInstallApp'),
@@ -971,6 +974,235 @@ function ocrLocalBlob(){
   cc.putImageData(img,0,0);
   return new Promise((res)=> c.toBlob(res, 'image/png'));
 }
+// ---- الترجمة الفورية (Google Translate — مجاني، بدون مفتاح) ----
+// «الفورية»: ترجم نص الـOCR المُستخرَج لأي لغة بضغطة. محتاجة إنترنت (النص بيتُرسل لخدمة ترجمة مجانية).
+async function translateText(){
+  const t = (dom.ocrText.value || '').trim();
+  if(!t){ toast('🔍 استخرج النص الأول'); return; }
+  const tl = dom.translateLang.value;
+  const btn = dom.btnTranslate;
+  if(btn) btn.disabled = true;
+  if(dom.transText) dom.transText.value = '🌐 بيتُرجم…';
+  try{
+    const url = 'https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=' + encodeURIComponent(tl) + '&q=' + encodeURIComponent(t);
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    let out = '';
+    if(Array.isArray(j)){
+      if(typeof j[0] === 'string') out = j[0];
+      else if(Array.isArray(j[0])) for(const seg of j[0]) if(seg && seg[0]) out += seg[0];
+    }
+    if(dom.transText) dom.transText.value = out || 'مفيش ترجمة — حاول تاني.';
+    if(dom.btnCopyTrans) dom.btnCopyTrans.disabled = !out;
+  }catch(e){
+    if(dom.transText) dom.transText.value = 'الترجمة فشلت (شوف الإنترنت): ' + (e && e.message ? e.message : '');
+    if(dom.btnCopyTrans) dom.btnCopyTrans.disabled = true;
+  }finally{
+    if(btn) btn.disabled = false;
+  }
+}
+function copyTranslation(){
+  const t = dom.transText && dom.transText.value ? dom.transText.value.trim() : '';
+  if(!t){ toast('مفيش ترجمة لنسخها'); return; }
+  navigator.clipboard.writeText(t).then(()=> toast('📋 اتنسخ')).catch(()=> toast('تعذّر النسخ'));
+}
+
+// ---- كشف التزوير (Forgery Detection) ----
+// ELA (Error Level Analysis) + Noise Map (Laplacian) + بيانات الصورة + تقرير شامل.
+// كل المعالجة على جهازك (Canvas). مجاني 100%.
+function setForgeryProgress(pct){
+  if(dom.forgeryBar) dom.forgeryBar.style.width = pct + '%';
+  if(dom.forgeryPct) dom.forgeryPct.textContent = pct + '%';
+}
+function clearForgery(){
+  if(dom.forgeryResult) dom.forgeryResult.classList.add('hidden');
+  if(dom.elaCanvas){ const c=dom.elaCanvas.getContext('2d'); c.clearRect(0,0,dom.elaCanvas.width,dom.elaCanvas.height); }
+  if(dom.noiseCanvas){ const c=dom.noiseCanvas.getContext('2d'); c.clearRect(0,0,dom.noiseCanvas.width,dom.noiseCanvas.height); }
+  if(dom.forgeryVerdict) dom.forgeryVerdict.innerHTML = '';
+  if(dom.forgeryReasons) dom.forgeryReasons.innerHTML = '';
+  if(dom.btnForgeryClear) dom.btnForgeryClear.disabled = true;
+}
+async function detectForgery(){
+  if(!state.base){ toast('🔍 اختار صورة الأول'); return; }
+  const btn = dom.btnForgery;
+  if(btn) btn.disabled = true;
+  if(dom.forgeryProgress) dom.forgeryProgress.classList.remove('hidden');
+  if(dom.forgeryResult) dom.forgeryResult.classList.add('hidden');
+  setForgeryProgress(8);
+  try{
+    // حدّ الحجم للأداء
+    const src = state.base;
+    const maxD = 1100;
+    let w = src.width, h = src.height;
+    const scale = Math.min(1, maxD / Math.max(w, h));
+    w = Math.max(1, Math.round(w * scale)); h = Math.max(1, Math.round(h * scale));
+    const base = document.createElement('canvas');
+    base.width = w; base.height = h;
+    base.getContext('2d').drawImage(src, 0, 0, w, h);
+
+    setForgeryProgress(25);
+    // 1) ELA
+    const ela = await elaAnalysis(base, 85);
+    drawDataToCanvas(dom.elaCanvas, ela.data, w, h);
+    setForgeryProgress(55);
+
+    // 2) Noise Map (Laplacian)
+    const noise = noiseMap(base);
+    drawDataToCanvas(dom.noiseCanvas, noise.data, w, h);
+    setForgeryProgress(80);
+
+    // 3) بيانات الصورة
+    const meta = checkMetadata();
+
+    // 4) الحكم
+    const v = computeVerdict(ela, noise, meta);
+    renderForgeryVerdict(v);
+    renderForgeryReasons(v, ela, noise, meta);
+    setForgeryProgress(100);
+    if(dom.forgeryResult) dom.forgeryResult.classList.remove('hidden');
+    if(dom.btnForgeryClear) dom.btnForgeryClear.disabled = false;
+  }catch(e){
+    console.error('forgery', e);
+    toast('فشل تحليل التزوير: ' + (e && e.message ? e.message : e));
+  }finally{
+    if(btn) btn.disabled = false;
+    setTimeout(()=>{ if(dom.forgeryProgress) dom.forgeryProgress.classList.add('hidden'); }, 600);
+  }
+}
+// ELA: أعيد حفظ JPEG بجودة q + أحسب الفرق pixel-by-pixel
+async function elaAnalysis(srcCanvas, q){
+  const dataUrl = srcCanvas.toDataURL('image/jpeg', q/100);
+  const img = await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=dataUrl; });
+  const w = srcCanvas.width, h = srcCanvas.height;
+  const rc = document.createElement('canvas'); rc.width=w; rc.height=h;
+  rc.getContext('2d').drawImage(img, 0, 0, w, h);
+  const a = srcCanvas.getContext('2d').getImageData(0,0,w,h).data;
+  const b = rc.getContext('2d').getImageData(0,0,w,h).data;
+  const diff = new Float32Array(w*h);
+  let sum=0, maxD=0;
+  for(let p=0,i=0; p<diff.length; p++, i+=4){
+    const d = (Math.abs(a[i]-b[i]) + Math.abs(a[i+1]-b[i+1]) + Math.abs(a[i+2]-b[i+2]))/3;
+    diff[p] = d; sum += d; if(d>maxD) maxD=d;
+  }
+  const mean = sum/diff.length;
+  // عدّ البكسلات عالية الخطأ (أعلى من threshold ذكي)
+  const thr = Math.max(mean*1.6, 7);
+  let high=0;
+  for(let p=0;p<diff.length;p++) if(diff[p] > thr) high++;
+  const score = (high/diff.length)*100;
+  // heatmap: أسود←أحمر←أصفر←أبيض
+  const scale = maxD > 0 ? 255/maxD : 1;
+  const out = new Uint8ClampedArray(diff.length*4);
+  for(let p=0,i=0;p<diff.length;p++,i+=4){
+    const v = Math.min(255, diff[p]*scale);
+    if(v < 60){ out[i]=v*4.25; out[i+1]=0; out[i+2]=0; }
+    else if(v < 150){ out[i]=255; out[i+1]=(v-60)*2.83; out[i+2]=0; }
+    else { out[i]=255; out[i+1]=255; out[i+2]=(v-150)*4.25; }
+    out[i+3]=255;
+  }
+  return { data: out, width: w, height: h, score, mean, highPct: score };
+}
+// Noise Map: Laplacian على grayscale
+function noiseMap(srcCanvas){
+  const w=srcCanvas.width, h=srcCanvas.height;
+  const ctx=srcCanvas.getContext('2d');
+  const src=ctx.getImageData(0,0,w,h).data;
+  const gray=new Float32Array(w*h);
+  for(let p=0,i=0;p<gray.length;p++,i+=4) gray[p]=0.299*src[i]+0.587*src[i+1]+0.114*src[i+2];
+  const lap=new Float32Array(w*h);
+  let maxL=0, sum=0;
+  for(let y=1;y<h-1;y++) for(let x=1;x<w-1;x++){
+    const idx=y*w+x;
+    const v=Math.abs(4*gray[idx]-gray[idx-1]-gray[idx+1]-gray[idx-w]-gray[idx+w]);
+    lap[idx]=v; sum+=v; if(v>maxL) maxL=v;
+  }
+  const mean=sum/lap.length;
+  let varSum=0; for(let p=0;p<lap.length;p++) varSum+=(lap[p]-mean)*(lap[p]-mean);
+  const variance=varSum/lap.length;
+  const std=Math.sqrt(variance);
+  // عدّ بكسلات الضجيج العالي
+  const thr=Math.max(mean+std*1.2, 12);
+  let high=0;
+  for(let p=0;p<lap.length;p++) if(lap[p]>thr) high++;
+  const score=(high/lap.length)*100;
+  // اعرض grayscale عظّم
+  const scale=maxL>0?255/maxL:1;
+  const out=new Uint8ClampedArray(lap.length*4);
+  for(let p=0,i=0;p<lap.length;p++,i+=4){
+    const v=Math.min(255, lap[p]*scale);
+    out[i]=out[i+1]=out[i+2]=v; out[i+3]=255;
+  }
+  return { data: out, width: w, height: h, score, variance, std, mean };
+}
+// بيانات الصورة المتاحة (EXIF الأصلي مش متاح بعد المعالجة المحلية)
+function checkMetadata(){
+  const flags=[];
+  if(state.base){
+    flags.push({k:'الأبعاد', v:(state.baseW||state.base.width)+'×'+(state.baseH||state.base.height)+' بكسل', sev:'info'});
+    const maxD = Math.max(state.baseW||state.base.width||0, state.baseH||state.base.height||0);
+    if(maxD > 0 && maxD < 800) flags.push({k:'تنبيه الجودة', v:'دقة منخفضة ('+maxD+'px) — التحليل أقل دقة', sev:'warn'});
+    else if(maxD >= 1500) flags.push({k:'الجودة', v:'دقة عالية ('+maxD+'px) — تحليل أدق', sev:'ok'});
+  }
+  flags.push({k:'ملاحظة', v:'البيانات الوصفية الأصلية (EXIF) مش متاحة بعد المعالجة المحلية — للفحص الكامل ارفع الملف الأصلي قبل أي معالجة', sev:'info'});
+  return { flags };
+}
+// الحكم النهائي
+function computeVerdict(ela, noise, meta){
+  let risk=0; const reasons=[];
+  // ELA
+  if(ela.highPct > 18){ risk += 38; reasons.push({sev:'danger', text:'🔬 ELA: '+ela.highPct.toFixed(1)+'% من البكسلات بمستوى خطأ مرتفع — تزوير محتمل'}); }
+  else if(ela.highPct > 8){ risk += 22; reasons.push({sev:'warn', text:'🔬 ELA: '+ela.highPct.toFixed(1)+'% بكسلات بمستوى خطأ أعلى من الطبيعي — تعديل محتمل'}); }
+  else { reasons.push({sev:'ok', text:'🔬 ELA: '+ela.highPct.toFixed(1)+'% — طبيعي ✅'}); }
+  // Noise
+  if(noise.score > 25){ risk += 30; reasons.push({sev:'danger', text:'🌫️ الضجيج: '+noise.score.toFixed(1)+'% تباين عالٍ — تلاعب محتمل'}); }
+  else if(noise.score > 12){ risk += 14; reasons.push({sev:'warn', text:'🌫️ الضجيج: '+noise.score.toFixed(1)+'% تباين فوق المتوسط'}); }
+  else { reasons.push({sev:'ok', text:'🌫️ الضجيج: '+noise.score.toFixed(1)+'% — متناسق ✅'}); }
+  // Metadata
+  const metaWarn = meta.flags.find(f=>f.sev==='warn');
+  if(metaWarn){ risk += 10; reasons.push({sev:'warn', text:'📈 '+metaWarn.k+': '+metaWarn.v}); }
+  const metaOk = meta.flags.find(f=>f.sev==='ok');
+  if(metaOk) reasons.push({sev:'ok', text:'📈 '+metaOk.k+': '+metaOk.v});
+  reasons.push({sev:'info', text:'🕒 بيانات وصفية: EXIF مش متاح بعد المعالجة المحلية'});
+  risk = Math.min(100, Math.round(risk));
+  let level='safe', label='✅ المستند يبدو أصليًا';
+  if(risk >= 50){ level='danger'; label='🚨 احتمال تزوير عالٍ'; }
+  else if(risk >= 28){ level='warn'; label='⚠️ احتمال تعديل — راجع بنفسك'; }
+  return { risk, level, label, reasons };
+}
+function renderForgeryVerdict(v){
+  if(!dom.forgeryVerdict) return;
+  dom.forgeryVerdict.className = 'forgery-verdict ' + v.level;
+  dom.forgeryVerdict.innerHTML =
+    '<div>'+v.label+'</div>'+
+    '<div class="forgery-risk-bar"><div class="forgery-risk-fill" style="width:'+(100-v.risk)+'%"></div></div>'+
+    '<div class="micro" style="margin-top:6px">نسبة الخطورة: <b>'+v.risk+'%</b></div>';
+}
+function renderForgeryReasons(v, ela, noise, meta){
+  if(!dom.forgeryReasons) return;
+  let html = '<h3>📋 تفاصيل التحليل</h3><ul>';
+  for(const r of v.reasons) html += '<li class="'+r.sev+'">'+r.text+'</li>';
+  html += '</ul>';
+  html += '<div class="forgery-meta"><b>تفاصيل ELA:</b> متوسط الفرق '+ela.mean.toFixed(2)+' | بكسلات مشبوهة '+ela.highPct.toFixed(1)+'%<br>';
+  html += '<b>تفاصيل الضجيج:</b> الانحراف '+noise.std.toFixed(2)+' | بكسلات عالية '+noise.score.toFixed(1)+'%</div>';
+  if(meta.flags.length){
+    html += '<div class="forgery-meta"><b>البيانات الوصفية:</b><ul style="margin:6px 0">';
+    for(const f of meta.flags) html += '<li class="'+f.sev+'">'+f.k+': '+f.v+'</li>';
+    html += '</ul></div>';
+  }
+  html += '<p class="micro" style="margin-top:8px;color:#93c5fd">⚠️ التحليل استرشادي ومساعد — ما يُغني عن الفحص البصري والجهات الرسمية. النتائج تعتمد على جودة الصورة ونوع التعديل.</p>';
+  dom.forgeryReasons.innerHTML = html;
+}
+// أداة: ارسم Uint8ClampedArray (RGBA) على canvas
+function drawDataToCanvas(canvas, data, w, h){
+  if(!canvas) return;
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  const imgData = ctx.createImageData(w, h);
+  imgData.data.set(data);
+  ctx.putImageData(imgData, 0, 0);
+}
+
 async function runOCR(){
   if(!state.base){ toast('اختار صورة الأول'); return; }
   // اقتراح ٥: فحص جودة الصورة قبل الـOCR
@@ -2427,6 +2659,10 @@ function bind(){
   dom.btnCopy.addEventListener('click', copyText);
   dom.btnTxt.addEventListener('click', downloadTxt);
   dom.btnSpeak.addEventListener('click', speak);
+  if(dom.btnTranslate) dom.btnTranslate.addEventListener('click', translateText);
+  if(dom.btnCopyTrans) dom.btnCopyTrans.addEventListener('click', copyTranslation);
+  if(dom.btnForgery) dom.btnForgery.addEventListener('click', detectForgery);
+  if(dom.btnForgeryClear) dom.btnForgeryClear.addEventListener('click', clearForgery);
   dom.btnStopSpeak.addEventListener('click', stopSpeak);
   if(dom.btnSpeakAll) dom.btnSpeakAll.addEventListener('click', speakAll); // اقتراح ٤: اقرأ الكل
   initTtsSettings(); // إعدادات الصوت الطبيعي (Cloud TTS)

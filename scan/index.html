@@ -288,6 +288,21 @@
       <button class="btn btn-ghost" id="btnSpeakAll" disabled title="اقرأ كل صفحات المستند بالترتيب">📖 اقرأ الكل</button>
       <button class="btn btn-primary" id="btnSave">💾 احفظ المستند</button>
     </div>
+    <div class="btn-row translate-row">
+      <label class="field"><span>🌐 ترجم إلى</span>
+        <select id="translateLang">
+          <option value="en">الإنجليزية</option>
+          <option value="fr">الفرنسية</option>
+          <option value="es">الإسبانية</option>
+          <option value="de">الألمانية</option>
+          <option value="tr">التركية</option>
+          <option value="ar">العربية</option>
+        </select>
+      </label>
+      <button class="btn btn-ghost" id="btnTranslate">🌐 ترجم</button>
+      <button class="btn btn-ghost" id="btnCopyTrans" disabled>📋 نسخ الترجمة</button>
+    </div>
+    <textarea id="transText" class="ocr-text" readonly placeholder="الترجمة هتظهر هنا بعد «🌐 ترجم»... (محتاجة إنترنت — النص بيتُرسل لخدمة ترجمة مجانية بدون مفتاح)"></textarea>
     <div class="speak-controls hidden" id="speakControls">
       <button class="sc-btn" id="btnPrevChunk" disabled title="الجملة السابقة">⏮️</button>
       <button class="sc-btn" id="btnPauseSpeak" disabled>⏸️ إيقاف مؤقت</button>
@@ -300,6 +315,36 @@
       <button class="btn btn-primary" id="btnAnalyzeDoc" title="حلّل النص وصنّف المستند واستخرج البيانات">🏷️ استخرج البيانات</button>
     </div>
     <div id="docInfo" class="doc-info hidden"></div>
+  </section>
+
+  <!-- كشف التزوير (Forgery Detection) -->
+  <section class="card" id="forgeryCard">
+    <h2 class="card-title">🛡️ كشف التزوير</h2>
+    <p class="micro">حلّل المستند واكشف محاولات التعديل/التزوير: <b>ELA</b> (تحليل مستوى الخطأ) + <b>خريطة الضجيج</b> + <b>البيانات الوصفية</b>. كل المعالجة على جهازك — مجاني 100%.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btnForgery" title="حلّل الصورة واكشف التزوير">🔍 حلّل التزوير</button>
+      <button class="btn btn-ghost" id="btnForgeryClear" disabled>🗑️ مسح</button>
+    </div>
+    <div class="progress hidden" id="forgeryProgress">
+      <div class="progress-track"><div class="progress-bar" id="forgeryBar"></div></div>
+      <span id="forgeryPct">0%</span>
+    </div>
+    <div id="forgeryResult" class="hidden">
+      <div class="forgery-verdict" id="forgeryVerdict"></div>
+      <div class="forgery-canvases">
+        <div class="forgery-canvas-box">
+          <h3>🔬 ELA (مستوى الخطأ)</h3>
+          <canvas id="elaCanvas"></canvas>
+          <p class="micro">المناطق الساطعة = تعديل محتمل</p>
+        </div>
+        <div class="forgery-canvas-box">
+          <h3>🌫️ خريطة الضجيج</h3>
+          <canvas id="noiseCanvas"></canvas>
+          <p class="micro">التباين في الضجيج = تعديل محتمل</p>
+        </div>
+      </div>
+      <div id="forgeryReasons" class="forgery-reasons"></div>
+    </div>
   </section>
 
   <!-- الصوت الطبيعي (edge-tts — مجاني، بلا مفتاح) -->

@@ -62,6 +62,8 @@ const dom = {
   ttsRate: $('ttsRate'), ttsRateVal: $('ttsRateVal'), btnExportAudio: $('btnExportAudio'),
   btnSpeakAll: $('btnSpeakAll'),
   btnTranslate: $('btnTranslate'), translateLang: $('translateLang'), transText: $('transText'), btnCopyTrans: $('btnCopyTrans'),
+  // 🔍 البحث العميق (Deep Search)
+  searchQuery: $('searchQuery'), btnSearch: $('btnSearch'), btnSearchClear: $('btnSearchClear'), searchCount: $('searchCount'), btnSearchPrev: $('btnSearchPrev'), btnSearchNext: $('btnSearchNext'), searchPreview: $('searchPreview'),
   // كشف التزوير (Forgery Detection)
   btnForgery: $('btnForgery'), btnForgeryClear: $('btnForgeryClear'), forgeryProgress: $('forgeryProgress'), forgeryBar: $('forgeryBar'), forgeryPct: $('forgeryPct'), forgeryResult: $('forgeryResult'), forgeryVerdict: $('forgeryVerdict'), elaCanvas: $('elaCanvas'), noiseCanvas: $('noiseCanvas'), forgeryReasons: $('forgeryReasons'),
   btnTheme: $('btnTheme'),
@@ -1006,6 +1008,93 @@ function copyTranslation(){
   const t = dom.transText && dom.transText.value ? dom.transText.value.trim() : '';
   if(!t){ toast('مفيش ترجمة لنسخها'); return; }
   navigator.clipboard.writeText(t).then(()=> toast('📋 اتنسخ')).catch(()=> toast('تعذّر النسخ'));
+}
+
+// ---- 🔍 البحث العميق (Deep Search) — آخر ميزة في خطة الشهر ----
+// ابحث في النص المُستخرج (OCR) عن كلمة/عبارة — تمييز + تنقّل + عدّاد. مجاني 100% (محلي).
+const searchResults = [];   // [{start, end}]
+let searchIdx = -1;          // المؤشر النشط
+function escapeHtmlSrch(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function deepSearch(){
+  const text = (dom.ocrText && dom.ocrText.value) ? dom.ocrText.value : '';
+  const q = (dom.searchQuery && dom.searchQuery.value) ? dom.searchQuery.value.trim() : '';
+  if(!text){ toast('🔍 استخرج النص الأول'); return; }
+  if(!q){ toast('✍️ اكتب كلمة للبحث'); if(dom.searchQuery) dom.searchQuery.focus(); return; }
+  const hayLC = text.toLowerCase();
+  const needleLC = q.toLowerCase();
+  searchResults.length = 0;
+  let pos = 0;
+  while(true){
+    const i = hayLC.indexOf(needleLC, pos);
+    if(i === -1) break;
+    searchResults.push({start: i, end: i + q.length});
+    pos = i + q.length;
+  }
+  const n = searchResults.length;
+  const ar = n.toLocaleString('ar-EG');
+  if(dom.searchCount) dom.searchCount.textContent = ar + ' نتيجة';
+  renderSearchPreview(text);
+  if(dom.btnSearchPrev) dom.btnSearchPrev.disabled = (n < 2);
+  if(dom.btnSearchNext) dom.btnSearchNext.disabled = (n < 2);
+  if(dom.btnSearchClear) dom.btnSearchClear.disabled = false;
+  if(n === 0){
+    searchIdx = -1;
+    toast('❌ مفيش نتائج لـ«' + q + '»');
+  } else {
+    searchIdx = 0;
+    setActiveMatch(0);
+    toast('✅ ' + ar + ' نتيجة');
+  }
+}
+
+function renderSearchPreview(text){
+  if(!dom.searchPreview) return;
+  if(searchResults.length === 0){
+    dom.searchPreview.innerHTML = '<span class="empty">مفيش نتائج مطابقة للبحث.</span>';
+    dom.searchPreview.classList.remove('hidden');
+    return;
+  }
+  let out = '';
+  let cur = 0;
+  for(let i=0; i<searchResults.length; i++){
+    const r = searchResults[i];
+    out += escapeHtmlSrch(text.slice(cur, r.start));
+    out += '<mark data-idx="' + i + '" id="m' + i + '">' + escapeHtmlSrch(text.slice(r.start, r.end)) + '</mark>';
+    cur = r.end;
+  }
+  out += escapeHtmlSrch(text.slice(cur));
+  dom.searchPreview.innerHTML = out;
+  dom.searchPreview.classList.remove('hidden');
+}
+
+function setActiveMatch(idx){
+  const marks = dom.searchPreview ? dom.searchPreview.querySelectorAll('mark') : [];
+  marks.forEach((m, i) => m.classList.toggle('active', i === idx));
+  const active = dom.searchPreview ? dom.searchPreview.querySelector('#m' + idx) : null;
+  if(active) active.scrollIntoView({block:'center', behavior:'smooth'});
+}
+
+function navigateSearch(dir){
+  const n = searchResults.length;
+  if(n === 0) return;
+  searchIdx = (searchIdx + dir + n) % n;
+  setActiveMatch(searchIdx);
+  const r = searchResults[searchIdx];
+  if(dom.ocrText){
+    try{ dom.ocrText.focus(); dom.ocrText.setSelectionRange(r.start, r.end); }catch(e){}
+  }
+}
+
+function clearSearch(){
+  searchResults.length = 0;
+  searchIdx = -1;
+  if(dom.searchQuery) dom.searchQuery.value = '';
+  if(dom.searchCount) dom.searchCount.textContent = '٠ نتيجة';
+  if(dom.searchPreview){ dom.searchPreview.innerHTML = ''; dom.searchPreview.classList.add('hidden'); }
+  if(dom.btnSearchPrev) dom.btnSearchPrev.disabled = true;
+  if(dom.btnSearchNext) dom.btnSearchNext.disabled = true;
+  if(dom.btnSearchClear) dom.btnSearchClear.disabled = true;
 }
 
 // ---- كشف التزوير (Forgery Detection) ----
@@ -2661,6 +2750,12 @@ function bind(){
   dom.btnSpeak.addEventListener('click', speak);
   if(dom.btnTranslate) dom.btnTranslate.addEventListener('click', translateText);
   if(dom.btnCopyTrans) dom.btnCopyTrans.addEventListener('click', copyTranslation);
+  // 🔍 البحث العميق
+  if(dom.btnSearch) dom.btnSearch.addEventListener('click', deepSearch);
+  if(dom.btnSearchClear) dom.btnSearchClear.addEventListener('click', clearSearch);
+  if(dom.btnSearchPrev) dom.btnSearchPrev.addEventListener('click', ()=> navigateSearch(-1));
+  if(dom.btnSearchNext) dom.btnSearchNext.addEventListener('click', ()=> navigateSearch(1));
+  if(dom.searchQuery) dom.searchQuery.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); deepSearch(); } });
   if(dom.btnForgery) dom.btnForgery.addEventListener('click', detectForgery);
   if(dom.btnForgeryClear) dom.btnForgeryClear.addEventListener('click', clearForgery);
   dom.btnStopSpeak.addEventListener('click', stopSpeak);

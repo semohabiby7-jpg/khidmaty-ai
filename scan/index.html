@@ -279,6 +279,16 @@
       <span id="ocrPct">0%</span>
     </div>
     <textarea id="ocrText" class="ocr-text" readonly placeholder="النص المستخرج هيظهر هنا بعد ما تضغط «استخرج النص»..."></textarea>
+    <!-- 🔍 البحث العميق (Deep Search) — آخر ميزة في خطة الشهر -->
+    <div class="btn-row search-row">
+      <input type="search" id="searchQuery" class="search-input" placeholder="🔍 اكتب كلمة أو عبارة للبحث في النص المستخرج..." aria-label="بحث في النص المستخرج">
+      <button class="btn btn-ghost" id="btnSearch">🔍 بحث</button>
+      <button class="btn btn-ghost" id="btnSearchClear" disabled>✖ مسح</button>
+      <span class="search-count" id="searchCount">٠ نتيجة</span>
+      <button class="btn btn-ghost" id="btnSearchPrev" disabled>⏮️ السابق</button>
+      <button class="btn btn-ghost" id="btnSearchNext" disabled>⏭️ التالي</button>
+    </div>
+    <div class="search-preview hidden" id="searchPreview" aria-live="polite"></div>
     <div class="btn-row">
       <button class="btn btn-ghost" id="btnCopy">📋 نسخ</button>
       <button class="btn btn-ghost" id="btnTxt">⬇️ تنزيل .txt</button>

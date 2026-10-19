@@ -404,3 +404,13 @@ body.a11y .micro{font-size:14px}
 .forgery-meta{margin-top:10px;padding-top:10px;border-top:1px solid #1e3556}
 .forgery-meta b{color:var(--gold,#e6c258)}
 @media(max-width:640px){.forgery-canvases{grid-template-columns:1fr}}
+
+/* ===== 🔍 البحث العميق (Deep Search) ===== */
+.search-row{margin:8px 0;gap:6px;flex-wrap:wrap;align-items:center}
+.search-input{flex:1;min-width:180px;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text);font-family:var(--font);font-size:15px;direction:rtl}
+.search-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(230,194,88,.15)}
+.search-count{color:var(--muted);font-size:13px;font-weight:600;padding:0 8px;white-space:nowrap}
+.search-preview{margin:8px 0;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:var(--bg2);color:var(--text);max-height:320px;overflow:auto;line-height:1.9;font-size:15px;font-family:var(--font);white-space:pre-wrap;word-break:break-word;direction:rtl}
+.search-preview mark{background:#ffe066;color:#1a1a1a;padding:0 3px;border-radius:3px;font-weight:700}
+.search-preview mark.active{background:#ff9800;color:#fff;outline:2px solid #fff;box-shadow:0 0 0 3px rgba(255,152,0,.4)}
+.search-preview .empty{color:var(--muted);font-style:italic}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غلاف الدليل البصري لأدوات الذكاء الاصطناعي 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#0a1730}
+.cover{width:480px;height:720px;margin:0 auto;background:linear-gradient(160deg,#0F1E3D 0%,#0a1730 60%,#162847 100%);position:relative;overflow:hidden;font-family:Cairo,sans-serif;display:flex;flex-direction:column;align-items:center;padding:46px 34px 38px}
+/* circuit pattern */
+.cover::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 15%,rgba(230,194,88,.08) 0,transparent 40%),radial-gradient(circle at 80% 85%,rgba(79,156,249,.06) 0,transparent 40%);pointer-events:none}
+.cover::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(230,194,88,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(230,194,88,.04) 1px,transparent 1px);background-size:40px 40px;opacity:.5;pointer-events:none}
+.cover>*{position:relative;z-index:2}
+.year-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:16px;font-weight:900;padding:6px 18px;border-radius:20px;box-shadow:0 4px 14px rgba(230,194,88,.35);margin-bottom:22px}
+.year-badge .star{font-size:13px}
+.title{font-size:34px;font-weight:900;color:#fff;text-align:center;line-height:1.35;letter-spacing:-.5px}
+.title .gold{color:#e6c258}
+.subtitle{font-size:14px;color:#8ea0c4;font-weight:700;text-align:center;margin-top:14px;letter-spacing:2px}
+.divider{width:60px;height:3px;background:linear-gradient(90deg,transparent,#e6c258,transparent);margin:26px 0 22px;border-radius:3px}
+/* brain visual */
+.brain-wrap{position:relative;width:230px;height:230px;margin:6px 0}
+.brain-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(230,194,88,.25),rgba(79,156,249,.12) 60%,transparent);display:flex;align-items:center;justify-content:center;font-size:54px;box-shadow:0 0 50px rgba(230,194,88,.3),inset 0 0 30px rgba(230,194,88,.15);animation:glow 3s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 50px rgba(230,194,88,.3),inset 0 0 30px rgba(230,194,88,.15)}50%{box-shadow:0 0 70px rgba(230,194,88,.45),inset 0 0 40px rgba(230,194,88,.2)}}
+.badge{position:absolute;width:46px;height:46px;border-radius:12px;background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #2a4068;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.badge::after{content:"";position:absolute;inset:-3px;border-radius:14px;background:linear-gradient(135deg,rgba(230,194,88,.3),transparent);z-index:-1;opacity:0;transition:opacity .3s}
+.b1{top:10px;left:50%;transform:translateX(-50%);border-color:rgba(79,156,249,.4)}
+.b2{top:60px;right:8px;border-color:rgba(167,139,250,.4)}
+.b3{top:60px;left:8px;border-color:rgba(52,211,153,.4)}
+.b4{bottom:50px;right:18px;border-color:rgba(230,194,88,.4)}
+.b5{bottom:50px;left:18px;border-color:rgba(244,114,182,.4)}
+.b6{bottom:8px;left:50%;transform:translateX(-50%);border-color:rgba(34,211,238,.4)}
+.tagline{font-size:13px;color:#cdd7ee;text-align:center;margin-top:8px;font-weight:600;line-height:1.6;max-width:340px}
+.tagline .gold{color:#e6c258;font-weight:800}
+.spacer{flex:1}
+.author-block{text-align:center}
+.author-block .a-name{font-size:19px;font-weight:900;color:#fff;letter-spacing:.5px}
+.author-block .a-brand{font-size:14px;font-weight:800;color:#e6c258;margin-top:3px}
+.author-block .a-brand .ai{color:#fff}
+.author-line{width:90px;height:2px;background:linear-gradient(90deg,transparent,#e6c258,transparent);margin:14px auto}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="year-badge"><span class="star">★</span> إصدار 2026</div>
+  <h1 class="title">الدليل البصري<br><span class="gold">لأدوات الذكاء</span><br>الاصطناعي</h1>
+  <p class="subtitle">مقارنة شاملة · إحصائيات · خط زمني</p>
+  <div class="divider"></div>
+  <div class="brain-wrap">
+    <div class="brain-core">🧠</div>
+    <div class="badge b1">💬</div>
+    <div class="badge b2">✨</div>
+    <div class="badge b3">🎨</div>
+    <div class="badge b4">⌨️</div>
+    <div class="badge b5">🔍</div>
+    <div class="badge b6">🐋</div>
+  </div>
+  <p class="tagline">كل ما تحتاج تعرفه عن <span class="gold">ChatGPT · Gemini · Claude · Copilot</span><br>و Midjourney · DALL·E · Cursor — في كتاب واحد</p>
+  <div class="spacer"></div>
+  <div class="author-block">
+    <div class="author-line"></div>
+    <div class="a-name">M. Ismail</div>
+    <div class="a-brand">خِدْمَتي <span class="ai">AI</span></div>
+  </div>
+</div>
+</body>
+</html>

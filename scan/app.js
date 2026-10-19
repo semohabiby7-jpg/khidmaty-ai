@@ -38,6 +38,7 @@ const dom = {
   btnEnhance: $('btnEnhance'),
   btnModeMagic: $('btnModeMagic'), btnModeColor: $('btnModeColor'),
   btnModeGray: $('btnModeGray'), btnModeBW: $('btnModeBW'),
+  btnModeBoard: $('btnModeBoard'), btnSmartBoard: $('btnSmartBoard'),
   btnCrop: $('btnCrop'), btnCropApply: $('btnCropApply'), btnCropCancel: $('btnCropCancel'), cropHint: $('cropHint'),
   btnBefore: $('btnBefore'), btnReset: $('btnReset'),
   fmt: $('fmt'), quality: $('quality'), qualityField: $('qualityField'), dims: $('dims'), btnDownload: $('btnDownload'),
@@ -147,7 +148,7 @@ function setEditingEnabled(en){
     dom.btnDoc,dom.btnWhite,dom.btnVivid,dom.btnSharpen,dom.btnRotL,dom.btnRotR,
     dom.rotFine,dom.bri,dom.con,dom.sat,
     dom.btnAutoDetect,dom.btnAnnotate,dom.btnEnhance,
-    dom.btnModeMagic,dom.btnModeColor,dom.btnModeGray,dom.btnModeBW];
+    dom.btnModeMagic,dom.btnModeColor,dom.btnModeGray,dom.btnModeBW,dom.btnModeBoard,dom.btnSmartBoard];
   els.forEach(b => { if(b) b.disabled = !en; });
 }
 
@@ -359,6 +360,9 @@ function enhanceColorMode(){
       // Magic Color: RGB→HSL، رفع التشبّع ~١.٢×، contrast stretch لكل قناة،
       // موازنة خلفية luminance → أبيض
       enhanceMagic(p, n, w, h);
+    } else if(mode === 'whiteboard'){
+      // السبورة الذكية: خلفية بيضاء ناصعة + أقلام ملونة حادّة + إزالة لمعان الإضاءة
+      enhanceWhiteboard(p, n, w, h);
     }
     ctx.putImageData(d, 0, 0);
   }catch(e){ /* تجاهل */ }
@@ -421,6 +425,43 @@ function enhanceMagic(p, n, w, h){
     p[j+2] = rgb[2] * 255;
   }
   // ٣. موازنة خلفية luminance → أبيض
+  enhanceColorChannels(p, n, true);
+}
+
+// ---- Whiteboard mode (السبورة الذكية) ----
+// تحسين مخصّص للسبورات/اللوحات البيضاء: خلفية بيضاء ناصعة + أقلام ملونة حادّة + إزالة لمعان الإضاءة.
+const BOARD_STRETCH_LO = 0.005;
+const BOARD_STRETCH_HI = 0.995;
+const BOARD_BG_LUM = 0.82;    // threshold الخلفية الفاتحة
+const BOARD_GLARE_LUM = 0.92; // threshold اللمعان (pixels أسطع من ٠.٩٢ = لمعان)
+const BOARD_BG_SAT = 0.12;    // الخلفية = ساطعة + قليلة التشبّع
+const BOARD_PEN_BOOST = 1.6;  // تشبّع الأقلام الملونة
+function enhanceWhiteboard(p, n, w, h){
+  // ١. contrast stretch قوي لكل قناة (0.5%-99.5%)
+  for(let ch = 0; ch < 3; ch++){
+    stretchChannel(p, n, ch, BOARD_STRETCH_LO, BOARD_STRETCH_HI);
+  }
+  // ٢. كشف الخلفية/الأقلام/اللمعان عبر HSL
+  for(let i = 0; i < n; i++){
+    const j = i * 4;
+    const r = p[j] / 255, g = p[j+1] / 255, b = p[j+2] / 255;
+    const hsl = rgb2hsl(r, g, b);
+    const L = hsl[2], S = hsl[1];
+    if(L > BOARD_GLARE_LUM && S < 0.08){
+      // لمعان الإضاءة → أبيض ناصع
+      p[j] = p[j+1] = p[j+2] = 255;
+    } else if(L > BOARD_BG_LUM && S < BOARD_BG_SAT){
+      // خلفية فاتحة قليلة التشبّع → أبيض ناصع
+      p[j] = p[j+1] = p[j+2] = 255;
+    } else {
+      // قلم (غامق أو متشبّع) → زيادة التشبّع + تباين أعلى
+      hsl[1] = Math.min(1, S * BOARD_PEN_BOOST);
+      if(L < 0.5) hsl[2] = L * 0.82; // أغمق للأقلام الغامقة
+      const rgb = hsl2rgb(hsl[0], hsl[1], hsl[2]);
+      p[j] = rgb[0] * 255; p[j+1] = rgb[1] * 255; p[j+2] = rgb[2] * 255;
+    }
+  }
+  // ٣. موازنة خلفية luminance نهائية
   enhanceColorChannels(p, n, true);
 }
 
@@ -532,7 +573,7 @@ function oneTapEnhance(){
 
 // ---- تحديث واجهة شرائح وضع اللون ----
 function updateColorModeUI(){
-  const map = { magic: dom.btnModeMagic, color: dom.btnModeColor, gray: dom.btnModeGray, bw: dom.btnModeBW };
+  const map = { magic: dom.btnModeMagic, color: dom.btnModeColor, gray: dom.btnModeGray, bw: dom.btnModeBW, whiteboard: dom.btnModeBoard };
   for(const k in map){
     if(map[k]) map[k].classList.toggle('active', k === state.colorMode);
   }
@@ -547,6 +588,13 @@ function setColorMode(mode){
   state.bw = (mode === 'bw'); // الحفاظ على توافق bw القديم
   updateColorModeUI();
   render();
+}
+
+// ---- السبورة الذكية: وضع whiteboard بضغطة واحدة ----
+function smartWhiteboard(){
+  if(!state.base) return;
+  setColorMode('whiteboard');
+  toast('🖼️ السبورة الذكية اتطبّقت');
 }
 
 function updateDims(){
@@ -2349,6 +2397,8 @@ function bind(){
   if(dom.btnModeColor) dom.btnModeColor.addEventListener('click', ()=> setColorMode('color'));
   if(dom.btnModeGray) dom.btnModeGray.addEventListener('click', ()=> setColorMode('gray'));
   if(dom.btnModeBW) dom.btnModeBW.addEventListener('click', ()=> setColorMode('bw'));
+  if(dom.btnModeBoard) dom.btnModeBoard.addEventListener('click', ()=> setColorMode('whiteboard'));
+  if(dom.btnSmartBoard) dom.btnSmartBoard.addEventListener('click', smartWhiteboard);
 
   // قص
   dom.btnCrop.addEventListener('click', ()=> state.cropMode ? exitCropMode() : enterCropMode());

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Store | Khdmaty AI — Books, Courses & Apps</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/styles/main.css">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://khidmatyai.com/store.html">
+<meta name="description" content="Khdmaty official store — Mind Power & POWER OF MIND PDF books, plus the AI Content Tools guide. Pay via InstaPay or Vodafone Cash, own your copy on Google Drive for life after sending the receipt and your email on WhatsApp.">
+<meta property="og:title" content="Khdmaty AI Store — Official Author Books">
+<meta property="og:description" content="Mind Power & POWER OF MIND and the AI Content Tools guide for writers — PDF direct from the author. Pay via InstaPay or Vodafone Cash, own your copy on Google Drive for life.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://khidmatyai.com/store.html">
+<meta property="og:image" content="https://khidmatyai.com/books/mind-power/cover.webp">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:locale" content="en_US">
+<style>
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:16px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{width:36px;height:36px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.store-hero{text-align:center;padding:44px 20px 24px}
+.store-hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 10px}
+.store-hero p{font-size:15px;color:#8ea0c4;margin:0;line-height:1.7}
+.store-hero .gold{color:#e6c258;font-weight:800}
+.store-tabs{max-width:700px;margin:0 auto 22px;padding:0 20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.store-tab{background:#162847;border:1px solid #2a4068;color:#c0cee0;font-size:15px;font-weight:800;padding:12px 22px;border-radius:12px;cursor:pointer;font-family:Cairo,sans-serif;transition:all .3s;min-width:140px;text-align:center}
+.store-tab:hover{border-color:#e6c258;color:#e6c258}
+.store-tab.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.store-section{display:none}
+.store-section.active{display:block}
+.soon-card{max-width:520px;margin:20px auto;padding:0 20px}
+.soon-card-inner{background:linear-gradient(145deg,#162847,#0d1a33);border:1px dashed #2a4068;border-radius:16px;padding:36px 26px;text-align:center}
+.soon-card-inner .icon{font-size:48px;margin-bottom:12px}
+.soon-card-inner h3{font-size:20px;font-weight:900;color:#e6c258;margin:0 0 8px}
+.soon-card-inner p{font-size:14px;color:#c0cee0;line-height:1.8;margin:0 0 8px}
+.soon-card-inner .tag{display:inline-block;font-size:12px;font-weight:800;color:#8ea0c4;border:1px solid #2a4068;padding:5px 16px;border-radius:20px;margin-top:8px}
+.products{max-width:900px;margin:0 auto;padding:10px 20px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.product-card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px 20px;text-align:center;transition:all .3s}
+.product-card.selected{border-color:#e6c258;box-shadow:0 0 24px rgba(230,194,88,.15)}
+.cover-wrap{display:flex;justify-content:center;margin-bottom:16px}
+.cover-img{width:100%;max-width:210px;border-radius:10px;border:2px solid rgba(230,194,88,.4);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.cover-en{width:100%;max-width:210px;aspect-ratio:2/3;border-radius:10px;border:2px solid #e6c258;box-shadow:0 10px 30px rgba(0,0,0,.45);background:linear-gradient(160deg,#1a2d5a,#0d1a33);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box}
+.cover-en .brain{font-size:34px}
+.cover-en .t1{font-size:30px;font-weight:900;color:#e6c258;letter-spacing:2px;line-height:1.05}
+.cover-en .t2{font-size:13px;color:#fff;font-weight:700;letter-spacing:1px;margin-top:6px}
+.cover-en .t3{font-size:9px;color:#8ea0c4;letter-spacing:2px;margin-top:auto}
+.product-card h2{font-size:21px;font-weight:900;color:#fff;margin:0 0 6px}
+.product-card .lang-tag{display:inline-block;background:#0F1E3D;border:1px solid #2a4068;color:#8ea0c4;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.product-card .desc{font-size:13.5px;color:#c0cee0;line-height:1.8;margin:0 0 14px;min-height:66px}
+.product-card .price{font-size:32px;font-weight:900;color:#e6c258;margin-bottom:14px}
+.product-card .price small{font-size:15px;font-weight:700;color:#8ea0c4}
+.buy-btn{width:100%;padding:13px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;font-size:16px;font-weight:900;cursor:pointer;transition:all .3s;font-family:Cairo,sans-serif}
+.buy-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.preview-btn{width:100%;padding:10px;margin-top:8px;background:#0F1E3D;border:1px solid #2a4068;color:#c0cee0;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;transition:all .3s}
+.preview-btn:hover{border-color:#e6c258;color:#e6c258}
+.preview-box{margin-top:12px;display:none}
+.preview-box img{width:100%;border-radius:8px;border:1px solid #1e3556;margin-bottom:10px}
+.share-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.share-btn{display:inline-flex;align-items:center;gap:5px;background:#162847;border:1px solid #2a4068;color:#e8eef8;font-size:12px;font-weight:700;padding:8px 14px;border-radius:8px;text-decoration:none;cursor:pointer;font-family:Cairo,sans-serif}
+.share-btn:hover{border-color:#e6c258;color:#e6c258}
+.share-btn.wa:hover{border-color:#25D366;color:#25D366}
+.share-btn.tg:hover{border-color:#229ED9;color:#229ED9}
+.part-divider{grid-column:1/-1;text-align:center;margin:6px 0 2px;padding:8px 0}
+.part-divider span{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:15px;font-weight:900;padding:6px 22px;border-radius:20px}
+.bundle-box{max-width:700px;margin:0 auto 30px;padding:0 20px}
+.bundle-card{background:linear-gradient(145deg,#1a2d5a,#0d1a33);border:2px dashed #e6c258;border-radius:14px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.bundle-card .b-text{text-align:right}
+.bundle-card .b-text h3{font-size:17px;font-weight:900;color:#e6c258;margin:0 0 4px}
+.bundle-card .b-text p{font-size:13px;color:#c0cee0;margin:0}
+.bundle-card .b-price{font-size:28px;font-weight:900;color:#fff}
+.bundle-card .b-price small{font-size:14px;color:#8ea0c4;font-weight:700}
+.buy-box{max-width:700px;margin:10px auto 36px;padding:0 20px}
+.buy-card{background:linear-gradient(145deg,#162847,#0d1a33);border:2px solid #e6c258;border-radius:16px;padding:26px 22px}
+.buy-card h2{font-size:20px;font-weight:900;color:#e6c258;margin:0 0 4px;text-align:center}
+.buy-card .buy-sub{font-size:13px;color:#8ea0c4;text-align:center;margin:0 0 18px}
+.sel-line{background:#0F1E3D;border:1px dashed #2a4068;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700;color:#c0cee0;text-align:center;margin-bottom:18px}
+.sel-line b{color:#e6c258}
+.step{display:flex;gap:12px;align-items:flex-start;background:#0F1E3D;border:1px solid #1e3556;border-radius:12px;padding:14px;margin-bottom:10px}
+.step-num{min-width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center}
+.step-body{font-size:14px;color:#c0cee0;line-height:1.7}
+.step-body b{color:#fff}
+.ip-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.ip-num{direction:ltr;font-size:22px;font-weight:900;color:#e6c258;letter-spacing:1px}
+.copy-btn{background:#162847;border:1px solid #2a4068;color:#e8eef8;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif}
+.copy-btn:hover{border-color:#e6c258;color:#e6c258}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:14px;background:linear-gradient(135deg,#25D366,#1da851);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:900;cursor:pointer;text-decoration:none;font-family:Cairo,sans-serif}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.3)}
+.trust{font-size:12.5px;color:#8ea0c4;text-align:center;margin-top:12px;line-height:1.7}
+.soon{max-width:700px;margin:0 auto 30px;padding:14px 20px}
+.soon-inner{background:#162847;border:1px dashed #2a4068;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#8ea0c4;font-weight:700}
+.soon-inner .gold{color:#e6c258}
+.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"ItemList",
+  "itemListElement":[
+    {"@type":"Product","name":"قوة العقل — النسخة العربية PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"POWER OF MIND — English Edition PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"قوة العقل ٢ — رايح فين؟ PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"POWER OF MIND 2 — Where To? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"قوة العقل ٣ — هستفيد إيه؟ PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"MIND POWER 3 — What Do I Gain? PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"100","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"باقة الجزء الأول (عربي + إنجليزي)","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"129","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"أهم أدوات الذكاء الاصطناعي في كتابة المحتوى PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}},
+    {"@type":"Product","name":"اصنع مستقبلك الذكي — النسخة العربية PDF","author":{"@type":"Person","name":"MOHAMED ISMAIL ABDELAZIZ"},"offers":{"@type":"Offer","price":"75","priceCurrency":"EGP","availability":"https://schema.org/InStock"}}
+  ]
+}
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7WT8KN8P9"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js',new Date());
+  gtag('config','G-W7WT8KN8P9');
+</script>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html">← Back to Home</a>
+  <a href="store.html" style="color:#8ea0c4;font-size:13px;font-weight:700">العربية ←</a>
+  <div class="header-logo">
+    <img src="assets/k-logo.webp" alt="خِدْمَتي AI">
+    <span>خِدْمَتي <span class="ai">AI</span></span>
+  </div>
+</div>
+
+<div class="store-hero">
+  <h1>🛒 Khdmaty Store</h1>
+  <p>Khdmaty official store — books, courses and apps, direct from the author with no middlemen.<br>Books available now — pay via InstaPay or Vodafone Cash, own your copy on Google Drive for life.<br><span class="gold">With regards — M. Ismail</span></p>
+</div>
+
+
+<div class="mega-banner">
+  <div class="banner-inner">
+    <div class="banner-badge">🎉 New</div>
+    <h2>Part Three of Mind Power is here!</h2>
+    <p>"What Do I Gain?" — After knowing where you're going, discover the value of what you've reached and how to benefit and help others.<br>Both Arabic and English — Arabic 75 EGP / English 100 EGP</p>
+    <a href="#card-ar3" onclick="document.getElementById('card-ar3').scrollIntoView({behavior:'smooth'})" class="banner-btn">Order your copy now ←</a>
+  </div>
+</div>
+
+<style>
+.mega-banner{max-width:700px;margin:0 auto 24px;padding:0 20px}
+.banner-inner{background:linear-gradient(135deg,#1a2d5a,#0d1a33);border:2px solid #e6c258;border-radius:16px;padding:24px 22px;text-align:center;position:relative;overflow:hidden}
+.banner-badge{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:13px;font-weight:900;padding:4px 16px;border-radius:20px;margin-bottom:12px}
+.banner-inner h2{font-size:22px;font-weight:900;color:#e6c258;margin:0 0 8px}
+.banner-inner p{font-size:14px;color:#c0cee0;line-height:1.8;margin:0 0 14px}
+.banner-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-size:15px;font-weight:900;padding:10px 24px;border-radius:10px;text-decoration:none;transition:all .3s}
+.banner-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+</style>
+
+<div class="store-tabs">
+  <button class="store-tab active" onclick="showSection('books')">📚 Books</button>
+  <button class="store-tab" onclick="showSection('apps')">📱 Apps</button>
+  <button class="store-tab" onclick="showSection('courses')">🎓 Courses</button>
+</div>
+
+<div class="store-section active" id="section-books">
+
+<div class="products">
+  <div class="part-divider"><span>Part One</span></div>
+  <div class="product-card selected" id="card-ar">
+    <div class="cover-wrap"><img class="cover-img" src="books/mind-power/cover.webp" alt="Mind Power book cover (Arabic)"></div>
+    <h2>قوة العقل</h2>
+    <span class="lang-tag">Arabic</span>
+    <p class="desc">The complete Arabic edition: learn how your mind works against you, and get the practical guide to reclaim your brain — step by step.</p>
+    <div class="price">75 <small>EGP</small></div>
+    <button class="buy-btn" onclick="orderProduct('ar')">Order — 75 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"الكتاب ده غيّر طريقة تفكيري تمامًا. كنت دايماً أحس إني مش قادر أتحكم في قراراتي، بس بعد ما خلصته بقى عندي وعي حقيقي بإزاي عقلك بيلعب بيك. أسلوب الكاتب بسيط وواقعي."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— أحمد محمود</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"أحسن كتاب قريته السنة دي. التمارين في آخر كل فصل فعلًا بتفرّق، مش كلام نظري بس. حسّيت إني استردت دماغي من التفكير التلقائي."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— منى السيد</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★☆</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"كتاب دسم ومحتواه قوي، بس محتاج تقراه على مهل عشان تستوعب كل فكرة. الجزء بتاع العادات الأكثر فائدة بالنسبة لي."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— خالد عبد الله</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"كنت متخوّفة إنه كتاب تطوير ذات عادي، بس ده مختلف تمامًا. الكاتب بيفهمك إزاي عقلك بيشتغل عليك من غير ما تحس. أنصح بيه كل واحد حاسس إنه ضايع."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— سارة حسن</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"اشتريته بالصدفة وطلع أحسن استثمار لـ75 جنيه. الكلام داخل على طول لأن فيه أمثلة من حياتنا اليومية. ختمته في 3 أيام."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— محمد فؤاد</span></div>
+
+  </div>
+  <div class="product-card" id="card-en">
+    <div class="cover-wrap"><img class="cover-img" src="books/mind-power-en/cover.webp" alt="POWER OF MIND cover"></div>
+    <h2>POWER OF MIND</h2>
+    <span class="lang-tag">English</span>
+    <p class="desc">The complete English edition — 96 pages with a full Contents index. The same mind-reclaiming journey, for readers everywhere.</p>
+    <div class="price">100 <small>EGP</small></div>
+    <button class="buy-btn" onclick="orderProduct('en')">Order — 100 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"I was skeptical about another self-help book, but this one is different. The exercises at the end of each chapter actually force you to apply, not just read. Finished it in a week and already noticing changes in how I react to things."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— Michael Carter</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★☆</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"Solid, practical, and surprisingly deep. The way the author explains how your mind works against you is eye-opening. Took off one star because I wanted more examples, but the principles translate everywhere."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— Layla Hassan</span></div>
+  </div>
+    <div class="part-divider"><span>Part Two</span></div>
+    <div class="product-card" id="card-ar2">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-2/cover.webp" alt="Mind Power 2 book cover (Arabic)"></div>
+      <h2>قوة العقل ٢</h2>
+      <span class="lang-tag">Arabic</span>
+      <p class="desc">Part Two: "Where To?" — After reclaiming your mind in Part One, learn how to turn that power into a direction. Destination, decision, patience, storms, people, and impact.</p>
+      <div class="price">75 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('ar2')">Order — 75 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"الجزء ده أعمق من الأول. بيجاوب على سؤال كبير: بعد ما رجّعت دماغي، أروح فين؟ فكرة الوجهة والقرار رتّبتلي ذهني."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— أحمد رفعت</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"فصل الصبر وحده يستاهل ثمن الكتاب. الكاتب بيفهمك إن الصبر مش استنّا، ده قرار. غيّر نظرتي تمامًا."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— داليا مصطفى</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★☆</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"استكمال طبيعي للجزء الأول. الكلام عن العواصف والناس واقعي جدًا. ممكن يكون أصعب شوية لو ما قرأتش الأول الأول."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— عمر خليل</span></div>
+
+    </div>
+    <div class="product-card" id="card-en2">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-2-en/cover.webp" alt="POWER OF MIND 2 cover"></div>
+      <h2>POWER OF MIND 2</h2>
+      <span class="lang-tag">English</span>
+      <p class="desc">Part Two: "Where To?" — You took back your mind. Now turn that power into a direction. Destination, decision, patience, storms, people, and impact.</p>
+      <div class="price">100 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('en2')">Order — 100 EGP</button>
+    </div>
+    <div class="part-divider"><span>Part Three</span></div>
+    <div class="product-card" id="card-ar3">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-3/cover.webp" alt="Mind Power 3 book cover (Arabic)"></div>
+      <h2>قوة العقل ٣</h2>
+      <span class="lang-tag">Arabic</span>
+      <p class="desc">Part Three: "What Do I Gain?" — After knowing where you're going, discover the value of what you reached. Six rungs: determined, arrived, evaluated, benefited, led, benefited others. Real stories + metaphors + exercises.</p>
+      <div class="price">75 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('ar3')">Order — 75 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"بعد ما عرفت رايح فين، الكتاب ده علّمني إزاي أقيّم اللي وصلتله. فكرة الدرجات الستة ممتازة وبتخليك تشوف نمو حقيقي."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— محمود السيد</span></div>
+
+    </div>
+    <div class="product-card" id="card-en3">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-3/cover.webp" alt="MIND POWER 3 cover"></div>
+      <h2>MIND POWER 3</h2>
+      <span class="lang-tag">English</span>
+      <p class="desc">Part Three: "What Do I Gain?" — You arrived. Now discover the value of what you reached. Six rungs: determined, arrived, evaluated, benefited, led, benefited others. Real stories + metaphors + exercises.</p>
+      <div class="price">100 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('en3')">Order — 100 EGP</button>
+    </div>
+    <div class="part-divider"><span>Part Four</span></div>
+    <div class="product-card" id="card-ar4">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-4/cover.webp" alt="Mind Power 4 book cover (Arabic)"></div>
+      <h2>قوة العقل ٤</h2>
+      <span class="lang-tag">Arabic</span>
+      <p class="desc">Part Four: "Who's Driving?" — After discovering the value of what you reached, face the battle of leadership: are your emotions, fears, and reactions driving you, or your conscious mind? Six rungs: driven, felt, stopped, unpacked, decided, drove. Real stories + exercises + practical tools.</p>
+      <div class="price">75 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('ar4')">Order — 75 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"سؤال «مين بيسوقك؟» ده كان صدمة ليّا. اكتشفت إن مشاعري وخوفي هم اللي كانوا بتسوقني سنين. الكتاب ده عملي بجد، التمارين بتفرّق."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— نهى عبد الرحمن</span></div>
+
+    </div>
+    <div class="product-card" id="card-en4">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-4/cover-en.webp" alt="MIND POWER 4 cover"></div>
+      <h2>MIND POWER 4</h2>
+      <span class="lang-tag">English</span>
+      <p class="desc">Part Four: "Who's Driving?" — After discovering the value of what you reached, face the battle of leadership: are your emotions, fears, and reactions driving you, or your conscious mind? Six rungs: driven, felt, stopped, unpacked, decided, drove. Real stories + exercises + practical tools.</p>
+      <div class="price">100 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('en4')">Order — 100 EGP</button>
+    </div>
+    <div class="part-divider"><span>Writer's Tools · New Edition</span></div>
+    <div class="product-card" id="card-aitools">
+      <div class="cover-wrap"><img class="cover-img" src="books/ai-tools-content-writers/cover.webp" alt="Top AI Tools for Content Writing cover"></div>
+      <h2>أهم أدوات الذكاء الاصطناعي في كتابة المحتوى</h2>
+      <span class="lang-tag">Arabic</span>
+      <p class="desc">Your practical guide — over 25 AI tools in 7 categories, full workflow from idea to publishing, plus AI ethics. Write faster and cleaner — without sacrificing your style.</p>
+      <div class="price">75 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('aitools')">Order — 75 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"كتابتني فعلاً. كنت بستخدم ChatGPT بشكل عشوائي، دلوقتي ليّا سير عمل كامل من الفكرة للنشر. قسم الأخلاقيات مهم جدًا وكنت بتجاهله. يستاهل أكتر من 75ج."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— محمود أنور</span></div>
+    </div>
+    <div class="part-divider"><span>New Release · Standalone Book</span></div>
+    <div class="product-card" id="card-smartfuture">
+      <div class="cover-wrap"><img class="cover-img" src="books/smart-future/cover-final.webp" alt="Build Your Smart Future book cover"></div>
+      <h2>اصنع مستقبلك الذكي</h2>
+      <span class="lang-tag">Arabic</span>
+      <p class="desc">AI won't take your job — it'll take the job of whoever doesn't use it. A practical guide in 7 chapters: understanding AI, free tools, deploying it in your work, smart decisions, content creation, the future of work, and a 5-year plan for your future. With 8 illustrations.</p>
+      <div class="price">75 <small>EGP</small></div>
+      <button class="buy-btn" onclick="orderProduct('smartfuture')">Order — 75 EGP</button>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"الجملة اللي فتحت عيني: «الذكاء الاصطناعي مش هياخد شغلك، هياخد شغل اللي مش بيستخدمه». من ساعتها بدأت أتعلم أدمج الـAI في شغلي. كتاب عملي مش تنظير."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— كريم حسام</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"أنا كنت من الناس اللي خايفة من الـAI، بس الكتاب ده طمّنني وعلّمني إزاي أستخدمه لمصلحتي. فصل «القرار الذكي» ممتاز."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— ياسمين فاروق</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"كشغل تسويق عقاري، الكتاب ده فتح ليّا أفاق. بدأت أستخدم أدوات الـAI اللي ذكرها ووفّرت وقت كبير. يستاهل أكتر من 75 جنيه."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— إسلام جابر</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★☆</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"محتوى الكتاب ممتاز وعملي، بس حبيت لو فيه أمثلة أكتر على تطبيقات الـAI في مجالات مختلفة. عمومًا استفدت جدًا."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— هبة السيد</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"خطة الـ5 سنين في آخر الكتاب لوحدها تستاهل الثمن. بقت عندي رؤية واضحة لإزاي أبقى جاهز لسوق الشغل الجديد."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— طارق منصور</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"أحسن حاجة إن الكتاب مصري وبيفهم واقعنا. الأدوات اللي بيذكرها مجانية وفعلًا بتشتغل. نقلته لـ3 من أصحابي."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— شيماء رضا</span></div>
+<div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.05);border-right:3px solid var(--gold);border-radius:6px"><div style="color:var(--gold);font-size:12px;letter-spacing:1px">★★★★★</div><p style="font-size:13px;color:rgba(255,255,255,.82);margin:4px 0 2px;line-height:1.5">"كتاب لازم يقراه كل واحد شاغل باله بمستقبله في عصر الـAI. أسلوب المؤلف بسيط والرسوم التوضيحية بتسهّل الفهم. تحفة."</p><span style="font-size:11px;color:rgba(255,255,255,.5)">— وائل سمير</span></div>
+
+      <div style="text-align:center;margin-top:18px;">
+        <div style="font-size:13px;color:#7a7a7a;margin-bottom:8px;">▶ Watch video</div>
+        <iframe style="width:100%;max-width:220px;height:392px;border:0;border-radius:14px;display:block;margin:0 auto;" src="https://www.youtube.com/embed/FgsXp-o4ASE" title="Build Your Smart Future — video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <a href="https://youtube.com/shorts/FgsXp-o4ASE" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:12px;color:#c0392b;text-decoration:none;">Watch on YouTube ↗</a>
+      </div>
+    </div>
+</div>
+
+<div class="bundle-box">
+  <div class="bundle-card">
+    <div class="b-text">
+      <h3>🎁 Bundle — Save 46 EGP</h3>
+      <p>Any part: Arabic + English editions together — instead of 175 EGP separate</p>
+    </div>
+    <div class="b-price">129 <small>EGP</small></div>
+    <button class="buy-btn" style="max-width:160px" onclick="orderProduct('bundle1')">Order Bundle — 129 EGP</button>
+  </div>
+</div>
+
+<div class="buy-box" id="buy">
+  <div class="buy-card">
+    <h2>Buy in 3 Steps</h2>
+    <p class="buy-sub">Secure payment via InstaPay or Vodafone Cash — book delivered on WhatsApp</p>
+    <div class="sel-line" id="selLine">Currently selected: <b id="selName">Mind Power (Arabic) — 75 EGP</b></div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><b>Transfer to one of these methods:</b><div class="ip-row"><span class="ip-num" id="ipNum">01553720957</span><button class="copy-btn" onclick="copyIP()">📋 Copy</button> <span style="font-size:12px;color:#8ea0c4;font-weight:700">InstaPay</span></div><div class="ip-row" style="margin-top:8px"><span class="ip-num" id="ipNum2">01016243478</span><button class="copy-btn" onclick="copyIP2()">📋 Copy</button> <span style="font-size:12px;color:#8ea0c4;font-weight:700">Vodafone Cash</span></div></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><b>Screenshot the transfer receipt</b> (a screenshot from InstaPay or Vodafone Cash is enough)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><b>Send the receipt on WhatsApp</b> + type your Gmail address, and I'll send your copy on Google Drive for life — direct from the author</div>
+    </div>
+    <a class="wa-btn" id="waLink" href="#" target="_blank" rel="noopener">📲 Send receipt + your email on WhatsApp</a>
+    <div class="trust">After transferring, send the receipt + your Gmail in one message, and your copy arrives on Google Drive for life — open it with your email anytime.</div>
+  </div>
+</div>
+
+</div><!-- /section-books -->
+
+<div class="store-section" id="section-apps">
+  <div class="products">
+    <div class="product-card selected">
+      <div class="cover-wrap">
+        <img src="scan/icon-512.png" alt="Scan Macaron AI" class="cover-img" style="max-width:150px;border-radius:24px;border:2px solid rgba(230,194,88,.5)">
+      </div>
+      <h2>Scan Macaron AI</h2>
+      <span class="lang-tag">Android · APK · 100% Free</span>
+      <p class="desc">The smart Arabic scanner — photograph documents, enhance and fix perspective, extract text (Arabic/English OCR), listen to them in Arabic voice, and merge into multi-page PDF. On-device processing, no internet, no watermark.</p>
+      <div class="price">Free <small>no subscription</small></div>
+      <a class="buy-btn" href="/scan/scan-macaron.apk" download style="display:block;text-decoration:none">⬇️ Download App (APK)</a>
+      <a class="preview-btn" href="/scan/" target="_blank" style="display:block;text-decoration:none">Try on browser first</a>
+    </div>
+  </div>
+</div>
+
+<div class="store-section" id="section-courses">
+  <div class="soon-card">
+    <div class="soon-card-inner">
+      <div class="icon">🎓</div>
+      <h3>Courses</h3>
+      <p>Khdmaty interactive courses — in self-development, mind power, AI and content writing, step by step.</p>
+      <span class="tag">🚫 Coming soon</span>
+    </div>
+  </div>
+</div>
+
+<div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;max-width:900px;margin:0 auto">
+  <span style="font-size:13px;color:#8ea0c4;font-weight:700">Follow us 👇</span>
+  <a href="https://t.me/khdmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">✈️ Telegram</a>
+  <a href="https://youtube.com/@khidmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #ff0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">▶️ YouTube</a>
+  <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #25D366;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">📲 WhatsApp</a>
+</div>
+
+<div class="footer">
+  <p>© 2026 Khdmaty AI | <a href="index.html">Home</a> | <a href="articles.html">Articles</a> | <a href="faq.html">FAQ</a>
+        <a href="success-stories.html">Success Stories</a></p>
+</div>
+
+<script>
+var WA="201005305955";
+var products={
+ar:{name:'Mind Power (Arabic) — 75 EGP',msg:'Hello 👋\nI want to buy:\n📕 Mind Power — Arabic Edition\n💰 Price: 75 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+en:{name:'POWER OF MIND — 100 EGP',msg:'Hello 👋\nI want to buy:\n📕 POWER OF MIND — English Edition\n💰 Price: 100 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+ar2:{name:'Mind Power 2 (Arabic) — 75 EGP',msg:'Hello 👋\nI want to buy:\n📕 Mind Power 2 — Arabic Edition\n💰 Price: 75 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+en2:{name:'POWER OF MIND 2 — 100 EGP',msg:'Hello 👋\nI want to buy:\n📕 POWER OF MIND 2 — English Edition\n💰 Price: 100 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+ar3:{name:'Mind Power 3 (Arabic) — 75 EGP',msg:'Hello 👋\nI want to buy:\n📕 Mind Power 3 — Arabic Edition\n💰 Price: 75 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+ar4:{name:'Mind Power 4 (Arabic) — 75 EGP',msg:'Hello 👋\nI want to buy:\n📕 Mind Power 4: Who\'s Driving? — Arabic Edition\n💰 Price: 75 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+en3:{name:'MIND POWER 3 — 100 EGP',msg:'Hello 👋\nI want to buy:\n📕 MIND POWER 3 — English Edition\n💰 Price: 100 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+en4:{name:'MIND POWER 4 — 100 EGP',msg:'Hello 👋\nI want to buy:\n📕 MIND POWER 4: Who\'s Driving? — English Edition\n💰 Price: 100 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+aitools:{name:'AI Content Tools Guide — 75 EGP',msg:'Hello 👋\nI want to buy:\n📘 Top AI Tools for Content Writing Guide\n💰 Price: 75 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+smartfuture:{name:'Build Your Smart Future (Arabic) — 75 EGP',msg:'Hello 👋\nI want to buy:\n📕 Build Your Smart Future — Arabic Edition\n💰 Price: 75 EGP\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+bundle1:{name:'Part One Bundle (Arabic + English) — 129 EGP',msg:'Hello 👋\nI want to buy:\n🎁 Part One Bundle — Arabic + English\n📚 Mind Power + POWER OF MIND\n💰 Price: 129 EGP (instead of 175 EGP)\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+bundle2:{name:'Part Two Bundle (Arabic + English) — 129 EGP',msg:'Hello 👋\nI want to buy:\n🎁 Part Two Bundle — Arabic + English\n📚 Mind Power 2 + POWER OF MIND 2\n💰 Price: 129 EGP (instead of 175 EGP)\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'},
+bundle3:{name:'Part Three Bundle (Arabic + English) — 129 EGP',msg:'Hello 👋\nI want to buy:\n🎁 Part Three Bundle — Arabic + English\n📚 Mind Power 3 + MIND POWER 3\n💰 Price: 129 EGP (instead of 175 EGP)\n\n✉️ Gmail to open the book with:\n\n💰 Payment methods:\n- InstaPay: 01553720957\n- Vodafone Cash: 01016243478'}
+};
+var current='ar';
+function selectProduct(k){
+  current=k;
+  document.getElementById('card-ar').classList.toggle('selected',k==='ar');
+  document.getElementById('card-en').classList.toggle('selected',k==='en');
+  document.getElementById('card-ar2').classList.toggle('selected',k==='ar2');
+  document.getElementById('card-en2').classList.toggle('selected',k==='en2');
+  document.getElementById('card-ar3').classList.toggle('selected',k==='ar3');
+  document.getElementById('card-en3').classList.toggle('selected',k==='en3');
+  document.getElementById('card-ar4').classList.toggle('selected',k==='ar4');
+  document.getElementById('card-en4').classList.toggle('selected',k==='en4');
+  document.getElementById('card-aitools').classList.toggle('selected',k==='aitools');
+  document.getElementById('card-smartfuture').classList.toggle('selected',k==='smartfuture');
+  document.getElementById('selName').textContent=products[k].name;
+  document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[k].msg);
+  document.getElementById('buy').scrollIntoView({behavior:'smooth'});
+}
+function orderProduct(k){
+  var msg=products[k].msg;
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+}
+function copyIP(){
+  var t=document.getElementById('ipNum').textContent;
+  function done(){var b=document.querySelector('.copy-btn');var o=b.textContent;b.textContent='✓ Copied';setTimeout(function(){b.textContent=o;},1500);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fallback);}else{fallback();}
+  function fallback(){var i=document.createElement('input');i.value=t;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);done();}
+}
+function copyIP2(){
+  var t=document.getElementById('ipNum2').textContent;
+  function done(){var b=document.querySelectorAll('.copy-btn')[1];var o=b.textContent;b.textContent='✓ Copied';setTimeout(function(){b.textContent=o;},1500);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fallback);}else{fallback();}
+  function fallback(){var i=document.createElement('input');i.value=t;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);done();}
+}
+function showSection(s){
+  document.querySelectorAll('.store-section').forEach(function(el){el.classList.remove('active');});
+  document.querySelectorAll('.store-tab').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('section-'+s).classList.add('active');
+  var tabs=document.querySelectorAll('.store-tab');
+  if(s==='books'){tabs[0].classList.add('active');}
+  else if(s==='apps'){tabs[1].classList.add('active');}
+  else if(s==='courses'){tabs[2].classList.add('active');}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+var previews={
+'card-ar':{dir:'books/mind-power/preview',text:'Check out a free preview of Mind Power on Khdmaty AI store'},
+'card-en':{dir:'books/mind-power-en/preview',text:'Check out a free preview of POWER OF MIND on Khdmaty AI store'},
+'card-ar2':{dir:'books/mind-power-2/preview',text:'Check out a free preview of Mind Power 2 on Khdmaty AI store'},
+'card-en2':{dir:'books/mind-power-2-en/preview',text:'Check out a free preview of POWER OF MIND 2 on Khdmaty AI store'},
+'card-ar3':{dir:'books/mind-power-3/preview',text:'Check out a free preview of Mind Power 3 on Khdmaty AI store'},
+'card-en3':{dir:'books/mind-power-3-en/preview',text:'Check out a free preview of MIND POWER 3 on Khdmaty AI store'},
+'card-ar4':{dir:'books/mind-power-4/preview',text:'Check out a free preview of Mind Power 4: Who's Driving? on Khdmaty AI store'},
+'card-en4':{dir:'books/mind-power-4/en/preview',text:'Check out a free preview of MIND POWER 4: Who\'s Driving? on Khdmaty AI store'},
+'card-aitools':{dir:'books/ai-tools-content-writers/preview',text:'Check out a free preview of the AI Content Tools Guide on Khdmaty AI store'},
+'card-smartfuture':{dir:'books/smart-future/preview',text:'Check out a free preview of Build Your Smart Future on Khdmaty AI store'}
+};
+var SITE_URL='https://khidmatyai.com/store.html';
+Object.keys(previews).forEach(function(id){
+  var card=document.getElementById(id);
+  if(!card)return;
+  var info=previews[id];
+  var btn=document.createElement('button');
+  btn.className='preview-btn';
+  btn.textContent='📖 Free Preview';
+  btn.onclick=function(){togglePreview(id);};
+  card.appendChild(btn);
+  var box=document.createElement('div');
+  box.className='preview-box';
+  box.id='preview-'+id;
+  var st=encodeURIComponent(info.text+' '+SITE_URL);
+  box.innerHTML='<img src="'+info.dir+'/sample-1.jpg" alt="Preview 1"><img src="'+info.dir+'/sample-2.jpg" alt="Preview 2">'+
+    '<div class="share-row">'+
+    '<a class="share-btn wa" href="https://wa.me/?text='+st+'" target="_blank" rel="noopener">📤 واتساب</a>'+
+    '<a class="share-btn tg" href="https://t.me/share/url?url='+encodeURIComponent(SITE_URL)+'&text='+encodeURIComponent(info.text)+'" target="_blank" rel="noopener">📤 تيلجرام</a>'+
+    '<button class="share-btn" onclick="copyShareLink(\''+id+'\')">📋 نسخ الرابط</button>'+
+    '</div>';
+  card.appendChild(box);
+});
+function togglePreview(id){
+  var box=document.getElementById('preview-'+id);
+  var card=document.getElementById(id);
+  var btn=card.querySelector('.preview-btn');
+  if(box.style.display==='none'||!box.style.display){
+    box.style.display='block';
+    btn.textContent='📖 Hide Preview';
+    box.scrollIntoView({behavior:'smooth',block:'center'});
+  }else{
+    box.style.display='none';
+    btn.textContent='📖 Free Preview';
+  }
+}
+function copyShareLink(id){
+  var info=previews[id];
+  var link=info.text+' '+SITE_URL;
+  function ok(){alert('Link copied ✓');}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(link).then(ok).catch(fb);
+  }else{fb();}
+  function fb(){var i=document.createElement('input');i.value=link;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);ok();}
+}
+document.getElementById('waLink').href='https://wa.me/'+WA+'?text='+encodeURIComponent(products[current].msg);
+</script>
+<script src="auth-guard.js"></script>
+</body>
+</html>

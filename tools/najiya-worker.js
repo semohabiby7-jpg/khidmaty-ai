@@ -32,14 +32,24 @@ const NAJIYA_SYSTEM = `أنت ناجية، مديرة الإعلانات في م
 ردودك القصيرة ل Mohamed ممكن تكون حماسية، بس الإعلانات المنشورة لازم تكون احترافية وموجهة للجمهور.
 استخدمي الإيموجي باعتدال (📢 🎯 🚀 💎 🛒).`;
 
-// الكتب الحقيقية المتاحة في المتجر
+// الكتب الحقيقية المتاحة في المتجر (11 كتاب + Scan Macaron AI مجاني)
 const REAL_BOOKS = [
-  {title:'قوة العقل — استرد دماغك', num:1, desc:'خطة 21 يوم لاسترداد دماغك', price:75},
-  {title:'قوة العقل 2: رايح فين؟', num:2, desc:'قود حياتك — خطة 90 يوم', price:75},
-  {title:'قوة العقل 3: هستفيد إيه؟', num:3, desc:'تحول من الوجهة للقيمة', price:75},
-  {title:'قوة العقل 4: مين بيسوق؟', num:4, desc:'إدارة المشاعر والقرارات', price:75}
+  // سلسلة قوة العقل — عربي (4 كتب @75ج)
+  {title:'قوة العقل ١: استرد دماغك', num:1, lang:'ar', desc:'خطة 21 يوم لاسترداد دماغك', price:75},
+  {title:'قوة العقل ٢: رايح فين؟', num:2, lang:'ar', desc:'قود حياتك — خطة 90 يوم', price:75},
+  {title:'قوة العقل ٣: هستفيد إيه؟', num:3, lang:'ar', desc:'تحول من الوجهة للقيمة', price:75},
+  {title:'قوة العقل ٤: مين بيسوق؟', num:4, lang:'ar', desc:'إدارة المشاعر والقرارات', price:75},
+  // سلسلة Power of Mind — إنجليزي (4 كتب @100ج)
+  {title:'POWER OF MIND 1: Reclaim Your Brain', num:1, lang:'en', desc:'21-day plan (English)', price:100},
+  {title:'POWER OF MIND 2: Where To?', num:2, lang:'en', desc:'90-day plan (English)', price:100},
+  {title:'MIND POWER 3: What Do You Gain?', num:3, lang:'en', desc:'From face to value (English)', price:100},
+  {title:'MIND POWER 4: Who Is Driving?', num:4, lang:'en', desc:'Emotions & decisions (English)', price:100},
+  // كتب جديدة — أدوات الذكاء الاصطناعي (3 كتب @75ج)
+  {title:'أهم أدوات الذكاء الاصطناعي في كتابة المحتوى', num:5, lang:'ar', desc:'دليل عملي لأدوات AI في كتابة المحتوى', price:75},
+  {title:'اصنع مستقبلك الذكي', num:6, lang:'ar', desc:'مستقبل الذكاء الاصطناعي', price:75},
+  {title:'الدليل البصري لأدوات الذكاء الاصطناعي 2026', num:7, lang:'ar', desc:'دليل بصري شامل لأدوات AI', price:75}
 ];
-const STORE_INFO = 'المتجر فيه سلسلة "قوة العقل" — 4 كتب: 1) استرد دماغك 2) رايح فين؟ 3) هستفيد إيه؟ 4) مين بيسوق؟. كل كتاب 75 جنيه. طرق الدفع: InstaPay، فودافون كاش، واتساب أعمال. ممنوع اختراع كتب غير موجودة.';
+const STORE_INFO = 'المتجر فيه 11 كتاب + Scan Macaron AI مجاني: (أ) سلسلة "قوة العقل" العربية — 4 كتب @75ج: 1) استرد دماغك 2) رايح فين؟ 3) هستفيد إيه؟ 4) مين بيسوق؟. (ب) سلسلة "Power of Mind" الإنجليزية — 4 كتب @100ج. (ج) 3 كتب جديدة عن أدوات الذكاء الاصطناعي @75ج: أهم أدوات AI في كتابة المحتوى، اصنع مستقبلك الذكي، الدليل البصري لأدوات AI 2026. (د) Scan Macaron AI — أداة فحص ومسح مجانية. طرق الدفع: InstaPay، فودافون كاش، واتساب أعمال. ممنوع اختراع كتب غير موجودة أو أسعار غير صحيحة.';
 
 
 // ============ أدوات مساعدة ============
@@ -60,12 +70,20 @@ async function tgSend(env,text,chatId){
   }catch(e){return{sent:false}}
 }
 
+// تنظيف أي توجّه شخصي للملك قبل النشر على القناة العامة — القناة عامة
+// الإعلان المنشور لازم يبدأ مباشرة للجمهور — ممنوع «يا ملك» / «يا محمد» في النص المنشور
+function stripKingGreeting(text){
+  // شيل أي سطر فيه «يا ملك» / «يا محمد» (تحية شخصية للملك) من أي مكان في النص
+  return text.split('\n').filter(line=>!/^\s*(يا\s*ملك|يا\s*محمد)\b/i.test(line)).join('\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+
 // نشر إعلان على قناة تيلجرام
 async function tgChannelPost(env,text){
   if(!env.TELEGRAM_BOT_TOKEN)return{sent:false,reason:'no_token'};
   const cid=env.TELEGRAM_CHANNEL_ID||CHANNEL_ID;
+  const clean=stripKingGreeting(text); // القناة عامة — نقي أي توجّه شخصي للملك
   try{
-    const t=text.length>3800?text.slice(0,3800)+'…':text;
+    const t=clean.length>3800?clean.slice(0,3800)+'…':clean;
     const r=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:cid,text:t,parse_mode:'HTML',disable_web_page_preview:false})});
     const j=await r.json();
     return{sent:!!j.ok,error:j.description||null};

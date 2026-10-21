@@ -2136,6 +2136,25 @@ async function deleteScan(id){
   }catch(e){ toast('تعذّر الحذف'); }
 }
 
+// ============================================================
+//  خصوصية: مسح كل السجل (زر «امسح الكل»)
+//  الصور محفوظة محليًا على جهاز المستخدم بس، وتفضل لحد ما
+//  المستخدم يمسحها بنفسه — ما بتمسحش تلقائيًا علشان يقدر
+//  يرجعلها لو الأصل اتمسح من المعرض.
+// ============================================================
+
+// امسح كل المستندات المحفوظة (زر «امسح الكل»)
+async function clearAllScans(){
+  try{
+    const db = await openScanDB();
+    const tx = db.transaction('scans', 'readwrite');
+    const store = tx.objectStore('scans');
+    const req = store.clear();
+    req.onsuccess = () => { toast('🗑️ اتمسحت كل المستندات'); renderHistory(); };
+    req.onerror = () => toast('تعذّر المسح');
+  }catch(e){ toast('تعذّر المسح'); }
+}
+
 // ===== Toast =====
 let toastT;
 function toast(msg){
@@ -2886,6 +2905,10 @@ function renderDocInfo(info){
 // ===== Init =====
 bind();
 renderHistory(); // حمّل السجل المحفوظ عند بدء التشغيل
+const _btnClearAll = document.getElementById('btnClearAll');
+if(_btnClearAll){ _btnClearAll.addEventListener('click', () => {
+  if(confirm('امسح كل المستندات؟')) clearAllScans();
+}); }
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }

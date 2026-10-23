@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-10-22 06:11
+**التاريخ:** 2026-10-23 06:01
 **Property ID:** 554298401
 
 ---
@@ -9,10 +9,10 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 189 |
-| 🌐 الجلسات | 241 |
-| 📄 مشاهدات الصفحات | 394 |
-| ⏱️ متوسط مدة الجلسة | 148s |
+| 👥 المستخدمين | 193 |
+| 🌐 الجلسات | 245 |
+| 📄 مشاهدات الصفحات | 398 |
+| ⏱️ متوسط مدة الجلسة | 146s |
 | 📊 معدل الارتداد | 0.6% |
 
 ---
@@ -21,21 +21,21 @@
 
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
-| / | 187 | 115 |
-| /khidmaty-ai/ | 45 | 15 |
+| / | 189 | 116 |
+| /khidmaty-ai/ | 44 | 15 |
 | /index.html | 34 | 10 |
 | /store.html | 33 | 3 |
-| /services/renew-commercial-register.html | 12 | 11 |
+| /services/renew-commercial-register.html | 13 | 12 |
 | /services/insurance-periods-inquiry.html | 10 | 8 |
 | /services/vaccination-certificate.html | 10 | 9 |
 | /khidmaty-ai/index.html | 9 | 1 |
+| /services/replace-plates.html | 7 | 6 |
 | /services.html | 6 | 2 |
-| /services/replace-plates.html | 6 | 5 |
 | /articles.html | 5 | 1 |
 | /services/pension-postal-payment.html | 5 | 4 |
+| /services/update-insured-data.html | 5 | 5 |
 | /offices.html | 4 | 3 |
 | /services/death-certificate.html | 4 | 4 |
-| /services/egyptian-citizenship.html | 4 | 4 |
 
 ---
 
@@ -43,9 +43,9 @@
 
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
-| (direct) | 137 | 109 |
-| google | 56 | 55 |
-| (not set) | 14 | 6 |
+| (direct) | 139 | 110 |
+| google | 59 | 58 |
+| (not set) | 11 | 4 |
 | m.facebook.com | 11 | 10 |
 | youtube.com | 11 | 1 |
 | facebook.com | 5 | 5 |

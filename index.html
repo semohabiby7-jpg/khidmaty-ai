@@ -228,6 +228,26 @@
 .dn-share button{width:42px;height:42px;border-radius:10px;border:1px solid #2a4068;background:#162847;color:#cdd7ee;font-size:17px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .dn-share button:hover{border-color:#e6c258;color:#e6c258;transform:translateY(-2px)}
 .dn-empty{text-align:center;padding:30px;color:#8ea0c4;font-size:14px}
+
+/* ===== كارت مصغّر قابل للتوسع ===== */
+.dn-card.dn-compact{padding:0;overflow:hidden;max-width:760px}
+.dn-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;transition:background .2s}
+.dn-head:hover{background:rgba(255,255,255,.03)}
+.dn-head:focus-visible{outline:2px solid #e6c258;outline-offset:-3px}
+.dn-head-main{flex:1;min-width:0}
+.dn-head-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.dn-head-top .dn-cat{font-size:11.5px;margin:0}
+.dn-head-date{font-size:11.5px;color:#7f90b5;font-weight:700}
+.dn-title.dn-clamp{font-size:16px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0}
+.dn-badge-sm{font-size:11px;padding:3px 10px;margin:6px 0 0;gap:5px}
+.dn-badge-sm .dot{width:5px;height:5px;box-shadow:none}
+.dn-chev{flex-shrink:0;font-size:15px;color:#e6c258;transition:transform .25s;line-height:1}
+.dn-card.dn-open .dn-chev{transform:rotate(180deg)}
+.dn-body{display:none;padding:0 16px 16px;border-top:1px solid rgba(255,255,255,.07)}
+.dn-card.dn-open .dn-body{display:block}
+.dn-body .dn-summary{margin:14px 0 16px}
+.dn-body .dn-actions{margin-top:16px}
+.dn-body .dn-block:first-of-type{margin-top:14px}
 @media(max-width:560px){.dn-card{padding:20px 16px}.dn-title{font-size:17px}.dn-actions{flex-direction:column}.dn-share{margin-right:0;width:100%}.dn-share button{flex:1}}
 </style>
 <section class="daily-need-section" id="daily-need">
@@ -251,25 +271,44 @@
   var siteUrl='https://khidmatyai.com/';
   var shareText=c.title+' — خِدْمَتي AI\\n'+siteUrl;
   var h='';
-  h+='<div class="dn-card">';
-  h+='<span class="dn-badge"><span class="dot"></span>'+(c.badge||'قرار جديد')+'</span>';
-  h+='<div class="dn-top"><div class="dn-ico">'+(c.icon||'📋')+'</div><div><div class="dn-cat">'+(c.category||'')+'</div><h3 class="dn-title">'+(c.title||'')+'</h3></div></div>';
+  h+='<div class="dn-card dn-compact">';
+  h+='<div class="dn-head" role="button" tabindex="0" aria-expanded="false" aria-controls="dnBody">';
+  h+='<div class="dn-ico">'+(c.icon||'\ud83d\udccb')+'</div>';
+  h+='<div class="dn-head-main">';
+  h+='<div class="dn-head-top"><span class="dn-cat">'+(c.category||'')+'</span>';
+  if(c.date){var _d=new Date(c.date+'T00:00:00');h+='<span class="dn-head-date">\u2022 '+_d.toLocaleDateString('ar-EG',{day:'numeric',month:'long'})+'</span>';}
+  h+='</div>';
+  h+='<h3 class="dn-title dn-clamp">'+(c.title||'')+'</h3>';
+  h+='<span class="dn-badge dn-badge-sm"><span class="dot"></span>'+(c.badge||'قرار جديد')+'</span>';
+  h+='</div>';
+  h+='<span class="dn-chev" aria-hidden="true">\u25be</span>';
+  h+='</div>';
+  h+='<div class="dn-body" id="dnBody">';
   if(c.summary){h+='<p class="dn-summary">'+c.summary+'</p>';}
-  if(c.highlights&&c.highlights.length){h+='<div class="dn-block"><div class="dn-label">🆕 الجديد في القرار</div><ul class="dn-list">'+c.highlights.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}
-  if(c.fees&&c.fees.length){h+='<div class="dn-block"><div class="dn-label">💰 الرسوم</div><ul class="dn-list dn-fees">'+c.fees.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}
-  if(c.complexPapers){h+='<div class="dn-block"><div class="dn-label">🧭 الأوراق الصعبة — تمشي فيها إزاي</div><div class="dn-guide">'+c.complexPapers+'</div></div>';}
-  if(c.documents&&c.documents.length){h+='<div class="dn-block"><div class="dn-label">📄 الأوراق المطلوبة</div><ul class="dn-list dn-docs">'+c.documents.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}
-  if(c.sources&&c.sources.length){h+='<div class="dn-block"><div class="dn-label">✅ المصادر الرسمية</div><div class="dn-sources">'+c.sources.map(function(s){return '<a class="dn-src" href="'+s.url+'" target="_blank" rel="noopener"><span class="chk">✓</span>'+s.name+'</a>';}).join('')+'</div></div>';}
+  if(c.highlights&&c.highlights.length){h+='<div class="dn-block"><div class="dn-label">\ud83c\udd95 الجديد في القرار</div><ul class="dn-list">'+c.highlights.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}
+  if(c.fees&&c.fees.length){h+='<div class="dn-block"><div class="dn-label">\ud83d\udcb0 الرسوم</div><ul class="dn-list dn-fees">'+c.fees.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}
+  if(c.complexPapers){h+='<div class="dn-block"><div class="dn-label">\ud83e\udded الأوراق الصعبة \u2014 تمشي فيها إزاي</div><div class="dn-guide">'+c.complexPapers+'</div></div>';}
+  if(c.documents&&c.documents.length){h+='<div class="dn-block"><div class="dn-label">\ud83d\udcc4 الأوراق المطلوبة</div><ul class="dn-list dn-docs">'+c.documents.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}
+  if(c.sources&&c.sources.length){h+='<div class="dn-block"><div class="dn-label">\u2705 المصادر الرسمية</div><div class="dn-sources">'+c.sources.map(function(s){return '<a class="dn-src" href="'+s.url+'" target="_blank" rel="noopener"><span class="chk">\u2713</span>'+s.name+'</a>';}).join('')+'</div></div>';}
   h+='<div class="dn-actions">';
   if(c.cta&&c.ctaLink){h+='<a class="dn-cta" href="'+c.ctaLink+'">'+c.cta+'</a>';}
   var waUrl='https://wa.me/?text='+encodeURIComponent(shareText);
   var fbUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(siteUrl);
   h+='<div class="dn-share">';
-  h+='<button type="button" class="dn-sh-wa" title="مشاركة على واتساب" aria-label="واتساب" data-url="'+waUrl+'">💬</button>';
-  h+='<button type="button" class="dn-sh-fb" title="مشاركة على فيسبوك" aria-label="فيسبوك" data-url="'+fbUrl+'">📘</button>';
-  h+='<button type="button" class="dn-sh-cp" title="نسخ الرابط" aria-label="نسخ" data-url="'+siteUrl+'">🔗</button>';
-  h+='</div></div></div>';
+  h+='<button type="button" class="dn-sh-wa" title="مشاركة على واتساب" aria-label="واتساب" data-url="'+waUrl+'">\ud83d\udcac</button>';
+  h+='<button type="button" class="dn-sh-fb" title="مشاركة على فيسبوك" aria-label="فيسبوك" data-url="'+fbUrl+'">\ud83d\udcd8</button>';
+  h+='<button type="button" class="dn-sh-cp" title="نسخ الرابط" aria-label="نسخ" data-url="'+siteUrl+'">\ud83d\udd17</button>';
+  h+='</div></div></div></div>';
   host.innerHTML=h;
+  var head=host.querySelector('.dn-head'),card=host.querySelector('.dn-card');
+  function dnToggle(){
+    var open=card.classList.toggle('dn-open');
+    head.setAttribute('aria-expanded',open?'true':'false');
+  }
+  if(head){
+    head.addEventListener('click',dnToggle);
+    head.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();dnToggle();}});
+  }
   var waB=host.querySelector('.dn-sh-wa'),fbB=host.querySelector('.dn-sh-fb'),cpB=host.querySelector('.dn-sh-cp');
   if(waB)waB.addEventListener('click',function(){window.open(waB.getAttribute('data-url'),'_blank','noopener');});
   if(fbB)fbB.addEventListener('click',function(){window.open(fbB.getAttribute('data-url'),'_blank','noopener');});

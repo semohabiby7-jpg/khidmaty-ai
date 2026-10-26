@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-10-26T06:03:53.291040",
+  "timestamp": "2026-10-26T06:11:33.801820",
   "property_id": "554298401",
   "totals_30d": [
     {
       "totalUsers": "222",
       "sessions": "272",
       "screenPageViews": "419",
-      "averageSessionDuration": "140.10745584191176",
-      "bounceRate": "0.56617647058823528"
+      "averageSessionDuration": "140.1283424632353",
+      "bounceRate": "0.5625"
     }
   ],
   "yesterday": [
@@ -15,8 +15,8 @@
       "totalUsers": "10",
       "sessions": "11",
       "screenPageViews": "11",
-      "averageSessionDuration": "44.218789272727278",
-      "bounceRate": "0.54545454545454541"
+      "averageSessionDuration": "44.735258454545459",
+      "bounceRate": "0.45454545454545453"
     }
   ],
   "top_pages": [
@@ -72,7 +72,7 @@
       "pagePath": "/services/pension-postal-payment.html",
       "screenPageViews": "9",
       "totalUsers": "6",
-      "averageSessionDuration": "59.691357"
+      "averageSessionDuration": "60.638217166666664"
     },
     {
       "pagePath": "/services/replace-plates.html",
@@ -159,8 +159,8 @@
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "11",
-      "totalUsers": "6"
+      "sessions": "10",
+      "totalUsers": "5"
     },
     {
       "sessionSource": "m.facebook.com",

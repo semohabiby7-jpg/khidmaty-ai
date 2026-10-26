@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-10-26 06:03
+**التاريخ:** 2026-10-26 06:11
 **Property ID:** 554298401
 
 ---
@@ -46,7 +46,7 @@
 | (direct) | 139 | 116 |
 | google | 90 | 84 |
 | youtube.com | 12 | 1 |
-| (not set) | 11 | 6 |
+| (not set) | 10 | 5 |
 | m.facebook.com | 9 | 8 |
 | facebook.com | 5 | 5 |
 | lm.facebook.com | 3 | 3 |

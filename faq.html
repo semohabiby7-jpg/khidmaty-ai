@@ -4,85 +4,62 @@
 <script src="auth-guard.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>الأسئلة الشائعة | خِدْمَتي AI</title>
+<title>الأسئلة الشائعة | خدمات حكومية ومنصة خِدْمَتي AI</title>
+<meta name="description" content="أسئلة وأجوبة عن خدمات مصر الحكومية: الأوراق والرسوم والخطوات، وكل حاجة عن منصة خِدْمَتي AI — بإجابات مباشرة وروابط للأدلة.">
+<link rel="canonical" href="https://khidmatyai.com/faq.html">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0F1E3D">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="src/styles/main.css">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="الأسئلة الشائعة | خِدْمَتي AI">
+<meta property="og:description" content="أسئلة وأجوبة عن خدمات مصر الحكومية: الأوراق والرسوم والخطوات، وكل حاجة عن منصة خِدْمَتي AI — بإجابات مباشرة وروابط للأدلة.">
+<meta property="og:url" content="https://khidmatyai.com/faq.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
 .header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
 .header-logo{display:flex;align-items:center;gap:10px}
-.header-logo img{width:36px;height:36px;border-radius:8px}
-.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo img{width:34px;height:34px;border-radius:8px}
+.header-logo span{color:#fff;font-weight:900;font-size:17px}
 .header-logo .ai{color:#e6c258}
-.faq-hero{text-align:center;padding:60px 20px 40px}
-.faq-hero h1{font-size:28px;font-weight:900;color:#fff;margin:0 0 10px}
-.faq-hero p{font-size:16px;color:#8ea0c4;margin:0}
-.faq-list{max-width:800px;margin:0 auto 60px;padding:0 20px}
-.faq-item{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;margin-bottom:14px;overflow:hidden;cursor:pointer;transition:all .3s}
+.faq-hero{text-align:center;padding:44px 20px 10px}
+.faq-hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px}
+.faq-hero p{font-size:15px;color:#8ea0c4;margin:0 auto;max-width:560px;line-height:1.7}
+.faq-list{max-width:800px;margin:0 auto 40px;padding:0 20px}
+.faq-sec{font-size:16px;font-weight:800;color:#e6c258;margin:26px 0 12px;padding-inline-start:4px}
+.faq-item{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .25s}
+.faq-item[open]{border-color:#e6c258}
 .faq-item:hover{border-color:#e6c258}
-.faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 20px}
-.faq-q-text{font-size:16px;font-weight:700;color:#fff}
-.faq-q-icon{color:#e6c258;font-size:20px;font-weight:900;transition:transform .3s}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 20px;color:#c0cee0;font-size:15px;line-height:1.8}
-.faq-a.active{max-height:500px;padding:0 20px 20px}
-.faq-q-icon.active{transform:rotate(45deg)}
-.footer{text-align:center;padding:30px 20px;color:#5a6a8a;font-size:13px}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;list-style:none}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q-text{font-size:15px;font-weight:700;color:#fff;line-height:1.6}
+.faq-q-icon{color:#e6c258;font-size:20px;font-weight:900;flex-shrink:0;transition:transform .25s}
+.faq-item[open] .faq-q-icon{transform:rotate(45deg)}
+.faq-a{padding:0 18px 16px;color:#c0cee0;font-size:14px;line-height:1.9}
+.faq-link{display:inline-block;margin-top:6px;color:#e6c258;font-weight:700;text-decoration:none;font-size:13px}
+.faq-link:hover{text-decoration:underline}
+.faq-cta{max-width:800px;margin:0 auto 50px;padding:0 20px}
+.faq-cta div{background:#162847;border:1px solid #1e3556;border-radius:14px;padding:18px;text-align:center;font-size:14px;color:#c0cee0;line-height:1.8}
+.faq-cta a{color:#e6c258;font-weight:800;text-decoration:none}
+.footer{text-align:center;padding:26px 20px;color:#5a6a8a;font-size:13px}
 .footer a{color:#e6c258;text-decoration:none;font-weight:700}
 </style>
-<link rel="canonical" href="https://khidmatyai.com/faq.html">
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:title" content="الأسئلة الشائعة | خِدْمَتي AI">
-  <meta property="og:description" content="أسئلة وأجوبة شائعة عن الخدمات الحكومية المصرية — بطاقة الرقم القومي، جواز السفر، التموين، التأمينات و أكتر، بإجابات واضحة ومباشرة.">
-  <meta property="og:url" content="https://khidmatyai.com/faq.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="خِدْمَتي AI">
-  <meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
-  <meta property="og:locale" content="ar_EG">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="الأسئلة الشائعة | خِدْمَتي AI">
-  <meta name="twitter:description" content="أسئلة وأجوبة شائعة عن الخدمات الحكومية المصرية — بطاقة الرقم القومي، جواز السفر، التموين، التأمينات و أكتر، بإجابات واضحة ومباشرة.">
-  <meta name="twitter:image" content="https://khidmatyai.com/assets/og-banner.png">
-
-
-<meta name="description" content="أسئلة وأجوبة شائعة عن الخدمات الحكومية المصرية — بطاقة الرقم القومي، جواز السفر، التموين، التأمينات و أكتر، بإجابات واضحة ومباشرة.">
-<!-- Breadcrumb Schema -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {"@type":"ListItem","position":1,"name":"الرئيسية","item":"https://khidmatyai.com/"},
-    {"@type":"ListItem","position":2,"name":"الأسئلة الشائعة","item":"https://khidmatyai.com/faq.html"}
-  ]
-}
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://khidmatyai.com/"}, {"@type": "ListItem", "position": 2, "name": "الأسئلة الشائعة", "item": "https://khidmatyai.com/faq.html"}]}
 </script>
-<!-- FAQ Schema for Google rich results -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type":"Question","name":"هل خِدْمَتي AI منصة حكومية رسمية؟","acceptedAnswer":{"@type":"Answer","text":"لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية."}},
-    {"@type":"Question","name":"هل المنصة مجانية؟","acceptedAnswer":{"@type":"Answer","text":"آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم."}},
-    {"@type":"Question","name":"إزاي أتحدث بالصوت مع الـ AI؟","acceptedAnswer":{"@type":"Answer","text":"في خانة الكتابة في الـ AI chat، هتلاقي زر مايك. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً."}},
-    {"@type":"Question","name":"هل بياناتي آمنة؟","acceptedAnswer":{"@type":"Answer","text":"آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك."}},
-    {"@type":"Question","name":"إزاي أثبت التطبيق على موبايلي؟","acceptedAnswer":{"@type":"Answer","text":"اضغط على زر «حمل التطبيق من هنا» في أعلى الموقع، واتبع الخطوات. أو من قائمة المتصفح اختار «Add to Home Screen»."}},
-    {"@type":"Question","name":"إزاي ألاقي خدمة معينة؟","acceptedAnswer":{"@type":"Answer","text":"تقدر تبحث في الصفحة الرئيسية، أو في الدليل الحكومي الذكي، أو تسأل الـ AI مباشرة بالعربي المصري."}},
-    {"@type":"Question","name":"هل تقدروا تساعدوني أخلص معاملاتي؟","acceptedAnswer":{"@type":"Answer","text":"خِدْمَتي AI بيساعدك تفهم الخطوات والمستندات المطلوبة. لو محتاج حد يخلصها لك، تقدر تطلب من قسم «مقدمو الخدمات» وتتواصل مع مقدم خدمة."}},
-    {"@type":"Question","name":"هل المنصة بتشتغل على الكمبيوتر والموبايل؟","acceptedAnswer":{"@type":"Answer","text":"آه، خِدْمَتي AI بتشتغل على كل الأجهزة: موبايل، تابلت، كمبيوتر. وتقدر تثبتها كتطبيق على جهازك."}},
-    {"@type":"Question","name":"إزاي أتواصل معكم؟","acceptedAnswer":{"@type":"Answer","text":"تقدر تتواصل معانا من خلال الجروب بتاعنا على تيلجرام، أو من قسم «تواصل معنا» في أسفل الموقع."}},
-    {"@type":"Question","name":"هل في رسوم على مقدمي الخدمة؟","acceptedAnswer":{"@type":"Answer","text":"التسجيل كمقدم خدمة على المنصة مجاني. أي رسوم بتحصل بينك و بين مقدم الخدمة بشكل مباشر."}}
-  ]
-}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "هل خِدْمَتي AI جهة حكومية رسمية؟", "acceptedAnswer": {"@type": "Answer", "text": "لا. خِدْمَتي AI منصة مستقلة مستقلة بتشرح الخدمات الحكومية وبتجمّع الروابط والمعلومات من مصادر رسمية، بس إحنا مش جهة حكومية ومابنمثلش أي مصلحة."}}, {"@type": "Question", "name": "هل المنصة مجانية؟", "acceptedAnswer": {"@type": "Answer", "text": "آه، مجانية بالكامل. تقدر تبحث، تسأل المساعد الذكي، تقرأ الأدلة والمقالات، وتستخدم حاسبة الرسوم من غير أي رسوم."}}, {"@type": "Question", "name": "المعلومات اللي عندكم مضمونة؟", "acceptedAnswer": {"@type": "Answer", "text": "بنعتمد على مصادر رسمية وبنحدّث الصفحات لما القرارات تتغير. مع ذلك، الرسوم والأوراق بتختلف بحسب فئتك ومحافظتك — التأكيد النهائي دايمًا من المكتب أو البوابة الرسمية."}}, {"@type": "Question", "name": "إزاي ألاقي خدمة معينة بسرعة؟", "acceptedAnswer": {"@type": "Answer", "text": "استخدم البحث في الصفحة الرئيسية أو في الدليل، أو اسأل المساعد الذكي بالعامية المصرية وهو يوجّهك للصفحة المناسبة."}}, {"@type": "Question", "name": "إزاي أحسب رسوم خدمة قبل ما أروح؟", "acceptedAnswer": {"@type": "Answer", "text": "افتح حاسبة الرسوم، اختَر الخدمة والفئة، وشوف التقدير. الحاسبة بتساعدك تعرف المبلغ التقريبي وتجهّز الفرق قبل ما تقف في الطابور."}}, {"@type": "Question", "name": "إيه فايدة «رحلات الخدمة»؟", "acceptedAnswer": {"@type": "Answer", "text": "الرحلة بتقسّم الخدمة لخطوات مرتّبة: الشروط، الأوراق، الرسوم، وأين تروح. وتقدر تسجّل تقدمك وتكمّل بعدين من نفس المكان."}}, {"@type": "Question", "name": "هل بياناتي آمنة؟", "acceptedAnswer": {"@type": "Answer", "text": "مابنحفظش بياناتك الشخصية على سيرفراتنا، واللي بتكتبه في المساعد بيبقى على جهازك. التفاصيل كاملة في سياسة الخصوصية."}}, {"@type": "Question", "name": "إزاي أتحدث بالصوت مع المساعد؟", "acceptedAnswer": {"@type": "Answer", "text": "في خانة الكتابة فيه زر مايك — اضغط عليه، اسمح للمتصفح بالمايك، واتكلم بالعربي المصري. الكلام بيتحول لنص تلقائيًا."}}, {"@type": "Question", "name": "إزاي أثبت الموقع كتطبيق على الموبايل؟", "acceptedAnswer": {"@type": "Answer", "text": "من قائمة المتصفح اختار «إضافة إلى الشاشة الرئيسية» (Add to Home Screen)، وهتلاقي أيقونة الموقع على شاشتك بتفتح زي التطبيق."}}, {"@type": "Question", "name": "بتشتغل على الكمبيوتر والموبايل؟", "acceptedAnswer": {"@type": "Answer", "text": "آه، الموقع بيشتغل على الموبايل والتابلت والكمبيوتر، وبيتأقلم مع حجم الشاشة."}}, {"@type": "Question", "name": "إزاي أتواصل معاكم؟", "acceptedAnswer": {"@type": "Answer", "text": "من صفحة «تواصل معانا» فيه البريد ونموذج الاقتراحات، وكمان قنوات تيلجرام ويوتيوب وواتساب في صفحة التواصل."}}, {"@type": "Question", "name": "هل في رسوم على مقدمي الخدمات؟", "acceptedAnswer": {"@type": "Answer", "text": "التسجيل كمقدم خدمة مجاني، وأي اتفاق أو رسوم بتبقى بينك وبين مقدم الخدمة مباشرة وموثّقة كتابةً قبل تبادل أي بيانات."}}, {"@type": "Question", "name": "ضاعت بطاقة الرقم القومي — أعمل إيه؟", "acceptedAnswer": {"@type": "Answer", "text": "اطلع بلاغ فقد في أقرب قسم شرطة، وبعدها استخرج بدل فاقد من مكتب السجل المدني التابع له محل إقامتك بالأوراق المعتادة. الخطوات والأوراق كاملة في دليل بدل الفاقد."}}, {"@type": "Question", "name": "تجديد البطاقة قبل الانتهاء بمدة؟", "acceptedAnswer": {"@type": "Answer", "text": "الأفضل تبدأ قبل الانتهاء بفترة كافية عشان تتجنّب توقف التعاملات. الدليل بيشرح المواعيد والأوراق والرسوم والفئات."}}, {"@type": "Question", "name": "إزاي أستعلم عن رقمي التأميني؟", "acceptedAnswer": {"@type": "Answer", "text": "تقدر تستعلم برقمك القومي من خلال خدمة الاستعلام، والدليل بيشرح البدائل لو الاستعلام الإلكتروني مش متاح."}}, {"@type": "Question", "name": "إزاي أعرف مدة اشتراكي التأميني؟", "acceptedAnswer": {"@type": "Answer", "text": "خدمة استعلام المدد بترجّع لك تاريخ بداية الاشتراك والمدد المسجّلة. المقالة بتحلّلك الرقم ده يعني إيه بالنسبة للمعاش."}}, {"@type": "Question", "name": "المعاش اتأخر — إيه أول خطوة؟", "acceptedAnswer": {"@type": "Answer", "text": "اتأكد الأول إن الملف مكتمل والبيانات مطابقة، وبعدها تابع مع المكتب المختص. المقالة بتفصّل أشهر أسباب التأخير وحلول كل سبب."}}, {"@type": "Question", "name": "بطاقة التأمين الصحي اتلفت — أستخرج بدل فاقد؟", "acceptedAnswer": {"@type": "Answer", "text": "آه، الخدمة موجودة. الأوراق تختلف بحسب جهتك (هيئة التأمين الصحي أو العلاجي)، والدليل بيشرح كل حالة."}}, {"@type": "Question", "name": "تجديد السجل التجاري محتاج إيه؟", "acceptedAnswer": {"@type": "Answer", "text": "الدليل بيشرح المستندات والرسوم والخطوات ومواعيد التجديد، والفرق بين التجديد في الموعد وبعده."}}, {"@type": "Question", "name": "رخصة مزاولة نشاط — شروطها إيه؟", "acceptedAnswer": {"@type": "Answer", "text": "الشروط والأوراق والخطوات مفصّلة في الدليل، مع الاختلاف بحسب نوع النشاط."}}, {"@type": "Question", "name": "جواز سفري ضاع وأنا مسافر قريب — إيه الحل؟", "acceptedAnswer": {"@type": "Answer", "text": "فيه إجراءات بدل فاقد وجواز مؤقت للحالات المستعجلة. الدليل بيوضّح المستندات والمدة المتوقعة لكل حالة."}}, {"@type": "Question", "name": "فيه خدمات بتتعمل أونلاين من غير ما أروح؟", "acceptedAnswer": {"@type": "Answer", "text": "آه، عدد كبير من الخدمات متاح من بوابات حكومية رسمية. كل دليل بيقولك لو الخدمة متاحة أونلاين ولا محتاجة حضور، وبتحوّلك للبوابة الرسمية."}}, {"@type": "Question", "name": "الخطوات بتختلف من محافظة لمحافظة؟", "acceptedAnswer": {"@type": "Answer", "text": "في خدمات بتختلف (خصوصًا التأمينات والتأمين الصحي والمكاتب التابعة). بينما الخدمات المدنية الموصّلة على مستوى الجمهورية خطواتها شبه موحّدة."}}, {"@type": "Question", "name": "عندي خدمة مش موجودة في الدليل — أعمل إيه؟", "acceptedAnswer": {"@type": "Answer", "text": "ابعت اقتراحك من صفحة التواصل أو اسأل المساعد الذكي. بنضيف أدلة جديدة باستمرار حسب الطلب."}}]}
 </script>
 </head>
 <body>
-
 <div class="header">
-  <a href="index.html">← الرجوع للرئيسية</a> | <a href="success-stories.html">قصص النجاح</a>
+  <a href="index.html">← الرئيسية</a>
   <div class="header-logo">
     <img src="assets/k-logo.webp" alt="خِدْمَتي AI">
     <span>خِدْمَتي <span class="ai">AI</span></span>
@@ -90,56 +67,43 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 </div>
 
 <div class="faq-hero">
-  <h1>❓ الأسئلة الشائعة</h1>
-  <p>كل اللي محتاج تعرفه عن خِدْمَتي AI</p>
+  <h1>الأسئلة الشائعة</h1>
+  <p>24 سؤال وجواب عن الخدمات الحكومية في مصر وعن إزاي تستخدم المنصة — إجابات مباشرة ومن غير لف.</p>
 </div>
 
-<div class="faq-list" id="faqList"></div>
-
-<div dir="rtl" style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:26px 16px 6px;max-width:900px;margin:0 auto;font-family:Cairo,sans-serif">
-  <span style="font-size:13px;color:#8ea0c4;font-weight:700">تابعنا 👇</span>
-  <a href="https://t.me/khdmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">✈️ تيلجرام</a>
-  <a href="https://youtube.com/@khidmatyai" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #ff0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">▶️ يوتيوب</a>
-  <a href="https://whatsapp.com/channel/0029VbDZ5aV0LKZ80aqwqD29" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #25D366;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">📲 واتساب</a>
-  <a href="https://t.me/+ZYqNnOv8dy5kODU0" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#162847;border:1px solid #229ED9;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">👥 الجروب</a>
+<div class="faq-list">
+  <h2 class="faq-sec">🏛️ أسئلة عن الخدمات الحكومية</h2>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">ضاعت بطاقة الرقم القومي — أعمل إيه؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">اطلع بلاغ فقد في أقرب قسم شرطة، وبعدها استخرج بدل فاقد من مكتب السجل المدني التابع له محل إقامتك بالأوراق المعتادة. الخطوات والأوراق كاملة في دليل بدل الفاقد. <a class="faq-link" href="https://khidmatyai.com/services/lost-national-id.html">بدل فاقد رقم قومي ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">تجديد البطاقة قبل الانتهاء بمدة؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">الأفضل تبدأ قبل الانتهاء بفترة كافية عشان تتجنّب توقف التعاملات. الدليل بيشرح المواعيد والأوراق والرسوم والفئات. <a class="faq-link" href="https://khidmatyai.com/services/renew-national-id.html">تجديد البطاقة ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي أستعلم عن رقمي التأميني؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">تقدر تستعلم برقمك القومي من خلال خدمة الاستعلام، والدليل بيشرح البدائل لو الاستعلام الإلكتروني مش متاح. <a class="faq-link" href="https://khidmatyai.com/services/insurance-number-inquiry.html">الاستعلام عن الرقم التأميني ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي أعرف مدة اشتراكي التأميني؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">خدمة استعلام المدد بترجّع لك تاريخ بداية الاشتراك والمدد المسجّلة. المقالة بتحلّلك الرقم ده يعني إيه بالنسبة للمعاش. <a class="faq-link" href="https://khidmatyai.com/services/insurance-periods-inquiry.html">استعلام المدد ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">المعاش اتأخر — إيه أول خطوة؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">اتأكد الأول إن الملف مكتمل والبيانات مطابقة، وبعدها تابع مع المكتب المختص. المقالة بتفصّل أشهر أسباب التأخير وحلول كل سبب. <a class="faq-link" href="https://khidmatyai.com/articles/pension-delay.html">تأخير المعاش ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">بطاقة التأمين الصحي اتلفت — أستخرج بدل فاقد؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">آه، الخدمة موجودة. الأوراق تختلف بحسب جهتك (هيئة التأمين الصحي أو العلاجي)، والدليل بيشرح كل حالة. <a class="faq-link" href="https://khidmatyai.com/services/health-insurance-card.html">بطاقة التأمين الصحي ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">تجديد السجل التجاري محتاج إيه؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">الدليل بيشرح المستندات والرسوم والخطوات ومواعيد التجديد، والفرق بين التجديد في الموعد وبعده. <a class="faq-link" href="https://khidmatyai.com/services/renew-commercial-register.html">تجديد السجل التجاري ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">رخصة مزاولة نشاط — شروطها إيه؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">الشروط والأوراق والخطوات مفصّلة في الدليل، مع الاختلاف بحسب نوع النشاط. <a class="faq-link" href="https://khidmatyai.com/services/profession-license.html">رخصة مزاولة النشاط ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">جواز سفري ضاع وأنا مسافر قريب — إيه الحل؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">فيه إجراءات بدل فاقد وجواز مؤقت للحالات المستعجلة. الدليل بيوضّح المستندات والمدة المتوقعة لكل حالة. <a class="faq-link" href="https://khidmatyai.com/services/lost-passport.html">بدل فاقد جواز سفر ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">فيه خدمات بتتعمل أونلاين من غير ما أروح؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">آه، عدد كبير من الخدمات متاح من بوابات حكومية رسمية. كل دليل بيقولك لو الخدمة متاحة أونلاين ولا محتاجة حضور، وبتحوّلك للبوابة الرسمية.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">الخطوات بتختلف من محافظة لمحافظة؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">في خدمات بتختلف (خصوصًا التأمينات والتأمين الصحي والمكاتب التابعة). بينما الخدمات المدنية الموصّلة على مستوى الجمهورية خطواتها شبه موحّدة.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">عندي خدمة مش موجودة في الدليل — أعمل إيه؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">ابعت اقتراحك من صفحة التواصل أو اسأل المساعد الذكي. بنضيف أدلة جديدة باستمرار حسب الطلب. <a class="faq-link" href="https://khidmatyai.com/contact.html">تواصل معانا ←</a></div></details>
+  <h2 class="faq-sec">🤖 أسئلة عن المنصة</h2>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">هل خِدْمَتي AI جهة حكومية رسمية؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">لا. خِدْمَتي AI منصة مستقلة مستقلة بتشرح الخدمات الحكومية وبتجمّع الروابط والمعلومات من مصادر رسمية، بس إحنا مش جهة حكومية ومابنمثلش أي مصلحة.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">هل المنصة مجانية؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">آه، مجانية بالكامل. تقدر تبحث، تسأل المساعد الذكي، تقرأ الأدلة والمقالات، وتستخدم حاسبة الرسوم من غير أي رسوم.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">المعلومات اللي عندكم مضمونة؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">بنعتمد على مصادر رسمية وبنحدّث الصفحات لما القرارات تتغير. مع ذلك، الرسوم والأوراق بتختلف بحسب فئتك ومحافظتك — التأكيد النهائي دايمًا من المكتب أو البوابة الرسمية.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي ألاقي خدمة معينة بسرعة؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">استخدم البحث في الصفحة الرئيسية أو في الدليل، أو اسأل المساعد الذكي بالعامية المصرية وهو يوجّهك للصفحة المناسبة.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي أحسب رسوم خدمة قبل ما أروح؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">افتح حاسبة الرسوم، اختَر الخدمة والفئة، وشوف التقدير. الحاسبة بتساعدك تعرف المبلغ التقريبي وتجهّز الفرق قبل ما تقف في الطابور. <a class="faq-link" href="https://khidmatyai.com/calc.html">حاسبة الرسوم ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إيه فايدة «رحلات الخدمة»؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">الرحلة بتقسّم الخدمة لخطوات مرتّبة: الشروط، الأوراق، الرسوم، وأين تروح. وتقدر تسجّل تقدمك وتكمّل بعدين من نفس المكان. <a class="faq-link" href="https://khidmatyai.com/journeys.html">رحلات الخدمة ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">هل بياناتي آمنة؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">مابنحفظش بياناتك الشخصية على سيرفراتنا، واللي بتكتبه في المساعد بيبقى على جهازك. التفاصيل كاملة في سياسة الخصوصية. <a class="faq-link" href="https://khidmatyai.com/privacy.html">سياسة الخصوصية ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي أتحدث بالصوت مع المساعد؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">في خانة الكتابة فيه زر مايك — اضغط عليه، اسمح للمتصفح بالمايك، واتكلم بالعربي المصري. الكلام بيتحول لنص تلقائيًا.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي أثبت الموقع كتطبيق على الموبايل؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">من قائمة المتصفح اختار «إضافة إلى الشاشة الرئيسية» (Add to Home Screen)، وهتلاقي أيقونة الموقع على شاشتك بتفتح زي التطبيق.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">بتشتغل على الكمبيوتر والموبايل؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">آه، الموقع بيشتغل على الموبايل والتابلت والكمبيوتر، وبيتأقلم مع حجم الشاشة.</div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">إزاي أتواصل معاكم؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">من صفحة «تواصل معانا» فيه البريد ونموذج الاقتراحات، وكمان قنوات تيلجرام ويوتيوب وواتساب في صفحة التواصل. <a class="faq-link" href="https://khidmatyai.com/contact.html">تواصل معانا ←</a></div></details>
+<details class="faq-item"><summary class="faq-q"><span class="faq-q-text">هل في رسوم على مقدمي الخدمات؟</span><span class="faq-q-icon" aria-hidden="true">+</span></summary><div class="faq-a">التسجيل كمقدم خدمة مجاني، وأي اتفاق أو رسوم بتبقى بينك وبين مقدم الخدمة مباشرة وموثّقة كتابةً قبل تبادل أي بيانات.</div></details>
 </div>
+
+<div class="faq-cta"><div>سؤالك مش موجود؟ اسأل المساعد الذكي في <a href="index.html">الصفحة الرئيسية</a> أو ابعتلنا من <a href="contact.html">صفحة التواصل</a>.</div></div>
+
 <div class="footer">
   <p>© 2026 خِدْمَتي AI | <a href="index.html">العودة للرئيسية</a></p>
 </div>
-
-<script>
-var faqs=[
-  {q:'هل خِدْمَتي AI منصة حكومية رسمية؟',a:'لا، خِدْمَتي AI منصة مستقلة بتساعدك تعرف وتفهم الخدمات الحكومية. كل الروابط والمعلومات من مصادر رسمية موثوقة، بس إحنا مش جهة حكومية.'},
-  {q:'هل المنصة مجانية؟',a:'آه، خِدْمَتي AI مجانية بالكامل. تقدر تبحث، تسأل الـ AI، وتقرأ المقالات من غير أي رسوم.'},
-  {q:'إزاي أتحدث بالصوت مع الـ AI؟',a:'في خانة الكتابة في الـ AI chat، هتلاقي زر مايك. اضغط عليه، اسمح للمتصفح يستخدم المايك، واتكلم بالعربي المصري. الكلام هيتحول لنص تلقائياً.'},
-  {q:'هل بياناتي آمنة؟',a:'آه، بياناتك آمنة. إحنا مش بنحفظ بياناتك الشخصية على سيرفراتنا. كل اللي بتكتبه بيبقى على جهازك.'},
-  {q:'إزاي أثبت التطبيق على موبايلي؟',a:'اضغط على زر "حمل التطبيق من هنا" في أعلى الموقع، واتبع الخطوات. أو من قائمة المتصفح اختار "Add to Home Screen".'},
-  {q:'إزاي ألاقي خدمة معينة؟',a:'تقدر تبحث في الصفحة الرئيسية، أو في الدليل الحكومي الذكي، أو تسأل الـ AI مباشرة بالعربي المصري.'},
-  {q:'هل تقدروا تساعدوني أخلص معاملاتي؟',a:'خِدْمَتي AI بيساعدك تفهم الخطوات والمستندات المطلوبة. لو محتاج حد يخلصها لك، تقدر تطلب من قسم "مقدمو الخدمات" وتتواصل مع مقدم خدمة.'},
-  {q:'هل المنصة بتشتغل على الكمبيوتر والموبايل؟',a:'آه، خِدْمَتي AI بتشتغل على كل الأجهزة: موبايل، تابلت، كمبيوتر. وتقدر تثبتها كتطبيق على جهازك.'},
-  {q:'إزاي أتواصل معكم؟',a:'تقدر تتواصل معانا من خلال الجروب بتاعنا على تيلجرام، أو من قسم "تواصل معنا" في أسفل الموقع.'},
-  {q:'هل في رسوم على مقدمي الخدمة؟',a:'التسجيل كمقدم خدمة على المنصة مجاني. أي رسوم بتحصل بينك و بين مقدم الخدمة بشكل مباشر.'}
-];
-
-var list=document.getElementById('faqList');
-list.innerHTML=faqs.map(function(f,i){
-  return '<div class="faq-item" onclick="toggleFAQ('+i+')">'+
-    '<div class="faq-q"><span class="faq-q-text">'+f.q+'</span><span class="faq-q-icon" id="icon'+i+'">+</span></div>'+
-    '<div class="faq-a" id="ans'+i+'">'+f.a+'</div>'+
-    '</div>';
-}).join('');
-
-function toggleFAQ(i){
-  var ans=document.getElementById('ans'+i);
-  var icon=document.getElementById('icon'+i);
-  if(ans.classList.contains('active')){
-    ans.classList.remove('active');
-    icon.classList.remove('active');
-  }else{
-    ans.classList.add('active');
-    icon.classList.add('active');
-  }
-}
-</script>
 </body>
 </html>

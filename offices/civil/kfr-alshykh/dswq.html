@@ -63,6 +63,13 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .gov-card{background:#162847;border:1px solid #1e3556;border-radius:12px;padding:14px 16px;text-decoration:none;color:#e8eef8;font-size:13px;font-weight:600;transition:all .3s;text-align:center}
 .gov-card:hover{border-color:#e6c258;transform:translateY(-2px)}
 .gov-card .count{display:block;font-size:11px;color:#8ea0c4;margin-top:4px}
+
+/* --- شريط تنقل موحّد --- */
+.hd-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:62%}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
+.hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
+@media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
 </style>
 <link rel="canonical" href="https://khidmatyai.com/offices/civil/kfr-alshykh/dswq.html">
   <!-- Open Graph / Social Sharing -->
@@ -105,12 +112,11 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <body>
 
 <div class="header">
-  <a href="../../../index.html">← الرئيسية</a>
   <div class="header-logo">
     <img src="../../../assets/k-logo.webp" alt="خِدْمَتي AI">
     <span>خِدْمَتي <span class="ai">AI</span></span>
   </div>
-</div>
+  <nav class="hd-nav" aria-label="التنقل الرئيسي"><a href="../../../index.html" class="on">الرئيسية</a><a href="../../../services.html">الخدمات</a><a href="../../../articles.html">الدليل</a><a href="../../../offices.html">المكاتب</a><a href="../../../store.html">المتجر</a></nav></div>
 
 
 <div class="breadcrumb">

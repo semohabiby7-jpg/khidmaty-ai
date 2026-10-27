@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>تجديد رخصة القيادة: المواعيد والأوراق والخطوات | خِدْمَتي AI</title>
+<meta name="description" content="تعمل إيه قبل الميعاد، الأوراق اللي تجهّزها، وإمتى الرخصة المنتهية تتحوّل لمعاملة جديدة.">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0;line-height:1.9}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:860px;margin:0 auto;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:860px;margin:0 auto 60px;padding:0 20px}
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin:18px 0 22px}
+.hero-emoji{font-size:46px;margin-bottom:6px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 10px;line-height:1.45}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto;max-width:620px}
+.meta{font-size:12px;color:#5a6a8a;text-align:center;margin-top:14px}
+.article{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:26px 24px}
+.article h2{font-size:20px;font-weight:800;color:#e6c258;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid #1e3556}
+.article h2:first-child{margin-top:0}
+.article p{font-size:15.5px;color:#c9d6ea;margin:0 0 14px}
+.article ul,.article ol{margin:0 0 16px;padding-right:22px}
+.article li{font-size:15.5px;color:#c9d6ea;margin-bottom:9px}
+.article strong{color:#fff}
+.article a{color:#e6c258}
+.note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:14px 16px;border-radius:12px;font-size:13.5px;margin:22px 0;line-height:1.8}
+.faq{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:16px;margin-bottom:12px}
+.faq h3{font-size:15.5px;font-weight:800;color:#fff;margin:0 0 6px}
+.faq p{margin:0;font-size:14.5px;color:#9fb0cd}
+.rel h2{border:none}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.rel-card{background:rgba(15,30,61,.55);border:1px solid #1e3556;border-radius:12px;padding:13px 15px;text-decoration:none;color:#e8eef8;font-size:14px;font-weight:700;transition:.2s}
+.rel-card:hover{border-color:#e6c258;background:rgba(230,194,88,.08)}
+.cta{background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;padding:22px;text-align:center;margin-top:22px}
+.cta h3{margin:0 0 6px;font-size:17px;color:#fff}
+.cta p{margin:0 0 14px;font-size:13.5px;color:#8ea0c4}
+.cta a{display:inline-block;background:#e6c258;color:#0F1E3D;font-weight:900;padding:11px 26px;border-radius:30px;text-decoration:none;font-size:14px}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:24px 0}
+@media(max-width:600px){.hero h1{font-size:21px}.article{padding:20px 16px}}
+
+/* --- شريط تنقل موحّد --- */
+.hd-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:62%}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
+.hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
+@media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
+
+.books-strip{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:16px 18px;margin:20px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.books-strip-txt{flex:1;min-width:180px}
+.books-strip-txt b{color:#e6c258;font-size:14px;display:block;margin-bottom:4px}
+.books-strip-txt span{color:#8ea0c4;font-size:13px;line-height:1.7}
+.books-strip a{background:#e6c258;color:#0F1E3D;font-weight:900;padding:9px 20px;border-radius:24px;text-decoration:none;font-size:13.5px;white-space:nowrap}
+</style>
+<link rel="canonical" href="https://khidmatyai.com/articles/driving-license-renewal.html">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:title" content="تجديد رخصة القيادة: المواعيد والأوراق والخطوات | خِدْمَتي AI">
+<meta property="og:description" content="تعمل إيه قبل الميعاد، الأوراق اللي تجهّزها، وإمتى الرخصة المنتهية تتحوّل لمعاملة جديدة.">
+<meta property="og:url" content="https://khidmatyai.com/articles/driving-license-renewal.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "تجديد رخصة القيادة: المواعيد والأوراق والخطوات", "description": "تعمل إيه قبل الميعاد، الأوراق اللي تجهّزها، وإمتى الرخصة المنتهية تتحوّل لمعاملة جديدة.", "inLanguage": "ar", "author": {"@type": "Person", "name": "Mohamed Ismail"}, "publisher": {"@type": "Organization", "name": "خِدْمَتي AI", "url": "https://khidmatyai.com/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://khidmatyai.com/articles/driving-license-renewal.html"}, "datePublished": "2026-10-27", "dateModified": "2026-10-27"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "أقدر أجدّد أونلاين؟", "acceptedAnswer": {"@type": "Answer", "text": "بعض الخدمات المرورية متاحة من البوابات الرسمية، لكن اللي محتاج فحص فني أو بصمة غالبًا محتاج حضور. راجع الدليل التفاعلي للخدمة."}}, {"@type": "Question", "name": "الرخصة انتهت من سنة — أعمل إيه؟", "acceptedAnswer": {"@type": "Answer", "text": "اسأل وحدتك: غالبًا المعاملة بتتحول لإصدار جديد بمتطلبات إضافية، وممكن تحتاج اختبار أو مستندات زيادة حسب الحالة."}}, {"@type": "Question", "name": "رسوم التجديد كام؟", "acceptedAnswer": {"@type": "Answer", "text": "بتختلف حسب فئة الرخصة ومدة التجديد. استخدم حاسبة الرسوم لتقدير المبلغ قبل ما تنزل."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://khidmatyai.com/"}, {"@type": "ListItem", "position": 2, "name": "المقالات", "item": "https://khidmatyai.com/articles/"}, {"@type": "ListItem", "position": 3, "name": "تجديد رخصة القيادة: المواعيد والأوراق والخطوات", "item": "https://khidmatyai.com/articles/driving-license-renewal.html"}]}</script>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><nav class="hd-nav" aria-label="التنقل الرئيسي"><a href="../index.html">الرئيسية</a><a href="../services.html">الخدمات</a><a href="../articles.html">الدليل</a><a href="index.html" class="on">المقالات</a><a href="../offices.html">المكاتب</a></nav></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="index.html">المقالات</a> › المرور</div>
+
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🚗</div>
+  <h1>تجديد رخصة القيادة: المواعيد والأوراق والخطوات</h1>
+  <p>تعمل إيه قبل الميعاد، الأوراق اللي تجهّزها، وإمتى الرخصة المنتهية تتحوّل لمعاملة جديدة.</p>
+  <div class="meta">بقلم Mohamed Ismail · خِدْمَتي AI · تحديث أكتوبر ٢٠٢٦ · قراءة ٦ دقائق</div>
+ </div>
+
+ <div class="article">
+  <p>تجديد رخصة القيادة من أبسط معاملات المرور — لو رحت بالورق الصح وفي الوقت الصح. أغلب التأخير ساعتها بيجي من حاجتين: <strong>فحص فني</strong> مش جاهز، أو <strong>رخصة منتهية بفترة طويلة</strong> فبقت معاملة تانية خالص.</p>
+
+  <h2>١. إمتى تبدأ التجديد؟</h2>
+  <p>ابدأ قبل الانتهاء بفترة كافية — مفيش داعي تسيبها لآخر يوم، لأن الزحمة بتبقى في الفترة الأخيرة. ولو الرخصة انتهت من مدة، المعاملة ممكن تتغير وتحتاج خطوات زيادة، فالأفضل تسأل في وحدة المرور التابعة لك قبل ما تجهّز الورق.</p>
+
+  <h2>٢. الأوراق الأساسية</h2>
+  <ul>
+   <li><strong>بطاقة الرقم القومي</strong> سارية + صورة.</li>
+   <li><strong>الرخصة الحالية</strong> (أو إقرار فقدان لو مش موجودة).</li>
+   <li><strong>شهادة الفحص الفني</strong> سارية لو مطلوبة لحالتك.</li>
+   <li><strong>إيصال سداد الرسوم</strong> حسب فئة الرخصة ومدة التجديد.</li>
+   <li><strong>صور شخصية</strong> حديثة لو الرخصة بتحتاج صورة.</li>
+  </ul>
+
+  <h2>٣. الخطوات بالترتيب</h2>
+  <ol>
+   <li><strong>حدّد وحدتك:</strong> رخصة القيادة بتتعمل من وحدة المرور التابعة لمحل إقامتك غالبًا.</li>
+   <li><strong>اتأكد من الفحص الفني:</strong> لو مطلوب، خلّصه الأول — من غير شهادة سارية الطلب بيقف.</li>
+   <li><strong>اسأل عن الرسوم:</strong> بتختلف حسب فئة الرخصة والمدة، وتقدر تقدّرها من حاسبة الرسوم.</li>
+   <li><strong>قدّم الطلب:</strong> البطاقة + الرخصة + الفحص + الرسوم.</li>
+   <li><strong>استلم واستلم الصح:</strong> راجع البيانات والتاريخ على الرخصة الجديدة قبل ما تمشي.</li>
+  </ol>
+
+  <h2>٤. فرق مهم: تجديد ولا إصدار جديد؟</h2>
+  <p>التجديد بيفترض إن رخصتك سارية أو منتهية بفترة قصيرة. لو انتهت من مدة طويلة أو اتلغت لأسباب معينة، المعاملة بتبقى أقرب لإصدار جديد بمتطلبات أكتر — وده اللي بيفاجئ الناس في الشباك.</p>
+  <div class="note">لو عندك مخالفات مرورية غير مسددة، اسأل عنها الأول — بعض الوحدات بتطلب تسويتها قبل استكمال التجديد.</div>
+
+  <h2>٥. حاجات بتقصّر المشوار</h2>
+  <ul>
+   <li>صوّر كل الأوراق نسختين قبل ما تنزل.</li>
+   <li>اتأكد إن البطاقة مش منتهية.</li>
+   <li>روح بدري — الطوابير بتتراكم بعد الظهر.</li>
+   <li>خد رقم الوحدة ومواعيد العمل قبل ما تتحرك.</li>
+  </ul>
+
+  <h2>٦. أسئلة شائعة</h2>
+  <div class="faq"><h3>أقدر أجدّد أونلاين؟</h3><p>بعض الخدمات المرورية متاحة من البوابات الرسمية، لكن اللي محتاج فحص فني أو بصمة غالبًا محتاج حضور. راجع الدليل التفاعلي للخدمة.</p></div>
+  <div class="faq"><h3>الرخصة انتهت من سنة — أعمل إيه؟</h3><p>اسأل وحدتك: غالبًا المعاملة بتتحول لإصدار جديد بمتطلبات إضافية، وممكن تحتاج اختبار أو مستندات زيادة حسب الحالة.</p></div>
+  <div class="faq"><h3>رسوم التجديد كام؟</h3><p>بتختلف حسب فئة الرخصة ومدة التجديد. استخدم حاسبة الرسوم لتقدير المبلغ قبل ما تنزل.</p></div>
+
+  <h2>المصادر</h2>
+  <ul><li>الإدارة العامة للمرور — وزارة الداخلية</li><li>تعليمات التجديد والفئات بوحدات المرور</li></ul>
+
+  <div class="note">📌 المعلومات استرشادية وللتنظيم، وقد تتغير الإجراءات والرسوم بقرارات الجهات المختصة. المرجع النهائي هو الجهة الرسمية المختصة.</div>
+
+  <div class="rel" style="margin-top:26px">
+   <h2>🔗 دلائل تكمّل الموضوع</h2>
+   <div class="rel-grid">
+    <a href="../services/renew-driving-license.html" class="rel-card">الدليل التفاعلي: تجديد رخصة القيادة</a>
+    <a href="../services/car-inspection.html" class="rel-card">الفحص الفني للسيارة</a>
+    <a href="../services/traffic-violations.html" class="rel-card">الاستعلام عن المخالفات المرورية</a>
+    <a href="../calc.html" class="rel-card">حاسبة الرسوم</a>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="footer"><p>© 2026 خِدْمَتي AI | <a href="index.html">كل المقالات</a> · <a href="../index.html">الرئيسية</a></p></div>
+</body>
+</html>

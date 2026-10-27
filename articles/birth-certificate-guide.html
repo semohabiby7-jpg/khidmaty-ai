@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>استخراج شهادة ميلاد مميكنة: الأوراق والخطوات | خِدْمَتي AI</title>
+<meta name="description" content="إمتى تحتاج الشهادة المميكنة، إيه أوراقها، وإيه اللي بيعطّل الطلب في السجل المدني — خطوة بخطوة.">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0;line-height:1.9}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:860px;margin:0 auto;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:860px;margin:0 auto 60px;padding:0 20px}
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin:18px 0 22px}
+.hero-emoji{font-size:46px;margin-bottom:6px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 10px;line-height:1.45}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto;max-width:620px}
+.meta{font-size:12px;color:#5a6a8a;text-align:center;margin-top:14px}
+.article{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:26px 24px}
+.article h2{font-size:20px;font-weight:800;color:#e6c258;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid #1e3556}
+.article h2:first-child{margin-top:0}
+.article p{font-size:15.5px;color:#c9d6ea;margin:0 0 14px}
+.article ul,.article ol{margin:0 0 16px;padding-right:22px}
+.article li{font-size:15.5px;color:#c9d6ea;margin-bottom:9px}
+.article strong{color:#fff}
+.article a{color:#e6c258}
+.note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:14px 16px;border-radius:12px;font-size:13.5px;margin:22px 0;line-height:1.8}
+.faq{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:16px;margin-bottom:12px}
+.faq h3{font-size:15.5px;font-weight:800;color:#fff;margin:0 0 6px}
+.faq p{margin:0;font-size:14.5px;color:#9fb0cd}
+.rel h2{border:none}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.rel-card{background:rgba(15,30,61,.55);border:1px solid #1e3556;border-radius:12px;padding:13px 15px;text-decoration:none;color:#e8eef8;font-size:14px;font-weight:700;transition:.2s}
+.rel-card:hover{border-color:#e6c258;background:rgba(230,194,88,.08)}
+.cta{background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;padding:22px;text-align:center;margin-top:22px}
+.cta h3{margin:0 0 6px;font-size:17px;color:#fff}
+.cta p{margin:0 0 14px;font-size:13.5px;color:#8ea0c4}
+.cta a{display:inline-block;background:#e6c258;color:#0F1E3D;font-weight:900;padding:11px 26px;border-radius:30px;text-decoration:none;font-size:14px}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:24px 0}
+@media(max-width:600px){.hero h1{font-size:21px}.article{padding:20px 16px}}
+
+/* --- شريط تنقل موحّد --- */
+.hd-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:62%}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
+.hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
+@media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
+
+.books-strip{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:16px 18px;margin:20px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.books-strip-txt{flex:1;min-width:180px}
+.books-strip-txt b{color:#e6c258;font-size:14px;display:block;margin-bottom:4px}
+.books-strip-txt span{color:#8ea0c4;font-size:13px;line-height:1.7}
+.books-strip a{background:#e6c258;color:#0F1E3D;font-weight:900;padding:9px 20px;border-radius:24px;text-decoration:none;font-size:13.5px;white-space:nowrap}
+</style>
+<link rel="canonical" href="https://khidmatyai.com/articles/birth-certificate-guide.html">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:title" content="استخراج شهادة ميلاد مميكنة: الأوراق والخطوات | خِدْمَتي AI">
+<meta property="og:description" content="إمتى تحتاج الشهادة المميكنة، إيه أوراقها، وإيه اللي بيعطّل الطلب في السجل المدني — خطوة بخطوة.">
+<meta property="og:url" content="https://khidmatyai.com/articles/birth-certificate-guide.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "استخراج شهادة ميلاد مميكنة: الأوراق والخطوات", "description": "إمتى تحتاج الشهادة المميكنة، إيه أوراقها، وإيه اللي بيعطّل الطلب في السجل المدني — خطوة بخطوة.", "inLanguage": "ar", "author": {"@type": "Person", "name": "Mohamed Ismail"}, "publisher": {"@type": "Organization", "name": "خِدْمَتي AI", "url": "https://khidmatyai.com/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://khidmatyai.com/articles/birth-certificate-guide.html"}, "datePublished": "2026-10-27", "dateModified": "2026-10-27"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "أقدر أستخرجها أونلاين؟", "acceptedAnswer": {"@type": "Answer", "text": "بعض الخدمات المدنية متاحة إلكترونيًا من البوابات الرسمية، لكن استخراج الشهادة المميكنة غالبًا محتاج حضور لمكتب السجل المدني. راجع الدليل التفاعلي للخدمة عشان تعرف المتاح لحالتك."}}, {"@type": "Question", "name": "ضاعت مني، أعمل بدل فاقد إزاي؟", "acceptedAnswer": {"@type": "Answer", "text": "نفس مسار الاستخراج، بس بتضيف إقرار أو محضر فقدان حسب المكتب. الخطوات في دليل بدل الفاقد والتالف."}}, {"@type": "Question", "name": "الرسوم كام؟", "acceptedAnswer": {"@type": "Answer", "text": "بتختلف حسب نوع الطلب وفئتك. استخدم حاسبة الرسوم قبل ما تنزل عشان تجهّز المبلغ الصح."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://khidmatyai.com/"}, {"@type": "ListItem", "position": 2, "name": "المقالات", "item": "https://khidmatyai.com/articles/"}, {"@type": "ListItem", "position": 3, "name": "استخراج شهادة ميلاد مميكنة: الأوراق والخطوات", "item": "https://khidmatyai.com/articles/birth-certificate-guide.html"}]}</script>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><nav class="hd-nav" aria-label="التنقل الرئيسي"><a href="../index.html">الرئيسية</a><a href="../services.html">الخدمات</a><a href="../articles.html">الدليل</a><a href="index.html" class="on">المقالات</a><a href="../offices.html">المكاتب</a></nav></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="index.html">المقالات</a> › الأحوال المدنية</div>
+
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🧾</div>
+  <h1>استخراج شهادة ميلاد مميكنة: الأوراق والخطوات</h1>
+  <p>إمتى تحتاج الشهادة المميكنة، إيه أوراقها، وإيه اللي بيعطّل الطلب في السجل المدني — خطوة بخطوة.</p>
+  <div class="meta">بقلم Mohamed Ismail · خِدْمَتي AI · تحديث أكتوبر ٢٠٢٦ · قراءة ٦ دقائق</div>
+ </div>
+
+ <div class="article">
+  <p>شهادة الميلاد المميكنة بقت هي الورقة اللي بتُطلب في كل حاجة تقريبًا: المدرسة، الجواز، التأمين الصحي، والتوظيف. والمشكلة إن الناس بتضيّع مشوار بسبب تفصيلة صغيرة — <strong>الاسم أو الرقم القومي مش مطابق</strong>، أو الطلب متقدّم من مكتب مش تابع لمحل الإقامة.</p>
+  <p>المقال ده بيرتّب لك الطريق: تحتاجها ليه، تجهّز إيه، وتروح فين، وإيه اللي بيعطّل الطلب.</p>
+
+  <h2>١. إمتى تحتاج شهادة الميلاد المميكنة؟</h2>
+  <ul>
+   <li>تقديمات المدارس والجامعات، وملفات التأمين الصحي.</li>
+   <li>استخراج بطاقة رقم قومي لأول مرة أو تصحيح بيانات.</li>
+   <li>إجراءات الجواز والسفر، وملفات التأمينات والمعاش.</li>
+   <li>أي جهة بتطلب إثبات تاريخ ميلاد أو صلة قرابة.</li>
+  </ul>
+
+  <h2>٢. الأوراق اللي تجهّزها قبل ما تنزل</h2>
+  <ul>
+   <li><strong>بطاقة الرقم القومي</strong> سارية لصاحب الشهادة أو لولي الأمر في حالة القُصّر، ومعاها صورة.</li>
+   <li><strong>الشهادة القديمة أو صورة منها</strong> لو موجودة — بتسرّع المطابقة حتى لو البيانات قديمة.</li>
+   <li><strong>إثبات محل الإقامة</strong> أو ما يثبته في البطاقة، لأن المكتب التابع بيتحدد على أساسه.</li>
+   <li><strong>الرسوم</strong> حسب نوع الطلب (إصدار/بدل فاقد)، وتقدر تقدّرها قبل ما تروح من حاسبة الرسوم.</li>
+  </ul>
+  <div class="note">لو الشهادة بتطلبها جهة خارج مصر، اسأل الأول عن التصديق أو الترجمة المطلوبة قبل ما تستخرجها — بعض الجهات بتطلب صيغة معتمدة معينة.</div>
+
+  <h2>٣. الخطوات بالترتيب</h2>
+  <ol>
+   <li><strong>اتأكد من مكتبك التابع:</strong> الشهادة بتُستخرج من مكتب السجل المدني التابع لمحل إقامتك، وفي حالات بتتقبل من مكتب آخر حسب التعليمات.</li>
+   <li><strong>راجع بياناتك الأول:</strong> لو في خطأ في الاسم أو تاريخ الميلاد، صحّحه قبل ما تطلب الشهادة، وإلا هتطلع بنفس الخطأ.</li>
+   <li><strong>قدّم الطلب:</strong> الاستمارة بتتاخد من الشباك نفسه، ومحتاج البطاقة + الأوراق + الرسوم.</li>
+   <li><strong>خد إيصال الاستلام:</strong> هو إثباتك لو الطلب اتأخر أو ضاع.</li>
+   <li><strong>استلم وراجع:</strong> راجع الاسم ورقم القيد وتاريخ الميلاد قبل ما تمشي من الشباك.</li>
+  </ol>
+
+  <h2>٤. المميكنة والورقية القديمة — الفرق يهمك في إيه؟</h2>
+  <p>الشهادة المميكنة مطبوعة على ورق مؤمّن وليها كود وتحمل بيانات مرقّمة، وده بيخلّيها مقبولة في الجهات الإلكترونية بدون تحقق يدوي طويل. الورقية القديمة ممكن تبقى سارية في حالات، لكن كتير من الجهات بقت تطلب المميكنة، وبعضها بيرفض الورقية تمامًا.</p>
+
+  <h2>٥. أخطاء بتطوّل المشوار</h2>
+  <ul>
+   <li><strong>بطاقة منتهية:</strong> البطاقة المنتهية بتوقف الطلب، جدّدها الأول.</li>
+   <li><strong>صور ناقصة:</strong> خد معاك صورتين احتياطي بدل ما ترجع تصوّر تاني.</li>
+   <li><strong>روح لمكتب مش تابع:</strong> بيضيّع عليك يوم كامل.</li>
+   <li><strong>تروح في آخر اليوم:</strong> الأغلب إن الطابور بيخلص بدري، ابدأ الصبح.</li>
+   <li><strong>ماتراجعش الشهادة قبل ما تمشي:</strong> تصحيح البيانات بعد كده بياخد إجراء منفصل.</li>
+  </ul>
+
+  <h2>٦. أسئلة شائعة</h2>
+  <div class="faq"><h3>أقدر أستخرجها أونلاين؟</h3><p>بعض الخدمات المدنية متاحة إلكترونيًا من البوابات الرسمية، لكن استخراج الشهادة المميكنة غالبًا محتاج حضور لمكتب السجل المدني. راجع الدليل التفاعلي للخدمة عشان تعرف المتاح لحالتك.</p></div>
+  <div class="faq"><h3>ضاعت مني، أعمل بدل فاقد إزاي؟</h3><p>نفس مسار الاستخراج، بس بتضيف إقرار أو محضر فقدان حسب المكتب. الخطوات في دليل بدل الفاقد والتالف.</p></div>
+  <div class="faq"><h3>الرسوم كام؟</h3><p>بتختلف حسب نوع الطلب وفئتك. استخدم حاسبة الرسوم قبل ما تنزل عشان تجهّز المبلغ الصح.</p></div>
+
+  <h2>المصادر</h2>
+  <ul><li>تعليمات مصلحة الأحوال المدنية بوزارة الداخلية</li><li>الجهات الطالبة للشهادة المميكنة (تعليم/صحة/تأمينات)</li></ul>
+
+  <div class="note">📌 المعلومات استرشادية وللتنظيم، وقد تتغير الإجراءات والرسوم بقرارات الجهات المختصة. المرجع النهائي هو الجهة الرسمية المختصة.</div>
+
+  <div class="rel" style="margin-top:26px">
+   <h2>🔗 دلائل تكمّل الموضوع</h2>
+   <div class="rel-grid">
+    <a href="../services/birth-certificate.html" class="rel-card">الدليل التفاعلي: شهادة ميلاد مميكنة</a>
+    <a href="../services/duplicate-document.html" class="rel-card">بدل فاقد/تالف للوثائق</a>
+    <a href="../calc.html" class="rel-card">حاسبة الرسوم</a>
+    <a href="../offices.html" class="rel-card">دليل المكاتب على مستوى الجمهورية</a>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="footer"><p>© 2026 خِدْمَتي AI | <a href="index.html">كل المقالات</a> · <a href="../index.html">الرئيسية</a></p></div>
+</body>
+</html>

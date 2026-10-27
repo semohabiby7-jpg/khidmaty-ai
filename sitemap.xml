@@ -1124,4 +1124,17 @@
   <url><loc>https://khidmatyai.com/store.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://khidmatyai.com/success-stories.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://khidmatyai.com/terms.html</loc><lastmod>2026-10-12</lastmod></url>
+  <url><loc>https://khidmatyai.com/scan/</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/articles/birth-certificate-guide.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/articles/driving-license-renewal.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/articles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://khidmatyai.com/maqalat.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/car-inspection.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/car-ownership-transfer.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/death-certificate.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/insurance-periods-inquiry.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/lost-national-id.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/renew-commercial-register.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://khidmatyai.com/maqalat/traffic-violations.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

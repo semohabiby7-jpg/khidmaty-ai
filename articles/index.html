@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>مقالات الخدمات الحكومية | خِدْمَتي AI</title>
+<meta name="description" content="مقالات عملية عن الخدمات الحكومية في مصر: الأوراق المطلوبة، الرسوم، الخطوات، والأخطاء الشائعة — بلغة واضحة ومربوطة بالأدلة التفاعلية.">
+<link rel="canonical" href="https://khidmatyai.com/articles/">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:title" content="مقالات الخدمات الحكومية | خِدْمَتي AI">
+<meta property="og:description" content="مقالات عملية عن الخدمات الحكومية في مصر: الأوراق المطلوبة، الرسوم، الخطوات، والأخطاء الشائعة — بلغة واضحة ومربوطة بالأدلة التفاعلية.">
+<meta property="og:url" content="https://khidmatyai.com/articles/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:image" content="https://khidmatyai.com/assets/og-banner.png">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0;line-height:1.9}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:860px;margin:0 auto;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:860px;margin:0 auto 60px;padding:0 20px}
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin:18px 0 22px}
+.hero-emoji{font-size:46px;margin-bottom:6px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 10px;line-height:1.45}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto;max-width:620px}
+.meta{font-size:12px;color:#5a6a8a;text-align:center;margin-top:14px}
+.article{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:26px 24px}
+.article h2{font-size:20px;font-weight:800;color:#e6c258;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid #1e3556}
+.article h2:first-child{margin-top:0}
+.article p{font-size:15.5px;color:#c9d6ea;margin:0 0 14px}
+.article ul,.article ol{margin:0 0 16px;padding-right:22px}
+.article li{font-size:15.5px;color:#c9d6ea;margin-bottom:9px}
+.article strong{color:#fff}
+.article a{color:#e6c258}
+.note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:14px 16px;border-radius:12px;font-size:13.5px;margin:22px 0;line-height:1.8}
+.faq{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:16px;margin-bottom:12px}
+.faq h3{font-size:15.5px;font-weight:800;color:#fff;margin:0 0 6px}
+.faq p{margin:0;font-size:14.5px;color:#9fb0cd}
+.rel h2{border:none}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.rel-card{background:rgba(15,30,61,.55);border:1px solid #1e3556;border-radius:12px;padding:13px 15px;text-decoration:none;color:#e8eef8;font-size:14px;font-weight:700;transition:.2s}
+.rel-card:hover{border-color:#e6c258;background:rgba(230,194,88,.08)}
+.cta{background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;padding:22px;text-align:center;margin-top:22px}
+.cta h3{margin:0 0 6px;font-size:17px;color:#fff}
+.cta p{margin:0 0 14px;font-size:13.5px;color:#8ea0c4}
+.cta a{display:inline-block;background:#e6c258;color:#0F1E3D;font-weight:900;padding:11px 26px;border-radius:30px;text-decoration:none;font-size:14px}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:24px 0}
+@media(max-width:600px){.hero h1{font-size:21px}.article{padding:20px 16px}}
+
+/* --- شريط تنقل موحّد --- */
+.hd-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:62%}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
+.hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
+@media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
+
+.books-strip{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:14px;padding:16px 18px;margin:20px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.books-strip-txt{flex:1;min-width:180px}
+.books-strip-txt b{color:#e6c258;font-size:14px;display:block;margin-bottom:4px}
+.books-strip-txt span{color:#8ea0c4;font-size:13px;line-height:1.7}
+.books-strip a{background:#e6c258;color:#0F1E3D;font-weight:900;padding:9px 20px;border-radius:24px;text-decoration:none;font-size:13.5px;white-space:nowrap}
+</style>
+<style>
+.hub-hero{text-align:center;padding:44px 20px 8px}
+.hub-hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px}
+.hub-hero p{font-size:14.5px;color:#8ea0c4;margin:0 auto;max-width:600px;line-height:1.8}
+.hub-progress{max-width:620px;margin:20px auto 0;padding:0 20px}
+.hub-bar{height:8px;background:#162847;border:1px solid #1e3556;border-radius:99px;overflow:hidden}
+.hub-bar i{display:block;height:100%;background:linear-gradient(90deg,#e6c258,#f0d98a);border-radius:99px}
+.hub-pstat{display:flex;justify-content:space-between;font-size:12px;color:#8ea0c4;margin-top:6px}
+.hub-pstat b{color:#e6c258}
+.hub-wrap{max-width:960px;margin:0 auto;padding:0 20px 50px}
+.hub-sec{font-size:16px;font-weight:800;color:#e6c258;margin:30px 0 14px}
+.articles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.article-card{display:flex;gap:12px;background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:16px;text-decoration:none;transition:border-color .2s}
+.article-card:hover{border-color:#e6c258}
+.article-emoji{font-size:26px;line-height:1}
+.article-cat{display:inline-block;font-size:11px;font-weight:700;color:#e6c258;background:rgba(230,194,88,.1);border:1px solid rgba(230,194,88,.3);border-radius:99px;padding:2px 9px;margin-bottom:6px}
+.article-title{font-size:14.5px;font-weight:800;color:#fff;margin:0 0 6px;line-height:1.6}
+.article-dek{font-size:12.5px;color:#8ea0c4;line-height:1.8;margin:0}
+.article-readtime{font-size:11.5px;color:#5a6a8a;margin-top:8px}
+.q-grid{display:flex;flex-wrap:wrap;gap:8px}
+.q-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c0cee0;background:#162847;border:1px solid #1e3556;border-radius:12px;padding:7px 11px}
+.q-chip i{font-style:normal;color:#5a6a8a;font-size:11px}
+.hub-cta{margin-top:26px;background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:18px 20px;font-size:13px;color:#c0cee0;line-height:1.9;text-align:center}
+.hub-cta a{color:#e6c258;font-weight:800;text-decoration:none}
+.footer{text-align:center;padding:26px 20px;color:#5a6a8a;font-size:13px}
+.footer a{color:#e6c258;text-decoration:none;font-weight:700}
+@media(max-width:700px){.articles-grid{grid-template-columns:1fr}}
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://khidmatyai.com/"}, {"@type": "ListItem", "position": 2, "name": "المقالات", "item": "https://khidmatyai.com/articles/"}]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "CollectionPage", "name": "مقالات خِدْمَتي AI", "description": "مقالات عملية عن الخدمات الحكومية المصرية: الأوراق، الرسوم، الخطوات، وأخطاء شائعة.", "url": "https://khidmatyai.com/articles/", "inLanguage": "ar-EG", "isPartOf": {"@type": "WebSite", "name": "خِدْمَتي AI", "url": "https://khidmatyai.com/"}, "mainEntity": {"@type": "ItemList", "numberOfItems": 6, "itemListElement": [{"@type": "ListItem", "position": 1, "name": "استخراج شهادة ميلاد مميكنة: الأوراق والخطوات", "url": "https://khidmatyai.com/articles/birth-certificate-guide.html"}, {"@type": "ListItem", "position": 2, "name": "تجديد رخصة القيادة: المواعيد والأوراق والخطوات", "url": "https://khidmatyai.com/articles/driving-license-renewal.html"}, {"@type": "ListItem", "position": 3, "name": "استخراج بطاقة التأمين الصحي: الأوراق والخطوات", "url": "https://khidmatyai.com/articles/health-insurance-card.html"}, {"@type": "ListItem", "position": 4, "name": "التأمين الصحي في مصر: مين المشمول وإزاي تعرف موقفك", "url": "https://khidmatyai.com/articles/health-insurance-egypt.html"}, {"@type": "ListItem", "position": 5, "name": "الاستعلام عن الموقف التأميني بالرقم القومي", "url": "https://khidmatyai.com/articles/insurance-inquiry.html"}, {"@type": "ListItem", "position": 6, "name": "رخصة مزاولة النشاط: الشروط والأوراق والخطوات", "url": "https://khidmatyai.com/articles/profession-license.html"}]}}
+</script>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><nav class="hd-nav" aria-label="التنقل الرئيسي"><a href="../index.html">الرئيسية</a><a href="../services.html">الخدمات</a><a href="../articles.html">الدليل</a><a href="../offices.html">المكاتب</a><a href="../store.html">المتجر</a></nav></div>
+
+<div class="hub-hero">
+  <h1>المقالات</h1>
+  <p>مقالات عملية عن الخدمات الحكومية المصرية — الأوراق، الرسوم، الخطوات، والأخطاء اللي بتطوّل المشوار.</p>
+</div>
+<div class="hub-progress">
+  <div class="hub-bar"><i style="width:6%"></i></div>
+  <div class="hub-pstat"><span>خطة المكتبة: <b>100</b> مقال</span><span>منشور: <b>6</b></span></div>
+</div>
+
+<div class="hub-wrap">
+  <h2 class="hub-sec">📖 منشور الآن</h2>
+  <div class="articles-grid">
+  <a class="article-card" href="birth-certificate-guide.html">
+   <div class="article-emoji">🧾</div>
+   <div class="article-body">
+    <span class="article-cat">الأحوال المدنية</span>
+    <h3 class="article-title">استخراج شهادة ميلاد مميكنة: الأوراق والخطوات</h3>
+    <p class="article-dek">إمتى تحتاج الشهادة المميكنة، إيه أوراقها، وإيه اللي بيعطّل الطلب في السجل المدني — خطوة بخطوة.</p>
+    <div class="article-readtime">قراءة ٦ دقائق ←</div>
+   </div>
+  </a>
+<a class="article-card" href="driving-license-renewal.html">
+   <div class="article-emoji">🚗</div>
+   <div class="article-body">
+    <span class="article-cat">المرور</span>
+    <h3 class="article-title">تجديد رخصة القيادة: المواعيد والأوراق والخطوات</h3>
+    <p class="article-dek">تعمل إيه قبل الميعاد، الأوراق اللي تجهّزها، وإمتى الرخصة المنتهية تتحوّل لمعاملة جديدة.</p>
+    <div class="article-readtime">قراءة ٦ دقائق ←</div>
+   </div>
+  </a>
+<a class="article-card" href="health-insurance-card.html">
+   <div class="article-emoji">🪪</div>
+   <div class="article-body">
+    <span class="article-cat">التأمين الصحي</span>
+    <h3 class="article-title">استخراج بطاقة التأمين الصحي: الأوراق والخطوات</h3>
+    <p class="article-dek">من تحديد جهتك الصح لحد استلام الكارنيه — الأوراق لكل فئة، والفرق بين بدل الفاقد والتالف.</p>
+    <div class="article-readtime">قراءة ٦ دقائق ←</div>
+   </div>
+  </a>
+<a class="article-card" href="health-insurance-egypt.html">
+   <div class="article-emoji">🏥</div>
+   <div class="article-body">
+    <span class="article-cat">التأمين الصحي</span>
+    <h3 class="article-title">التأمين الصحي في مصر: مين المشمول وإزاي تعرف موقفك</h3>
+    <p class="article-dek">الفئات المشمولة، والفروق بين التأمين الصحي والعلاجي والشامل، وإزاي تتأكد من موقفك.</p>
+    <div class="article-readtime">قراءة ٧ دقائق ←</div>
+   </div>
+  </a>
+<a class="article-card" href="insurance-inquiry.html">
+   <div class="article-emoji">🔎</div>
+   <div class="article-body">
+    <span class="article-cat">التأمينات</span>
+    <h3 class="article-title">الاستعلام عن الموقف التأميني بالرقم القومي</h3>
+    <p class="article-dek">الطرق الرسمية للاستعلام، وإيه اللي تعمله لو البيانات مش ظاهرة أو ناقصة.</p>
+    <div class="article-readtime">قراءة ٥ دقائق ←</div>
+   </div>
+  </a>
+<a class="article-card" href="profession-license.html">
+   <div class="article-emoji">📋</div>
+   <div class="article-body">
+    <span class="article-cat">التراخيص</span>
+    <h3 class="article-title">رخصة مزاولة النشاط: الشروط والأوراق والخطوات</h3>
+    <p class="article-dek">الأنشطة اللي بتحتاج رخصة، والجهة المسؤولة، والأوراق المطلوبة والمدة.</p>
+    <div class="article-readtime">قراءة ٦ دقائق ←</div>
+   </div>
+  </a>
+  </div>
+
+  <h2 class="hub-sec">🗂️ محاور المكتبة القادمة</h2>
+  <div class="q-grid"><span class="q-chip"><b>🪪</b> الأحوال المدنية <i dir="ltr">1/8</i></span><span class="q-chip"><b>🚗</b> المرور <i dir="ltr">1/8</i></span><span class="q-chip"><b>📄</b> الشهر العقاري والتوثيق <i dir="ltr">0/8</i></span><span class="q-chip"><b>💰</b> الضرائب <i dir="ltr">0/8</i></span><span class="q-chip"><b>🏦</b> التأمينات والمعاشات <i dir="ltr">0/8</i></span><span class="q-chip"><b>🏥</b> الصحة <i dir="ltr">0/8</i></span><span class="q-chip"><b>🎓</b> التعليم <i dir="ltr">0/8</i></span><span class="q-chip"><b>🛂</b> الجوازات والهجرة <i dir="ltr">0/8</i></span><span class="q-chip"><b>🏢</b> الشركات والسجل التجاري <i dir="ltr">0/8</i></span><span class="q-chip"><b>⚖️</b> المحاكم والقضايا <i dir="ltr">0/8</i></span><span class="q-chip"><b>🏠</b> المرافق والخدمات <i dir="ltr">0/8</i></span><span class="q-chip"><b>🌐</b> الخدمات الرقمية <i dir="ltr">0/8</i></span></div>
+
+  <div class="hub-cta">محتاج خطوات خدمة معيّنة دلوقتي؟ الأدلة التفاعلية فيها الحاسبة والخطوات كاملة → <a href="../services.html">الخدمات</a> · أو اسأل المساعد في <a href="../index.html#ask">الرئيسية</a></div>
+</div>
+
+<div class="footer"><p>© 2026 خِدْمَتي AI | <a href="../index.html">العودة للرئيسية</a></p></div>
+</body>
+</html>

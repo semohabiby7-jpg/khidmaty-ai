@@ -82,7 +82,7 @@ footer a{{color:#e6c258;text-decoration:none;font-weight:700}}
 </html>
 """
 
-def render(a, date):
+def render(a, date, others=()):
     body = []
     body.append('  <h2>الأساسيات</h2>')
     for p in a['intro']:
@@ -111,9 +111,11 @@ def render(a, date):
         body.append(f'  <details class="faq"><summary>{q}</summary><p>{ans}</p></details>')
     body.append('  <div class="cta"><div>الدليل التفاعلي بيشرح نفس الخدمة خطوة بخطوة وبحاسبة رسوم.</div>'
                 f'<a href="../services/{a["service"]}.html">افتح الدليل ←</a></div>')
-    if a.get('related'):
+    rel = [x for x in a.get('related', [])]
+    rel += [x for x in others if x[1] not in [r[1] for r in rel]][:3]
+    if rel:
         body.append('  <h2>اقرأ كمان</h2>\n  <div class="rel">')
-        for t, u in a['related']:
+        for t, u in rel:
             body.append(f'   <a href="{u}">{t}</a>')
         body.append('  </div>')
     schema = {
@@ -187,8 +189,11 @@ def main(path):
     data = json.load(open(path, encoding='utf-8'))
     out = os.path.join(ROOT, 'maqalat'); os.makedirs(out, exist_ok=True)
     today = datetime.date.today().isoformat()
-    for a in data['articles']:
-        html = render(a, today)
+    arts = data['articles']
+    for idx, a in enumerate(arts):
+        others = [(x['title'], x['slug'] + '.html') for j, x in enumerate(arts) if j != idx]
+        others.sort()
+        html = render(a, today, others)
         open(os.path.join(out, a['slug'] + '.html'), 'w', encoding='utf-8').write(html)
         print('OK', a['slug'])
     # الفهرس: مقالات maqalat/ + المقالات المفصّلة القديمة في articles/

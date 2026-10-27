@@ -1,30 +1,30 @@
 {
-  "timestamp": "2026-10-26T06:11:33.801820",
+  "timestamp": "2026-10-27T06:01:21.164320",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "222",
-      "sessions": "272",
-      "screenPageViews": "419",
-      "averageSessionDuration": "140.1283424632353",
-      "bounceRate": "0.5625"
+      "totalUsers": "235",
+      "sessions": "282",
+      "screenPageViews": "429",
+      "averageSessionDuration": "137.00836915248226",
+      "bounceRate": "0.56382978723404253"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "10",
+      "totalUsers": "11",
       "sessions": "11",
       "screenPageViews": "11",
-      "averageSessionDuration": "44.735258454545459",
-      "bounceRate": "0.45454545454545453"
+      "averageSessionDuration": "24.308673090909089",
+      "bounceRate": "0.63636363636363635"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "197",
-      "totalUsers": "122",
-      "averageSessionDuration": "103.56246552597402"
+      "screenPageViews": "198",
+      "totalUsers": "123",
+      "averageSessionDuration": "102.89432058709677"
     },
     {
       "pagePath": "/store.html",
@@ -39,28 +39,28 @@
       "averageSessionDuration": "206.64998205555557"
     },
     {
-      "pagePath": "/khidmaty-ai/",
-      "screenPageViews": "21",
-      "totalUsers": "11",
-      "averageSessionDuration": "143.29755306666667"
-    },
-    {
       "pagePath": "/services/renew-commercial-register.html",
-      "screenPageViews": "18",
-      "totalUsers": "17",
-      "averageSessionDuration": "118.85111916666668"
+      "screenPageViews": "22",
+      "totalUsers": "21",
+      "averageSessionDuration": "107.33836550000001"
     },
     {
       "pagePath": "/services/insurance-periods-inquiry.html",
-      "screenPageViews": "13",
-      "totalUsers": "10",
-      "averageSessionDuration": "62.699166363636365"
+      "screenPageViews": "17",
+      "totalUsers": "11",
+      "averageSessionDuration": "82.653042"
+    },
+    {
+      "pagePath": "/khidmaty-ai/",
+      "screenPageViews": "15",
+      "totalUsers": "11",
+      "averageSessionDuration": "173.48955208333334"
     },
     {
       "pagePath": "/services/vaccination-certificate.html",
-      "screenPageViews": "13",
-      "totalUsers": "11",
-      "averageSessionDuration": "128.03291925"
+      "screenPageViews": "14",
+      "totalUsers": "12",
+      "averageSessionDuration": "119.68412115384616"
     },
     {
       "pagePath": "/khidmaty-ai/index.html",
@@ -99,6 +99,12 @@
       "averageSessionDuration": "222.03445233333332"
     },
     {
+      "pagePath": "/services/update-insured-data.html",
+      "screenPageViews": "6",
+      "totalUsers": "6",
+      "averageSessionDuration": "167.6926315"
+    },
+    {
       "pagePath": "/articles.html",
       "screenPageViews": "5",
       "totalUsers": "1",
@@ -111,10 +117,10 @@
       "averageSessionDuration": "47.084148"
     },
     {
-      "pagePath": "/services/update-insured-data.html",
+      "pagePath": "/services/marriage-divorce-certificate.html",
       "screenPageViews": "5",
       "totalUsers": "5",
-      "averageSessionDuration": "192.1768562"
+      "averageSessionDuration": "10.2641454"
     },
     {
       "pagePath": "/offices.html",
@@ -133,24 +139,18 @@
       "screenPageViews": "3",
       "totalUsers": "3",
       "averageSessionDuration": "12.767448666666667"
-    },
-    {
-      "pagePath": "/services/marriage-divorce-certificate.html",
-      "screenPageViews": "3",
-      "totalUsers": "3",
-      "averageSessionDuration": "17.106908999999998"
     }
   ],
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "139",
-      "totalUsers": "116"
+      "sessions": "144",
+      "totalUsers": "124"
     },
     {
       "sessionSource": "google",
-      "sessions": "90",
-      "totalUsers": "84"
+      "sessions": "95",
+      "totalUsers": "89"
     },
     {
       "sessionSource": "youtube.com",
@@ -196,13 +196,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "157",
-      "totalUsers": "120"
+      "sessions": "164",
+      "totalUsers": "129"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "114",
-      "totalUsers": "101"
+      "sessions": "117",
+      "totalUsers": "105"
     },
     {
       "deviceCategory": "tablet",
@@ -211,6 +211,18 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261027",
+      "totalUsers": "2",
+      "sessions": "2",
+      "screenPageViews": "5"
+    },
+    {
+      "date": "20261026",
+      "totalUsers": "11",
+      "sessions": "11",
+      "screenPageViews": "11"
+    },
     {
       "date": "20261025",
       "totalUsers": "10",
@@ -246,12 +258,6 @@
       "totalUsers": "9",
       "sessions": "10",
       "screenPageViews": "10"
-    },
-    {
-      "date": "20261019",
-      "totalUsers": "6",
-      "sessions": "6",
-      "screenPageViews": "12"
     }
   ]
 }

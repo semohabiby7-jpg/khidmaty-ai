@@ -14,6 +14,27 @@
 <meta name="apple-mobile-web-app-title" content="Scan Macaron">
 <link rel="canonical" href="https://khidmatyai.com/scan/">
 <link rel="manifest" href="manifest.json">
+<script>
+/* ===== حارس النسخة: يشتغل حتى لو app.js نفسه تعطّل ===== */
+(function(){
+  var V='36';
+  try{
+    var seen=localStorage.getItem('sma_ver');
+    var controlled = navigator.serviceWorker && navigator.serviceWorker.controller;
+    localStorage.setItem('sma_ver', V);
+    if(seen!==V && controlled){
+      Promise.resolve()
+        .then(function(){ return navigator.serviceWorker.getRegistrations(); })
+        .then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); })
+        .then(function(){ return (window.caches ? caches.keys() : []); })
+        .then(function(ks){ return Promise.all((ks||[]).map(function(k){ return caches.delete(k); })); })
+        .then(function(){ location.replace(location.pathname + '?fresh=' + Date.now()); })
+        .catch(function(){});
+    }
+  }catch(e){}
+})();
+</script>
+
 <link rel="apple-touch-icon" href="icon.svg">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <meta property="og:title" content="Scan Macaron AI">
@@ -56,8 +77,7 @@
       <a href="../store.html">المتجر</a>
       <button class="theme-toggle" id="btnTheme" title="تبديل الوضع الليلي/النهاري" aria-label="تبديل الوضع">🌙</button>
       <button class="theme-toggle" id="btnA11y" title="وضع الإتاحة (أزرار أكبر + قراءة أوتوماتيك بعد الاستخراج)" aria-label="وضع الإتاحة">👁️</button>
-      <button class="theme-toggle" id="btnInstallApp" title="حمّل التطبيق على موبايلك" aria-label="حمّل التطبيق" style="display:none">⬇️</button>
-      <a class="theme-toggle" href="scan-macaron.apk" download title="نزّل تطبيق Scan Macaron AI (APK موقّع)" aria-label="نزّل تطبيق APK" style="text-decoration:none">📦</a>
+      <button class="theme-toggle" id="btnInstallApp" title="ثبّت التطبيق على موبايلك" aria-label="ثبّت التطبيق" style="display:none">⬇️</button>
     </nav>
   </div>
 </header>

@@ -78,7 +78,42 @@ const dom = {
   btnBatch: $('btnBatch'), btnIdCard: $('btnIdCard'), idCardStatus: $('idCardStatus'),
   chkCompress: $('chkCompress'), btnFlatten: $('btnFlatten'),
 };
-const ctx = dom.canvas.getContext('2d', { willReadFrequently: true });
+// حارس أخطاء عام: لو حصل أي خطأ غير متوقع، التطبيق يوضّح بدل ما يبقى «ميّت»
+(function(){
+  function showFatal(msg){
+    try{
+      if(document.getElementById('smaFatal')) return;
+      var d=document.createElement('div');
+      d.id='smaFatal';
+      d.setAttribute('dir','rtl');
+      d.style.cssText='position:fixed;inset:0;z-index:99999;background:#0F1E3D;color:#e8eef8;font-family:Cairo,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:28px;text-align:center';
+      d.innerHTML='<div style="font-size:34px">🔄</div><div style="font-weight:900;font-size:18px">التطبيق محتاج تحديث سريع</div>'
+        +'<div style="color:#8ea0c4;font-size:14px;line-height:1.8;max-width:340px">النسخة المخزّنة على جهازك قديمة أو فيها خلل. اضغط الزر تحت عشان ننضّف النسخة القديمة ونحمّل آخر نسخة.</div>'
+        +'<button id="smaFix" style="background:#e6c258;color:#0F1E3D;border:0;border-radius:24px;padding:14px 30px;font-weight:900;font-size:15px;font-family:Cairo,sans-serif">تحديث الآن</button>'
+        +'<div style="color:#5a6a8a;font-size:11px;max-width:320px">لو استمرت المشكلة: اقفل التطبيق وافتحه من جديد.</div>';
+      document.body.appendChild(d);
+      document.getElementById('smaFix').onclick=async function(){
+        this.textContent='⏳ بيحدّث...';
+        try{
+          if('serviceWorker' in navigator){
+            var regs=await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(function(r){return r.unregister();}));
+          }
+          if(window.caches){ var ks=await caches.keys(); await Promise.all(ks.map(function(k){return caches.delete(k);})); }
+        }catch(e){}
+        location.replace(location.pathname+'?v='+Date.now());
+      };
+    }catch(e){}
+  }
+  window.addEventListener('error', function(ev){
+    if(ev && (ev.message||'').indexOf('Script error')===-1) showFatal(ev.message);
+  });
+  window.addEventListener('unhandledrejection', function(){ /* الأخطاء المتوقعة بتتعالج محليًا */ });
+  window.__smaShowFatal = showFatal;
+})();
+const _cv = dom.canvas || document.getElementById('canvas');
+const ctx = _cv && _cv.getContext ? _cv.getContext('2d', { willReadFrequently: true }) : null;
+if(!ctx && window.__smaShowFatal){ window.__smaShowFatal('canvas missing'); }
 
 // ===== الحالة =====
 const state = {
@@ -2903,12 +2938,17 @@ function renderDocInfo(info){
 
 
 // ===== Init =====
-bind();
+try{
+  bind();
 renderHistory(); // حمّل السجل المحفوظ عند بدء التشغيل
 const _btnClearAll = document.getElementById('btnClearAll');
 if(_btnClearAll){ _btnClearAll.addEventListener('click', () => {
   if(confirm('امسح كل المستندات؟')) clearAllScans();
 }); }
+}catch(err){
+  console.error('init error:', err);
+  if(window.__smaShowFatal) window.__smaShowFatal(String(err && err.message || err));
+}
 if('serviceWorker' in navigator){
-  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {}); });
 }

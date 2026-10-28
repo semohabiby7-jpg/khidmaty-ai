@@ -170,7 +170,7 @@ footer a{{color:#e6c258;text-decoration:none;font-weight:700}}
 </script>
 </head>
 <body>
-<div class="top"><a href="index.html">← الرئيسية</a><a href="articles.html" style="font-size:13px">الأدلة التفاعلية</a></div>
+<div class="top"><a href="index.html">← الرئيسية</a><a href="services.html" style="font-size:13px">📋 دليل الخدمات</a></div>
 <div class="hero">
   <h1>مقالات خِدْمَتي</h1>
   <p>شرح مباشر لأشهر مواقف الخدمات الحكومية في مصر — بالأوراق والخطوات والأخطاء اللي بتطوّل الموضوع.</p>

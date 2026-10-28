@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-10-27T06:01:21.164320",
+  "timestamp": "2026-10-28T06:03:04.020951",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "235",
-      "sessions": "282",
-      "screenPageViews": "429",
-      "averageSessionDuration": "137.00836915248226",
-      "bounceRate": "0.56382978723404253"
+      "totalUsers": "240",
+      "sessions": "286",
+      "screenPageViews": "436",
+      "averageSessionDuration": "133.3773005944056",
+      "bounceRate": "0.55594405594405594"
     }
   ],
   "yesterday": [
     {
       "totalUsers": "11",
       "sessions": "11",
-      "screenPageViews": "11",
-      "averageSessionDuration": "24.308673090909089",
-      "bounceRate": "0.63636363636363635"
+      "screenPageViews": "20",
+      "averageSessionDuration": "93.092930090909078",
+      "bounceRate": "0.18181818181818182"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "198",
-      "totalUsers": "123",
-      "averageSessionDuration": "102.89432058709677"
+      "screenPageViews": "201",
+      "totalUsers": "124",
+      "averageSessionDuration": "101.72184192356687"
     },
     {
       "pagePath": "/store.html",
-      "screenPageViews": "36",
+      "screenPageViews": "37",
       "totalUsers": "3",
-      "averageSessionDuration": "212.63694686666668"
+      "averageSessionDuration": "199.67526993750002"
     },
     {
       "pagePath": "/index.html",
@@ -40,9 +40,9 @@
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
-      "screenPageViews": "22",
-      "totalUsers": "21",
-      "averageSessionDuration": "107.33836550000001"
+      "screenPageViews": "27",
+      "totalUsers": "26",
+      "averageSessionDuration": "105.64056592592594"
     },
     {
       "pagePath": "/services/insurance-periods-inquiry.html",
@@ -51,28 +51,22 @@
       "averageSessionDuration": "82.653042"
     },
     {
-      "pagePath": "/khidmaty-ai/",
-      "screenPageViews": "15",
-      "totalUsers": "11",
-      "averageSessionDuration": "173.48955208333334"
-    },
-    {
       "pagePath": "/services/vaccination-certificate.html",
       "screenPageViews": "14",
       "totalUsers": "12",
       "averageSessionDuration": "119.68412115384616"
     },
     {
-      "pagePath": "/khidmaty-ai/index.html",
-      "screenPageViews": "9",
-      "totalUsers": "1",
-      "averageSessionDuration": "793.14391775"
+      "pagePath": "/services/pension-postal-payment.html",
+      "screenPageViews": "10",
+      "totalUsers": "7",
+      "averageSessionDuration": "82.593360428571415"
     },
     {
-      "pagePath": "/services/pension-postal-payment.html",
+      "pagePath": "/khidmaty-ai/",
       "screenPageViews": "9",
       "totalUsers": "6",
-      "averageSessionDuration": "60.638217166666664"
+      "averageSessionDuration": "328.26868183333335"
     },
     {
       "pagePath": "/services/replace-plates.html",
@@ -81,10 +75,16 @@
       "averageSessionDuration": "19.545522555555557"
     },
     {
+      "pagePath": "/services/update-insured-data.html",
+      "screenPageViews": "9",
+      "totalUsers": "7",
+      "averageSessionDuration": "143.75699471428572"
+    },
+    {
       "pagePath": "/services.html",
-      "screenPageViews": "6",
-      "totalUsers": "2",
-      "averageSessionDuration": "31.818446"
+      "screenPageViews": "7",
+      "totalUsers": "3",
+      "averageSessionDuration": "27.08726866666667"
     },
     {
       "pagePath": "/services/death-certificate.html",
@@ -99,16 +99,16 @@
       "averageSessionDuration": "222.03445233333332"
     },
     {
-      "pagePath": "/services/update-insured-data.html",
-      "screenPageViews": "6",
-      "totalUsers": "6",
-      "averageSessionDuration": "167.6926315"
-    },
-    {
       "pagePath": "/articles.html",
       "screenPageViews": "5",
       "totalUsers": "1",
       "averageSessionDuration": "308.142206"
+    },
+    {
+      "pagePath": "/khidmaty-ai/index.html",
+      "screenPageViews": "5",
+      "totalUsers": "1",
+      "averageSessionDuration": "651.96327466666673"
     },
     {
       "pagePath": "/services/egyptian-citizenship.html",
@@ -145,16 +145,16 @@
     {
       "sessionSource": "(direct)",
       "sessions": "144",
-      "totalUsers": "124"
+      "totalUsers": "126"
     },
     {
       "sessionSource": "google",
-      "sessions": "95",
-      "totalUsers": "89"
+      "sessions": "103",
+      "totalUsers": "97"
     },
     {
       "sessionSource": "youtube.com",
-      "sessions": "12",
+      "sessions": "13",
       "totalUsers": "1"
     },
     {
@@ -164,13 +164,13 @@
     },
     {
       "sessionSource": "m.facebook.com",
-      "sessions": "9",
-      "totalUsers": "8"
+      "sessions": "6",
+      "totalUsers": "5"
     },
     {
       "sessionSource": "facebook.com",
-      "sessions": "5",
-      "totalUsers": "5"
+      "sessions": "3",
+      "totalUsers": "3"
     },
     {
       "sessionSource": "lm.facebook.com",
@@ -196,13 +196,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "164",
-      "totalUsers": "129"
+      "sessions": "171",
+      "totalUsers": "135"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "117",
-      "totalUsers": "105"
+      "sessions": "114",
+      "totalUsers": "104"
     },
     {
       "deviceCategory": "tablet",
@@ -212,10 +212,16 @@
   ],
   "daily_7d": [
     {
-      "date": "20261027",
+      "date": "20261028",
       "totalUsers": "2",
       "sessions": "2",
-      "screenPageViews": "5"
+      "screenPageViews": "2"
+    },
+    {
+      "date": "20261027",
+      "totalUsers": "11",
+      "sessions": "11",
+      "screenPageViews": "20"
     },
     {
       "date": "20261026",
@@ -252,12 +258,6 @@
       "totalUsers": "10",
       "sessions": "10",
       "screenPageViews": "25"
-    },
-    {
-      "date": "20261020",
-      "totalUsers": "9",
-      "sessions": "10",
-      "screenPageViews": "10"
     }
   ]
 }

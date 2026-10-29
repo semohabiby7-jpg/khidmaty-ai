@@ -1,54 +1,54 @@
 {
-  "timestamp": "2026-10-28T06:03:04.020951",
+  "timestamp": "2026-10-29T06:02:36.172661",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "240",
-      "sessions": "286",
-      "screenPageViews": "436",
-      "averageSessionDuration": "133.3773005944056",
-      "bounceRate": "0.55594405594405594"
+      "totalUsers": "246",
+      "sessions": "292",
+      "screenPageViews": "448",
+      "averageSessionDuration": "121.742829630137",
+      "bounceRate": "0.55136986301369861"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "11",
-      "sessions": "11",
-      "screenPageViews": "20",
-      "averageSessionDuration": "93.092930090909078",
-      "bounceRate": "0.18181818181818182"
+      "totalUsers": "14",
+      "sessions": "14",
+      "screenPageViews": "25",
+      "averageSessionDuration": "86.540854",
+      "bounceRate": "0.42857142857142855"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "201",
-      "totalUsers": "124",
-      "averageSessionDuration": "101.72184192356687"
+      "screenPageViews": "206",
+      "totalUsers": "125",
+      "averageSessionDuration": "101.9878636981132"
     },
     {
       "pagePath": "/store.html",
       "screenPageViews": "37",
       "totalUsers": "3",
-      "averageSessionDuration": "199.67526993750002"
+      "averageSessionDuration": "199.6752699375"
     },
     {
       "pagePath": "/index.html",
-      "screenPageViews": "34",
-      "totalUsers": "10",
-      "averageSessionDuration": "206.64998205555557"
+      "screenPageViews": "35",
+      "totalUsers": "11",
+      "averageSessionDuration": "197.10417736842106"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
-      "screenPageViews": "27",
-      "totalUsers": "26",
-      "averageSessionDuration": "105.64056592592594"
+      "screenPageViews": "30",
+      "totalUsers": "29",
+      "averageSessionDuration": "96.847825966666676"
     },
     {
       "pagePath": "/services/insurance-periods-inquiry.html",
-      "screenPageViews": "17",
-      "totalUsers": "11",
-      "averageSessionDuration": "82.653042"
+      "screenPageViews": "18",
+      "totalUsers": "12",
+      "averageSessionDuration": "78.276239846153842"
     },
     {
       "pagePath": "/services/vaccination-certificate.html",
@@ -57,34 +57,28 @@
       "averageSessionDuration": "119.68412115384616"
     },
     {
+      "pagePath": "/services/update-insured-data.html",
+      "screenPageViews": "12",
+      "totalUsers": "9",
+      "averageSessionDuration": "158.87826666666666"
+    },
+    {
+      "pagePath": "/services.html",
+      "screenPageViews": "10",
+      "totalUsers": "6",
+      "averageSessionDuration": "25.2357705"
+    },
+    {
       "pagePath": "/services/pension-postal-payment.html",
       "screenPageViews": "10",
       "totalUsers": "7",
       "averageSessionDuration": "82.593360428571415"
     },
     {
-      "pagePath": "/khidmaty-ai/",
-      "screenPageViews": "9",
-      "totalUsers": "6",
-      "averageSessionDuration": "328.26868183333335"
-    },
-    {
       "pagePath": "/services/replace-plates.html",
       "screenPageViews": "9",
       "totalUsers": "7",
       "averageSessionDuration": "19.545522555555557"
-    },
-    {
-      "pagePath": "/services/update-insured-data.html",
-      "screenPageViews": "9",
-      "totalUsers": "7",
-      "averageSessionDuration": "143.75699471428572"
-    },
-    {
-      "pagePath": "/services.html",
-      "screenPageViews": "7",
-      "totalUsers": "3",
-      "averageSessionDuration": "27.08726866666667"
     },
     {
       "pagePath": "/services/death-certificate.html",
@@ -103,12 +97,6 @@
       "screenPageViews": "5",
       "totalUsers": "1",
       "averageSessionDuration": "308.142206"
-    },
-    {
-      "pagePath": "/khidmaty-ai/index.html",
-      "screenPageViews": "5",
-      "totalUsers": "1",
-      "averageSessionDuration": "651.96327466666673"
     },
     {
       "pagePath": "/services/egyptian-citizenship.html",
@@ -139,41 +127,48 @@
       "screenPageViews": "3",
       "totalUsers": "3",
       "averageSessionDuration": "12.767448666666667"
+    },
+    {
+      "pagePath": "/services/electricity.html",
+      "screenPageViews": "3",
+      "totalUsers": "3",
+      "averageSessionDuration": "0"
+    },
+    {
+      "pagePath": "/khidmaty-ai/index.html",
+      "screenPageViews": "2",
+      "totalUsers": "1",
+      "averageSessionDuration": "37.7716405"
     }
   ],
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "144",
-      "totalUsers": "126"
+      "sessions": "146",
+      "totalUsers": "128"
     },
     {
       "sessionSource": "google",
-      "sessions": "103",
-      "totalUsers": "97"
+      "sessions": "111",
+      "totalUsers": "105"
     },
     {
       "sessionSource": "youtube.com",
-      "sessions": "13",
+      "sessions": "14",
       "totalUsers": "1"
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "10",
-      "totalUsers": "5"
+      "sessions": "11",
+      "totalUsers": "6"
     },
     {
       "sessionSource": "m.facebook.com",
-      "sessions": "6",
-      "totalUsers": "5"
+      "sessions": "5",
+      "totalUsers": "4"
     },
     {
       "sessionSource": "facebook.com",
-      "sessions": "3",
-      "totalUsers": "3"
-    },
-    {
-      "sessionSource": "lm.facebook.com",
       "sessions": "3",
       "totalUsers": "3"
     },
@@ -196,13 +191,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "171",
-      "totalUsers": "135"
+      "sessions": "174",
+      "totalUsers": "137"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "114",
-      "totalUsers": "104"
+      "sessions": "118",
+      "totalUsers": "109"
     },
     {
       "deviceCategory": "tablet",
@@ -213,9 +208,9 @@
   "daily_7d": [
     {
       "date": "20261028",
-      "totalUsers": "2",
-      "sessions": "2",
-      "screenPageViews": "2"
+      "totalUsers": "14",
+      "sessions": "14",
+      "screenPageViews": "25"
     },
     {
       "date": "20261027",
@@ -252,12 +247,6 @@
       "totalUsers": "10",
       "sessions": "10",
       "screenPageViews": "10"
-    },
-    {
-      "date": "20261021",
-      "totalUsers": "10",
-      "sessions": "10",
-      "screenPageViews": "25"
     }
   ]
 }

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>حسابات عربيات التشغيل</title>
+<style>
+:root{
+  --ink:#171717;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --bg:#f7f7f8;
+  --pos:#047857;
+  --pos-bg:#ecfdf5;
+  --neg:#be123c;
+  --neg-bg:#fff1f2;
+  --warn:#b45309;
+  --warn-bg:#fffbeb;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Segoe UI","Tahoma",system-ui,-apple-system,"Noto Naskh Arabic",sans-serif;
+  font-size:15px;
+  line-height:1.5;
+}
+a{color:inherit;text-decoration:none}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:12px 18px;background:#fff;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:20;flex-wrap:wrap;
+}
+.brand{font-weight:700;font-size:16px}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav a{padding:6px 12px;border-radius:999px;color:var(--muted);font-size:13.5px}
+.nav a:hover{background:#f3f4f6;color:var(--ink)}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 16px 60px}
+
+h2{margin:0 0 12px;font-size:18px}
+h3{margin:0 0 10px;font-size:15px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.tiny{font-size:11px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.grid{display:grid;gap:10px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:720px){
+  .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+.trucks{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.tcard{
+  background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;
+  cursor:pointer;transition:.15s;min-width:0;
+}
+.tcard:hover{border-color:#9ca3af;transform:translateY(-1px)}
+.tcard-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tno{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
+.tsub{font-size:12.5px;color:var(--muted);margin-top:2px;min-height:18px}
+.toil{margin-top:6px;font-size:11px;color:var(--warn);min-height:15px}
+
+.amt{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px}
+.pos{color:var(--pos)}
+.neg{color:var(--neg)}
+.zero{color:var(--muted)}
+
+label{display:block;min-width:0}
+label span{display:block;font-size:11.5px;color:var(--muted);margin-bottom:3px}
+input,select{
+  width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;
+  padding:8px 9px;font:inherit;font-size:13.5px;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+input:focus,select:focus{outline:none;border-color:var(--ink)}
+input[type=date]{font-variant-numeric:normal}
+
+button{
+  font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);padding:8px 14px;font-size:13.5px;
+}
+button:hover{background:#f9fafb}
+button.primary{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+button.primary:hover{background:#000}
+button.ghost{border-color:transparent;color:var(--muted)}
+button.danger{color:var(--neg);border-color:#fecdd3;background:#fff}
+button.mini{padding:3px 8px;font-size:11.5px;border-radius:8px}
+button:disabled{opacity:.45;cursor:not-allowed}
+
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.spacer{flex:1}
+
+.items-head{display:flex;align-items:center;justify-content:space-between;margin:12px 0 6px}
+.item{display:grid;grid-template-columns:1fr 96px 30px;gap:6px;margin-bottom:6px;align-items:center}
+@media(max-width:480px){.item{grid-template-columns:1fr 80px 28px}}
+
+.sumline{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:10px;background:#f9fafb;font-size:13px;margin-top:8px}
+.verdict{padding:10px 12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;font-weight:600}
+.verdict.pos{background:var(--pos-bg);color:var(--pos)}
+.verdict.neg{background:var(--neg-bg);color:var(--neg)}
+.verdict.zero{background:#f3f4f6;color:var(--muted)}
+.verdict .big{font-size:19px;font-variant-numeric:tabular-nums}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:#f9fafb;border-radius:10px;padding:8px 10px}
+.stat .k{font-size:11px;color:var(--muted)}
+.stat .v{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs a{padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.tabs a.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;font-weight:600;color:var(--muted);font-size:11.5px;padding:6px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:7px 6px;border-bottom:1px solid #f3f4f6;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:left;direction:ltr}
+.tablewrap{overflow-x:auto}
+
+.msg{padding:9px 12px;border-radius:10px;background:var(--pos-bg);color:var(--pos);font-size:13px;margin-bottom:12px}
+.msg.bad{background:var(--neg-bg);color:var(--neg)}
+.hint{background:var(--warn-bg);color:#78350f;border-radius:10px;padding:8px 10px;font-size:12px;margin-top:8px}
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:22px 0}
+.pill{display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;background:#f3f4f6;color:var(--muted)}
+.pill.pos{background:var(--pos-bg);color:var(--pos)}
+.pill.neg{background:var(--neg-bg);color:var(--neg)}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#/">حسابات عربيات التشغيل</a>
+  <nav class="nav">
+    <a href="#/">العربيات</a>
+    <a href="#/drivers">السواقين</a>
+    <a href="#/backup">نسخة احتياطية</a>
+  </nav>
+</header>
+<main id="app" class="wrap"></main>
+<script>
+/* حسابات عربيات التشغيل — نسخة محلية تعمل من المتصفح بدون إنترنت */
+
+var KEY = 'naql.v1';
+var TAB = 'trips';
+var MSG = '';
+var DRAFT = {};
+
+var SEED = ['372','374','384','395','401','402','404','428','439','440','441','445','446'];
+
+function num(v){ var x = Number(v); return Number.isFinite(x) ? x : 0; }
+function r2(x){ return Math.round(x * 100) / 100; }
+function money(x){ return r2(Math.abs(x)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); }
+function today(){ return new Date().toISOString().slice(0, 10); }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
+function dshort(d){ return d ? String(d).slice(5).replace('-', '/') : '—'; }
+
+/* ---------- التخزين ---------- */
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if (raw){
+      var o = JSON.parse(raw);
+      if (o && Array.isArray(o.trucks)){
+        return {
+          trucks: o.trucks, trips: o.trips || [], cards: o.cards || [],
+          maint: o.maint || [], oil: o.oil || [], settles: o.settles || []
+        };
+      }
+    }
+  }catch(e){}
+  var seed = SEED.map(function(no){ return { no: no, driver: '' }; });
+  return { trucks: seed, trips: [], cards: [], maint: [], oil: [], settles: [] };
+}
+var DB = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){ MSG = 'المتصفح رفض الحفظ — جرّب تصدير نسخة احتياطية.'; } }
+
+/* ---------- حسابات ---------- */
+function tripSpend(t){ return (t.items || []).reduce(function(s,i){ return s + num(i.val); }, 0); }
+function tripNet(t){ return r2(num(t.aada) + num(t.agr) - tripSpend(t)); }
+function cardCalc(c){
+  var v = r2(num(c.weight) * num(c.price));
+  var ins = r2(v * 0.005);
+  var q = r2(v - num(c.party));
+  return { v: v, q: q, ins: ins, net: r2(q - ins) };
+}
+function truckOf(no){ return DB.trucks.filter(function(t){ return t.no === no; })[0] || { no: no, driver: '' }; }
+function truckTrips(no){ return DB.trips.filter(function(t){ return t.truck === no; }); }
+function truckCards(no){ return DB.cards.filter(function(c){ return c.truck === no; }); }
+function truckMaint(no){ return DB.maint.filter(function(m){ return m.truck === no; }); }
+function truckOil(no){ return DB.oil.filter(function(o){ return o.truck === no; }); }
+function truckBalance(no){
+  var c = truckCards(no).reduce(function(s,x){ return s + cardCalc(x).net; }, 0);
+  var t = truckTrips(no).reduce(function(s,x){ return s + tripNet(x); }, 0);
+  var m = truckMaint(no).reduce(function(s,x){ return s + num(x.cost); }, 0);
+  var o = truckOil(no).reduce(function(s,x){ return s + num(x.cost); }, 0);
+  return r2(c + t - m - o);
+}
+function driverNames(){
+  var out = [];
+  DB.trucks.forEach(function(t){ if (t.driver) out.push(t.driver.trim()); });
+  DB.trips.forEach(function(t){ if (t.driver) out.push(t.driver.trim()); });
+  DB.cards.forEach(function(c){ if (c.driver) out.push(c.driver.trim()); });
+  return out.filter(function(v,i,a){ return v && a.indexOf(v) === i; });
+}
+function driverStatement(name){
+  var mine = DB.settles.filter(function(s){ return s.driver === name; }).sort(function(a,b){ return b.at - a.at; });
+  var last = mine[0];
+  var since = last ? num(last.at) : 0;
+  var cards = DB.cards.filter(function(c){ return (c.driver || '').trim() === name && num(c.at) > since; });
+  var trips = DB.trips.filter(function(t){ return (t.driver || '').trim() === name && num(t.at) > since; });
+  var cnet = cards.reduce(function(s,c){ return s + cardCalc(c).net; }, 0);
+  var tnet = trips.reduce(function(s,t){ return s + tripNet(t); }, 0);
+  var opening = last ? num(last.amount) : 0;
+  return { last: last, opening: opening, cnet: r2(cnet), tnet: r2(tnet), fresh: r2(cnet + tnet), total: r2(opening + cnet + tnet), cards: cards, trips: trips };
+}
+function rawTrips(no){
+  var list = truckTrips(no).slice().sort(function(a,b){ return (b.date || '') < (a.date || '') ? -1 : 1; });
+  return list;
+}
+function nextTripNo(no){
+  return truckTrips(no).reduce(function(m,t){ return Math.max(m, num(t.tripNo)); }, 0) + 1;
+}
+
+/* ---------- التوجيه ---------- */
+function route(){ return (location.hash || '#/').replace(/^#/, '') || '/'; }
+function go(p){ location.hash = p; }
+window.addEventListener('hashchange', function(){ MSG = ''; DRAFT = {}; TAB = 'trips'; render(); });
+
+function render(){
+  var h = route();
+  var el = document.getElementById('app');
+  var html = '';
+  if (h.indexOf('/truck/') === 0) html = viewTruck(decodeURIComponent(h.slice(7)));
+  else if (h.indexOf('/driver/') === 0) html = viewDriver(decodeURIComponent(h.slice(8)));
+  else if (h === '/drivers') html = viewDrivers();
+  else if (h === '/backup') html = viewBackup();
+  else html = viewHome();
+  el.innerHTML = (MSG ? '<div class="msg' + (MSG.indexOf('✓') > -1 ? '' : ' bad') + '">' + esc(MSG) + '</div>' : '') + html;
+}
+
+/* ---------- الرئيسية ---------- */
+function viewHome(){
+  var total = DB.trucks.reduce(function(s,t){ return s + truckBalance(t.no); }, 0);
+  var drivers = driverNames();
+  var openDrivers = drivers.filter(function(d){ return driverStatement(d).total !== 0; }).length;
+  var cards = DB.trucks.map(function(t){
+    var b = truckBalance(t.no);
+    var oils = truckOil(t.no).slice().sort(function(a,b2){ return num(b2.km) - num(a.km); });
+    var lastOil = oils[0];
+    var oilTxt = lastOil && num(lastOil.nextKm) ? 'الزيت عند ' + money(lastOil.nextKm) + ' كم' : '';
+    return '<div class="tcard" onclick="go(\'/truck/' + encodeURIComponent(t.no) + '\')">' +
+      '<div class="tcard-top"><span class="tno">' + esc(t.no) + '</span>' +
+      '<span class="amt ' + (b > 0 ? 'pos' : b < 0 ? 'neg' : 'zero') + '">' + (b === 0 ? 'خالص' : money(b)) + '</span></div>' +
+      '<div class="tsub">' + (t.driver ? esc(t.driver) : '<span class="muted">بدون سواق</span>') + '</div>' +
+      '<div class="toil">' + (oilTxt || '&nbsp;') + '</div>' +
+      '</div>';
+  }).join('');
+
+  return '<div class="card">' +
+      '<div class="stats">' +
+        '<div class="stat"><div class="k">العربيات</div><div class="v">' + DB.trucks.length + '</div></div>' +
+        '<div class="stat"><div class="k">إجمالي الأرصدة</div><div class="v ' + (total > 0 ? 'pos' : total < 0 ? 'neg' : 'zero') + '">' + money(total) + '</div></div>' +
+        '<div class="stat"><div class="k">النقلات</div><div class="v">' + DB.trips.length + '</div></div>' +
+        '<div class="stat"><div class="k">سواقين عليهم حركة</div><div class="v">' + openDrivers + '</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="row" style="margin-bottom:10px">' +
+      '<input id="new-truck" placeholder="رقم العربية الجديدة" style="max-width:220px">' +
+      '<button class="primary" onclick="addTruck()">أضف عربية</button>' +
+    '</div>' +
+    '<div class="trucks">' + cards + '</div>' +
+    '<p class="small muted" style="margin-top:14px">الرصيد = صافي البطاقات + صافي النقلات − الصيانة − الغيارات. اضغط على أي عربية تفتح صفحتها.</p>';
+}
+
+function addTruck(){
+  var el = document.getElementById('new-truck');
+  var no = (el.value || '').trim();
+  if (!no){ MSG = 'اكتب رقم العربية'; render(); return; }
+  if (DB.trucks.some(function(t){ return t.no === no; })){ MSG = 'الرقم ده موجود بالفعل'; render(); return; }
+  DB.trucks.push({ no: no, driver: '' });
+  DB.trucks.sort(function(a,b){ return Number(a.no) - Number(b.no); });
+  save(); MSG = 'اتضافت ✓'; render();
+}
+
+function setDriver(no, v){
+  DB.trucks = DB.trucks.map(function(t){ return t.no === no ? { no: t.no, driver: v.trim() } : t; });
+  save(); MSG = 'اتحفظ اسم السواق ✓'; render();
+}
+
+/* ---------- صفحة العربية ---------- */
+function tabsHtml(no){
+  var t = [
+    ['trips', 'النقلات'], ['cards', 'بطاقات النقل'], ['maint', 'الصيانة'],
+    ['oil', 'غيار الزيت'], ['statement', 'كشف العربية']
+  ];
+  return '<div class="tabs">' + t.map(function(x){
+    return '<a href="#/truck/' + encodeURIComponent(no) + '/' + x[0] + '" class="' + (TAB === x[0] ? 'active' : '') + '">' + x[1] + '</a>';
+  }).join('') + '</div>';
+}
+
+function viewTruck(no){
+  var parts = no.split('/');
+  var tno = decodeURIComponent(parts[0]);
+  if (parts[1]) TAB = parts[1];
+  var t = truckOf(tno);
+  var bal = truckBalance(tno);
+  var head = '<div class="card">' +
+      '<div class="row">' +
+        '<div style="flex:1;min-width:180px"><h2 style="margin:0">العربية ' + esc(t.no) + '</h2>' +
+          '<div class="small muted">' + (t.driver ? esc(t.driver) : 'بدون سواق') + ' — ' + truckTrips(t.no).length + ' نقلة · ' + truckCards(t.no).length + ' بطاقة</div></div>' +
+        '<div class="verdict ' + (bal > 0 ? 'pos' : bal < 0 ? 'neg' : 'zero') + '" style="margin:0;min-width:200px">' +
+          '<span>رصيد العربية</span><span class="big">' + money(bal) + '</span></div>' +
+      '</div>' +
+      '<div class="grid g2" style="margin-top:10px">' +
+        '<label><span>اسم السواق</span><input value="' + esc(t.driver) + '" onchange="setDriver(\'' + esc(t.no) + '\', this.value)"></label>' +
+        '<label><span>بحث</span><input placeholder="اكتب للتصفية لاحقًا" disabled></label>' +
+      '</div>' +
+    '</div>';
+  var body = '';
+  if (TAB === 'cards') body = tabCards(tno);
+  else if (TAB === 'maint') body = tabMaint(tno);
+  else if (TAB === 'oil') body = tabOil(tno);
+  else if (TAB === 'statement') body = tabStatement(tno);
+  else body = tabTrips(tno);
+  return head + tabsHtml(tno) + body + '<p class="small"><a href="#/" class="muted">← رجوع لكل العربيات</a></p>';
+}
+
+/* --- تبويب النقلات --- */
+function blankTrip(no){
+  return { id: '', no: String(nextTripNo(no)), date: today(), from: '', to: '', aada: '', agr: '', items: [{ name: '', val: '' }] };
+}
+function tripDraft(no){
+  if (!DRAFT.trip || DRAFT.trip._truck !== no) DRAFT.trip = Object.assign(blankTrip(no), { _truck: no });
+  return DRAFT.trip;
+}
+function tabTrips(no){
+  var d = tripDraft(no);
+  var sp0 = d.items.reduce(function(s,i){ return s + num(i.val); }, 0);
+  var a0 = num(d.aada), g0 = num(d.agr), n0 = r2(a0 + g0 - sp0);
+  var rows = rawTrips(no);
+  var list = rows.length ? '<div class="tablewrap"><table><thead><tr>' +
+      '<th>نقلة</th><th>التاريخ</th><th>تحميل ← تعتيق</th><th class="num">العهدة</th><th class="num">المنصرف</th><th class="num">الأجر</th><th class="num">الصافي</th><th></th></tr></thead><tbody>' +
+      rows.map(function(t){
+        var n = tripNet(t);
+        return '<tr><td>' + (t.tripNo || '—') + '</td><td>' + dshort(t.date) + '</td>' +
+          '<td>' + esc(t.from || '—') + ' ← ' + esc(t.to || '—') + '</td>' +
+          '<td class="num">' + money(t.aada) + '</td><td class="num">' + money(tripSpend(t)) + '</td>' +
+          '<td class="num">' + money(t.agr) + '</td>' +
+          '<td class="num ' + (n > 0 ? 'pos' : n < 0 ? 'neg' : '') + '">' + money(n) + '</td>' +
+          '<td><button class="mini" onclick="editTrip(\'' + t.id + '\',\'' + esc(no) + '\')">تعديل</button> ' +
+          '<button class="mini danger" onclick="delTrip(\'' + t.id + '\',\'' + esc(no) + '\')">حذف</button></td></tr>';
+      }).join('') + '</tbody></table></div>'
+    : '<div class="empty">مفيش نقلات مسجّلة للعربية دي.</div>';
+
+  return '<div class="card">' +
+      '<h3>' + (d.id ? 'تعديل نقلة' : 'نقلة جديدة') + '</h3>' +
+      '<div class="grid g3">' +
+        '<label><span>النقلة رقم</span><input type="number" value="' + esc(d.no) + '" oninput="setTrip(\'no\', this.value)"></label>' +
+        '<label><span>التاريخ</span><input type="date" value="' + esc(d.date) + '" oninput="setTrip(\'date\', this.value)"></label>' +
+        '<label><span>العهدة</span><input type="number" value="' + esc(d.aada) + '" oninput="setTrip(\'aada\', this.value)" placeholder="0"></label>' +
+        '<label><span>جهة تحميل</span><input value="' + esc(d.from) + '" oninput="setTrip(\'from\', this.value)" placeholder="بن سويف"></label>' +
+        '<label><span>جهة تعتيق</span><input value="' + esc(d.to) + '" oninput="setTrip(\'to\', this.value)" placeholder="أكتوبر"></label>' +
+        '<label><span>أجر السواق</span><input type="number" value="' + esc(d.agr) + '" oninput="setTrip(\'agr\', this.value)" placeholder="0"></label>' +
+      '</div>' +
+      '<div class="items-head"><span class="small muted">المنصرف</span><button class="mini" onclick="addItem()">+ بند</button></div>' +
+      '<div id="items">' + itemsHtml(d) + '</div>' +
+      '<div class="sumline"><span>إجمالي المنصرف</span><b id="s-spend">0</b></div>' +
+      '<div class="sumline"><span>باقي مع السواق</span><b id="s-left">0</b></div>' +
+      '<div class="verdict zero" id="s-verdict"><span id="s-verdict-t">—</span><span class="big" id="s-net">0</span></div>' +
+      '<div class="row" style="margin-top:10px">' +
+        '<button class="primary" onclick="saveTrip(\'' + esc(no) + '\')">' + (d.id ? 'حفظ التعديل' : 'حفظ النقلة') + '</button>' +
+        '<button onclick="nextTrip(\'' + esc(no) + '\')">صفحة تانية</button>' +
+        (d.id ? '<button class="ghost" onclick="cancelTrip(\'' + esc(no) + '\')">إلغاء</button>' : '') +
+      '</div>' +
+    '</div>' +
+    '<div class="card"><h3>نقلات العربية (' + rows.length + ')</h3>' + list + '</div>';
+}
+function itemsHtml(d){
+  return d.items.map(function(it, i){
+    return '<div class="item">' +
+      '<input value="' + esc(it.name) + '" placeholder="اسم البند" oninput="setItem(' + i + ',\'name\',this.value)">' +
+      '<input type="number" value="' + esc(it.val) + '" placeholder="0" oninput="setItem(' + i + ',\'val\',this.value)">' +
+      '<button class="danger mini" onclick="delItem(' + i + ')" aria-label="حذف البند">✕</button>' +
+      '</div>';
+  }).join('');
+}
+function recalcTrip(){
+  var d = DRAFT.trip; if (!d) return;
+  var sp = d.items.reduce(function(s,i){ return s + num(i.val); }, 0);
+  var aada = num(d.aada), agr = num(d.agr), net = r2(aada + agr - sp);
+  var set = function(id, v){ var e = document.getElementById(id); if (e) e.textContent = v; };
+  set('s-spend', money(sp)); set('s-left', money(aada - sp)); set('s-net', money(net));
+  set('s-verdict-t', net > 0 ? 'الصافي له — نكمّله' : net < 0 ? 'الصافي عليه — نخصم منه' : 'خالص');
+  var v = document.getElementById('s-verdict');
+  if (v) v.className = 'verdict ' + (net > 0 ? 'pos' : net < 0 ? 'neg' : 'zero');
+}
+function setTrip(f, v){ if (!DRAFT.trip) return; DRAFT.trip[f] = v; recalcTrip(); }
+function setItem(i, f, v){ if (!DRAFT.trip) return; DRAFT.trip.items[i][f] = v; recalcTrip(); }
+function addItem(){ DRAFT.trip.items.push({ name: '', val: '' }); document.getElementById('items').innerHTML = itemsHtml(DRAFT.trip); recalcTrip(); }
+function delItem(i){
+  DRAFT.trip.items.splice(i, 1);
+  if (!DRAFT.trip.items.length) DRAFT.trip.items.push({ name: '', val: '' });
+  document.getElementById('items').innerHTML = itemsHtml(DRAFT.trip); recalcTrip();
+}
+function saveTrip(no){
+  var d = DRAFT.trip; if (!d) return;
+  var sp = d.items.reduce(function(s,i){ return s + num(i.val); }, 0);
+  if (!(sp > 0)){ MSG = 'اكتب بند منصرف واحد على الأقل'; render(); return; }
+  var old = d.id ? DB.trips.filter(function(t){ return t.id === d.id; })[0] : null;
+  var rec = {
+    id: d.id || uid(), at: old ? old.at : Date.now(), truck: no, driver: truckOf(no).driver || '',
+    tripNo: num(d.no), date: d.date || today(), from: d.from, to: d.to,
+    aada: num(d.aada), agr: num(d.agr),
+    items: d.items.filter(function(i){ return i.name || num(i.val); }).map(function(i){ return { name: i.name, val: num(i.val) }; })
+  };
+  if (old) DB.trips = DB.trips.map(function(t){ return t.id === rec.id ? rec : t; });
+  else DB.trips.unshift(rec);
+  save(); DRAFT.trip = null; MSG = old ? 'اتعدّلت ✓' : 'اتحفظت ✓'; render();
+}
+function editTrip(id, no){
+  var t = DB.trips.filter(function(x){ return x.id === id; })[0]; if (!t) return;
+  DRAFT.trip = { _truck: no, id: t.id, no: String(t.tripNo || ''), date: t.date, from: t.from, to: t.to, aada: t.aada ? String(t.aada) : '', agr: t.agr ? String(t.agr) : '', items: (t.items || []).map(function(i){ return { name: i.name, val: i.val ? String(i.val) : '' }; }) };
+  if (!DRAFT.trip.items.length) DRAFT.trip.items = [{ name: '', val: '' }];
+  render();
+}
+function cancelTrip(no){ DRAFT.trip = null; render(); }
+function nextTrip(no){ DRAFT.trip = null; render(); }
+function delTrip(id, no){
+  if (!confirm('تحذف النقلة دي نهائي؟')) return;
+  DB.trips = DB.trips.filter(function(t){ return t.id !== id; });
+  if (DRAFT.trip && DRAFT.trip.id === id) DRAFT.trip = null;
+  save(); MSG = 'اتحذفت ✓'; render();
+}
+
+/* --- بطاقات النقل --- */
+function cardDraft(no){
+  if (!DRAFT.card || DRAFT.card._truck !== no) DRAFT.card = { _truck: no, id: '', date: today(), from: '', to: '', weight: '', price: '', party: '', item: 'اسمنت' };
+  return DRAFT.card;
+}
+function tabCards(no){
+  var d = cardDraft(no);
+  var rows = truckCards(no).slice().sort(function(a,b){ return (b.date || '') < (a.date || '') ? -1 : 1; });
+  var list = rows.length ? '<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>تحميل ← تعتيق</th><th class="num">الوزن</th><th class="num">سعر الطن</th><th class="num">القيمة</th><th class="num">الجهة</th><th class="num">القيد</th><th class="num">التأمين</th><th class="num">الصافي</th><th></th></tr></thead><tbody>' +
+      rows.map(function(c){
+        var k = cardCalc(c);
+        return '<tr><td>' + dshort(c.date) + '</td><td>' + esc(c.from || '—') + ' ← ' + esc(c.to || '—') + '</td>' +
+          '<td class="num">' + money(c.weight) + '</td><td class="num">' + money(c.price) + '</td>' +
+          '<td class="num">' + money(k.v) + '</td><td class="num">' + money(c.party) + '</td>' +
+          '<td class="num">' + money(k.q) + '</td><td class="num">' + money(k.ins) + '</td>' +
+          '<td class="num pos">' + money(k.net) + '</td>' +
+          '<td><button class="mini" onclick="editCard(\'' + c.id + '\',\'' + esc(no) + '\')">تعديل</button> ' +
+          '<button class="mini danger" onclick="delCard(\'' + c.id + '\',\'' + esc(no) + '\')">حذف</button></td></tr>';
+      }).join('') + '</tbody></table></div>'
+    : '<div class="empty">مفيش بطاقات نقل للعربية دي.</div>';
+
+  return '<div class="card">' +
+      '<h3>' + (d.id ? 'تعديل بطاقة' : 'بطاقة نقل جديدة') + '</h3>' +
+      '<div class="grid g3">' +
+        '<label><span>التاريخ</span><input type="date" value="' + esc(d.date) + '" oninput="setCard(\'date\',this.value)"></label>' +
+        '<label><span>الصنف</span><input value="' + esc(d.item) + '" oninput="setCard(\'item\',this.value)"></label>' +
+        '<label><span>الوزن (طن)</span><input type="number" value="' + esc(d.weight) + '" oninput="setCard(\'weight\',this.value)"></label>' +
+        '<label><span>سعر الطن</span><input type="number" value="' + esc(d.price) + '" oninput="setCard(\'price\',this.value)"></label>' +
+        '<label><span>الجهة</span><input type="number" value="' + esc(d.party) + '" oninput="setCard(\'party\',this.value)"></label>' +
+        '<label><span>&nbsp;</span><input disabled placeholder="التأمين ٠٫٥٪ تلقائي"></label>' +
+        '<label><span>جهة تحميل</span><input value="' + esc(d.from) + '" oninput="setCard(\'from\',this.value)"></label>' +
+        '<label><span>جهة تعتيق</span><input value="' + esc(d.to) + '" oninput="setCard(\'to\',this.value)"></label>' +
+      '</div>' +
+      '<div class="stats" style="margin-top:10px">' +
+        '<div class="stat"><div class="k">القيمة</div><div class="v" id="c-v">0</div></div>' +
+        '<div class="stat"><div class="k">القيد</div><div class="v" id="c-q">0</div></div>' +
+        '<div class="stat"><div class="k">التأمين</div><div class="v" id="c-i">0</div></div>' +
+        '<div class="stat"><div class="k">صافي المستحق</div><div class="v pos" id="c-n">0</div></div>' +
+      '</div>' +
+      '<div class="row" style="margin-top:10px">' +
+        '<button class="primary" onclick="saveCard(\'' + esc(no) + '\')">' + (d.id ? 'حفظ التعديل' : 'حفظ البطاقة') + '</button>' +
+        (d.id ? '<button class="ghost" onclick="DRAFT.card=null;render()">إلغاء</button>' : '') +
+      '</div>' +
+    '</div>' +
+    '<div class="card"><h3>البطاقات (' + rows.length + ')</h3>' + list + '</div>';
+}
+function setCard(f, v){
+  if (!DRAFT.card) return;
+  DRAFT.card[f] = v;
+  var k = cardCalc(DRAFT.card);
+  var set = function(id, val){ var e = document.getElementById(id); if (e) e.textContent = val; };
+  set('c-v', money(k.v)); set('c-q', money(k.q)); set('c-i', money(k.ins)); set('c-n', money(k.net));
+}
+function saveCard(no){
+  var d = DRAFT.card; if (!d) return;
+  if (!(num(d.weight) > 0 && num(d.price) > 0)){ MSG = 'الوزن وسعر الطن مطلوبين'; render(); return; }
+  var old = d.id ? DB.cards.filter(function(c){ return c.id === d.id; })[0] : null;
+  var rec = {
+    id: d.id || uid(), at: old ? old.at : Date.now(), truck: no, driver: truckOf(no).driver || '',
+    date: d.date || today(), from: d.from, to: d.to, item: d.item,
+    weight: num(d.weight), price: num(d.price), party: num(d.party)
+  };
+  if (old) DB.cards = DB.cards.map(function(c){ return c.id === rec.id ? rec : c; });
+  else DB.cards.unshift(rec);
+  save(); DRAFT.card = null; MSG = old ? 'اتعدّلت ✓' : 'اتحفظت ✓'; render();
+}
+function editCard(id, no){
+  var c = DB.cards.filter(function(x){ return x.id === id; })[0]; if (!c) return;
+  DRAFT.card = { _truck: no, id: c.id, date: c.date, from: c.from, to: c.to, item: c.item, weight: String(c.weight), price: String(c.price), party: c.party ? String(c.party) : '' };
+  render();
+}
+function delCard(id, no){
+  if (!confirm('تحذف البطاقة؟')) return;
+  DB.cards = DB.cards.filter(function(c){ return c.id !== id; });
+  if (DRAFT.card && DRAFT.card.id === id) DRAFT.card = null;
+  save(); MSG = 'اتحذفت ✓'; render();
+}
+
+/* --- الصيانة --- */
+function maintDraft(no){
+  if (!DRAFT.m || DRAFT.m._truck !== no) DRAFT.m = { _truck: no, id: '', date: today(), type: '', km: '', cost: '', note: '' };
+  return DRAFT.m;
+}
+function tabMaint(no){
+  var d = maintDraft(no);
+  var rows = truckMaint(no).slice().sort(function(a,b){ return (b.date || '') < (a.date || '') ? -1 : 1; });
+  var total = rows.reduce(function(s,x){ return s + num(x.cost); }, 0);
+  var list = rows.length ? '<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th class="num">الكم</th><th class="num">التكلفة</th><th>ملاحظة</th><th></th></tr></thead><tbody>' +
+    rows.map(function(m){
+      return '<tr><td>' + dshort(m.date) + '</td><td>' + esc(m.type) + '</td>' +
+        '<td class="num">' + money(m.km) + '</td><td class="num neg">' + money(m.cost) + '</td><td>' + esc(m.note || '—') + '</td>' +
+        '<td><button class="mini danger" onclick="delMaint(\'' + m.id + '\',\'' + esc(no) + '\')">حذف</button></td></tr>';
+    }).join('') + '</tbody></table></div>'
+    : '<div class="empty">مفيش سجل صيانة.</div>';
+
+  return '<div class="card">' +
+      '<h3>بند صيانة</h3>' +
+      '<div class="grid g3">' +
+        '<label><span>التاريخ</span><input type="date" value="' + esc(d.date) + '" oninput="setM(\'date\',this.value)"></label>' +
+        '<label><span>النوع</span><input value="' + esc(d.type) + '" oninput="setM(\'type\',this.value)" placeholder="فرامل / كاوتش"></label>' +
+        '<label><span>الكم</span><input type="number" value="' + esc(d.km) + '" oninput="setM(\'km\',this.value)"></label>' +
+        '<label><span>التكلفة</span><input type="number" value="' + esc(d.cost) + '" oninput="setM(\'cost\',this.value)"></label>' +
+        '<label><span>ملاحظة</span><input value="' + esc(d.note) + '" oninput="setM(\'note\',this.value)"></label>' +
+      '</div>' +
+      '<div class="row" style="margin-top:10px"><button class="primary" onclick="saveM(\'' + esc(no) + '\')">حفظ البند</button></div>' +
+    '</div>' +
+    '<div class="card"><h3>سجل الصيانة (' + rows.length + ') — إجمالي <span class="neg">' + money(total) + '</span></h3>' + list + '</div>';
+}
+function setM(f, v){ if (DRAFT.m) DRAFT.m[f] = v; }
+function saveM(no){
+  var d = DRAFT.m; if (!d) return;
+  if (!d.type && !num(d.cost)){ MSG = 'اكتب نوع البند أو التكلفة'; render(); return; }
+  DB.maint.unshift({ id: uid(), at: Date.now(), truck: no, date: d.date || today(), type: d.type, km: num(d.km), cost: num(d.cost), note: d.note });
+  save(); DRAFT.m = null; MSG = 'اتحفظ ✓'; render();
+}
+function delMaint(id){
+  if (!confirm('تحذف البند؟')) return;
+  DB.maint = DB.maint.filter(function(m){ return m.id !== id; });
+  save(); MSG = 'اتحذف ✓'; render();
+}
+
+/* --- غيار الزيت --- */
+function oilDraft(no){
+  if (!DRAFT.o || DRAFT.o._truck !== no) DRAFT.o = { _truck: no, id: '', date: today(), km: '', cost: '', nextKm: '' };
+  return DRAFT.o;
+}
+function tabOil(no){
+  var d = oilDraft(no);
+  var rows = truckOil(no).slice().sort(function(a,b){ return num(b.km) - num(a.km); });
+  var total = rows.reduce(function(s,x){ return s + num(x.cost); }, 0);
+  var last = rows[0];
+  var hint = last && num(last.nextKm) ? '<div class="hint">الغيار القادم للعربية ' + esc(no) + ' عند ' + money(last.nextKm) + ' كم — آخر غيار ' + dshort(last.date) + ' على ' + money(last.km) + ' كم.</div>' : '';
+  var list = rows.length ? '<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th class="num">الكم</th><th class="num">التكلفة</th><th class="num">الغيار القادم</th><th></th></tr></thead><tbody>' +
+    rows.map(function(o){
+      return '<tr><td>' + dshort(o.date) + '</td><td class="num">' + money(o.km) + '</td><td class="num neg">' + money(o.cost) + '</td>' +
+        '<td class="num">' + (num(o.nextKm) ? money(o.nextKm) : '—') + '</td>' +
+        '<td><button class="mini danger" onclick="delOil(\'' + o.id + '\')">حذف</button></td></tr>';
+    }).join('') + '</tbody></table></div>'
+    : '<div class="empty">مفيش غيارات زيت مسجّلة.</div>';
+
+  return '<div class="card">' +
+      '<h3>غيار زيت</h3>' +
+      '<div class="grid g4">' +
+        '<label><span>التاريخ</span><input type="date" value="' + esc(d.date) + '" oninput="setO(\'date\',this.value)"></label>' +
+        '<label><span>الكم الحالي</span><input type="number" value="' + esc(d.km) + '" oninput="setO(\'km\',this.value)"></label>' +
+        '<label><span>التكلفة</span><input type="number" value="' + esc(d.cost) + '" oninput="setO(\'cost\',this.value)"></label>' +
+        '<label><span>الغيار القادم عند</span><input type="number" value="' + esc(d.nextKm) + '" oninput="setO(\'nextKm\',this.value)"></label>' +
+      '</div>' +
+      '<div class="row" style="margin-top:10px"><button class="primary" onclick="saveOil(\'' + esc(no) + '\')">حفظ الغيار</button></div>' +
+      hint +
+    '</div>' +
+    '<div class="card"><h3>سجل الغيارات (' + rows.length + ') — إجمالي <span class="neg">' + money(total) + '</span></h3>' + list + '</div>';
+}
+function setO(f, v){ if (DRAFT.o) DRAFT.o[f] = v; }
+function saveOil(no){
+  var d = DRAFT.o; if (!d) return;
+  if (!(num(d.km) > 0)){ MSG = 'الكم مطلوب'; render(); return; }
+  DB.oil.unshift({ id: uid(), at: Date.now(), truck: no, date: d.date || today(), km: num(d.km), cost: num(d.cost), nextKm: num(d.nextKm) });
+  save(); DRAFT.o = null; MSG = 'اتحفظ ✓'; render();
+}
+function delOil(id){
+  if (!confirm('تحذف الغيار؟')) return;
+  DB.oil = DB.oil.filter(function(o){ return o.id !== id; });
+  save(); MSG = 'اتحذف ✓'; render();
+}
+
+/* --- كشف العربية --- */
+function tabStatement(no){
+  var c = truckCards(no).reduce(function(s,x){ return s + cardCalc(x).net; }, 0);
+  var t = truckTrips(no).reduce(function(s,x){ return s + tripNet(x); }, 0);
+  var sp = truckTrips(no).reduce(function(s,x){ return s + tripSpend(x); }, 0);
+  var m = truckMaint(no).reduce(function(s,x){ return s + num(x.cost); }, 0);
+  var o = truckOil(no).reduce(function(s,x){ return s + num(x.cost); }, 0);
+  var bal = r2(c + t - m - o);
+  return '<div class="card">' +
+      '<h3>كشف العربية ' + esc(no) + '</h3>' +
+      '<div class="tablewrap"><table><tbody>' +
+        '<tr><td>صافي بطاقات النقل</td><td class="num pos">' + money(c) + '</td></tr>' +
+        '<tr><td>صافي النقلات (عهدة + أجر − منصرف)</td><td class="num">' + money(t) + '</td></tr>' +
+        '<tr><td>إجمالي المنصرف في النقلات</td><td class="num neg">' + money(sp) + '</td></tr>' +
+        '<tr><td>الصيانة</td><td class="num neg">' + money(m) + '</td></tr>' +
+        '<tr><td>غيارات الزيت</td><td class="num neg">' + money(o) + '</td></tr>' +
+      '</tbody></table></div>' +
+      '<div class="verdict ' + (bal > 0 ? 'pos' : bal < 0 ? 'neg' : 'zero') + '"><span>رصيد العربية</span><span class="big">' + money(bal) + '</span></div>' +
+      '<div class="row" style="margin-top:10px">' +
+        '<button onclick="csvTruck(\'' + esc(no) + '\')">تصدير Excel (CSV)</button>' +
+        '<button onclick="window.print()">طباعة</button>' +
+      '</div>' +
+    '</div>';
+}
+
+/* ---------- السواقين ---------- */
+function viewDrivers(){
+  var list = driverNames();
+  if (!list.length) return '<div class="card"><div class="empty">لسه مفيش سواقين — اكتب اسم السواق في صفحة العربية.</div></div>';
+  return '<h2>السواقين</h2>' + list.map(function(d){
+    var s = driverStatement(d);
+    return '<div class="card" style="cursor:pointer" onclick="go(\'/driver/' + encodeURIComponent(d) + '\')">' +
+      '<div class="row"><div style="flex:1;min-width:140px"><b>' + esc(d) + '</b>' +
+        '<div class="small muted">' + s.cards.length + ' بطاقة · ' + s.trips.length + ' نقلة جديدة بعد آخر تسوية</div></div>' +
+      '<span class="amt ' + (s.total > 0 ? 'pos' : s.total < 0 ? 'neg' : 'zero') + '">' + (s.total === 0 ? 'خالص' : money(s.total)) + '</span></div>' +
+      '</div>';
+  }).join('');
+}
+function viewDriver(name){
+  var s = driverStatement(name);
+  var rows = s.cards.map(function(c){
+    var k = cardCalc(c);
+    return '<tr><td>' + dshort(c.date) + '</td><td>بطاقة · ' + esc(c.truck) + '</td><td class="num pos">' + money(k.net) + '</td></tr>';
+  }).concat(s.trips.map(function(t){
+    return '<tr><td>' + dshort(t.date) + '</td><td>نقلة ' + (t.tripNo || '—') + ' · عهدة ' + money(t.aada) + ' / أجر ' + money(t.agr) + '</td><td class="num">' + money(tripNet(t)) + '</td></tr>';
+  })).join('');
+
+  return '<h2>كشف السواق — ' + esc(name) + '</h2>' +
+    '<div class="card">' +
+      '<div class="stats">' +
+        '<div class="stat"><div class="k">رصيد مرحّل</div><div class="v">' + money(s.opening) + '</div></div>' +
+        '<div class="stat"><div class="k">بطاقات جديدة</div><div class="v pos">' + money(s.cnet) + '</div></div>' +
+        '<div class="stat"><div class="k">نقلات جديدة</div><div class="v">' + money(s.tnet) + '</div></div>' +
+        '<div class="stat"><div class="k">حركة جديدة</div><div class="v">' + money(s.fresh) + '</div></div>' +
+      '</div>' +
+      '<div class="verdict ' + (s.total > 0 ? 'pos' : s.total < 0 ? 'neg' : 'zero') + '">' +
+        '<span>' + (s.total > 0 ? 'الإجمالي له — نكمّله' : s.total < 0 ? 'الإجمالي عليه — نخصم منه' : 'متسوّي') + '</span>' +
+        '<span class="big">' + money(s.total) + '</span></div>' +
+      '<div class="row" style="margin-top:10px">' +
+        '<button class="primary" onclick="settleDriver(\'' + esc(name) + '\')">تسوية الكشف وترحيل الرصيد</button>' +
+        (s.last ? '<button class="ghost" onclick="undoSettle(\'' + esc(name) + '\')">تراجع عن آخر تسوية</button>' : '') +
+      '</div>' +
+      (s.last ? '<p class="tiny muted" style="margin-top:8px">آخر تسوية: ' + new Date(s.last.at).toLocaleString('ar-EG') + '</p>' : '') +
+    '</div>' +
+    '<div class="card"><h3>الحركات بعد آخر تسوية</h3>' +
+      (rows ? '<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>البيان</th><th class="num">المبلغ</th></tr></thead><tbody>' + rows + '</tbody></table></div>' : '<div class="empty">مفيش حركات جديدة.</div>') +
+    '</div>' +
+    '<p class="small"><a href="#/drivers" class="muted">← رجوع للسواقين</a></p>';
+}
+function settleDriver(name){
+  var s = driverStatement(name);
+  DB.settles.push({ id: uid(), driver: name, at: Date.now(), amount: s.total });
+  save(); MSG = 'اتسوّى الكشف ✓'; render();
+}
+function undoSettle(name){
+  var mine = DB.settles.filter(function(x){ return x.driver === name; }).sort(function(a,b){ return b.at - a.at; });
+  if (!mine[0]) return;
+  DB.settles = DB.settles.filter(function(x){ return x.id !== mine[0].id; });
+  save(); MSG = 'اتلغت آخر تسوية ✓'; render();
+}
+
+/* ---------- نسخة احتياطية ---------- */
+function viewBackup(){
+  return '<h2>نسخة احتياطية</h2>' +
+    '<div class="card">' +
+      '<p class="small muted">البيانات محفوظة في المتصفح على الجهاز ده. خد نسخة كل فترة، وخصوصًا قبل أي تحديث.</p>' +
+      '<div class="row">' +
+        '<button class="primary" onclick="exportJson()">تصدير نسخة (JSON)</button>' +
+        '<label class="row" style="gap:6px"><span style="margin:0">استيراد:</span>' +
+          '<input type="file" accept="application/json" onchange="importJson(this)"></label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="card"><h3>حذف كل البيانات</h3>' +
+      '<p class="small muted">مش بينفع التراجع بعدها — صدّر نسخة الأول.</p>' +
+      '<button class="danger" onclick="wipe()">حذف الكل</button></div>';
+}
+function download(name, text, type){
+  var blob = new Blob([text], { type: type || 'text/plain;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+}
+function exportJson(){ download('naql-backup-' + today() + '.json', JSON.stringify(DB, null, 2), 'application/json'); }
+function importJson(input){
+  var f = input.files && input.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(){
+    try{
+      var o = JSON.parse(String(r.result));
+      if (!o || !Array.isArray(o.trucks)) throw new Error('bad');
+      DB = { trucks: o.trucks, trips: o.trips || [], cards: o.cards || [], maint: o.maint || [], oil: o.oil || [], settles: o.settles || [] };
+      save(); MSG = 'اتستوردت ✓'; render();
+    }catch(e){ MSG = 'الملف مش صالح'; render(); }
+  };
+  r.readAsText(f);
+}
+function wipe(){
+  if (!confirm('هتحذف كل العربيات والنقلات والبطاقات. متأكد؟')) return;
+  DB = { trucks: [], trips: [], cards: [], maint: [], oil: [], settles: [] };
+  save(); MSG = 'اتحذف الكل'; render();
+}
+function csvTruck(no){
+  var lines = [];
+  lines.push(['النوع','التاريخ','النقلة','التحميل','التعتيق','الوزن','سعر الطن','القيمة','الجهة','القيد','التأمين','الصافي'].join(','));
+  truckCards(no).forEach(function(c){
+    var k = cardCalc(c);
+    lines.push(['بطاقة', c.date, '', c.from, c.to, c.weight, c.price, k.v, c.party, k.q, k.ins, k.net].join(','));
+  });
+  truckTrips(no).forEach(function(t){
+    lines.push(['نقلة', t.date, t.tripNo, t.from, t.to, '', '', '', '', '', '', ''].join(','));
+    (t.items || []).forEach(function(i){
+      lines.push(['بند', t.date, t.tripNo, i.name, '', '', '', i.val, '', '', '', ''].join(','));
+    });
+    lines.push(['إجمالي نقلة', t.date, t.tripNo, '', '', '', '', tripSpend(t), num(t.aada), tripNet(t), num(t.agr), tripNet(t)].join(','));
+  });
+  download('truck-' + no + '-' + today() + '.csv', '\ufeff' + lines.join('\n'), 'text/csv;charset=utf-8');
+}
+
+/* ---------- تشغيل ---------- */
+render();
+
+/* تحسينات: تحديث الأرقام بعد الرسم + ربط الحركات بالسواق الحالي للعربية */
+(function () {
+  function cardRecalc() {
+    if (!window.DRAFT || !DRAFT.card) return;
+    var c = DRAFT.card;
+    var v = Math.round(Number(c.weight || 0) * Number(c.price || 0) * 100) / 100;
+    var ins = Math.round(v * 0.005 * 100) / 100;
+    var q = Math.round((v - Number(c.party || 0)) * 100) / 100;
+    var n = Math.round((q - ins) * 100) / 100;
+    var set = function (id, val) { var e = document.getElementById(id); if (e) e.textContent = val; };
+    var f = function (x) { return Math.abs(Math.round(x * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); };
+    set('c-v', f(v)); set('c-q', f(q)); set('c-i', f(ins)); set('c-n', f(n));
+  }
+
+  function moneyOf(x) {
+    return Math.abs(Math.round(x * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  }
+
+  /* كشف السواق: أي حركة على عربية مسجّلة باسمه تتحسب له، حتى لو اتحفظت قبل تسميته */
+  window.driverStatement = function (name) {
+    var db = window.DB;
+    var nos = db.trucks.filter(function (t) { return (t.driver || '').trim() === name; }).map(function (t) { return t.no; });
+    var mine = db.settles.filter(function (s) { return s.driver === name; }).sort(function (a, b) { return b.at - a.at; });
+    var last = mine[0];
+    var since = last ? Number(last.at) || 0 : 0;
+    var belongs = function (r) {
+      return (r.driver || '').trim() === name || nos.indexOf(r.truck) > -1;
+    };
+    var cards = db.cards.filter(function (c) { return belongs(c) && Number(c.at) > since; });
+    var trips = db.trips.filter(function (t) { return belongs(t) && Number(t.at) > since; });
+    var cnet = cards.reduce(function (s, c) {
+      var v = Math.round(Number(c.weight || 0) * Number(c.price || 0) * 100) / 100;
+      return s + Math.round((v - Number(c.party || 0)) * 100) / 100 - Math.round(v * 0.005 * 100) / 100;
+    }, 0);
+    var tnet = trips.reduce(function (s, t) {
+      var sp = (t.items || []).reduce(function (a, i) { return a + Number(i.val || 0); }, 0);
+      return s + (Number(t.aada || 0) + Number(t.agr || 0) - sp);
+    }, 0);
+    var opening = last ? Number(last.amount) || 0 : 0;
+    return {
+      last: last, opening: opening,
+      cnet: Math.round(cnet * 100) / 100,
+      tnet: Math.round(tnet * 100) / 100,
+      fresh: Math.round((cnet + tnet) * 100) / 100,
+      total: Math.round((opening + cnet + tnet) * 100) / 100,
+      cards: cards, trips: trips
+    };
+  };
+
+  var base = window.render;
+  window.render = function () {
+    base.apply(null, arguments);
+    try {
+      if (window.DRAFT) {
+        if (DRAFT.trip) recalcTrip();
+        if (DRAFT.card) cardRecalc();
+      }
+    } catch (e) {}
+  };
+})();
+
+</script>
+</body>
+</html>

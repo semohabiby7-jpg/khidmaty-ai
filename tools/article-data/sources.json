@@ -1,0 +1,71 @@
+{
+  "traffic-violations": [
+    { "t": "الإدارة العامة للمرور — الشروط والأحكام وخدمات الوحدات الإلكترونية", "u": "https://traffic.moi.gov.eg/Arabic/Pages/terms-appointment-booking.aspx" },
+    { "t": "وزارة الداخلية — دليل الخدمات", "u": "https://www.moi.gov.eg/home/directoryservices" }
+  ],
+  "lost-national-id": [
+    { "t": "قطاع الأحوال المدنية — دليل الخدمات", "u": "https://psm.gov.eg/providers/1/services" },
+    { "t": "خدمات وزارة الداخلية الإلكترونية", "u": "https://publicservices.moi.gov.eg/" }
+  ],
+  "car-inspection": [
+    { "t": "الإدارة العامة للمرور — خدمة الفحص الفني للمركبات", "u": "https://traffic.moi.gov.eg/Arabic/Pages/terms-appointment-booking.aspx" },
+    { "t": "بوابة محافظة الإسكندرية — مستندات وفحص الترخيص", "u": "http://www.alexandria.gov.eg/services/traffic5/traffic_services/license2.html" }
+  ],
+  "car-ownership-transfer": [
+    { "t": "الإدارة العامة للمرور — الخدمات المتاحة إلكترونيًا (نقل الملكية غير مشمول)", "u": "https://traffic.moi.gov.eg/Arabic/Pages/terms-appointment-booking.aspx" },
+    { "t": "بوابة محافظة الإسكندرية — سند الملكية ومستندات الترخيص", "u": "http://www.alexandria.gov.eg/services/traffic5/traffic_services/license2.html" }
+  ],
+  "renew-commercial-register": [
+    { "t": "قانون السجل التجاري ٣٤ لسنة ١٩٧٦ (المادة ٩)", "u": "https://www.eta.gov.eg/sites/default/files/2024-10/law-34-1976.pdf" },
+    { "t": "هيئة تنمية صناعة تكنولوجيا المعلومات — خدمات وإجراءات السجل التجاري", "u": "http://www.itda.gov.eg/sgl.aspx" }
+  ],
+  "insurance-periods-inquiry": [
+    { "t": "الهيئة القومية للتأمين الاجتماعي — الاستعلام عن مدد الاشتراك والأجور", "u": "https://www.nosi.gov.eg/ar/Services/pages/info/getallperiodsinfo.aspx" },
+    { "t": "الهيئة القومية للتأمين الاجتماعي — الاستعلام عن الرقم التأميني", "u": "https://www.nosi.gov.eg/ar/Services/Pages/Info/GetInsuredDetails.aspx" }
+  ],
+  "death-certificate": [
+    { "t": "قطاع الأحوال المدنية — شهادة الوفاة المميكنة", "u": "https://psm.gov.eg/providers/1/services" },
+    { "t": "بوابة مصر الرقمية — إصدار شهادة وفاة مميكنة", "u": "https://digital.gov.eg/categories/terms/%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1-%D8%B4%D9%87%D8%A7%D8%AF%D8%A9-%D9%88%D9%81%D8%A7%D8%A9-%D9%85%D9%85%D9%8A%D9%83%D9%86%D8%A9-%D9%85%D8%B7%D8%A8%D9%88%D8%B9%D8%A9-%D9%85%D8%B3%D8%A8%D9%82%D8%A7" },
+    { "t": "وزارة الداخلية — دليل الخدمات", "u": "https://www.moi.gov.eg/home/directoryservices" }
+  ],
+  "property-sale-registration": [
+    { "t": "بوابة مصر الرقمية — خدمات الشهر العقاري والتوثيق", "u": "https://digital.gov.eg/gov-services/%D8%A7%D9%84%D9%85%D9%84%D9%83%D9%8A%D8%A7%D8%AA/05" },
+    { "t": "مصلحة الضرائب المصرية — دليل منظومة التصرفات العقارية", "u": "https://eta.gov.eg/sites/default/files/2026-10/dlyl_alasylt_alshayt_-_mnzwmt_altsrfat_alqaryt_alasdar_alawl.pdf" }
+  ],
+  "real-estate-tax": [
+    { "t": "مصلحة الضرائب العقارية — الأسئلة الشائعة", "u": "https://rta.gov.eg/faqs" },
+    { "t": "وزارة المالية — الضريبة العقارية وحوافز الإقرار", "u": "https://mof.gov.eg/ar/media/learn-more/news-2" }
+  ],
+  "power-of-attorney": [
+    { "t": "بوابة مصر الرقمية — خدمات الشهر العقاري والتوثيق", "u": "https://digital.gov.eg/gov-services/%D8%A7%D9%84%D9%85%D9%84%D9%83%D9%8A%D8%A7%D8%AA/05" },
+    { "t": "مركز خدمات مصر — قائمة الخدمات والتوكيلات", "u": "https://www.khadamatmisr.gov.eg/serviceslist" }
+  ],
+  "inheritance-declaration": [
+    { "t": "مركز خدمات مصر — استخراج إعلام الوراثة", "u": "https://www.khadamatmisr.gov.eg/serviceslist" },
+    { "t": "مصلحة الضرائب العقارية — الأسئلة الشائعة", "u": "https://rta.gov.eg/faqs" }
+  ],
+  "new-passport": [
+    { "t": "خدمات وزارة الداخلية الإلكترونية", "u": "https://publicservices.moi.gov.eg/" },
+    { "t": "وزارة الداخلية — دليل الخدمات", "u": "https://www.moi.gov.eg/home/directoryservices" }
+  ],
+  "criminal-record": [
+    { "t": "خدمات وزارة الداخلية الإلكترونية — الفيش والتشبيه", "u": "https://publicservices.moi.gov.eg/" },
+    { "t": "وزارة الداخلية — دليل الخدمات", "u": "https://www.moi.gov.eg/home/directoryservices" }
+  ],
+  "tax-return": [
+    { "t": "البوابة الإلكترونية للخدمات الضريبية — تقديم الإقرار", "u": "https://eservice.incometax.gov.eg/etax" },
+    { "t": "مصلحة الضرائب المصرية — تقديم الإقرار الضريبي", "u": "https://eta.gov.eg/ar/news/tqdym-alaqrar-aldryby" }
+  ],
+  "social-housing": [
+    { "t": "صندوق الإسكان الاجتماعي — الشروط العامة لاستحقاق الدعم", "u": "https://www.shmff.gov.eg/wps/portal/MFF/ServicesOFMFF/terms-and-condition/" },
+    { "t": "صندوق الإسكان الاجتماعي — بوابة الخدمات", "u": "https://cservices.shmff.gov.eg/" }
+  ],
+  "rent-contract-registration": [
+    { "t": "بوابة مصر الرقمية — خدمات الشهر العقاري والتوثيق", "u": "https://digital.gov.eg/gov-services/%D8%A7%D9%84%D9%85%D9%84%D9%83%D9%8A%D8%A7%D8%AA/05" },
+    { "t": "بوابة محافظة القاهرة — مستندات وإجراءات تسجيل العقود", "u": "https://www.cairo.gov.eg/ar/news/2022/c6dfd71ab9f1422895f0fa2c6f713d3a" }
+  ],
+  "marriage-grant": [
+    { "t": "الهيئة القومية للتأمين الاجتماعي — صرف منحة الزواج", "u": "https://www.nosi.gov.eg/ar/Services/Pages/Info/%D8%B5%D8%B1%D9%81-%D9%85%D9%86%D8%AD%D8%A9-%D8%A7%D9%84%D8%B2%D9%88%D8%A7%D8%AC.aspx" },
+    { "t": "وزارة التضامن الاجتماعي — المساعدات الاستثنائية (مصروفات الزواج)", "u": "https://www.moss.gov.eg/%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA/%D8%A7%D9%84%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%D9%8A%D8%A9/%D8%A7%D9%84%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9-%D9%84%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D9%86%D9%82%D8%AF%D9%8A-%D8%AB%D8%A7%D9%86%D9%8A%D8%A7-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AB%D9%86%D8%A7%D8%A6%D9%8A%D8%A9/" }
+  ]
+}

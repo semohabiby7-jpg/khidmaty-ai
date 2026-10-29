@@ -4,6 +4,9 @@ import json, os, sys, re, datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 B = "https://khidmatyai.com/"
 BRAND = "خِدْمَتي AI"
+# مصادر لكل مقال على حدة — slug -> [{"t": "اسم المصدر", "u": "الرابط"}]
+SRC_PATH = os.path.join(ROOT, 'tools', 'article-data', 'sources.json')
+SOURCES = json.load(open(SRC_PATH, encoding='utf-8')) if os.path.exists(SRC_PATH) else {}
 
 TPL = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -51,6 +54,12 @@ li{{margin:7px 0}}
 .faq p{{padding:0 16px 14px;margin:0;color:#a9bad4;font-size:14px}}
 .rel{{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 30px}}
 .rel a{{background:#162847;border:1px solid #1e3556;color:#e6c258;text-decoration:none;font-size:13px;font-weight:700;padding:8px 14px;border-radius:20px}}
+.src{{background:#0f1e38;border:1px dashed #2a4570}}
+.src h3{{color:#e6c258}}
+.src ul{{list-style:none;padding-inline-start:0;margin:8px 0 0}}
+.src li{{margin:8px 0;font-size:14px;line-height:1.7}}
+.src a{{color:#e6c258;font-weight:700;text-decoration:none;border-bottom:1px dotted #e6c258}}
+.src .note{{color:#7c8aa8;font-size:12.5px;margin:10px 0 0}}
 .books-strip{{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:16px 18px;margin:22px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}}
 .books-strip b{{color:#e6c258;font-size:14px;display:block;margin-bottom:4px}}
 .books-strip span{{color:#8ea0c4;font-size:13px;line-height:1.7}}
@@ -106,6 +115,13 @@ def render(a, date, others=()):
         for f in a['fees']:
             body.append(f'   <p>{f}</p>')
         body.append('  </div>')
+    srcs = SOURCES.get(a['slug']) or a.get('sources') or []
+    if srcs:
+        body.append('  <div class="box src"><h3>📚 مصادر المقال</h3><ul>')
+        for s in srcs:
+            body.append(f'   <li><a href="{s["u"]}" target="_blank" rel="noopener">{s["t"]}</a></li>')
+        body.append(f'  </ul><p class="note">المقال مبني على المصادر الرسمية دي — راجعناها بتاريخ {date}، '
+                    'والأرقام بتتغير بقرارات، فاتأكد من الرقم وقت التقديم.</p></div>')
     body.append('  <h2>أسئلة بتتكرر</h2>')
     for q, ans in a['faq']:
         body.append(f'  <details class="faq"><summary>{q}</summary><p>{ans}</p></details>')
@@ -127,6 +143,8 @@ def render(a, date, others=()):
         "datePublished": a.get('date', date), "dateModified": date,
         "articleSection": a['cat'],
     }
+    if srcs:
+        schema["citation"] = [{"@type": "CreativeWork", "name": s["t"], "url": s["u"]} for s in srcs]
     return TPL.format(B=B, title=a['title'], desc=a['desc'], slug=a['slug'], cat=a['cat'],
                       lead=a['lead'], body='\n'.join(body), schema=json.dumps(schema, ensure_ascii=False),
                       date=date, mins=max(2, round(sum(len(x.split()) for x in a['intro']) / 180) + 2))

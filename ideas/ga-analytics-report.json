@@ -1,54 +1,54 @@
 {
-  "timestamp": "2026-10-29T06:05:57.184126",
+  "timestamp": "2026-10-30T06:00:45.048556",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "246",
-      "sessions": "292",
-      "screenPageViews": "448",
-      "averageSessionDuration": "121.742829630137",
-      "bounceRate": "0.55136986301369861"
+      "totalUsers": "251",
+      "sessions": "297",
+      "screenPageViews": "456",
+      "averageSessionDuration": "118.80125804040402",
+      "bounceRate": "0.53535353535353536"
     }
   ],
   "yesterday": [
     {
       "totalUsers": "14",
-      "sessions": "14",
-      "screenPageViews": "25",
-      "averageSessionDuration": "86.540854",
-      "bounceRate": "0.42857142857142855"
+      "sessions": "16",
+      "screenPageViews": "22",
+      "averageSessionDuration": "37.362668375",
+      "bounceRate": "0.4375"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "206",
-      "totalUsers": "125",
-      "averageSessionDuration": "101.9878636981132"
-    },
-    {
-      "pagePath": "/store.html",
-      "screenPageViews": "37",
-      "totalUsers": "3",
-      "averageSessionDuration": "199.6752699375"
+      "screenPageViews": "196",
+      "totalUsers": "120",
+      "averageSessionDuration": "101.41415852980133"
     },
     {
       "pagePath": "/index.html",
-      "screenPageViews": "35",
+      "screenPageViews": "38",
       "totalUsers": "11",
-      "averageSessionDuration": "197.10417736842106"
+      "averageSessionDuration": "180.45803219047619"
+    },
+    {
+      "pagePath": "/store.html",
+      "screenPageViews": "38",
+      "totalUsers": "3",
+      "averageSessionDuration": "177.8087965"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
-      "screenPageViews": "30",
-      "totalUsers": "29",
-      "averageSessionDuration": "96.847825966666676"
+      "screenPageViews": "33",
+      "totalUsers": "32",
+      "averageSessionDuration": "94.82968751515152"
     },
     {
       "pagePath": "/services/insurance-periods-inquiry.html",
-      "screenPageViews": "18",
-      "totalUsers": "12",
-      "averageSessionDuration": "78.276239846153842"
+      "screenPageViews": "20",
+      "totalUsers": "14",
+      "averageSessionDuration": "77.798414599999987"
     },
     {
       "pagePath": "/services/vaccination-certificate.html",
@@ -66,7 +66,7 @@
       "pagePath": "/services.html",
       "screenPageViews": "10",
       "totalUsers": "6",
-      "averageSessionDuration": "25.2357705"
+      "averageSessionDuration": "29.421982666666665"
     },
     {
       "pagePath": "/services/pension-postal-payment.html",
@@ -81,16 +81,16 @@
       "averageSessionDuration": "19.545522555555557"
     },
     {
-      "pagePath": "/services/death-certificate.html",
-      "screenPageViews": "6",
-      "totalUsers": "6",
-      "averageSessionDuration": "53.689548666666667"
+      "pagePath": "/services/international-license.html",
+      "screenPageViews": "8",
+      "totalUsers": "7",
+      "averageSessionDuration": "148.0229682222222"
     },
     {
-      "pagePath": "/services/international-license.html",
-      "screenPageViews": "6",
-      "totalUsers": "5",
-      "averageSessionDuration": "222.03445233333332"
+      "pagePath": "/services/death-certificate.html",
+      "screenPageViews": "7",
+      "totalUsers": "7",
+      "averageSessionDuration": "46.019613142857146"
     },
     {
       "pagePath": "/articles.html",
@@ -123,6 +123,12 @@
       "averageSessionDuration": "3.9993385"
     },
     {
+      "pagePath": "/services/car-ownership-inquiry.html",
+      "screenPageViews": "3",
+      "totalUsers": "2",
+      "averageSessionDuration": "44.296548"
+    },
+    {
       "pagePath": "/services/edit-tax-data.html",
       "screenPageViews": "3",
       "totalUsers": "3",
@@ -133,24 +139,18 @@
       "screenPageViews": "3",
       "totalUsers": "3",
       "averageSessionDuration": "0"
-    },
-    {
-      "pagePath": "/khidmaty-ai/index.html",
-      "screenPageViews": "2",
-      "totalUsers": "1",
-      "averageSessionDuration": "37.7716405"
     }
   ],
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "146",
-      "totalUsers": "128"
+      "sessions": "145",
+      "totalUsers": "127"
     },
     {
       "sessionSource": "google",
-      "sessions": "111",
-      "totalUsers": "105"
+      "sessions": "122",
+      "totalUsers": "115"
     },
     {
       "sessionSource": "youtube.com",
@@ -159,21 +159,16 @@
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "11",
-      "totalUsers": "6"
-    },
-    {
-      "sessionSource": "m.facebook.com",
-      "sessions": "5",
-      "totalUsers": "4"
-    },
-    {
-      "sessionSource": "facebook.com",
-      "sessions": "3",
-      "totalUsers": "3"
+      "sessions": "10",
+      "totalUsers": "5"
     },
     {
       "sessionSource": "dataindex.pro",
+      "sessions": "2",
+      "totalUsers": "2"
+    },
+    {
+      "sessionSource": "facebook.com",
       "sessions": "2",
       "totalUsers": "2"
     },
@@ -186,17 +181,22 @@
       "sessionSource": "gemini.google.com",
       "sessions": "1",
       "totalUsers": "1"
+    },
+    {
+      "sessionSource": "m.facebook.com",
+      "sessions": "1",
+      "totalUsers": "1"
     }
   ],
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "174",
-      "totalUsers": "137"
+      "sessions": "176",
+      "totalUsers": "142"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "118",
+      "sessions": "121",
       "totalUsers": "109"
     },
     {
@@ -206,6 +206,12 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261029",
+      "totalUsers": "14",
+      "sessions": "16",
+      "screenPageViews": "22"
+    },
     {
       "date": "20261028",
       "totalUsers": "14",
@@ -241,12 +247,6 @@
       "totalUsers": "4",
       "sessions": "4",
       "screenPageViews": "4"
-    },
-    {
-      "date": "20261022",
-      "totalUsers": "10",
-      "sessions": "10",
-      "screenPageViews": "10"
     }
   ]
 }

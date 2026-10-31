@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-10-30T06:00:45.048556",
+  "timestamp": "2026-10-31T06:00:36.727512",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "251",
-      "sessions": "297",
-      "screenPageViews": "456",
-      "averageSessionDuration": "118.80125804040402",
-      "bounceRate": "0.53535353535353536"
+      "totalUsers": "239",
+      "sessions": "282",
+      "screenPageViews": "439",
+      "averageSessionDuration": "122.3802960886525",
+      "bounceRate": "0.51773049645390068"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "14",
-      "sessions": "16",
-      "screenPageViews": "22",
-      "averageSessionDuration": "37.362668375",
-      "bounceRate": "0.4375"
+      "totalUsers": "2",
+      "sessions": "2",
+      "screenPageViews": "2",
+      "averageSessionDuration": "30.1758345",
+      "bounceRate": "0.5"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "196",
-      "totalUsers": "120",
-      "averageSessionDuration": "101.41415852980133"
+      "screenPageViews": "180",
+      "totalUsers": "107",
+      "averageSessionDuration": "106.31380284558823"
     },
     {
       "pagePath": "/index.html",
       "screenPageViews": "38",
       "totalUsers": "11",
-      "averageSessionDuration": "180.45803219047619"
+      "averageSessionDuration": "193.5449569047619"
     },
     {
       "pagePath": "/store.html",
@@ -75,16 +75,16 @@
       "averageSessionDuration": "82.593360428571415"
     },
     {
+      "pagePath": "/services/international-license.html",
+      "screenPageViews": "9",
+      "totalUsers": "8",
+      "averageSessionDuration": "138.7816862"
+    },
+    {
       "pagePath": "/services/replace-plates.html",
       "screenPageViews": "9",
       "totalUsers": "7",
       "averageSessionDuration": "19.545522555555557"
-    },
-    {
-      "pagePath": "/services/international-license.html",
-      "screenPageViews": "8",
-      "totalUsers": "7",
-      "averageSessionDuration": "148.0229682222222"
     },
     {
       "pagePath": "/services/death-certificate.html",
@@ -144,8 +144,8 @@
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "145",
-      "totalUsers": "127"
+      "sessions": "129",
+      "totalUsers": "113"
     },
     {
       "sessionSource": "google",
@@ -159,8 +159,13 @@
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "10",
-      "totalUsers": "5"
+      "sessions": "8",
+      "totalUsers": "4"
+    },
+    {
+      "sessionSource": "chatgpt.com",
+      "sessions": "2",
+      "totalUsers": "2"
     },
     {
       "sessionSource": "dataindex.pro",
@@ -191,13 +196,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "176",
-      "totalUsers": "142"
+      "sessions": "171",
+      "totalUsers": "138"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "121",
-      "totalUsers": "109"
+      "sessions": "111",
+      "totalUsers": "101"
     },
     {
       "deviceCategory": "tablet",
@@ -206,6 +211,12 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261030",
+      "totalUsers": "2",
+      "sessions": "2",
+      "screenPageViews": "2"
+    },
     {
       "date": "20261029",
       "totalUsers": "14",
@@ -241,12 +252,6 @@
       "totalUsers": "22",
       "sessions": "24",
       "screenPageViews": "29"
-    },
-    {
-      "date": "20261023",
-      "totalUsers": "4",
-      "sessions": "4",
-      "screenPageViews": "4"
     }
   ]
 }

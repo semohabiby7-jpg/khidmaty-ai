@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /naql/
+Disallow: /q7m2-k9x/
 
 Sitemap: https://khidmatyai.com/sitemap.xml

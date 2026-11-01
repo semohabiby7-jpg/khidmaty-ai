@@ -1,42 +1,42 @@
 {
-  "timestamp": "2026-10-31T06:10:53.445356",
+  "timestamp": "2026-11-01T06:00:42.156315",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "239",
-      "sessions": "282",
-      "screenPageViews": "439",
-      "averageSessionDuration": "122.3802960886525",
-      "bounceRate": "0.51773049645390068"
+      "totalUsers": "230",
+      "sessions": "270",
+      "screenPageViews": "424",
+      "averageSessionDuration": "124.99677201481482",
+      "bounceRate": "0.50370370370370365"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "2",
-      "sessions": "2",
-      "screenPageViews": "2",
-      "averageSessionDuration": "30.1758345",
-      "bounceRate": "0.5"
+      "totalUsers": "1",
+      "sessions": "1",
+      "screenPageViews": "1",
+      "averageSessionDuration": "69.533456",
+      "bounceRate": "0"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "180",
-      "totalUsers": "107",
-      "averageSessionDuration": "106.31380284558823"
-    },
-    {
-      "pagePath": "/index.html",
-      "screenPageViews": "38",
-      "totalUsers": "11",
-      "averageSessionDuration": "193.5449569047619"
+      "screenPageViews": "167",
+      "totalUsers": "97",
+      "averageSessionDuration": "112.26312976612904"
     },
     {
       "pagePath": "/store.html",
       "screenPageViews": "38",
       "totalUsers": "3",
       "averageSessionDuration": "177.8087965"
+    },
+    {
+      "pagePath": "/index.html",
+      "screenPageViews": "35",
+      "totalUsers": "11",
+      "averageSessionDuration": "198.46550957894738"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
@@ -58,9 +58,9 @@
     },
     {
       "pagePath": "/services/update-insured-data.html",
-      "screenPageViews": "12",
-      "totalUsers": "9",
-      "averageSessionDuration": "158.87826666666666"
+      "screenPageViews": "13",
+      "totalUsers": "10",
+      "averageSessionDuration": "149.9437856"
     },
     {
       "pagePath": "/services.html",
@@ -143,14 +143,14 @@
   ],
   "traffic_sources": [
     {
-      "sessionSource": "(direct)",
-      "sessions": "129",
-      "totalUsers": "113"
+      "sessionSource": "google",
+      "sessions": "123",
+      "totalUsers": "116"
     },
     {
-      "sessionSource": "google",
-      "sessions": "122",
-      "totalUsers": "115"
+      "sessionSource": "(direct)",
+      "sessions": "118",
+      "totalUsers": "104"
     },
     {
       "sessionSource": "youtube.com",
@@ -159,7 +159,7 @@
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "8",
+      "sessions": "7",
       "totalUsers": "4"
     },
     {
@@ -186,23 +186,18 @@
       "sessionSource": "gemini.google.com",
       "sessions": "1",
       "totalUsers": "1"
-    },
-    {
-      "sessionSource": "m.facebook.com",
-      "sessions": "1",
-      "totalUsers": "1"
     }
   ],
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "171",
-      "totalUsers": "138"
+      "sessions": "167",
+      "totalUsers": "136"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "111",
-      "totalUsers": "101"
+      "sessions": "103",
+      "totalUsers": "94"
     },
     {
       "deviceCategory": "tablet",
@@ -211,6 +206,12 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261031",
+      "totalUsers": "1",
+      "sessions": "1",
+      "screenPageViews": "1"
+    },
     {
       "date": "20261030",
       "totalUsers": "2",
@@ -246,12 +247,6 @@
       "totalUsers": "10",
       "sessions": "11",
       "screenPageViews": "11"
-    },
-    {
-      "date": "20261024",
-      "totalUsers": "22",
-      "sessions": "24",
-      "screenPageViews": "29"
     }
   ]
 }

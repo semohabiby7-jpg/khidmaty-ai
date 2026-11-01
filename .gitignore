@@ -16,3 +16,8 @@ ideas/SALES-LOG.md
 .telegram-token
 dashboard.html
 __pycache__/
+
+# الحارس: نسخ احتياطية محلية ومجلدات قديمة — مش بتنشر
+_backup/
+agents/hares/backups/
+agents/mada/ga-cache.json

@@ -84,14 +84,23 @@ def norm(s):
     return re.sub(r"[^\w\s]", " ", s)
 
 
+PHOTO = re.compile(r"صور(ة|ه)?\s*(شخصي|فوتو|حديث)|^\s*\d*\s*صور\s*شخصي|صور شخصيه|صورة شخصيه")
+
+
 def kind_of(doc):
+    """أصل / صورة / أصل وصورة / صور / غير موضّح — من نص الورقة نفسها.
+
+    «صور» = صور شخصية تتقدم فعليًا (مش نسخة من ورقة)، فبنفصلها عن «صورة».
+    """
     d = doc.strip()
-    if d.startswith("صورة"):
-        return "صورة"
-    if "أصل وصورة" in d or "أصل + صورة" in d:
+    if "أصل وصورة" in d or "أصل + صورة" in d or "أصل وصورته" in d:
         return "أصل وصورة"
-    if "أصل" in d:
+    if d.startswith("صورة") or "نسخة" in d or "كوبي" in d or "صورة ضوئية" in d:
+        return "صور" if PHOTO.search(d) else "صورة"
+    if "أصل" in d or "أصلية" in d or "اصلية" in d:
         return "أصل"
+    if PHOTO.search(d):
+        return "صور"
     return "غير موضّح"
 
 

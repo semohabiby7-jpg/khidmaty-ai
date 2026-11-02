@@ -2,7 +2,7 @@
 """يبني docs-finder.html من data/docs-finder.json
 
 باحث المستندات: المستخدم يكتب طلبه بالعامية، والصفحة تطلّع الخدمة + الأوراق
-(أصل/صورة/مش موضّح) + الجهة + الرسوم + المدة. كل بيان منقول من صفحات services/*.html.
+(أصل/صورة/أصل وصورة/صور/اتأكد) + الجهة + الرسوم + المدة. كل بيان منقول من صفحات services/*.html.
 """
 import json
 import pathlib
@@ -30,23 +30,33 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .chip:hover{border-color:#e6c258;color:#e6c258}
 .count{margin-top:16px;font-size:12.5px;color:#8ea0c4}
 .count b{color:#e6c258}
-.res{margin-top:10px;display:flex;flex-direction:column;gap:14px}
-.card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:16px}
-.card h3{font-size:16.5px;font-weight:900;color:#fff;margin:0 0 4px;line-height:1.55}
-.cat{display:inline-block;font-size:11.5px;font-weight:800;color:#e6c258;background:rgba(230,194,88,.1);border:1px solid rgba(230,194,88,.35);border-radius:20px;padding:2px 10px;margin-bottom:10px}
-.facts{display:grid;grid-template-columns:1fr;gap:8px;margin:4px 0 14px}
-.fact{display:flex;gap:8px;align-items:flex-start;background:#0f1e3d;border:1px solid #1e3556;border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.7}
-.fact .k{color:#8ea0c4;font-weight:700;min-width:58px;flex-shrink:0}
-.fact .v{color:#e8eef8;flex:1;min-width:0}
-.fact .v.none{color:#7d8caa;font-style:normal}
-.docs-h{font-size:12.5px;font-weight:800;color:#e6c258;margin:0 0 8px}
+.res{margin-top:10px;display:flex;flex-direction:column;gap:16px}
+.card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:18px;padding:16px}
+.card h3{font-size:16.5px;font-weight:900;color:#fff;margin:0 0 6px;line-height:1.55}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.cat{display:inline-block;font-size:11.5px;font-weight:800;color:#e6c258;background:rgba(230,194,88,.1);border:1px solid rgba(230,194,88,.35);border-radius:20px;padding:2px 10px}
+.auth{font-size:11.5px;color:#8ea0c4}
+/* خانة أصل / صورة */
+.kindbox{background:rgba(230,194,88,.08);border:1px solid rgba(230,194,88,.3);border-radius:14px;padding:10px 12px;margin-bottom:12px}
+.kindbox-h{font-size:11.5px;font-weight:900;color:#e6c258;margin-bottom:8px}
+.kchips{display:flex;flex-wrap:wrap;gap:7px}
+.kc{font-size:11.5px;font-weight:900;border-radius:8px;padding:3px 9px;border:1px solid transparent;line-height:1.7}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px}
+.fact{background:#0f1e3d;border:1px solid #1e3556;border-radius:12px;padding:9px 11px}
+.fact .k{display:block;font-size:10.5px;font-weight:800;color:#8ea0c4;margin-bottom:2px}
+.fact .v{display:block;font-size:12.5px;font-weight:800;color:#e8eef8;line-height:1.65}
+.fact .v.none{color:#7d8caa;font-weight:700}
+.docs-h{font-size:12.5px;font-weight:900;color:#e6c258;margin:0 0 6px}
+.lege{font-size:11.5px;color:#8ea0c4;line-height:1.8;margin:0 0 8px}
+.dot{display:inline-flex;gap:6px;flex-wrap:wrap}
 .doc{display:flex;gap:9px;align-items:flex-start;padding:9px 11px;border:1px solid #1e3556;border-radius:11px;background:#12203c;margin-bottom:7px}
-.doc .kind{font-size:10.5px;font-weight:900;padding:2px 8px;border-radius:8px;flex-shrink:0;margin-top:1px;white-space:nowrap}
-.k-orig{background:#e6c258;color:#0F1E3D}
-.k-copy{background:#2f7fbf;color:#fff}
-.k-both{background:#7c5cd6;color:#fff}
-.k-none{background:#24395c;color:#a9b8d4}
-.doc .t{font-size:13.5px;line-height:1.75;color:#e8eef8}
+.doc .kind{min-width:66px;text-align:center;font-size:10.5px;font-weight:900;padding:3px 4px;border-radius:8px;flex-shrink:0;margin-top:1px;white-space:nowrap;border:1px solid transparent;line-height:1.6}
+.k-orig{background:#e6c258;color:#0F1E3D;border-color:#e6c258}
+.k-copy{background:#2f7fbf;color:#fff;border-color:#2f7fbf}
+.k-both{background:#7c5cd6;color:#fff;border-color:#7c5cd6}
+.k-photo{background:#14807a;color:#fff;border-color:#14807a}
+.k-none{background:#1b2f52;color:#a9b8d4;border-color:#2f4a76}
+.doc .t{font-size:13.5px;line-height:1.75;color:#e8eef8;flex:1;min-width:0}
 .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .links a{flex:1;min-width:135px;text-align:center;padding:11px 12px;border-radius:12px;font-size:13px;font-weight:800;text-decoration:none;border:1px solid #3a5580;background:#162847;color:#e8eef8}
 .links a.primary{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:transparent}
@@ -58,7 +68,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .note p{font-size:12.5px;color:#a9b8d4;line-height:1.95;margin:0 0 8px}
 .footer{text-align:center;padding:26px 20px;color:#5a6a8a;font-size:12.5px;line-height:2;border-top:1px solid #16274a;margin-top:26px}
 .footer a{color:#e6c258;text-decoration:none;font-weight:700}
-@media(max-width:430px){.hero h1{font-size:20px}}
+@media(max-width:430px){.hero h1{font-size:20px}.facts{grid-template-columns:1fr}.doc .kind{min-width:62px}}
 """
 
 JS = r"""
@@ -122,19 +132,66 @@ function search(q){
   return scored.filter(function(x){ return x.sc >= Math.max(0.9, top*0.22); })
                .slice(0,6).map(function(x){ return x.s; });
 }
+
+/* ---------- عرض الكارت ---------- */
+var KORDER = ['أصل','صورة','أصل وصورة','صور','غير موضّح'];
+var KCLS = {'أصل':'k-orig','صورة':'k-copy','أصل وصورة':'k-both','صور':'k-photo','غير موضّح':'k-none'};
+var KSHORT = {'أصل':'أصل','صورة':'صورة','أصل وصورة':'أصل+صورة','صور':'صور','غير موضّح':'اتأكد'};
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+  });
+}
+function kindCounts(docs){
+  var c = {};
+  (docs||[]).forEach(function(d){ var k = d.k || 'غير موضّح'; c[k] = (c[k]||0)+1; });
+  return c;
+}
+function card(s){
+  var docs = s.docs || [];
+  var c = kindCounts(docs);
+  var chips = KORDER.filter(function(k){ return c[k]; }).map(function(k){
+    return '<span class="kc ' + KCLS[k] + '">' + KSHORT[k] + ' · ' + c[k] + '</span>';
+  }).join('');
+  var rows = docs.map(function(d){
+    var k = d.k || 'غير موضّح';
+    return '<div class="doc"><span class="kind ' + KCLS[k] + '">' + KSHORT[k] + '</span>'
+         + '<span class="t">' + esc(d.t) + '</span></div>';
+  }).join('');
+  var fee = s.fee || '', dur = s.dur || '';
+  return '<article class="card">'
+    + '<h3>' + esc(s.title) + '</h3>'
+    + '<div class="meta"><span class="cat">' + esc(s.cat) + '</span>'
+    + (s.auth ? '<span class="auth">' + esc(s.auth) + '</span>' : '') + '</div>'
+    + '<div class="kindbox"><div class="kindbox-h">الورق المطلوب: أصل ولا صورة؟</div>'
+    + '<div class="kchips">' + chips + '</div></div>'
+    + '<div class="facts">'
+    + '<div class="fact"><span class="k">الرسوم</span><span class="v' + (fee ? '' : ' none') + '">'
+    + esc(fee || 'مش موضّحة في الدليل') + '</span></div>'
+    + '<div class="fact"><span class="k">المدة</span><span class="v' + (dur ? '' : ' none') + '">'
+    + esc(dur || 'مش موضّحة في الدليل') + '</span></div>'
+    + '</div>'
+    + '<div class="docs-h">الأوراق المطلوبة (' + docs.length + ')</div>'
+    + '<p class="lege">«اتأكد» = الدليل مذكرش أصل ولا صورة — خُد الأصل معاك احتياطي.</p>'
+    + rows
+    + '<div class="links"><a class="primary" href="' + esc(s.link) + '">التفاصيل الكاملة</a>'
+    + '<a href="offices.html">أقرب مكتب</a></div>'
+    + '</article>';
+}
+
 function render(q){
-  var list = q ? search(q) : [];
   if(!q){
     OUT.innerHTML = '';
     CNT.innerHTML = '٨٧ خدمة · ٥٠٣ ورقة — اكتب طلبك فوق أو اختار مثال';
     return;
   }
+  var list = search(q);
   if(!list.length){
-    OUT.innerHTML = '<div class="empty">مفيش خدمة مطابقة لـ«<b>'+esc(q)+'</b>» في الدليل.<br>جرّب كلمة أقصر زي «بطاقة» أو «رخصة» أو «معاش».</div>';
+    OUT.innerHTML = '<div class="empty">مفيش خدمة مطابقة لـ«<b>' + esc(q) + '</b>» في الدليل.<br>جرّب كلمة أقصر زي «بطاقة» أو «رخصة» أو «معاش».</div>';
     CNT.innerHTML = '';
     return;
   }
-  CNT.innerHTML = 'لقينا <b>'+list.length+'</b> خدمة قريبة من طلبك';
+  CNT.innerHTML = 'لقينا <b>' + list.length + '</b> خدمة قريبة من طلبك';
   OUT.innerHTML = list.map(card).join('');
 }
 Q.addEventListener('input', function(){ render(Q.value.trim()); });
@@ -194,7 +251,7 @@ HEAD = """<!DOCTYPE html>
     <h2>البيانات دي جاية منين؟</h2>
     <p>كل خدمة هنا مبنية على صفحة الدليل الخاصة بيها في الموقع — الأوراق والرسوم والمدة منقولة منها بالنص. لو خانة مكتوب فيها «مش موضّحة في الدليل» فده معناه إن المصدر مش ناشرها، مش إنها مجانية أو فورية.</p>
     <p>الرسوم المعلّمة بـ«تقديرية» أو «من» مش رقم نهائي — السعر بيتحدد في المكتب حسب الحالة. راجع الجهة قبل ما تدفع.</p>
-    <p>علامة <b style="color:#e6c258">أصل</b> / <b style="color:#7fb3e0">صورة</b> مأخوذة من نص الصفحة نفسها. اللي مكتوب عليه «غير موضّح» — خُد الأصل معاك احتياطي.</p>
+    <p>شارات الورق: <b style="color:#e6c258">أصل</b> · <b style="color:#7fb3e0">صورة</b> · <b style="color:#b9a6f0">أصل وصورة</b> · <b style="color:#5fd0c8">صور</b> (صور شخصية تجيبها معاك) · <b style="color:#a9b8d4">اتأكد</b> (الدليل مذكرش — خُد الأصل احتياطي). كلها مأخوذة من نص صفحة الخدمة نفسها.</p>
   </div>
 </div>
 <div class="footer">

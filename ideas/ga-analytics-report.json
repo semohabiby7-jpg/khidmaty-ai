@@ -1,30 +1,30 @@
 {
-  "timestamp": "2026-11-01T06:11:17.976298",
+  "timestamp": "2026-11-02T06:02:07.645071",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "230",
+      "totalUsers": "229",
       "sessions": "270",
-      "screenPageViews": "424",
-      "averageSessionDuration": "124.99677201481482",
-      "bounceRate": "0.50370370370370365"
+      "screenPageViews": "426",
+      "averageSessionDuration": "126.43113101111112",
+      "bounceRate": "0.5"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "1",
-      "sessions": "1",
-      "screenPageViews": "1",
-      "averageSessionDuration": "69.533456",
-      "bounceRate": "0"
+      "totalUsers": "4",
+      "sessions": "4",
+      "screenPageViews": "6",
+      "averageSessionDuration": "97.66189275",
+      "bounceRate": "0.75"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "167",
-      "totalUsers": "97",
-      "averageSessionDuration": "112.26312976612904"
+      "screenPageViews": "168",
+      "totalUsers": "96",
+      "averageSessionDuration": "114.99082452419356"
     },
     {
       "pagePath": "/store.html",
@@ -64,9 +64,9 @@
     },
     {
       "pagePath": "/services.html",
-      "screenPageViews": "10",
-      "totalUsers": "6",
-      "averageSessionDuration": "29.421982666666665"
+      "screenPageViews": "11",
+      "totalUsers": "7",
+      "averageSessionDuration": "32.224953571428571"
     },
     {
       "pagePath": "/services/pension-postal-payment.html",
@@ -149,7 +149,7 @@
     },
     {
       "sessionSource": "(direct)",
-      "sessions": "118",
+      "sessions": "119",
       "totalUsers": "104"
     },
     {
@@ -168,17 +168,17 @@
       "totalUsers": "2"
     },
     {
-      "sessionSource": "dataindex.pro",
-      "sessions": "2",
-      "totalUsers": "2"
-    },
-    {
       "sessionSource": "facebook.com",
       "sessions": "2",
       "totalUsers": "2"
     },
     {
       "sessionSource": "aimanhunt.online",
+      "sessions": "1",
+      "totalUsers": "1"
+    },
+    {
+      "sessionSource": "dataindex.pro",
       "sessions": "1",
       "totalUsers": "1"
     },
@@ -191,13 +191,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "167",
+      "sessions": "168",
       "totalUsers": "136"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "103",
-      "totalUsers": "94"
+      "sessions": "102",
+      "totalUsers": "93"
     },
     {
       "deviceCategory": "tablet",
@@ -206,6 +206,18 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261102",
+      "totalUsers": "3",
+      "sessions": "3",
+      "screenPageViews": "3"
+    },
+    {
+      "date": "20261101",
+      "totalUsers": "4",
+      "sessions": "4",
+      "screenPageViews": "6"
+    },
     {
       "date": "20261031",
       "totalUsers": "1",
@@ -239,12 +251,6 @@
     {
       "date": "20261026",
       "totalUsers": "11",
-      "sessions": "11",
-      "screenPageViews": "11"
-    },
-    {
-      "date": "20261025",
-      "totalUsers": "10",
       "sessions": "11",
       "screenPageViews": "11"
     }

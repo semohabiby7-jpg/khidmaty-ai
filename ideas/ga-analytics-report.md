@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-11-01 06:11
+**التاريخ:** 2026-11-02 06:02
 **Property ID:** 554298401
 
 ---
@@ -9,10 +9,10 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 230 |
+| 👥 المستخدمين | 229 |
 | 🌐 الجلسات | 270 |
-| 📄 مشاهدات الصفحات | 424 |
-| ⏱️ متوسط مدة الجلسة | 125s |
+| 📄 مشاهدات الصفحات | 426 |
+| ⏱️ متوسط مدة الجلسة | 126s |
 | 📊 معدل الارتداد | 0.5% |
 
 ---
@@ -21,14 +21,14 @@
 
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
-| / | 167 | 97 |
+| / | 168 | 96 |
 | /store.html | 38 | 3 |
 | /index.html | 35 | 11 |
 | /services/renew-commercial-register.html | 33 | 32 |
 | /services/insurance-periods-inquiry.html | 20 | 14 |
 | /services/vaccination-certificate.html | 14 | 12 |
 | /services/update-insured-data.html | 13 | 10 |
-| /services.html | 10 | 6 |
+| /services.html | 11 | 7 |
 | /services/pension-postal-payment.html | 10 | 7 |
 | /services/international-license.html | 9 | 8 |
 | /services/replace-plates.html | 9 | 7 |
@@ -44,13 +44,13 @@
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
 | google | 123 | 116 |
-| (direct) | 118 | 104 |
+| (direct) | 119 | 104 |
 | youtube.com | 14 | 1 |
 | (not set) | 7 | 4 |
 | chatgpt.com | 2 | 2 |
-| dataindex.pro | 2 | 2 |
 | facebook.com | 2 | 2 |
 | aimanhunt.online | 1 | 1 |
+| dataindex.pro | 1 | 1 |
 | gemini.google.com | 1 | 1 |
 
 ---

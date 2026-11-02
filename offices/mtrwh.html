@@ -61,6 +61,22 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .footer{text-align:center;padding:26px 20px;color:#5a6a8a;font-size:12.5px;line-height:2}
 .footer a{color:#e6c258;text-decoration:none;font-weight:700}
 @media(max-width:430px){.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:21px}}
+
+/* --- أقرب مكتب ليا (GPS) --- */
+.nearme{max-width:800px;margin:0 auto 18px;padding:0 20px}
+.nm-box{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:16px}
+.nm-btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-family:Cairo,sans-serif;font-weight:900;font-size:15px;cursor:pointer}
+.nm-btn:disabled{opacity:.6;cursor:default}
+.nm-hint{font-size:12px;color:#8ea0c4;margin:8px 0 0;line-height:1.8;text-align:center}
+.nm-out{margin-top:12px;display:none}
+.nm-out.on{display:block}
+.nm-item{display:block;background:#0f1e3d;border:1px solid #1e3556;border-radius:12px;padding:12px 14px;margin-top:8px;text-decoration:none;color:#e8eef8}
+.nm-item:hover{border-color:#e6c258}
+.nm-item .nm-name{font-size:14px;font-weight:800;color:#fff;display:block;line-height:1.5}
+.nm-item .nm-meta{font-size:12px;color:#8ea0c4;margin-top:4px;display:block}
+.nm-item .nm-dist{color:#e6c258;font-weight:800}
+.nm-err{font-size:13px;color:#ffb4b4;margin-top:10px;line-height:1.8}
+
 </style>
 </head>
 <body>
@@ -72,7 +88,50 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <p>16 مكتب في 4 أقسام — العناوين والمواعيد في المراكز الرئيسية</p>
   </div>
   <div class="stats"><div class="stat"><div class="stat-num">6</div><div class="stat-lab">السجل المدني والأحوال</div></div><div class="stat"><div class="stat-num">4</div><div class="stat-lab">المرور والرخص</div></div><div class="stat"><div class="stat-num">3</div><div class="stat-lab">التأمينات والمعاشات</div></div><div class="stat"><div class="stat-num">3</div><div class="stat-lab">الشهر العقاري</div></div></div>
-  <section class="card"><div class="card-head"><span class="card-emo">🪪</span><div><h2>السجل المدني والأحوال</h2><p>بطاقات، شهادات ميلاد ووفاة، وتصحيح بيانات</p></div><span class="count">6</span></div><div class="rows"><a class="row" href="civil/mtrwh/mrsa-mtrwh.html"><span class="row-name">السجل المدني - مرسى مطروح</span><span class="row-addr">شارع بورسعيد - مرسى مطروح...</span></a><a class="row" href="civil/mtrwh/mrsa-mtrwh-2.html"><span class="row-name">السجل المدني - حي الزهور مرسى مطروح</span><span class="row-addr">منطقة ك.ع حي الزهور - عمارة 16 - مرسى مطروح...</span></a><a class="row" href="civil/mtrwh/slwm.html"><span class="row-name">السجل المدني - السلوم</span><span class="row-addr">الطريق الرئيسي - السلوم - مطروح...</span></a><a class="row" href="civil/mtrwh/sydy-brany.html"><span class="row-name">السجل المدني - سيدي براني</span><span class="row-addr">مجلس مدينة سيدي براني - بجوار الموقف - مطروح...</span></a><a class="row" href="civil/mtrwh/dbaa.html"><span class="row-name">السجل المدني - الضبعة</span><span class="row-addr">الضبعة - بجوار محطة السكة الحديد - مطروح...</span></a><a class="row" href="civil/mtrwh/mrsa-mtrwh-3.html"><span class="row-name">مكتب الجوازات - مرسى مطروح</span><span class="row-addr">عمارة الأوقاف - شارع بورسعيد - متفرع من شارع الإسكندرية - وس...</span></a></div><a class="more" href="civil/mtrwh.html">كل تفاصيل السجل المدني والأحوال في مطروح ←</a></section><section class="card"><div class="card-head"><span class="card-emo">🚗</span><div><h2>المرور والرخص</h2><p>رخص، نقل ملكية، فحص فني، ومخالفات</p></div><span class="count">4</span></div><div class="rows"><a class="row" href="traffic/mtrwh/mrsa-mtrwh.html"><span class="row-name">إدارة المرور - مطروح</span><span class="row-addr">شارع بورسعيد - داخل مديرية الأمن - مرسى مطروح...</span></a><a class="row" href="traffic/mtrwh/slwm.html"><span class="row-name">وحدة المرور - السلوم</span><span class="row-addr">مركز السلوم - مطروح...</span></a><a class="row" href="traffic/mtrwh/dbaa.html"><span class="row-name">وحدة المرور - الضبعة</span><span class="row-addr">مركز الضبعة - مطروح...</span></a><a class="row" href="traffic/mtrwh/sydy-brany.html"><span class="row-name">وحدة المرور - سيدي براني</span><span class="row-addr">مركز سيدي براني - مطروح...</span></a></div><a class="more" href="traffic/mtrwh.html">كل تفاصيل المرور والرخص في مطروح ←</a></section><section class="card"><div class="card-head"><span class="card-emo">👷</span><div><h2>التأمينات والمعاشات</h2><p>فترات تأمينية، معاشات، وتعويضات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="insurance/mtrwh/mrsa-mtrwh.html"><span class="row-name">مكتب التأمينات الاجتماعية - مرسى مطروح</span><span class="row-addr">برج الإسراء - شارع التحرير - متفرع من شارع الإسكندرية - خلف ...</span></a><a class="row" href="insurance/mtrwh/hmam.html"><span class="row-name">التأمينات الاجتماعية - الحمام</span><span class="row-addr">الحمام - مطروح...</span></a><a class="row" href="insurance/mtrwh/ngyla.html"><span class="row-name">التأمينات الاجتماعية - النجيلة</span><span class="row-addr">النجيلة - مطروح...</span></a></div><a class="more" href="insurance/mtrwh.html">كل تفاصيل التأمينات والمعاشات في مطروح ←</a></section><section class="card"><div class="card-head"><span class="card-emo">⚖️</span><div><h2>الشهر العقاري</h2><p>تسجيل ملكية، توكيلات، وإقرارات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="notary/mtrwh/mrsa-mtrwh.html"><span class="row-name">مكتب الشهر العقاري - مرسى مطروح</span><span class="row-addr">منطقة ك.ع حي الزهور - عمارة 16 - مرسى مطروح...</span></a><a class="row" href="notary/mtrwh/dbaa.html"><span class="row-name">مكتب توثيق الضبعة</span><span class="row-addr">شارع المدرسة الثانوية - شقة 2 عمارة 18 مدخل أ - الضبعة...</span></a><a class="row" href="notary/mtrwh/sydy-brany.html"><span class="row-name">مكتب توثيق سيدي براني</span><span class="row-addr">عمارة أ حي الأمل - سيدي براني - مطروح...</span></a></div><a class="more" href="notary/mtrwh.html">كل تفاصيل الشهر العقاري في مطروح ←</a></section>
+  
+<div class="nearme">
+  <div class="nm-box">
+    <button class="nm-btn" id="nmBtn" type="button">📍 أقرب مكتب ليا</button>
+    <p class="nm-hint">بنستخدم موقعك من المتصفح — مش بنخزّنه ولا بنبعته. المسافات على الهواء (خط مستقيم) والإحداثيات تقريبية على مستوى الحي.</p>
+    <div class="nm-out" id="nmOut" aria-live="polite"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var LIST = [{"n":"السجل المدني - مرسى مطروح","u":"civil/mtrwh/mrsa-mtrwh.html","lat":31.3543,"lng":27.2373},{"n":"السجل المدني - حي الزهور مرسى مطروح","u":"civil/mtrwh/mrsa-mtrwh-2.html","lat":31.36,"lng":27.24},{"n":"السجل المدني - السلوم","u":"civil/mtrwh/slwm.html","lat":31.48,"lng":25.2},{"n":"السجل المدني - سيدي براني","u":"civil/mtrwh/sydy-brany.html","lat":31.63,"lng":26.1},{"n":"السجل المدني - الضبعة","u":"civil/mtrwh/dbaa.html","lat":31.18,"lng":27.43},{"n":"مكتب الجوازات - مرسى مطروح","u":"civil/mtrwh/mrsa-mtrwh-3.html","lat":31.3543,"lng":27.2373},{"n":"إدارة المرور - مطروح","u":"traffic/mtrwh/mrsa-mtrwh.html","lat":31.3543,"lng":27.2373},{"n":"وحدة المرور - السلوم","u":"traffic/mtrwh/slwm.html","lat":31.48,"lng":25.2},{"n":"وحدة المرور - الضبعة","u":"traffic/mtrwh/dbaa.html","lat":31.18,"lng":27.43},{"n":"وحدة المرور - سيدي براني","u":"traffic/mtrwh/sydy-brany.html","lat":31.63,"lng":26.1},{"n":"مكتب التأمينات الاجتماعية - مرسى مطروح","u":"insurance/mtrwh/mrsa-mtrwh.html","lat":31.3543,"lng":27.2373},{"n":"التأمينات الاجتماعية - الحمام","u":"insurance/mtrwh/hmam.html","lat":30.84,"lng":27.22},{"n":"التأمينات الاجتماعية - النجيلة","u":"insurance/mtrwh/ngyla.html","lat":31.1,"lng":27.27},{"n":"مكتب الشهر العقاري - مرسى مطروح","u":"notary/mtrwh/mrsa-mtrwh.html","lat":31.36,"lng":27.24},{"n":"مكتب توثيق الضبعة","u":"notary/mtrwh/dbaa.html","lat":31.18,"lng":27.43},{"n":"مكتب توثيق سيدي براني","u":"notary/mtrwh/sydy-brany.html","lat":31.63,"lng":26.1}];
+  var btn = document.getElementById('nmBtn');
+  var out = document.getElementById('nmOut');
+  function km(a,b,c,d){
+    var R=6371, p=Math.PI/180;
+    var dLat=(c-a)*p, dLng=(d-b)*p;
+    var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a*p)*Math.cos(c*p)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return 2*R*Math.asin(Math.sqrt(x));
+  }
+  function show(msg){ out.className='nm-out on'; out.innerHTML=msg; }
+  btn.addEventListener('click', function(){
+    if(!navigator.geolocation){ show('<p class="nm-err">متصفحك مش بيدعم تحديد الموقع. جرّب تفتح الصفحة من موبايل حديث.</p>'); return; }
+    btn.disabled = true; btn.textContent = '📍 بنحدد موقعك...';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var la=pos.coords.latitude, ln=pos.coords.longitude;
+      var res = LIST.map(function(o){ return {o:o, d:km(la,ln,o.lat,o.lng)}; })
+                    .sort(function(a,b){ return a.d-b.d; }).slice(0,3);
+      var html = '<p class="nm-hint" style="margin:0 0 4px">أقرب ٣ مكاتب لموقعك الحالي:</p>';
+      res.forEach(function(r){
+        html += '<a class="nm-item" href="'+r.o.u+'"><span class="nm-name">'+r.o.n+'</span>'+
+                '<span class="nm-meta"><span class="nm-dist">~'+r.d.toFixed(1)+' كم</span> · اضغط للتفاصيل والاتجاهات</span></a>';
+      });
+      html += '<p class="nm-hint">المسافة خط مستقيم — الطريق الفعلي أطول شوية.</p>';
+      show(html);
+      btn.disabled = false; btn.textContent = '📍 حدّث أقرب مكتب';
+    }, function(err){
+      var m = err && err.code === 1 ? 'لازم تسمح للموقع إنه يقرا مكانك من إعدادات المتصفح.' : 'ما قدرناش نحدد موقعك — جرّب تاني في مكان مفتوح.';
+      show('<p class="nm-err">'+m+'</p>');
+      btn.disabled = false; btn.textContent = '📍 جرّب تاني';
+    }, {enableHighAccuracy:true, timeout:10000, maximumAge:60000});
+  });
+})();
+</script>
+<section class="card"><div class="card-head"><span class="card-emo">🪪</span><div><h2>السجل المدني والأحوال</h2><p>بطاقات، شهادات ميلاد ووفاة، وتصحيح بيانات</p></div><span class="count">6</span></div><div class="rows"><a class="row" href="civil/mtrwh/mrsa-mtrwh.html"><span class="row-name">السجل المدني - مرسى مطروح</span><span class="row-addr">شارع بورسعيد - مرسى مطروح...</span></a><a class="row" href="civil/mtrwh/mrsa-mtrwh-2.html"><span class="row-name">السجل المدني - حي الزهور مرسى مطروح</span><span class="row-addr">منطقة ك.ع حي الزهور - عمارة 16 - مرسى مطروح...</span></a><a class="row" href="civil/mtrwh/slwm.html"><span class="row-name">السجل المدني - السلوم</span><span class="row-addr">الطريق الرئيسي - السلوم - مطروح...</span></a><a class="row" href="civil/mtrwh/sydy-brany.html"><span class="row-name">السجل المدني - سيدي براني</span><span class="row-addr">مجلس مدينة سيدي براني - بجوار الموقف - مطروح...</span></a><a class="row" href="civil/mtrwh/dbaa.html"><span class="row-name">السجل المدني - الضبعة</span><span class="row-addr">الضبعة - بجوار محطة السكة الحديد - مطروح...</span></a><a class="row" href="civil/mtrwh/mrsa-mtrwh-3.html"><span class="row-name">مكتب الجوازات - مرسى مطروح</span><span class="row-addr">عمارة الأوقاف - شارع بورسعيد - متفرع من شارع الإسكندرية - وس...</span></a></div><a class="more" href="civil/mtrwh.html">كل تفاصيل السجل المدني والأحوال في مطروح ←</a></section><section class="card"><div class="card-head"><span class="card-emo">🚗</span><div><h2>المرور والرخص</h2><p>رخص، نقل ملكية، فحص فني، ومخالفات</p></div><span class="count">4</span></div><div class="rows"><a class="row" href="traffic/mtrwh/mrsa-mtrwh.html"><span class="row-name">إدارة المرور - مطروح</span><span class="row-addr">شارع بورسعيد - داخل مديرية الأمن - مرسى مطروح...</span></a><a class="row" href="traffic/mtrwh/slwm.html"><span class="row-name">وحدة المرور - السلوم</span><span class="row-addr">مركز السلوم - مطروح...</span></a><a class="row" href="traffic/mtrwh/dbaa.html"><span class="row-name">وحدة المرور - الضبعة</span><span class="row-addr">مركز الضبعة - مطروح...</span></a><a class="row" href="traffic/mtrwh/sydy-brany.html"><span class="row-name">وحدة المرور - سيدي براني</span><span class="row-addr">مركز سيدي براني - مطروح...</span></a></div><a class="more" href="traffic/mtrwh.html">كل تفاصيل المرور والرخص في مطروح ←</a></section><section class="card"><div class="card-head"><span class="card-emo">👷</span><div><h2>التأمينات والمعاشات</h2><p>فترات تأمينية، معاشات، وتعويضات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="insurance/mtrwh/mrsa-mtrwh.html"><span class="row-name">مكتب التأمينات الاجتماعية - مرسى مطروح</span><span class="row-addr">برج الإسراء - شارع التحرير - متفرع من شارع الإسكندرية - خلف ...</span></a><a class="row" href="insurance/mtrwh/hmam.html"><span class="row-name">التأمينات الاجتماعية - الحمام</span><span class="row-addr">الحمام - مطروح...</span></a><a class="row" href="insurance/mtrwh/ngyla.html"><span class="row-name">التأمينات الاجتماعية - النجيلة</span><span class="row-addr">النجيلة - مطروح...</span></a></div><a class="more" href="insurance/mtrwh.html">كل تفاصيل التأمينات والمعاشات في مطروح ←</a></section><section class="card"><div class="card-head"><span class="card-emo">⚖️</span><div><h2>الشهر العقاري</h2><p>تسجيل ملكية، توكيلات، وإقرارات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="notary/mtrwh/mrsa-mtrwh.html"><span class="row-name">مكتب الشهر العقاري - مرسى مطروح</span><span class="row-addr">منطقة ك.ع حي الزهور - عمارة 16 - مرسى مطروح...</span></a><a class="row" href="notary/mtrwh/dbaa.html"><span class="row-name">مكتب توثيق الضبعة</span><span class="row-addr">شارع المدرسة الثانوية - شقة 2 عمارة 18 مدخل أ - الضبعة...</span></a><a class="row" href="notary/mtrwh/sydy-brany.html"><span class="row-name">مكتب توثيق سيدي براني</span><span class="row-addr">عمارة أ حي الأمل - سيدي براني - مطروح...</span></a></div><a class="more" href="notary/mtrwh.html">كل تفاصيل الشهر العقاري في مطروح ←</a></section>
   <div class="pend-box">
     <h2>أقسام بنجمّعها لـمطروح</h2>
     <p>الأرقام اللي فوق كلها مكاتب متأكدة. الخمسة دول لسه بنجمع بياناتهم الرسمية — مش هنكتب عنوان مش متأكدين منه.</p>

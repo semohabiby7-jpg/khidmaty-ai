@@ -158,5 +158,25 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
   setTimeout(function(){ result.innerHTML = '<span style="color:#5a6a8a">شكراً ليك، رسالتك وصلتنا 🤍</span>'; }, 4000);
 });
 </script>
+<script>
+/* تعبئة تلقائية لما الصفحة تفتح من زرار «بلّغ عن تصحيح» جوه دليل المكاتب */
+(function(){
+  try {
+    var p = new URLSearchParams(location.search);
+    var subj = p.get('subject');
+    if (!subj) return;
+    var typeEl = document.getElementById('fbType');
+    var msgEl = document.getElementById('fbMessage');
+    if (typeEl) typeEl.value = 'خطأ';
+    if (msgEl && !msgEl.value) {
+      msgEl.value = subj + '\n\nالتصحيح المطلوب: ';
+      msgEl.focus();
+      msgEl.setSelectionRange(msgEl.value.length, msgEl.value.length);
+    }
+    var form = document.getElementById('feedbackForm');
+    if (form && form.scrollIntoView) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

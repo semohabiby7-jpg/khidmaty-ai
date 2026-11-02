@@ -61,6 +61,22 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .footer{text-align:center;padding:26px 20px;color:#5a6a8a;font-size:12.5px;line-height:2}
 .footer a{color:#e6c258;text-decoration:none;font-weight:700}
 @media(max-width:430px){.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:21px}}
+
+/* --- أقرب مكتب ليا (GPS) --- */
+.nearme{max-width:800px;margin:0 auto 18px;padding:0 20px}
+.nm-box{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:16px}
+.nm-btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;font-family:Cairo,sans-serif;font-weight:900;font-size:15px;cursor:pointer}
+.nm-btn:disabled{opacity:.6;cursor:default}
+.nm-hint{font-size:12px;color:#8ea0c4;margin:8px 0 0;line-height:1.8;text-align:center}
+.nm-out{margin-top:12px;display:none}
+.nm-out.on{display:block}
+.nm-item{display:block;background:#0f1e3d;border:1px solid #1e3556;border-radius:12px;padding:12px 14px;margin-top:8px;text-decoration:none;color:#e8eef8}
+.nm-item:hover{border-color:#e6c258}
+.nm-item .nm-name{font-size:14px;font-weight:800;color:#fff;display:block;line-height:1.5}
+.nm-item .nm-meta{font-size:12px;color:#8ea0c4;margin-top:4px;display:block}
+.nm-item .nm-dist{color:#e6c258;font-weight:800}
+.nm-err{font-size:13px;color:#ffb4b4;margin-top:10px;line-height:1.8}
+
 </style>
 </head>
 <body>
@@ -72,7 +88,50 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <p>17 مكتب في 4 أقسام — العناوين والمواعيد في المراكز الرئيسية</p>
   </div>
   <div class="stats"><div class="stat"><div class="stat-num">7</div><div class="stat-lab">السجل المدني والأحوال</div></div><div class="stat"><div class="stat-num">4</div><div class="stat-lab">المرور والرخص</div></div><div class="stat"><div class="stat-num">3</div><div class="stat-lab">التأمينات والمعاشات</div></div><div class="stat"><div class="stat-num">3</div><div class="stat-lab">الشهر العقاري</div></div></div>
-  <section class="card"><div class="card-head"><span class="card-emo">🪪</span><div><h2>السجل المدني والأحوال</h2><p>بطاقات، شهادات ميلاد ووفاة، وتصحيح بيانات</p></div><span class="count">7</span></div><div class="rows"><a class="row" href="civil/shmal-syna/arysh.html"><span class="row-name">السجل المدني - بندر العريش</span><span class="row-addr">مجمع المصالح الحكومية - العريش - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/arysh-2.html"><span class="row-name">السجل المدني - ضاحية السلام العريش</span><span class="row-addr">ضاحية السلام - العريش - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/bar-alabd.html"><span class="row-name">السجل المدني - بئر العبد</span><span class="row-addr">مركز بئر العبد - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/shykh-zwyd.html"><span class="row-name">السجل المدني - الشيخ زويد</span><span class="row-addr">مركز الشيخ زويد - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/rfh.html"><span class="row-name">السجل المدني - رفح</span><span class="row-addr">مركز رفح - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/hsna.html"><span class="row-name">السجل المدني - الحسنة</span><span class="row-addr">مركز الحسنة - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/arysh-3.html"><span class="row-name">مكتب الجوازات - العريش</span><span class="row-addr">شارع المرور - داخل مديرية أمن شمال سيناء - العريش...</span></a></div><a class="more" href="civil/shmal-syna.html">كل تفاصيل السجل المدني والأحوال في شمال سيناء ←</a></section><section class="card"><div class="card-head"><span class="card-emo">🚗</span><div><h2>المرور والرخص</h2><p>رخص، نقل ملكية، فحص فني، ومخالفات</p></div><span class="count">4</span></div><div class="rows"><a class="row" href="traffic/shmal-syna/arysh.html"><span class="row-name">إدارة المرور - شمال سيناء</span><span class="row-addr">ضاحية السلام - العريش - شمال سيناء...</span></a><a class="row" href="traffic/shmal-syna/bar-alabd.html"><span class="row-name">وحدة المرور - بئر العبد</span><span class="row-addr">مركز بئر العبد - شمال سيناء...</span></a><a class="row" href="traffic/shmal-syna/shykh-zwyd.html"><span class="row-name">وحدة المرور - الشيخ زويد</span><span class="row-addr">مركز الشيخ زويد - شمال سيناء...</span></a><a class="row" href="traffic/shmal-syna/rfh.html"><span class="row-name">وحدة المرور - رفح</span><span class="row-addr">مركز رفح - شمال سيناء...</span></a></div><a class="more" href="traffic/shmal-syna.html">كل تفاصيل المرور والرخص في شمال سيناء ←</a></section><section class="card"><div class="card-head"><span class="card-emo">👷</span><div><h2>التأمينات والمعاشات</h2><p>فترات تأمينية، معاشات، وتعويضات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="insurance/shmal-syna/arysh.html"><span class="row-name">مكتب التأمينات الاجتماعية - شمال سيناء</span><span class="row-addr">مجمع المصالح الحكومية - العريش - شمال سيناء...</span></a><a class="row" href="insurance/shmal-syna/shykh-zwyd.html"><span class="row-name">التأمينات الاجتماعية - الشيخ زويد</span><span class="row-addr">الشيخ زويد - شمال سيناء...</span></a><a class="row" href="insurance/shmal-syna/rfh.html"><span class="row-name">التأمينات الاجتماعية - رفح</span><span class="row-addr">رفح - شمال سيناء...</span></a></div><a class="more" href="insurance/shmal-syna.html">كل تفاصيل التأمينات والمعاشات في شمال سيناء ←</a></section><section class="card"><div class="card-head"><span class="card-emo">⚖️</span><div><h2>الشهر العقاري</h2><p>تسجيل ملكية، توكيلات، وإقرارات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="notary/shmal-syna/arysh.html"><span class="row-name">مكتب الشهر العقاري - العريش</span><span class="row-addr">مجمع محاكم العريش - العريش - شمال سيناء...</span></a><a class="row" href="notary/shmal-syna/shykh-zwyd.html"><span class="row-name">مكتب توثيق الشيخ زويد</span><span class="row-addr">مركز الشيخ زويد - شمال سيناء...</span></a><a class="row" href="notary/shmal-syna/bar-alabd.html"><span class="row-name">مكتب توثيق بئر العبد</span><span class="row-addr">مركز بئر العبد - شمال سيناء...</span></a></div><a class="more" href="notary/shmal-syna.html">كل تفاصيل الشهر العقاري في شمال سيناء ←</a></section>
+  
+<div class="nearme">
+  <div class="nm-box">
+    <button class="nm-btn" id="nmBtn" type="button">📍 أقرب مكتب ليا</button>
+    <p class="nm-hint">بنستخدم موقعك من المتصفح — مش بنخزّنه ولا بنبعته. المسافات على الهواء (خط مستقيم) والإحداثيات تقريبية على مستوى الحي.</p>
+    <div class="nm-out" id="nmOut" aria-live="polite"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var LIST = [{"n":"السجل المدني - بندر العريش","u":"civil/shmal-syna/arysh.html","lat":31.1314,"lng":33.797},{"n":"السجل المدني - ضاحية السلام العريش","u":"civil/shmal-syna/arysh-2.html","lat":31.15,"lng":33.81},{"n":"السجل المدني - بئر العبد","u":"civil/shmal-syna/bar-alabd.html","lat":31.1,"lng":33.2},{"n":"السجل المدني - الشيخ زويد","u":"civil/shmal-syna/shykh-zwyd.html","lat":31.18,"lng":33.8},{"n":"السجل المدني - رفح","u":"civil/shmal-syna/rfh.html","lat":31.29,"lng":34.24},{"n":"السجل المدني - الحسنة","u":"civil/shmal-syna/hsna.html","lat":30.19,"lng":33.87},{"n":"مكتب الجوازات - العريش","u":"civil/shmal-syna/arysh-3.html","lat":31.1314,"lng":33.797},{"n":"إدارة المرور - شمال سيناء","u":"traffic/shmal-syna/arysh.html","lat":31.15,"lng":33.81},{"n":"وحدة المرور - بئر العبد","u":"traffic/shmal-syna/bar-alabd.html","lat":31.1,"lng":33.2},{"n":"وحدة المرور - الشيخ زويد","u":"traffic/shmal-syna/shykh-zwyd.html","lat":31.18,"lng":33.8},{"n":"وحدة المرور - رفح","u":"traffic/shmal-syna/rfh.html","lat":31.29,"lng":34.24},{"n":"مكتب التأمينات الاجتماعية - شمال سيناء","u":"insurance/shmal-syna/arysh.html","lat":31.1314,"lng":33.797},{"n":"التأمينات الاجتماعية - الشيخ زويد","u":"insurance/shmal-syna/shykh-zwyd.html","lat":31.08,"lng":34.07},{"n":"التأمينات الاجتماعية - رفح","u":"insurance/shmal-syna/rfh.html","lat":31.29,"lng":34.25},{"n":"مكتب الشهر العقاري - العريش","u":"notary/shmal-syna/arysh.html","lat":31.1314,"lng":33.797},{"n":"مكتب توثيق الشيخ زويد","u":"notary/shmal-syna/shykh-zwyd.html","lat":31.18,"lng":33.8},{"n":"مكتب توثيق بئر العبد","u":"notary/shmal-syna/bar-alabd.html","lat":31.1,"lng":33.2}];
+  var btn = document.getElementById('nmBtn');
+  var out = document.getElementById('nmOut');
+  function km(a,b,c,d){
+    var R=6371, p=Math.PI/180;
+    var dLat=(c-a)*p, dLng=(d-b)*p;
+    var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a*p)*Math.cos(c*p)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return 2*R*Math.asin(Math.sqrt(x));
+  }
+  function show(msg){ out.className='nm-out on'; out.innerHTML=msg; }
+  btn.addEventListener('click', function(){
+    if(!navigator.geolocation){ show('<p class="nm-err">متصفحك مش بيدعم تحديد الموقع. جرّب تفتح الصفحة من موبايل حديث.</p>'); return; }
+    btn.disabled = true; btn.textContent = '📍 بنحدد موقعك...';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var la=pos.coords.latitude, ln=pos.coords.longitude;
+      var res = LIST.map(function(o){ return {o:o, d:km(la,ln,o.lat,o.lng)}; })
+                    .sort(function(a,b){ return a.d-b.d; }).slice(0,3);
+      var html = '<p class="nm-hint" style="margin:0 0 4px">أقرب ٣ مكاتب لموقعك الحالي:</p>';
+      res.forEach(function(r){
+        html += '<a class="nm-item" href="'+r.o.u+'"><span class="nm-name">'+r.o.n+'</span>'+
+                '<span class="nm-meta"><span class="nm-dist">~'+r.d.toFixed(1)+' كم</span> · اضغط للتفاصيل والاتجاهات</span></a>';
+      });
+      html += '<p class="nm-hint">المسافة خط مستقيم — الطريق الفعلي أطول شوية.</p>';
+      show(html);
+      btn.disabled = false; btn.textContent = '📍 حدّث أقرب مكتب';
+    }, function(err){
+      var m = err && err.code === 1 ? 'لازم تسمح للموقع إنه يقرا مكانك من إعدادات المتصفح.' : 'ما قدرناش نحدد موقعك — جرّب تاني في مكان مفتوح.';
+      show('<p class="nm-err">'+m+'</p>');
+      btn.disabled = false; btn.textContent = '📍 جرّب تاني';
+    }, {enableHighAccuracy:true, timeout:10000, maximumAge:60000});
+  });
+})();
+</script>
+<section class="card"><div class="card-head"><span class="card-emo">🪪</span><div><h2>السجل المدني والأحوال</h2><p>بطاقات، شهادات ميلاد ووفاة، وتصحيح بيانات</p></div><span class="count">7</span></div><div class="rows"><a class="row" href="civil/shmal-syna/arysh.html"><span class="row-name">السجل المدني - بندر العريش</span><span class="row-addr">مجمع المصالح الحكومية - العريش - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/arysh-2.html"><span class="row-name">السجل المدني - ضاحية السلام العريش</span><span class="row-addr">ضاحية السلام - العريش - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/bar-alabd.html"><span class="row-name">السجل المدني - بئر العبد</span><span class="row-addr">مركز بئر العبد - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/shykh-zwyd.html"><span class="row-name">السجل المدني - الشيخ زويد</span><span class="row-addr">مركز الشيخ زويد - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/rfh.html"><span class="row-name">السجل المدني - رفح</span><span class="row-addr">مركز رفح - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/hsna.html"><span class="row-name">السجل المدني - الحسنة</span><span class="row-addr">مركز الحسنة - شمال سيناء...</span></a><a class="row" href="civil/shmal-syna/arysh-3.html"><span class="row-name">مكتب الجوازات - العريش</span><span class="row-addr">شارع المرور - داخل مديرية أمن شمال سيناء - العريش...</span></a></div><a class="more" href="civil/shmal-syna.html">كل تفاصيل السجل المدني والأحوال في شمال سيناء ←</a></section><section class="card"><div class="card-head"><span class="card-emo">🚗</span><div><h2>المرور والرخص</h2><p>رخص، نقل ملكية، فحص فني، ومخالفات</p></div><span class="count">4</span></div><div class="rows"><a class="row" href="traffic/shmal-syna/arysh.html"><span class="row-name">إدارة المرور - شمال سيناء</span><span class="row-addr">ضاحية السلام - العريش - شمال سيناء...</span></a><a class="row" href="traffic/shmal-syna/bar-alabd.html"><span class="row-name">وحدة المرور - بئر العبد</span><span class="row-addr">مركز بئر العبد - شمال سيناء...</span></a><a class="row" href="traffic/shmal-syna/shykh-zwyd.html"><span class="row-name">وحدة المرور - الشيخ زويد</span><span class="row-addr">مركز الشيخ زويد - شمال سيناء...</span></a><a class="row" href="traffic/shmal-syna/rfh.html"><span class="row-name">وحدة المرور - رفح</span><span class="row-addr">مركز رفح - شمال سيناء...</span></a></div><a class="more" href="traffic/shmal-syna.html">كل تفاصيل المرور والرخص في شمال سيناء ←</a></section><section class="card"><div class="card-head"><span class="card-emo">👷</span><div><h2>التأمينات والمعاشات</h2><p>فترات تأمينية، معاشات، وتعويضات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="insurance/shmal-syna/arysh.html"><span class="row-name">مكتب التأمينات الاجتماعية - شمال سيناء</span><span class="row-addr">مجمع المصالح الحكومية - العريش - شمال سيناء...</span></a><a class="row" href="insurance/shmal-syna/shykh-zwyd.html"><span class="row-name">التأمينات الاجتماعية - الشيخ زويد</span><span class="row-addr">الشيخ زويد - شمال سيناء...</span></a><a class="row" href="insurance/shmal-syna/rfh.html"><span class="row-name">التأمينات الاجتماعية - رفح</span><span class="row-addr">رفح - شمال سيناء...</span></a></div><a class="more" href="insurance/shmal-syna.html">كل تفاصيل التأمينات والمعاشات في شمال سيناء ←</a></section><section class="card"><div class="card-head"><span class="card-emo">⚖️</span><div><h2>الشهر العقاري</h2><p>تسجيل ملكية، توكيلات، وإقرارات</p></div><span class="count">3</span></div><div class="rows"><a class="row" href="notary/shmal-syna/arysh.html"><span class="row-name">مكتب الشهر العقاري - العريش</span><span class="row-addr">مجمع محاكم العريش - العريش - شمال سيناء...</span></a><a class="row" href="notary/shmal-syna/shykh-zwyd.html"><span class="row-name">مكتب توثيق الشيخ زويد</span><span class="row-addr">مركز الشيخ زويد - شمال سيناء...</span></a><a class="row" href="notary/shmal-syna/bar-alabd.html"><span class="row-name">مكتب توثيق بئر العبد</span><span class="row-addr">مركز بئر العبد - شمال سيناء...</span></a></div><a class="more" href="notary/shmal-syna.html">كل تفاصيل الشهر العقاري في شمال سيناء ←</a></section>
   <div class="pend-box">
     <h2>أقسام بنجمّعها لـشمال سيناء</h2>
     <p>الأرقام اللي فوق كلها مكاتب متأكدة. الخمسة دول لسه بنجمع بياناتهم الرسمية — مش هنكتب عنوان مش متأكدين منه.</p>

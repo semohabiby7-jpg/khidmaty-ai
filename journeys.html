@@ -233,7 +233,7 @@ function renderExplain(){
   if(svc.requirements&&svc.requirements.length){
     h+='<div class="section"><h2>✅ شروط الخدمة</h2><ul class="docs-list">'
       +svc.requirements.map(function(r){return'<li>'+esc(r)+'</li>'}).join('')
-      +'</ul></div>';
+      +'<li style="margin:0 0 8px"><a href="doc-checker.html" style="color:#e6c258;text-decoration:none;font-weight:700">فاحص المستندات — ناقصك إيه؟</a></li></ul></div>';
   }
   if(svc.fees&&svc.fees.length){
     h+='<div class="section"><h2>💳 الرسوم والفئات</h2><table class="fees-table"><tr><th>الفئة</th><th>الرسوم</th><th>مدة التنفيذ</th></tr>'

@@ -149,10 +149,22 @@ function renderCats(){
   el.innerHTML=h
 }
 
-/* ===== Render Services ===== */
+/* ===== Render Services (مقسّمة أقسام) ===== */
 let currentCat='all', currentSearch=''
+function serviceCard(s){
+  return `
+    <div class="svc-card" onclick="openService(${s.id})">
+      <div class="svc-icon">${s.icon}</div>
+      <h3 class="svc-name">${s.name}</h3>
+      <p class="svc-desc">${s.desc}</p>
+      <span class="svc-badge ${s.online?'badge-on':'badge-off'}">${s.online?'🌐 أونلاين':'🏛️ حضوري'}</span>
+      <br><span class="svc-link">تفاصيل الخدمة ←</span>
+      <div class="svc-fav" onclick="event.stopPropagation();toggleFav(${s.id})" style="position:absolute;top:10px;right:10px;font-size:18px;cursor:pointer">${isFav(s.id)?'❤️':'🤍'}</div>
+      <div class="svc-share" onclick="event.stopPropagation();shareService('${s.name.replace(/'/g,"")}','${s.link||""}')" style="position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:none">📤</div>
+    </div>`
+}
 function renderServices(){
-  const grid=document.getElementById('servicesGrid')
+  const box=document.getElementById('servicesGrid')
   let list=currentCat==='all'?services:services.filter(s=>s.category===currentCat)
   if(currentSearch){
     let expanded=currentSearch
@@ -165,18 +177,46 @@ function renderServices(){
       return words.some(w=>sn.includes(w)||sd.includes(w)||s.tags.some(t=>norm(t).includes(w)))
     })
   }
-  if(list.length===0){grid.innerHTML='<p class="no-results">لا توجد نتائج مطابقة 🤷‍♂️</p>';return}
-  grid.innerHTML=list.map(s=>`
-    <div class="svc-card" onclick="openService(${s.id})">
-      <div class="svc-icon">${s.icon}</div>
-      <h3 class="svc-name">${s.name}</h3>
-      <p class="svc-desc">${s.desc}</p>
-      <span class="svc-badge ${s.online?'badge-on':'badge-off'}">${s.online?'🌐 أونلاين':'🏛️ حضوري'}</span>
-      <br><span class="svc-link">تفاصيل الخدمة ←</span>
-      <div class="svc-fav" onclick="event.stopPropagation();toggleFav(${s.id})" style="position:absolute;top:10px;right:10px;font-size:18px;cursor:pointer">${isFav(s.id)?'❤️':'🤍'}</div>
-      <div class="svc-share" onclick="event.stopPropagation();shareService('${s.name.replace(/'/g,"")}','${s.link||""}')" style="position:absolute;top:10px;left:10px;background:var(--gold);color:var(--navy);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:none">📤</div>
-    </div>
-  `).join('')
+  if(list.length===0){box.innerHTML='<p class="no-results">لا توجد نتائج مطابقة 🤷‍♂️</p>';return}
+
+  const cats=currentCat==='all'?categories:categories.filter(c=>c.id===currentCat)
+  let h=''
+  cats.forEach(c=>{
+    const items=list.filter(s=>s.category===c.id)
+    if(!items.length)return
+    h+=`<section class="cat-block" id="cat-${c.id}" style="--cat-color:${c.color||'#e6c258'}">
+      <button class="cat-block-head" onclick="toggleBlock(this)" aria-expanded="true">
+        <span class="cat-block-ico">${c.icon}</span>
+        <span class="cat-block-txt">
+          <span class="cat-block-name">${c.name}</span>
+          <span class="cat-block-desc">${c.desc||''}</span>
+        </span>
+        <span class="cat-block-count">${items.length} خدمة</span>
+        <span class="cat-block-chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="cat-block-grid">${items.map(serviceCard).join('')}</div>
+    </section>`
+  })
+  const known=categories.map(c=>c.id)
+  const others=list.filter(s=>known.indexOf(s.category)<0)
+  if(others.length){
+    h+=`<section class="cat-block">
+      <div class="cat-block-head">
+        <span class="cat-block-ico">📌</span>
+        <div class="cat-block-txt"><h3 class="cat-block-name">خدمات أخرى</h3></div>
+        <span class="cat-block-count">${others.length} خدمة</span>
+      </div>
+      <div class="cat-block-grid">${others.map(serviceCard).join('')}</div>
+    </section>`
+  }
+  box.innerHTML=h
+}
+
+/* ===== فتح/غلق القسم ===== */
+function toggleBlock(btn){
+  const sec=btn.parentElement
+  const closed=sec.classList.toggle('collapsed')
+  btn.setAttribute('aria-expanded',closed?'false':'true')
 }
 
 /* ===== Filter Category ===== */
@@ -185,6 +225,8 @@ function filterCat(cat,btn){
   btn.classList.add('active')
   currentCat=cat
   renderServices()
+  const target=cat==='all'?document.getElementById('services'):document.getElementById('cat-'+cat)
+  if(target)target.scrollIntoView({behavior:'smooth',block:'start'})
 }
 
 /* ===== Main Search Live ===== */

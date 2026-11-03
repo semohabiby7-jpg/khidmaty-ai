@@ -388,6 +388,85 @@ display:grid;
 grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
 gap:18px
 }
+/* ===== الأقسام: كل تصنيف بلوك مستقل ===== */
+#servicesGrid{display:block}
+.cat-block{margin-bottom:38px;scroll-margin-top:90px}
+.cat-block-head{
+display:flex;
+align-items:center;
+gap:12px;
+margin:0 0 16px;
+padding:0 0 10px;
+width:100%;
+background:none;
+border:0;
+border-bottom:2px solid var(--gray-m);
+font-family:inherit;
+color:inherit;
+text-align:right;
+cursor:pointer;
+position:relative
+}
+.cat-block-head:hover .cat-block-name{color:var(--gold-d)}
+.cat-block-chev{
+font-size:13px;
+color:var(--gray);
+transition:transform .25s;
+flex-shrink:0
+}
+.cat-block.collapsed .cat-block-chev{transform:rotate(-90deg)}
+.cat-block.collapsed .cat-block-grid{display:none}
+.cat-block.collapsed{margin-bottom:14px}
+.cat-block.collapsed .cat-block-head{margin-bottom:0;border-bottom-color:transparent}
+.cat-block-name{display:block}
+.cat-block-desc{display:block}
+.cat-block-head::after{
+content:"";
+position:absolute;
+bottom:-2px;
+right:0;
+width:70px;
+height:2px;
+background:var(--cat-color,var(--gold))
+}
+.cat-block-ico{
+font-size:26px;
+line-height:1;
+width:46px;
+height:46px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:14px;
+background:color-mix(in srgb,var(--cat-color,var(--gold)) 14%,transparent);
+flex-shrink:0
+}
+.cat-block-txt{flex:1;min-width:0}
+.cat-block-name{margin:0;font-size:19px;font-weight:800;color:var(--navy)}
+.cat-block-desc{margin:2px 0 0;font-size:12.5px;color:var(--gray)}
+.cat-block-count{
+font-size:12px;
+font-weight:700;
+color:var(--navy);
+background:var(--gray-l);
+border-radius:50px;
+padding:5px 12px;
+white-space:nowrap;
+flex-shrink:0
+}
+.cat-block-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:18px
+}
+[data-theme="dark"] .cat-block-name{color:#fff}
+[data-theme="dark"] .cat-block-count{background:#1a2d5a;color:#e6c258}
+@media(max-width:480px){
+.cat-block-name{font-size:17px}
+.cat-block-count{font-size:11px;padding:4px 9px}
+.cat-block-ico{width:40px;height:40px;font-size:22px}
+.cat-block-grid{grid-template-columns:1fr;gap:14px}
+}
 .svc-card{
 background:var(--white);
 border:1px solid var(--gray-m);

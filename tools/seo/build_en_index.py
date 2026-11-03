@@ -199,7 +199,19 @@ body{font-family:Cairo,system-ui,sans-serif;background:#0F1E3D;color:#e8eef8;mar
 .note p{margin:0 0 8px}
 .footer{text-align:center;padding:24px 20px;color:#5a6a8a;font-size:12.5px;border-top:1px solid #16274a;margin-top:24px}
 .footer a{color:#e6c258;text-decoration:none;font-weight:700}
-@media(max-width:430px){.hero h1{font-size:21px}}
+/* ===== Sections (same pattern as the Arabic site) ===== */
+.cat-block{margin:0 0 26px}
+.cat-block-head{display:flex;align-items:center;gap:11px;width:100%;margin:0 0 12px;padding:0 0 9px;background:none;border:0;border-bottom:1px solid #1e3556;font-family:inherit;color:inherit;text-align:left;cursor:pointer}
+.cat-block-ico{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#16274a;font-size:19px;flex-shrink:0}
+.cat-block-txt{flex:1;min-width:0}
+.cat-block-name{display:block;font-size:16px;font-weight:800;color:#fff;margin:0}
+.cat-block-count{font-size:11px;font-weight:700;color:#0F1E3D;background:#e6c258;border-radius:50px;padding:3px 9px;white-space:nowrap;flex-shrink:0}
+.cat-block-chev{font-size:12px;color:#8ea0c4;transition:transform .25s;flex-shrink:0}
+.cat-block.collapsed .cat-block-chev{transform:rotate(-90deg)}
+.cat-block.collapsed .cat-block-body{display:none}
+.cat-block.collapsed .cat-block-head{margin-bottom:0;border-bottom-color:transparent}
+.cat-block-body{display:flex;flex-direction:column;gap:8px}
+@media(max-width:430px){.hero h1{font-size:21px}.cat-block-name{font-size:15px}}
 </style>
 </head>
 <body>
@@ -230,26 +242,50 @@ var Q = document.getElementById('q');
 var LIST = document.getElementById('list');
 var CNT = document.getElementById('count');
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+var ICONS = {
+  'Traffic':'🚗','Civil Registry':'🪪','Civil Documents':'📄','Real Estate Registry':'🏘️',
+  'Taxes':'💰','Utilities':'🏠','Social Insurance':'👴','Passports & Emigration':'✈️',
+  'Travel Documents':'🛂','Health':'🏥','Post':'📮','Education':'🎓','Courts':'⚖️',
+  'Family & Civil Courts':'👨‍👩‍👧','Companies':'🏢','Commercial':'🏭','Social Solidarity':'🤝',
+  'Housing':'🏡','Finance':'💳','Government':'🏛️','Consumer Protection':'🛡️',
+  'Criminal Records':'👮','Military Service':'🎖️','Medical Exemption':'🩺',
+  'Consular':'🌍','Intellectual Property':'™️'
+};
+function toggleBlock(btn){
+  var sec = btn.parentNode;
+  var closed = sec.className.indexOf('collapsed') > -1;
+  sec.className = closed ? 'cat-block' : 'cat-block collapsed';
+  btn.setAttribute('aria-expanded', closed ? 'true' : 'false');
+}
 function render(q){
   var term = (q||'').trim().toLowerCase();
   var rows = DATA.filter(function(s){
     if(!term) return true;
     return (s.en + ' ' + s.cat + ' ' + s.ar).toLowerCase().indexOf(term) > -1;
   });
+  var groups = grouped(rows);
+  var keys = Object.keys(groups);
   CNT.innerHTML = term
     ? rows.length + ' service' + (rows.length === 1 ? '' : 's') + ' matching “' + esc(q.trim()) + '”'
-    : DATA.length + ' services in ' + Object.keys(grouped(rows)).length + ' categories';
-  var groups = grouped(rows);
-  LIST.innerHTML = Object.keys(groups).map(function(cat){
-    return '<div class="group"><h2>' + esc(cat) + '</h2>' + groups[cat].map(function(s){
-      return '<a class="item" href="../' + esc(s.link) + '">'
-        + '<span class="txt"><span class="en">' + esc(s.en) + '</span>'
-        + '<span class="ar">' + esc(s.ar) + '</span></span>'
-        + '<span class="go">Guide</span></a>';
-    }).join('') + '</div>';
+    : DATA.length + ' services in ' + keys.length + ' categories';
+  LIST.innerHTML = keys.map(function(cat){
+    return '<section class="cat-block">'
+      + '<button class="cat-block-head" onclick="toggleBlock(this)" aria-expanded="true">'
+      +   '<span class="cat-block-ico">' + (ICONS[cat] || '📌') + '</span>'
+      +   '<span class="cat-block-txt"><span class="cat-block-name">' + esc(cat) + '</span></span>'
+      +   '<span class="cat-block-count">' + groups[cat].length + '</span>'
+      +   '<span class="cat-block-chev" aria-hidden="true">▾</span>'
+      + '</button>'
+      + '<div class="cat-block-body">' + groups[cat].map(function(s){
+            return '<a class="item" href="../' + esc(s.link) + '">'
+              + '<span class="txt"><span class="en">' + esc(s.en) + '</span>'
+              + '<span class="ar">' + esc(s.ar) + '</span></span>'
+              + '<span class="go">Guide</span></a>';
+          }).join('') + '</div>'
+      + '</section>';
   }).join('');
   if(!rows.length){
-    LIST.innerHTML = '<div class="group"><p style="color:#8ea0c4;font-size:13.5px">No service matches that word. Try “passport”, “tax” or “licence”.</p></div>';
+    LIST.innerHTML = '<p style="color:#8ea0c4;font-size:13.5px">No service matches that word. Try “passport”, “tax” or “licence”.</p>';
   }
 }
 function grouped(rows){

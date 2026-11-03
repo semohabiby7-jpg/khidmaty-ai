@@ -26,6 +26,12 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .cat-tab{background:#162847;border:1px solid #2a4068;border-radius:30px;padding:10px 18px;font-size:14px;font-weight:700;color:#8ea0c4;cursor:pointer;transition:all .2s;font-family:Cairo}
 .cat-tab:hover{border-color:#e6c258;color:#e6c258}
 .cat-tab.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+/* Search */
+.calc-search{max-width:600px;margin:0 auto 18px;padding:0 20px}
+.calc-search input{width:100%;box-sizing:border-box;background:#162847;border:1px solid #2a4068;border-radius:14px;padding:14px 18px;color:#fff;font-family:Cairo,sans-serif;font-size:15px;outline:none}
+.calc-search input::placeholder{color:#6e80a4}
+.calc-search input:focus{border-color:#e6c258}
+.calc-empty{grid-column:1/-1;text-align:center;color:#8ea0c4;font-size:14px;padding:22px 10px;line-height:1.9}
 /* Services grid */
 .calc-services{max-width:700px;margin:0 auto 30px;padding:0 20px}
 .calc-services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
@@ -103,6 +109,10 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 <div class="calc-hero">
   <h1>🧮 حاسبة الرسوم</h1>
   <p>اعرف رسوم أي خدمة حكومية في ثواني</p>
+</div>
+
+<div class="calc-search">
+  <input type="text" id="calcSearch" placeholder="ابحث عن خدمة… مثال: جواز، بطاقة، رخصة، معاش" oninput="searchCalc(this.value)" aria-label="ابحث عن خدمة في الحاسبة">
 </div>
 
 <div class="cat-tabs" id="catTabs"></div>
@@ -472,8 +482,32 @@ function calculate(){
   resultBox.classList.add('active');
 }
 
+// بحث سريع في كل الخدمات
+function searchCalc(v){
+  var q = (v||'').trim();
+  var grid = document.getElementById('servicesGrid');
+  var card = document.getElementById('calcCard');
+  if(!q){ selectCat(currentCat); return; }
+  var keys = Object.keys(fees).filter(function(k){ return fees[k].name.indexOf(q) > -1; });
+  if(!keys.length){
+    grid.innerHTML = '<div class="calc-empty">مفيش خدمة بالاسم ده في الحاسبة.<br>جرّب كلمة أقصر — أو اسأل المساعد الذكي في الرئيسية.</div>';
+  } else {
+    grid.innerHTML = keys.map(function(k){
+      return '<div class="calc-service-tag" onclick="selectService(\'' + k + '\')" id="svc-' + k + '">' + fees[k].name + '</div>';
+    }).join('');
+  }
+  card.style.display = 'none';
+  currentService = null;
+}
+
 // ابدأ بتصنيف مرور
 selectCat('traffic');
+
+// رابط مباشر لخدمة: calc.html?s=id_card
+(function(){
+  var key = new URLSearchParams(location.search).get('s');
+  if(key && fees[key]){ selectCat(fees[key].cat); selectService(key); }
+})();
 </script>
 
 <!-- ===== BOOK MINI AD ===== -->

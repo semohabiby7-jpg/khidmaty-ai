@@ -90,6 +90,54 @@ function getAI(msg){
   return `معلش، مقدرتش ألاقي خدمة مطابقة لطلبك ده 🤔<br><br>بس ممكن تساعدني بإنك تكتب اسم الخدمة أوضح، أو جرّب:<br>${suggestions}<br><br>أو تصفّح <a href="#services" style="color:var(--gold-d);font-weight:600">دليل الخدمات</a> 📋`
 }
 
+/* ===== طبقة الإجابة الموثقة — أرقام الموقع الرسمية قبل أي موديل ===== */
+function _vq(s){return norm(String(s||'')).replace(/[^\u0600-\u06FFa-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
+
+function findVerifiedService(msg){
+  const raw=norm(String(msg||''))
+  /* مرادفات شائعة — الناس بتقول "فيش جنائي" مش "صحيفة حالة جنائية" */
+  const syn=(raw.indexOf('فيش')>-1?' صحيفه حاله جنائيه':'')
+    +(raw.indexOf('قومي')>-1?' بطاقه رقم قومي':'')
+    +(raw.indexOf('رخصه')>-1?' رخصه قياده':'')
+    +(raw.indexOf('معاش')>-1?' استخراج معاش':'')
+  const q=_vq(raw+' '+syn)
+  if(q.length<5)return null
+  let best=null,bestScore=0
+  services.forEach(function(s){
+    if(!s.fees)return
+    const n=_vq(s.name)
+    if(!n)return
+    const words=n.split(' ').filter(function(w){return w.length>2})
+    const hits=words.filter(function(w){return q.indexOf(w)>-1}).length
+    const cov=words.length?hits/words.length:0
+    const exact=q.indexOf(n)>-1?1:0
+    const tags=(s.tags||[]).filter(function(t){const x=_vq(t);return x.length>2&&q.indexOf(x)>-1}).length
+    let score=exact*100+cov*60+tags*14
+    if(q.indexOf('اطفال')<0&&n.indexOf('اطفال')>-1){score-=25}
+    if(score>=34&&score>bestScore){bestScore=score;best=s}
+  })
+  return best
+}
+
+function verifiedAnswerHTML(s){
+  const docs=(s.documents||[]).map(function(d){return '✓ '+d}).join('<br>')
+  const steps=(s.steps||[]).map(function(st,i){return '<strong>'+(i+1)+'.</strong> '+st}).join('<br>')
+  const upd=s.updated?(' · آخر تحديث '+s.updated):''
+  return '<div class="ai-info-card">'
+    +'<h4>📍 '+s.name+'</h4>'
+    +(s.eligibility?'<div class="ai-info-row"><span class="ai-info-ico">🧍</span><span class="ai-info-val"><strong>مين ليه حق:</strong> '+s.eligibility+'</span></div>':'')
+    +'<div class="ai-info-row"><span class="ai-info-ico">🏛️</span><span class="ai-info-val"><strong>الجهة:</strong> '+(s.source||'غير محدد')+'</span></div>'
+    +(docs?'<div class="ai-info-row"><span class="ai-info-ico">📄</span><span class="ai-info-val"><strong>المستندات:</strong><br>'+docs+'</span></div>':'')
+    +'<div class="ai-info-row"><span class="ai-info-ico">💰</span><span class="ai-info-val"><strong>الرسوم:</strong> '+s.fees+'</span></div>'
+    +'<div class="ai-info-row"><span class="ai-info-ico">⏱️</span><span class="ai-info-val"><strong>المدة:</strong> '+(s.duration||'غير محدد')+'</span></div>'
+    +'<div class="ai-info-row"><span class="ai-info-ico">🌐</span><span class="ai-info-val"><strong>التنفيذ:</strong> '+(s.online?'أونلاين ✓':'حضوري 🏛️')+'</span></div>'
+    +(steps?'<div class="ai-info-row"><span class="ai-info-ico">📝</span><span class="ai-info-val"><strong>الخطوات:</strong><br>'+steps+'</span></div>':'')
+    +'<div class="ai-info-row"><span class="ai-info-ico">✅</span><span class="ai-info-val" style="font-size:12px;color:var(--text-l)">الأرقام دي من داتا الموقع الموثقة'+upd+' — ولو الشباك قال رقم تاني، المصدر الرسمي هو الحكم</span></div>'
+    +'</div>'
+    +'<a href="calc.html" style="display:block;text-align:center;margin-top:8px;color:var(--gold-d);font-weight:700;font-size:14px">🧮 احسب الرسوم في الحاسبة</a>'
+    +(s.link?'<a href="'+s.link+'" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:6px;color:var(--gold-d);font-weight:600;font-size:13px">🔗 الموقع الرسمي</a>':'')
+}
+
 function buildSystemPrompt(){
   const svcList=services.map(s=>`- ${s.name} (${s.category}): ${s.desc} | الرسوم: ${s.fees} | المدة: ${s.duration} | المستندات: ${s.documents.join(', ')} | الخطوات: ${s.steps.join(' → ')} | الرابط: ${s.link}`).join('\n')
   return `أنت "خِدْمَتي AI"، مساعد ذكي مصري للمصالح الحكومية. بتعرف الخدمات دي:\n${svcList}\n\nقواعدك:\n1. ردّ بالعربي المصري بود وود\n2. لو سألوا عن خدمة، اعرض التفاصيل بشكل منظّم: 📍 الجهة، 📄 المستندات، 💰 الرسوم، ⏱️ المدة، 🌐 التنفيذ (أونلاين/حضوري)، 📝 الخطوات\n3. في آخر الرد، اسأل المستخدم: "مش عايز تعملها بنفسك؟ محتاج حد يخلصهالك؟" واقترح مقدم خدمة\n4. لو السؤال عام، ساعد وارشح خدمات مناسبة\n5. خليك صديق وحبيب، استخدم إيموجي بشكل طبيعي\n6. ردّ مختصر ومفيد\n7. افهم المصري العامي (عايز، محتاج، اطلع، بدل فاقد، ...)\n8. لو المستخدم كتب "محتاج حد يخلصهالي"، وجهه لقسم مقدمي الخدمات`
@@ -102,6 +150,12 @@ async function callGemini(msg){
     headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
     body:JSON.stringify({question:msg})
   }).catch(()=>{})
+  // 0) الأولوية للداتا الموثقة: لو السؤال عن خدمة موجودة عندنا، الأرقام من الموقع مش من الموديل
+  const verified=findVerifiedService(msg)
+  if(verified){
+    aiHistory.push({role:'model',parts:[{text:verified.name}]})
+    return verifiedAnswerHTML(verified)
+  }
   // 1) رانيا الأول (متعددة اللغات + محترفة + صوت)
   try{
     const res=await fetch(RANIA_WORKER_URL+'/chat',{

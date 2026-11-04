@@ -127,6 +127,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
     <div class="calc-sub" id="calcSub"></div>
     <div id="calcFields"></div>
     <button class="calc-btn" onclick="calculate()">احسب الرسوم</button>
+    <div id="auditBox" style="display:none;margin:0 0 16px;padding:12px 14px;border:1px solid #24395c;border-radius:12px;background:#0f1d33;text-align:right;font-family:Cairo,sans-serif"></div>
     <div class="calc-result" id="resultBox">
       <div class="calc-result-amount" id="resultAmount">0 جنيه</div>
       <div class="calc-breakdown" id="breakdownBox" style="display:none"></div>
@@ -535,6 +536,7 @@ function selectService(key){
   }
 
   // scroll للحاسبة
+  renderAudit(key);
   card.scrollIntoView({ behavior:'smooth', block:'center' });
 }
 
@@ -582,6 +584,48 @@ function calculate(){
     }
   }
   resultBox.classList.add('active');
+}
+
+/* ============================================================
+   سجل تحديثات الرسوم — لكل خدمة: القيمة الحالية، المصدر،
+   تاريخ آخر تحديث، القيمة السابقة وتاريخها، والمسؤول عن الاعتماد
+   ============================================================ */
+var feeAudit = {
+  id_card: { current:'50ج عادية · 125ج مستعجلة · 175ج خاصة · 515ج VIP · 800ج فورية', source:'قطاع الأحوال المدنية — وزارة الداخلية', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[] },
+  id_card_lost: { current:'نفس فئات الاستمارة + غرامة تأخير 50ج', source:'قطاع الأحوال المدنية — وزارة الداخلية', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[] },
+  id_card_reissue: { current:'175ج', source:'قطاع الأحوال المدنية — بيان أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'الخدمة مكانتش موجودة في الحاسبة', date:'قبل 4 نوفمبر 2026', note:'أُضيفت في تحديث الأحوال المدنية' }] },
+  id_card_senior: { current:'175ج', source:'قطاع الأحوال المدنية — بيان أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'الخدمة مكانتش موجودة في الحاسبة', date:'قبل 4 نوفمبر 2026', note:'أُضيفت في تحديث الأحوال المدنية' }] },
+  id_card_disability: { current:'50ج', source:'قطاع الأحوال المدنية — بيان أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'الخدمة مكانتش موجودة في الحاسبة', date:'قبل 4 نوفمبر 2026', note:'أُضيفت في تحديث الأحوال المدنية' }] },
+  id_child: { current:'50ج عادية · 125ج مستعجلة · 175ج خاصة', source:'قطاع الأحوال المدنية — وزارة الداخلية', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[] },
+  birth_cert: { current:'80ج أول مرة · 65ج بعدها · 50ج من ماكينة السجل المدني', source:'قطاع الأحوال المدنية — بيان 24 أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'45ج أول مرة · 25ج بعدها', date:'حتى أكتوبر 2026', note:'الأرقام القديمة اللي لسه متداولة في بعض المواقع' }] },
+  death_cert: { current:'65ج', source:'قطاع الأحوال المدنية — بيان 24 أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'25ج', date:'حتى أكتوبر 2026', note:'الرقم القديم المتداول' }] },
+  marriage: { current:'70ج', source:'قطاع الأحوال المدنية — بيان 24 أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'40ج', date:'حتى أكتوبر 2026', note:'الرقم القديم المتداول' }] },
+  divorce_cert: { current:'70ج', source:'قطاع الأحوال المدنية — بيان 24 أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'40ج', date:'حتى أكتوبر 2026', note:'الرقم القديم المتداول' }] },
+  family_record: { current:'65ج للمرة الثانية · 65ج إلكترونيًا (7 أيام عمل)', source:'قطاع الأحوال المدنية + بوابة محافظة القاهرة 4 أكتوبر 2026', sourceUrl:'https://www.cairo.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'35ج للمرة الثانية · 65ج المستعجل', date:'حتى أكتوبر 2026', note:'الرقم القديم المتداول' }] },
+  individual_record: { current:'65ج للمرة الثانية', source:'قطاع الأحوال المدنية — بيان 24 أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', approvedBy:'بانتظار اعتماد م. إسماعيل', history:[{ value:'35ج', date:'حتى أكتوبر 2026', note:'خدمة كانت متجمعة مع القيد العائلي' }] },
+  criminal_record: { current:'28ج ورقية · 32ج عاجلة · 47ج مميكنة · 89ج أونلاين', source:'قطاع الأمن العام — جدول الرسوم', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-03', approvedBy:'م. إسماعيل', history:[] }
+};
+
+function renderAudit(key){
+  var box = document.getElementById('auditBox');
+  if (!box) return;
+  var a = feeAudit[key];
+  if (!a){ box.style.display = 'none'; box.innerHTML = ''; return; }
+  var rows = a.history.length ? a.history.map(function(h){
+    return '<div style="padding:8px 0;border-top:1px solid #1e3350"><div style="color:#e8eefc;font-weight:700">' + h.value + '</div><div style="color:#8ea0c4;font-size:12px;margin-top:2px">' + h.date + (h.note ? ' — ' + h.note : '') + '</div></div>';
+  }).join('') : '<div style="color:#8ea0c4;font-size:12.5px;padding-top:6px">مفيش تغيير في القيمة من أول إدخال الخدمة.</div>';
+  box.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">' +
+      '<strong style="color:#e6c258;font-size:13px">📋 سجل تحديثات الرسوم</strong>' +
+      '<span style="background:#132745;border:1px solid #2a4a7a;color:#9fd0ff;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:20px">آخر مراجعة: ' + a.lastUpdated + '</span>' +
+    '</div>' +
+    '<div style="font-size:13px;color:#c3d0e6;line-height:1.9">' +
+      '<div><span style="color:#8ea0c4">القيمة الحالية:</span> ' + a.current + '</div>' +
+      '<div><span style="color:#8ea0c4">المصدر:</span> <a href="' + a.sourceUrl + '" target="_blank" rel="noopener" style="color:#e6c258;text-decoration:none">' + a.source + '</a></div>' +
+      '<div><span style="color:#8ea0c4">اعتماد التعديل:</span> ' + a.approvedBy + '</div>' +
+    '</div>' +
+    '<details style="margin-top:10px"><summary style="cursor:pointer;color:#9fd0ff;font-size:12.5px;font-weight:700">القيمة السابقة والسجل (' + a.history.length + ')</summary>' + rows + '</details>';
+  box.style.display = 'block';
 }
 
 // بحث سريع في كل الخدمات

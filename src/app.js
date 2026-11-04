@@ -299,6 +299,7 @@ function clearMainSearch(){
 /* ===== Hero Search Live ===== */
 function heroSearchLive(val){
   const dd=document.getElementById('searchDropdown')
+  if(!dd)return
   if(val.length<2){dd.classList.remove('show');return}
   let expanded=val
   Object.keys(synMap).forEach(k=>{if(val.includes(k))expanded+=' '+synMap[k]})
@@ -322,21 +323,12 @@ function heroSearchLive(val){
   dd.classList.add('show')
 }
 function heroSubmit(){
-  const v=document.getElementById('heroSearch').value.trim()
+  const inp=document.getElementById('aiInput')
+  const v=inp?inp.value.trim():''
   if(!v){showToast('اكتب طلبك الأول! 😊','error');return}
-  document.getElementById('searchDropdown').classList.remove('show')
-  let expanded=v
-  Object.keys(synMap).forEach(k=>{if(v.includes(k))expanded+=' '+synMap[k]})
-  const words=norm(expanded).split(/\s+/).filter(w=>w.length>2)
-  const match=services.find(s=>{
-    const sn=norm(s.name),sd=norm(s.desc),sc=norm(v)
-    if(sn.includes(sc)||sd.includes(sc)||s.tags.some(t=>norm(t).includes(sc)))return true
-    return words.some(w=>sn.includes(w)||s.tags.some(t=>norm(t).includes(w)))
-  })
-  if(match){openService(match.id)}else{
-    document.getElementById('services').scrollIntoView({behavior:'smooth'})
-    setTimeout(()=>{document.getElementById('mainSearch').value=v;currentSearch=v;document.getElementById('searchClear').classList.add('show');renderServices()},400)
-  }
+  const sec=document.getElementById('ask-ai')
+  if(sec)sec.scrollIntoView({behavior:'smooth'})
+  setTimeout(()=>aiSend(),250)
 }
 
 /* ===== Open Service Detail ===== */
@@ -493,11 +485,18 @@ async function aiSend(){
   const t=document.getElementById('typing');if(t)t.remove()
   const replyLang=detectLang(reply)
   const msgId='r'+Date.now()
-  chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar rania-avatar">🤖</span><div class="ai-bubble">${reply.replace(/\n/g,'<br>')}</div><button class="ai-speak-btn" onclick="aiToggleSpeak('${msgId}',this)" data-lang="${replyLang}" title="اسمع الرد" aria-label="نطق الرد">🔊</button><span id="${msgId}" style="display:none">${reply.replace(/</g,'&lt;')}</span></div>`
+  chat.innerHTML+=`<div class="ai-msg bot"><span class="ai-avatar rania-avatar">🤖</span><div class="ai-bubble">${reply.replace(/\n/g,'<br>')}</div><button class="ai-speak-btn" onclick="aiToggleSpeak('${msgId}',this)" data-lang="${replyLang}" title="اسمع الرد" aria-label="نطق الرد">🔊</button><span id="${msgId}" style="display:none">${reply.replace(/</g,'&lt;')}</span>${guideHTML()}</div>`
   chat.scrollTop=chat.scrollHeight
   // Auto-speak if enabled
   if(_aiAutoSpeak){aiSpeak(reply, replyLang)}
 }
+
+/* ===== توجيه المستخدم لباقي الموقع بعد كل رد ===== */
+function guideHTML(){
+  const links=[['🧮','حاسبة الرسوم','calc.html'],['📋','كل الخدمات','services.html'],['🗺️','أقرب مكتب','offices.html'],['📄','فاحص المستندات','doc-checker.html'],['🛒','الكتب','store.html']]
+  return '<div class="ai-guide">'+links.map(l=>'<a href="'+l[2]+'">'+l[0]+' '+l[1]+'</a>').join('')+'</div>'
+}
+
 function askAIAbout(name){
   closeModal('serviceModal')
   document.getElementById('ask-ai').scrollIntoView({behavior:'smooth'})
@@ -567,8 +566,12 @@ function aiVoiceInput(){
 
 /* ===== Hero Actions ===== */
 function quickAsk(term){
-  document.getElementById('heroSearch').value=term
-  heroSubmit()
+  const inp=document.getElementById('aiInput')
+  if(!inp)return
+  const sec=document.getElementById('ask-ai')
+  if(sec)sec.scrollIntoView({behavior:'smooth'})
+  inp.value=term
+  setTimeout(()=>aiSend(),350)
 }
 function goToAI(){
   document.getElementById('ask-ai').scrollIntoView({behavior:'smooth'})
@@ -986,7 +989,8 @@ window.addEventListener('scroll',()=>{
 /* ===== Close search dropdown on outside click ===== */
 document.addEventListener('click',e=>{
   const wrap=document.querySelector('.hero-search-wrap')
-  if(wrap&&!wrap.contains(e.target))document.getElementById('searchDropdown').classList.remove('show')
+  const dd=document.getElementById('searchDropdown')
+  if(wrap&&dd&&!wrap.contains(e.target))dd.classList.remove('show')
   document.querySelectorAll('.modal-overlay').forEach(m=>{if(e.target===m)m.classList.remove('show')})
 })
 

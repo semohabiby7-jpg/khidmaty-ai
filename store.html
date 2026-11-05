@@ -618,6 +618,14 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
       <div class="price">75 <small>جنيه</small></div>
       <button class="buy-btn" onclick="orderProduct('ar7')">اطلب نسختك بـ75ج</button>
     </div>
+    <div class="product-card" id="card-en7">
+      <div class="cover-wrap"><img class="cover-img" src="books/mind-power-7/cover-en.webp?v=2502" alt="Power of Mind 7 — The Word Said Inside cover"></div>
+      <h2>POWER OF MIND 7</h2>
+      <span class="lang-tag">English</span>
+      <p class="desc">Part Seven: "The Word Said Inside" — the sentence you say to yourself in secret is the one that rules your whole life. How you heard it, learned who said it, believed it, tested it, changed its wording, repeated it, and let someone else hear it. Eight chapters plus an introduction: I Heard the Sentence, I Learned Who Said It, I Believed It, I Tested It, I Changed the Wording, I Repeated It, Someone Else Heard It, The Ending. Stories from Shubra and the print shop + 8 practical pauses.</p>
+      <div class="price">100 <small>جنيه</small></div>
+      <button class="buy-btn" onclick="orderProduct('en7')">اطلب نسختك بـ100ج</button>
+    </div>
     <div class="part-divider"><span>أدوات الكاتب · إصدار جديد</span></div>
     <div class="product-card" id="card-aitools">
       <div class="cover-wrap"><img class="cover-img" src="books/ai-tools-content-writers/cover.webp?v=2410" alt="غلاف أهم أدوات الذكاء الاصطناعي في كتابة المحتوى"></div>
@@ -789,6 +797,7 @@ ar4:{name:'كتاب «قوة العقل ٤» — 75 جنيه',msg:'السلام 
 ar5:{name:'كتاب «قوة العقل ٥» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٥: تسيب إيه؟» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
 ar6:{name:'كتاب «قوة العقل ٦» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٦: الصندوق مش مقفول» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
 ar7:{name:'كتاب «قوة العقل ٧» — 75 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «قوة العقل ٧: الكلمة اللي بتتقال جوه» — النسخة العربية\n💰 السعر: 75 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
+en7:{name:'كتاب «POWER OF MIND 7» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 7: The Word Said Inside» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
 en3:{name:'كتاب «POWER OF MIND 3» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 3» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
 en4:{name:'كتاب «POWER OF MIND 4» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 4: Who\'s Driving?» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
 en5:{name:'كتاب «POWER OF MIND 5» — 100 جنيه',msg:'السلام عليكم 👋\nعايز أشتري:\n📕 كتاب «POWER OF MIND 5: What Do You Drop?» — English Edition\n💰 السعر: 100 جنيه\n\n✉️ إيميل الجيميل اللي هتفتح بيه الكتاب:\n\n💰 طرق الدفع:\n- إنستاباي: 01553720957\n- فودافون كاش: 01016243478'},
@@ -820,6 +829,7 @@ function selectProduct(k){
   document.getElementById('card-ar6').classList.toggle('selected',k==='ar6');
   document.getElementById('card-en6').classList.toggle('selected',k==='en6');
   document.getElementById('card-ar7').classList.toggle('selected',k==='ar7');
+  document.getElementById('card-en7').classList.toggle('selected',k==='en7');
   document.getElementById('card-aitools').classList.toggle('selected',k==='aitools');
   document.getElementById('card-smartfuture').classList.toggle('selected',k==='smartfuture');
   document.getElementById('card-aire').classList.toggle('selected',k==='aire');

@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-11-04 06:22
+**التاريخ:** 2026-11-05 06:03
 **Property ID:** 554298401
 
 ---
@@ -9,10 +9,10 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 215 |
-| 🌐 الجلسات | 256 |
-| 📄 مشاهدات الصفحات | 421 |
-| ⏱️ متوسط مدة الجلسة | 143s |
+| 👥 المستخدمين | 217 |
+| 🌐 الجلسات | 263 |
+| 📄 مشاهدات الصفحات | 445 |
+| ⏱️ متوسط مدة الجلسة | 144s |
 | 📊 معدل الارتداد | 0.5% |
 
 ---
@@ -21,21 +21,21 @@
 
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
-| / | 155 | 81 |
+| / | 167 | 82 |
 | /store.html | 38 | 3 |
 | /services/renew-commercial-register.html | 33 | 32 |
 | /index.html | 32 | 11 |
 | /services/insurance-periods-inquiry.html | 20 | 14 |
 | /services/update-insured-data.html | 14 | 11 |
 | /services/vaccination-certificate.html | 14 | 12 |
-| /services.html | 12 | 8 |
-| /offices.html | 11 | 4 |
+| /services.html | 13 | 8 |
+| /offices.html | 12 | 4 |
 | /services/pension-postal-payment.html | 10 | 7 |
+| /calc.html | 9 | 3 |
 | /services/international-license.html | 9 | 8 |
 | /services/replace-plates.html | 9 | 7 |
 | /services/death-certificate.html | 7 | 7 |
 | /articles.html | 5 | 1 |
-| /services/egyptian-citizenship.html | 5 | 5 |
 
 ---
 
@@ -44,13 +44,14 @@
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
 | google | 125 | 118 |
-| (direct) | 103 | 89 |
-| youtube.com | 15 | 1 |
-| (not set) | 7 | 4 |
+| (direct) | 102 | 88 |
+| youtube.com | 20 | 1 |
+| (not set) | 8 | 4 |
 | chatgpt.com | 2 | 2 |
+| facebook.com | 2 | 2 |
+| m.facebook.com | 2 | 2 |
 | aimanhunt.online | 1 | 1 |
 | dataindex.pro | 1 | 1 |
-| facebook.com | 1 | 1 |
 | gemini.google.com | 1 | 1 |
 
 ---

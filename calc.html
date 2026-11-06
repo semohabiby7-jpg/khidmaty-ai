@@ -283,6 +283,12 @@ var fees = {
   passport_lost: { cat:'passport', name:'بدل فاقد / تالف جواز سفر', detailed:'passport', note:'رسم بدل الفاقد أو التالف 1155ج + خدمة الاستعجال لو طلبتها' },
   residence: { cat:'passport', name:'إقامة لأجنبي', simple:true, normal:200, express:1000, note:'العادية 200-500 جنيه | الخاصة 1000+ جنيه' },
   nationality: { cat:'passport', name:'الجنسية المصرية', simple:true, normal:500, express:500, note:'رسوم تقديم الطلب 500 جنيه. الموافقة بقرار من رئيس الجمهورية' },
+  vaccination: { cat:'passport', name:'شهادة تطعيم للسفر', tiers:[
+      {label:'الحمى الصفراء — للسفر', amount:1250, days:'سريان بعد 10 أيام'},
+      {label:'الحمى الصفراء — للمقيمين', amount:450, days:'سريان بعد 10 أيام'},
+      {label:'الحمى الشوكية — للسفر', amount:800, days:'سريان فوري'},
+      {label:'الحمى الشوكية — للحجاج', amount:670, days:'سريان فوري'}
+    ], note:'الرسوم من مراكز الحجر الصحي بوزارة الصحة — الشهادة الدولية للحجر الصحي' },
 
   /* ===== 💼 شركات ===== */
   commercial_reg: { cat:'business', name:'سجل تجاري', detailed:'commercial', note:'الرسوم تختلف حسب نوع النشاط و رأس المال' },
@@ -491,7 +497,8 @@ var ALIAS = {
   divorce_cert: 'طلاق',
   notary: 'توكيل شهر عقاري توثيق عقد',
   inheritance: 'ميراث ورث',
-  building_permit: 'تصريح بناء رخصة بناء'
+  building_permit: 'تصريح بناء رخصة بناء',
+  vaccination: 'شهادة تطعيم حجر صحي حمى صفراء شوكية سفر حج عمرة'
 };
 
 // تطبيع العربي: تشكيل + أ/إ/آ + ة/ه + ى/ي
@@ -668,6 +675,7 @@ function calculate(){
    تاريخ آخر تحديث، القيمة السابقة وتاريخها، والمسؤول عن الاعتماد
    ============================================================ */
 var feeAudit = {
+  vaccination: { current:'1250ج حمى صفراء (سفر) · 450ج (مقيمين) · 800ج حمى شوكية · 670ج للحجاج', source:'وزارة الصحة والسكان — مراكز الحجر الصحي', sourceUrl:'https://www.mohp.gov.eg/', lastUpdated:'2026-11-06', history:[{ value:'الخدمة مكانتش موجودة في الحاسبة', date:'قبل 6 نوفمبر 2026', note:'أُضيفت بناءً على أسئلة المستخدمين' }] },
   id_card: { current:'50ج عادية · 125ج مستعجلة · 175ج خاصة · 515ج VIP · 800ج فورية', source:'قطاع الأحوال المدنية — وزارة الداخلية', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', history:[] },
   id_card_lost: { current:'نفس فئات الاستمارة + غرامة تأخير 50ج', source:'قطاع الأحوال المدنية — وزارة الداخلية', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', history:[] },
   id_card_reissue: { current:'175ج', source:'قطاع الأحوال المدنية — بيان أكتوبر 2026', sourceUrl:'https://www.moi.gov.eg/', lastUpdated:'2026-11-04', history:[{ value:'الخدمة مكانتش موجودة في الحاسبة', date:'قبل 4 نوفمبر 2026', note:'أُضيفت في تحديث الأحوال المدنية' }] },

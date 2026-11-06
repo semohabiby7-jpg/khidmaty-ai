@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="../auth-guard.js"></script>
+<meta charset="UTF-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>بدل فاقد رخصة قيادة | الرسوم والأوراق | خِدْمَتي AI</title>
+<meta name="description" content="بدل فاقد رخصة قيادة في مصر: الرسوم حسب مدة الرخصة (1250ج لسنتين، 1500ج لـ3 سنوات، 1750ج لـ5 سنوات) + الرسم الأساسي، والأوراق والخطوات.">
+<meta name="keywords" content="بدل فاقد رخصة قيادة, رخصة قيادة, فقدان رخصة, وحدة المرور, وزارة الداخلية">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:#e6c258;text-decoration:none;font-weight:800;font-size:15px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#fff;font-weight:900;font-size:18px}
+.header-logo .ai{color:#e6c258}
+.breadcrumb{max-width:900px;margin:0 auto 10px;padding:15px 20px 0;font-size:13px;color:#5a6a8a}
+.breadcrumb a{color:#e6c258;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto 60px;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:20px;padding:30px 24px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(230,194,88,.08),transparent 60%);pointer-events:none}
+.hero-emoji{font-size:52px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:900;color:#fff;margin:0 0 8px;position:relative}
+.hero p{font-size:14px;color:#8ea0c4;margin:0 auto 16px;max-width:640px;line-height:1.6;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
+.tag-online{background:rgba(16,185,129,.15);color:#10b981}
+.tag-gov-fee{background:rgba(230,194,88,.15);color:#e6c258}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;position:relative}
+.stat-card{background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:14px;padding:16px 8px}
+.stat-emoji{font-size:26px;margin-bottom:6px}
+.stat-value{font-size:18px;font-weight:900;color:#e6c258}
+.stat-label{font-size:12px;color:#8ea0c4;margin-top:2px}
+/* SECTION */
+.section{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:24px;margin-bottom:20px}
+.section h2{font-size:19px;font-weight:800;color:#e6c258;margin:0 0 18px;display:flex;align-items:center;gap:8px}
+/* CALCULATOR */
+.calc-box{background:rgba(230,194,88,.04);border:1px solid rgba(230,194,88,.2);border-radius:14px;padding:18px}
+.calc-sub{font-size:13px;color:#8ea0c4;margin-bottom:14px}
+.calc-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(15,30,61,.4);margin-bottom:8px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.calc-opt:has(input:checked){border-color:#e6c258;background:rgba(230,194,88,.08)}
+.calc-opt input{accent-color:#e6c258;width:18px;height:18px}
+.calc-opt-body{display:flex;flex-direction:column}
+.calc-opt-label{font-weight:700;color:#fff;font-size:14px}
+.calc-opt-desc{font-size:12px;color:#8ea0c4}
+.calc-result{text-align:center;padding:18px;margin-top:10px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border-radius:12px;border:1px solid #e6c258}
+.calc-result .amt{font-size:34px;font-weight:900;color:#e6c258}
+.calc-result .lbl{font-size:13px;color:#8ea0c4}
+/* FEES */
+.fee-row{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #1e3556}
+.fee-row:last-child{border-bottom:none}
+.verify-note{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#fbbf24;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:14px;line-height:1.6}
+.fee-type{display:flex;gap:10px;align-items:center}
+.fee-icon{font-size:22px}
+.fee-name{font-weight:700;color:#fff;font-size:14px}
+.fee-note{font-size:11px;color:#5a6a8a}
+.fee-price{font-weight:900;color:#e6c258;font-size:16px;text-align:center}
+.fee-speed{font-size:12px;color:#8ea0c4;text-align:center}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:11px;border:1px solid #1e3556;background:rgba(15,30,61,.4);color:#8ea0c4;border-radius:10px;font-family:Cairo;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.tab-btn.active{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-color:#e6c258}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* STEPS */
+.steps-list{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps-list li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e3556;counter-increment:step}
+.steps-list li:last-child{border-bottom:none}
+.step-num{flex:0 0 34px;height:34px;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px}
+.step-title{font-weight:700;color:#fff;font-size:15px;margin-bottom:3px}
+.step-desc{font-size:13px;color:#8ea0c4;line-height:1.6}
+/* DOCS */
+.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e3556;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.doc-check{display:none}
+.check-box{flex:0 0 22px;height:22px;border:2px solid #1e3556;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.check-item:has(.doc-check:checked) .check-box{background:#10b981;border-color:#10b981}
+.check-item:has(.doc-check:checked) .check-box::after{content:'✓';color:#fff;font-weight:900;font-size:13px}
+.check-item:has(.doc-check:checked) .check-text{text-decoration:line-through;color:#5a6a8a}
+.check-text{font-size:14px;color:#c0cee0}
+.docs-note{font-size:12px;color:#8ea0c4;margin-top:12px;text-align:center}
+.print-btn{display:inline-block;background:rgba(59,130,246,.15);color:#3b82f6;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;font-family:Cairo;cursor:pointer;margin-top:10px}
+/* CONDITIONS + WHERE */
+.cond-list{list-style:none;padding:0;margin:0}
+.cond-list li{padding:9px 0 9px 24px;position:relative;font-size:14px;color:#c0cee0;border-bottom:1px solid #1e3556}
+.cond-list li:last-child{border-bottom:none}
+.cond-list li::before{content:'✓';position:absolute;right:0;top:9px;color:#10b981;font-weight:900}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where-card{display:flex;gap:12px;align-items:flex-start;background:rgba(15,30,61,.5);border-radius:12px;padding:14px}
+.where-icon{font-size:24px}
+.where-name{font-weight:700;color:#fff;font-size:14px;margin-bottom:3px}
+.where-desc{font-size:12px;color:#8ea0c4;line-height:1.5}
+/* FAQ */
+.faq-item{border-bottom:1px solid #1e3556}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;color:#fff;font-family:Cairo;font-size:15px;font-weight:700;padding:15px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:right}
+.faq-arrow{color:#e6c258;transition:.2s;font-size:13px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a p{font-size:14px;color:#8ea0c4;line-height:1.7;margin:0;padding:0 0 15px}
+/* SOURCES + SHARE */
+.src-row{display:flex;flex-wrap:wrap;gap:8px}
+.src-badge{display:inline-block;background:rgba(59,130,246,.12);color:#93c5fd;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2)}
+.src-badge:hover{background:rgba(59,130,246,.2)}
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.share-btn{width:44px;height:44px;border-radius:12px;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.share-wa{background:#25D366;color:#fff}
+.share-fb{background:#1877F2;color:#fff}
+.share-cp{background:rgba(230,194,88,.15);color:#e6c258}
+.share-btn:hover{transform:translateY(-2px)}
+/* RELATED */
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-card{display:block;background:rgba(15,30,61,.5);border:1px solid #1e3556;border-radius:12px;padding:14px;color:#c0cee0;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+.rel-card:hover{border-color:#e6c258;color:#e6c258}
+/* CTA */
+.ask-cta{text-align:center;padding:26px;background:linear-gradient(135deg,#1a2d5a,#0F1E3D);border:1px solid #e6c258;border-radius:16px;margin-bottom:20px}
+.ask-cta h3{font-size:19px;font-weight:800;color:#fff;margin:0 0 8px}
+.ask-cta p{font-size:14px;color:#8ea0c4;margin:0 0 16px}
+.ask-btn{display:inline-block;background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;padding:13px 30px;border-radius:30px;font-weight:800;font-size:15px;text-decoration:none;font-family:Cairo}
+.ask-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(230,194,88,.3)}
+.footer-note{text-align:center;color:#5a6a8a;font-size:12px;padding:20px 0}
+@media(max-width:560px){
+ .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px}
+ .stat-value{font-size:15px}
+ .fee-row{grid-template-columns:1fr;gap:4px;text-align:right}
+ .fee-speed,.fee-price{text-align:right}
+ .where-grid,.rel-grid{grid-template-columns:1fr}
+ .hero h1{font-size:22px}
+}
+
+.books-strip{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:16px;padding:18px 20px;margin:22px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.books-strip-txt{flex:1;min-width:180px}
+.books-strip-txt b{color:#e6c258;font-size:14px;display:block;margin-bottom:4px}
+.books-strip-txt span{color:#8ea0c4;font-size:13px;line-height:1.7}
+.books-strip a{background:#e6c258;color:#0F1E3D;font-weight:900;padding:9px 20px;border-radius:24px;text-decoration:none;font-size:13.5px;white-space:nowrap}
+
+/* --- شريط تنقل موحّد --- */
+.hd-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:62%}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
+.hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
+@media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
+</style>
+<!-- Breadcrumb Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"الرئيسية","item":"https://khidmatyai.com/"},
+    {"@type":"ListItem","position":2,"name":"الخدمات","item":"https://khidmatyai.com/services.html"},
+    {"@type":"ListItem","position":3,"name":"بدل فاقد رخصة قيادة","item":"https://khidmatyai.com/services/lost-driving-license.html"}
+  ]
+}
+</script>
+  <link rel="canonical" href="https://khidmatyai.com/services/lost-driving-license.html">
+<meta property="og:title" content="بدل فاقد رخصة قيادة | الرسوم والأوراق | خِدْمَتي AI">
+<meta property="og:description" content="بدل فاقد رخصة قيادة في مصر: الرسوم حسب مدة الرخصة (1250ج لسنتين، 1500ج لـ3 سنوات، 1750ج لـ5 سنوات) + الرسم الأساسي، والأوراق والخطوات.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://khidmatyai.com/services/lost-driving-license.html">
+<meta property="og:image" content="https://khidmatyai.com/assets/brand-logo.jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="بدل فاقد رخصة قيادة | الرسوم والأوراق | خِدْمَتي AI">
+<meta name="twitter:description" content="بدل فاقد رخصة قيادة في مصر: الرسوم حسب مدة الرخصة (1250ج لسنتين، 1500ج لـ3 سنوات، 1750ج لـ5 سنوات) + الرسم الأساسي، والأوراق والخطوات.">
+<meta name="twitter:image" content="https://khidmatyai.com/assets/brand-logo.jpeg">
+<!-- Google Analytics (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7WT8KN8P9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W7WT8KN8P9');
+</script>
+</head>
+<body>
+<div class="header"><div class="header-logo"><span>خِدْمَتي <span class="ai">AI</span></span></div><nav class="hd-nav" aria-label="التنقل الرئيسي"><a href="../index.html">الرئيسية</a><a href="../services.html" class="on">الخدمات</a><a href="../offices.html">المكاتب</a><a href="../store.html">المتجر</a></nav></div>
+<div class="breadcrumb"><a href="../index.html">الرئيسية</a> › <a href="../services.html">الخدمات</a> › المرور والنقل</div>
+<div class="wrap">
+ <div class="hero">
+  <div class="hero-emoji">🪪</div>
+  <h1>بدل فاقد رخصة القيادة</h1>
+  <p>لو رخصتك ضاعت أو اتلفت — الرسوم بتتحدد بمدة الرخصة. اعرف الرقم والخطوات والأوراق قبل ما تروح الوحدة.</p>
+  <div class="hero-tags"><span class="tag tag-gov-fee">🏛️ رسم حكومي</span><span class="tag tag-online">🚦 من الوحدة</span></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-emoji">💰</div><div class="stat-value">من 1250 جنيه</div><div class="stat-label">الرسوم</div></div><div class="stat-card"><div class="stat-emoji">⏱️</div><div class="stat-value">نفس اليوم</div><div class="stat-label">المدة</div></div><div class="stat-card"><div class="stat-emoji">📄</div><div class="stat-value">4 أوراق</div><div class="stat-label">الأوراق</div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🧮 احسب الرسوم</h2>
+  <div class="calc-box">
+   <div class="calc-sub">اختار مدة الرخصة الأصلية</div>
+   <label class="calc-opt"><input type="radio" name="calctype" value="1250" checked><span class="calc-opt-body"><span class="calc-opt-label">1250ج — سنتان</span><span class="calc-opt-desc">رخصة مدتها سنتان</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="1500"><span class="calc-opt-body"><span class="calc-opt-label">1500ج — 3 سنوات</span><span class="calc-opt-desc">رخصة مدتها 3 سنوات</span></span></label><label class="calc-opt"><input type="radio" name="calctype" value="1750"><span class="calc-opt-body"><span class="calc-opt-label">1750ج — 5 سنوات</span><span class="calc-opt-desc">رخصة مدتها 5 سنوات</span></span></label>
+   <div class="calc-result"><div class="amt" id="calcAmt">1250</div><div class="lbl">جنيه مصري — الرسوم الإجمالية</div></div>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>💰 الرسوم</h2>
+  <div class="fee-row"><div class="fee-type"><span class="fee-icon">📅</span><div><div class="fee-name">سنتان</div><div class="fee-note">بدل فاقد لرخصة مدتها سنتان</div></div></div><div class="fee-price">1250 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📅</span><div><div class="fee-name">3 سنوات</div><div class="fee-note">بدل فاقد لرخصة 3 سنوات</div></div></div><div class="fee-price">1500 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📅</span><div><div class="fee-name">5 سنوات</div><div class="fee-note">بدل فاقد لرخصة 5 سنوات</div></div></div><div class="fee-price">1750 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📄</span><div><div class="fee-name">رسم إصدار الرخصة</div><div class="fee-note">بيتضاف على الرسوم</div></div></div><div class="fee-price">250 جنيه</div><div class="fee-speed">مع الإصدار</div></div>
+  <div class="verify-note">⚠️ الرسوم المذكورة لبدل الفاقد حسب مدة الرخصة، وفوقها رسم إصدار الرخصة (250ج). الرقم النهائي هو اللي الوحدة بتطلبه يوم التنفيذ.</div>
+ </div>
+
+ <div class="section">
+  <h2>📋 الخطوات</h2>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(0)">🏛️ من الوحدة</button></div>
+  <div class="tab-pane active"><ol class="steps-list"><li><div class="step-num">1</div><div class="step-body"><div class="step-title">🏛</div><div class="step-desc">️</div></div></li><li><div class="step-num">2</div><div class="step-body"><div class="step-title">('اعمل بلاغ فقدان', 'بلاغ في القسم أو إثبات الفقدان — بعض الوحدات بتطلبه.')</div><div class="step-desc">('جهّز الأوراق', 'البطاقة سارية + الصور + إثبات الفقدان.')</div></div></li></ol></div>
+ </div>
+
+ <div class="section">
+  <h2>📄 الأوراق المطلوبة</h2>
+  <label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">بطاقة الرقم القومي سارية</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">صور شخصية</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">إثبات بلاغ الفقدان</span></label><label class="check-item"><input type="checkbox" class="doc-check"><span class="check-box"></span><span class="check-text">صورة أو رقم الرخصة القديمة لو متاحة</span></label>
+  <div class="docs-note">دوّر على ✅ كل ورقة قبل ما تروح — أو اطبع اللستة</div>
+  <a data-docs-link="1" href="../docs-checker.html" style="display:inline-block;margin:6px 0 0;padding:9px 16px;border-radius:20px;border:1px solid #e6c258;color:#e6c258;text-decoration:none;font-size:13px;font-weight:700">🔍 افحص أوراقك قبل ما تروح ←</a>
+  <button class="print-btn" onclick="window.print()">🖨️ اطبع لستة الأوراق</button>
+ </div>
+
+ <div class="section">
+  <h2>✅ شروط وملاحظات</h2>
+  <ul class="cond-list"><li>رخصة القيادة لازم تكون سارية أو حديثة الانتهاء</li><li>الرسوم بتتحدد بمدة الرخصة مش بسعر موحد</li><li>لو الرخصة منتهية من فترة طويلة بتتحوّل لطلب تجديد مش بدل فاقد</li><li>الفحص الطبي مطلوب في بعض الحالات</li></ul>
+ </div>
+
+ <div class="section">
+  <h2>📍 تطلبه منين؟</h2>
+  <div class="where-grid"><div class="where-card"><div class="where-icon">🚦</div><div><div class="where-name">وحدات المرور</div><div class="where-desc">تقديم الطلب واستلام الرخصة</div></div></div><div class="where-card"><div class="where-icon">🏛️</div><div><div class="where-name">أقسام الشرطة</div><div class="where-desc">بلاغ الفقدان</div></div></div><div class="where-card"><div class="where-icon">💻</div><div><div class="where-name">بوابة مرور مصر</div><div class="where-desc">حجز موعد والاستعلام</div></div></div><div class="where-card"><div class="where-icon">🏥</div><div><div class="where-name">اللجان الطبية</div><div class="where-desc">لو مطلوب فحص</div></div></div></div>
+ </div>
+
+ <div class="section">
+  <h2>❓ أسئلة شائعة</h2>
+  <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>كم رسوم بدل فاقد رخصة القيادة؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>حسب مدة الرخصة: 1250ج لسنتين، 1500ج لـ3 سنوات، 1750ج لـ5 سنوات، وفوقهم رسم إصدار الرخصة 250ج.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>محتاج بلاغ فقدان؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>في أغلب الوحدات أيوة — بلاغ في القسم أو إثبات الفقدان، والناس بتعمله عشان تتحمى من سوء الاستخدام.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>بتاخد وقت قد إيه؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لو الأوراق كاملة، الرخصة بتتصدر في نفس اليوم في أغلب الوحدات.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>الرخصة المنتهية تعمل إيه؟</span><span class="faq-arrow">▾</span></button><div class="faq-a"><p>لو منتهية لفترة طويلة الطلب بيتحوّل لتجديد وبتتحتاج فحص طبي وبعض الأوراق الإضافية.</p></div></div>
+ </div>
+
+ <div class="section">
+  <h2>🏛️ المصادر الرسمية</h2>
+  <div class="src-row"><a href="https://www.moi.gov.eg/" target="_blank" rel="noopener" class="src-badge">🏛️ وزارة الداخلية</a><a href="https://traffic.moi.gov.eg/" target="_blank" rel="noopener" class="src-badge">🚦 بوابة مرور مصر</a></div>
+  <div class="share-row">
+   <button class="share-btn share-wa" onclick="shareWa()">💬</button>
+   <button class="share-btn share-fb" onclick="shareFb()">📘</button>
+   <button class="share-btn share-cp" onclick="shareCp()">🔗</button>
+  </div>
+ </div>
+
+ <div class="section">
+  <h2>🔗 خدمات تهمّك</h2>
+  <div class="rel-grid"><a href="renew-driving-license.html" class="rel-card">تجديد رخصة القيادة</a><a href="new-driving-license.html" class="rel-card">استخراج رخصة قيادة</a><a href="lost-car-license.html" class="rel-card">بدل فاقد رخصة المركبة</a><a href="international-license.html" class="rel-card">الرخصة الدولية</a><a href="replace-plates.html" class="rel-card">بدل فاقد لوحات المركبة</a></div>
+ </div>
+
+ <div class="ask-cta">
+  <h3>لزق فيك حاجة؟ اسأل المساعد الذكي</h3>
+  <p>جايز تسأل عن حالتك بالظبط — المساعد بيرد عليك فورًا</p>
+  <a href="../index.html#ask" class="ask-btn">اسأل الآن 💬</a>
+ </div>
+
+ <div class="ask-cta" style="border-color:#1e3556">
+  <h3>اعرف الرسوم قبل ما تروح</h3>
+  <p>حاسبة الرسوم بتحسب الرسم الرسمي والتجديد والبدل الفاقد في ثواني</p>
+  <a href="../calc.html" class="ask-btn" onclick="if(window.gtag)gtag('event','calc_cta_click',{source_page:location.pathname})">احسب الرسوم 🧮</a>
+ </div>
+</div>
+<div class="books-strip"><div class="books-strip-txt"><b>📚 من كتبنا</b><span>سلسلة «قوة العقل» — استرد دماغك، نظام التركيز، واصنع مستقبلك الذكي. كتب عملية بالعربي.</span></div><a href="../store.html">شوف الكتب ←</a></div>
+ <div class="footer-note">خِدْمَتي AI — مرجعك في الخدمات الحكومية المصرية | بيانات من مصادر رسمية موثّقة</div>
+</div>
+<script>
+function switchTab(i){
+ document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+document.querySelectorAll('input[name=calctype]').forEach(r=>r.addEventListener('change',()=>{
+  document.getElementById('calcAmt').textContent=r.value;
+}));
+function shareWa(){var u=location.href;var t=document.title;window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank')}
+function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
+function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
+</script>
+</body>
+</html>

@@ -252,6 +252,16 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
   document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
 
   renderList('');
+
+  // deep link: docs-checker.html?s=slug يفتح الخدمة على طول
+  try {
+    var want = new URLSearchParams(window.location.search).get('s');
+    if (want) {
+      for (var w = 0; w < DATA.length; w++) {
+        if (DATA[w].slug === want) { open(want); window.scrollTo(0, 0); break; }
+      }
+    }
+  } catch (e) {}
 })();
 </script>
 </body>

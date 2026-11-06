@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-11-06T06:31:13.296356",
+  "timestamp": "2026-11-06T19:00:29.114809",
   "property_id": "554298401",
   "totals_30d": [
     {
       "totalUsers": "225",
       "sessions": "271",
       "screenPageViews": "453",
-      "averageSessionDuration": "140.24294145756457",
+      "averageSessionDuration": "139.93348462730626",
       "bounceRate": "0.47970479704797048"
     }
   ],
@@ -15,7 +15,7 @@
       "totalUsers": "8",
       "sessions": "8",
       "screenPageViews": "11",
-      "averageSessionDuration": "108.357497",
+      "averageSessionDuration": "97.874646875",
       "bounceRate": "0.75"
     }
   ],
@@ -24,7 +24,7 @@
       "pagePath": "/",
       "screenPageViews": "163",
       "totalUsers": "78",
-      "averageSessionDuration": "133.64074825892857"
+      "averageSessionDuration": "135.25737211607142"
     },
     {
       "pagePath": "/store.html",
@@ -66,7 +66,7 @@
       "pagePath": "/services.html",
       "screenPageViews": "13",
       "totalUsers": "8",
-      "averageSessionDuration": "27.917984444444446"
+      "averageSessionDuration": "34.905652333333336"
     },
     {
       "pagePath": "/offices.html",
@@ -126,7 +126,7 @@
       "pagePath": "/maqalat.html",
       "screenPageViews": "4",
       "totalUsers": "2",
-      "averageSessionDuration": "153.49670725"
+      "averageSessionDuration": "71.54328625"
     },
     {
       "pagePath": "/services/renew-car-license.html",
@@ -159,7 +159,7 @@
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "8",
+      "sessions": "7",
       "totalUsers": "4"
     },
     {

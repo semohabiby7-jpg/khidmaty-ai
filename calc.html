@@ -538,6 +538,17 @@ function selectCat(catId){
 
 function selectService(key){
   currentService = key;
+  // قياس: أنهي خدمة الناس بتفتحها فعلًا (ده اللي هيحدد ترتيب «الأكثر طلبًا»)
+  try {
+    if (typeof gtag === 'function' && fees[key]) {
+      gtag('event', 'calc_use', {
+        service: key,
+        service_name: fees[key].name,
+        category: fees[key].cat,
+        entry_point: currentCat === 'top' ? 'top_list' : 'category'
+      });
+    }
+  } catch (e) {}
   // تحديث التاجز النشطة
   Object.keys(fees).forEach(function(k){
     var el = document.getElementById('svc-' + k);
@@ -638,6 +649,18 @@ function calculate(){
     }
   }
   resultBox.classList.add('active');
+
+  // قياس: هل الناس بتوصل لنتيجة فعلًا؟
+  try {
+    if (typeof gtag === 'function') {
+      gtag('event', 'calc_result', {
+        service: currentService,
+        service_name: data.name,
+        category: data.cat,
+        shows_number: data.info ? 0 : 1
+      });
+    }
+  } catch (e) {}
 }
 
 /* ============================================================

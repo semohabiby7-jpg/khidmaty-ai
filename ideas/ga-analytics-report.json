@@ -1,30 +1,30 @@
 {
-  "timestamp": "2026-11-05T06:03:21.339026",
+  "timestamp": "2026-11-06T06:02:35.204475",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "217",
-      "sessions": "263",
-      "screenPageViews": "445",
-      "averageSessionDuration": "144.25381628517113",
-      "bounceRate": "0.467680608365019"
+      "totalUsers": "225",
+      "sessions": "271",
+      "screenPageViews": "453",
+      "averageSessionDuration": "140.24294145756457",
+      "bounceRate": "0.47970479704797048"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "5",
+      "totalUsers": "8",
       "sessions": "8",
-      "screenPageViews": "22",
-      "averageSessionDuration": "70.8203655",
-      "bounceRate": "0.375"
+      "screenPageViews": "11",
+      "averageSessionDuration": "108.357497",
+      "bounceRate": "0.75"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "167",
-      "totalUsers": "82",
-      "averageSessionDuration": "129.0324465948276"
+      "screenPageViews": "163",
+      "totalUsers": "78",
+      "averageSessionDuration": "133.64074825892857"
     },
     {
       "pagePath": "/store.html",
@@ -51,16 +51,16 @@
       "averageSessionDuration": "77.798414599999987"
     },
     {
+      "pagePath": "/services/vaccination-certificate.html",
+      "screenPageViews": "15",
+      "totalUsers": "13",
+      "averageSessionDuration": "111.13525535714287"
+    },
+    {
       "pagePath": "/services/update-insured-data.html",
       "screenPageViews": "14",
       "totalUsers": "11",
       "averageSessionDuration": "137.37458590909091"
-    },
-    {
-      "pagePath": "/services/vaccination-certificate.html",
-      "screenPageViews": "14",
-      "totalUsers": "12",
-      "averageSessionDuration": "119.68412115384616"
     },
     {
       "pagePath": "/services.html",
@@ -72,7 +72,7 @@
       "pagePath": "/offices.html",
       "screenPageViews": "12",
       "totalUsers": "4",
-      "averageSessionDuration": "631.3495668"
+      "averageSessionDuration": "631.34956679999993"
     },
     {
       "pagePath": "/services/pension-postal-payment.html",
@@ -135,10 +135,10 @@
       "averageSessionDuration": "3.9993385"
     },
     {
-      "pagePath": "/services/car-ownership-inquiry.html",
+      "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
       "screenPageViews": "3",
-      "totalUsers": "2",
-      "averageSessionDuration": "44.296548"
+      "totalUsers": "3",
+      "averageSessionDuration": "21.545778333333331"
     }
   ],
   "traffic_sources": [
@@ -149,8 +149,8 @@
     },
     {
       "sessionSource": "(direct)",
-      "sessions": "102",
-      "totalUsers": "88"
+      "sessions": "108",
+      "totalUsers": "94"
     },
     {
       "sessionSource": "youtube.com",
@@ -164,8 +164,8 @@
     },
     {
       "sessionSource": "chatgpt.com",
-      "sessions": "2",
-      "totalUsers": "2"
+      "sessions": "4",
+      "totalUsers": "4"
     },
     {
       "sessionSource": "facebook.com",
@@ -201,8 +201,8 @@
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "97",
-      "totalUsers": "82"
+      "sessions": "105",
+      "totalUsers": "90"
     },
     {
       "deviceCategory": "tablet",
@@ -212,10 +212,16 @@
   ],
   "daily_7d": [
     {
+      "date": "20261106",
+      "totalUsers": "5",
+      "sessions": "5",
+      "screenPageViews": "5"
+    },
+    {
       "date": "20261105",
-      "totalUsers": "1",
-      "sessions": "1",
-      "screenPageViews": "4"
+      "totalUsers": "8",
+      "sessions": "8",
+      "screenPageViews": "11"
     },
     {
       "date": "20261104",
@@ -252,12 +258,6 @@
       "totalUsers": "2",
       "sessions": "2",
       "screenPageViews": "2"
-    },
-    {
-      "date": "20261029",
-      "totalUsers": "14",
-      "sessions": "16",
-      "screenPageViews": "22"
     }
   ]
 }

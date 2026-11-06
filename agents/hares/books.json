@@ -1,0 +1,67 @@
+{
+  "note": "كتب محمد على أمازون — أي تعديل هنا بيتقرأ تلقائيًا في فحص حارس اليومي. الحالة والأسعار متأكدة من KDP Bookshelf (سكرين شوت 3 نوفمبر 2026).",
+  "marketplace": "https://www.amazon.com",
+  "checked": "2026-11-03",
+  "books": [
+    {
+      "asin": "B0HP6TBHSG",
+      "label": "قوة العقل: استرد دماغك (AR)",
+      "series": "قوة العقل",
+      "expected_price": 2.99,
+      "status": "live",
+      "needs_asin": false,
+      "note": "Kindle Live (سُجّل 24 أكتوبر 2026) — ASIN اتقصّ من الصورة، محتاج آخر حرفين. الغلاف الورقي مش مدعوم للعربي في KDP",
+      "link": "https://www.amazon.com/dp/B0HP6TBHSG"
+    },
+    {
+      "asin": "B0HP74WC9N",
+      "label": "Power of Mind 1: Reclaim Your Mind (EN)",
+      "series": "Power of Mind",
+      "expected_price": 4.99,
+      "status": "live",
+      "link": "https://www.amazon.com/dp/B0HP74WC9N"
+    },
+    {
+      "asin": "B0HN8CVP83",
+      "label": "Power of Mind 2: Where Are You Going? (EN)",
+      "series": "Power of Mind",
+      "expected_price": 4.99,
+      "status": "live",
+      "note": "سُجّل 1 نوفمبر 2026",
+      "link": "https://www.amazon.com/dp/B0HN8CVP83"
+    },
+    {
+      "asin": "B0HPYZM8SW",
+      "label": "قوة العقل 2: رايح فين؟ (AR)",
+      "series": "قوة العقل",
+      "expected_price": 2.99,
+      "status": "live",
+      "needs_asin": false,
+      "note": "B0FMY2MBSW طلع منتج تاني — محتاج ASIN الصحيح من KDP Bookshelf",
+      "link": "https://www.amazon.com/dp/B0HPYZM8SW"
+    },
+    {
+      "asin": "B0HP8HDXCK",
+      "label": "نظام التركيز (AR)",
+      "series": "",
+      "expected_price": 4.99,
+      "status": "live",
+      "needs_asin": false,
+      "note": "كتاب مستقل — مش تابع لسلسلة قوة العقل، وعشان كده سعره 4.99. سُجّل 25 أكتوبر 2026",
+      "link": "https://www.amazon.com/dp/B0HP8HDXCK"
+    },
+    {
+      "asin": "B0HP8N2V4T",
+      "label": "اصنع مستقبلك الذكي (AR)",
+      "series": "",
+      "expected_price": 4.99,
+      "status": "draft",
+      "needs_asin": false,
+      "note": "KDP مجدوله للنشر الأحد ٨ نوفمبر ١٢ بالليل (متظبطة قبل كده على ١٥ واتصححت)",
+      "link": "https://www.amazon.com/dp/B0HP8N2V4T",
+      "release_at": "2026-11-08T00:00+02:00"
+    }
+  ],
+  "kdp_select": false,
+  "kdp_select_note": "محمد ما اختارش KDP Select في أي كتاب — يفضل مفتوح للتوزيع على موقعه/إنستاباي"
+}

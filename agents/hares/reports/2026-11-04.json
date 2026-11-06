@@ -1,0 +1,437 @@
+{
+  "date": "2026-11-04",
+  "checked_at": "2026-11-04 08:20",
+  "site": "https://khidmatyai.com",
+  "pages_checked": 8,
+  "problems": [],
+  "slow": [],
+  "dead_links": [],
+  "cert_days_left": 54,
+  "content_age_days": 4,
+  "newest_content": "maqalat/supply-card-replacement.html",
+  "care": [
+    "أمان: مفيش HSTS — المتصفح مش مجبور يستخدم https",
+    "أمان: مفيش CSP — أي سكربت غريب ممكن يشتغل في صفحتك",
+    "أمان: مفيش nosniff",
+    "أمان: مفيش Referrer-Policy"
+  ],
+  "books": [
+    {
+      "asin": "B0HP6TBHSG",
+      "label": "قوة العقل: استرد دماغك (AR)",
+      "url": "https://www.amazon.com/dp/B0HP6TBHSG",
+      "state": "محتاج تأكيد",
+      "note": "الصفحة مرجعتش — شبكة أو حجب"
+    },
+    {
+      "asin": "B0HP74WC9N",
+      "label": "Power of Mind 1: Reclaim Your Mind (EN)",
+      "url": "https://www.amazon.com/dp/B0HP74WC9N",
+      "state": "محتاج تأكيد",
+      "note": "الصفحة مرجعتش — شبكة أو حجب"
+    },
+    {
+      "asin": "B0HN8CVP83",
+      "label": "Power of Mind 2: Where Are You Going? (EN)",
+      "url": "https://www.amazon.com/dp/B0HN8CVP83",
+      "state": "محتاج تأكيد",
+      "note": "الصفحة مرجعتش — شبكة أو حجب"
+    },
+    {
+      "asin": "B0HPYZM8SW",
+      "label": "قوة العقل 2: رايح فين؟ (AR)",
+      "url": "https://www.amazon.com/dp/B0HPYZM8SW",
+      "state": "محتاج تأكيد",
+      "note": "الصفحة مرجعتش — شبكة أو حجب"
+    },
+    {
+      "asin": "B0HP8HDXCK",
+      "label": "نظام التركيز (AR)",
+      "url": "https://www.amazon.com/dp/B0HP8HDXCK",
+      "state": "محتاج تأكيد",
+      "note": "الصفحة مرجعتش — شبكة أو حجب"
+    },
+    {
+      "asin": "B0HP8N2V4T",
+      "label": "اصنع مستقبلك الذكي (AR)",
+      "url": "https://www.amazon.com/dp/B0HP8N2V4T",
+      "state": "محتاج تأكيد",
+      "note": "الصفحة مرجعتش — شبكة أو حجب"
+    }
+  ],
+  "store": {
+    "pages": [
+      {
+        "label": "المتجر (عربي)",
+        "path": "/store.html",
+        "status": 200,
+        "images": [
+          {
+            "url": "https://khidmatyai.com/assets/k-logo.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-en/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-2/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-2-en/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-3/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-3/cover-en.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-4/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-4/cover-en.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-5/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-5/cover-en.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-6/cover.webp?v=2424",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-6/cover-en.webp?v=2425",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/ai-tools-content-writers/cover.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/smart-future/cover-final.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/img-cover.jpg?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/ai-real-estate/cover-ar.webp?v=2411",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/ai-real-estate/cover-en.webp?v=2411",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/adhd-focus/cover-ar.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/adhd-focus/cover-en.webp?v=2410",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/scan/icon-512.png",
+            "status": 200
+          }
+        ],
+        "offers": [
+          "100 EGP",
+          "129 EGP",
+          "75 EGP"
+        ],
+        "whatsapp": "201005305955"
+      },
+      {
+        "label": "المتجر (إنجليزي)",
+        "path": "/store-en.html",
+        "status": 200,
+        "images": [
+          {
+            "url": "https://khidmatyai.com/assets/k-logo.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-en/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-2/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-2-en/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-3/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-3/cover-en.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-4/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-4/cover-en.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-5/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-5/cover-en.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-6/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/mind-power-6/cover-en.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/ai-tools-content-writers/cover.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/books/smart-future/cover-final.webp",
+            "status": 200
+          },
+          {
+            "url": "https://khidmatyai.com/scan/icon-512.png",
+            "status": 200
+          }
+        ],
+        "offers": [
+          "100 EGP",
+          "129 EGP",
+          "75 EGP"
+        ],
+        "whatsapp": "201005305955"
+      }
+    ],
+    "summary": {
+      "pages": 2,
+      "images_checked": 37,
+      "images_broken": 0,
+      "offers": 6
+    }
+  },
+  "audit": {
+    "pages": [
+      {
+        "label": "الرئيسية",
+        "path": "/",
+        "status": 200,
+        "assets": 8,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 3,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "خِدْمَتي AI | KHADMETY AI - خدمات حكومية مصرية في مكان واحد",
+        "lang": "ar"
+      },
+      {
+        "label": "المتجر",
+        "path": "/store.html",
+        "status": 200,
+        "assets": 5,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 1,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "المتجر | خِدْمَتي AI — كتب وكورسات وتطبيقات",
+        "lang": "ar"
+      },
+      {
+        "label": "المتجر EN",
+        "path": "/store-en.html",
+        "status": 200,
+        "assets": 5,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 1,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "Store | Khdmaty AI — Books, Courses & Apps",
+        "lang": "?"
+      },
+      {
+        "label": "دليل الخدمات",
+        "path": "/services.html",
+        "status": 200,
+        "assets": 4,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 1,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "دليل الخدمات الحكومية في مصر — ١٠٠ دليل تفاعلي | خِدْمَتي AI",
+        "lang": "ar"
+      },
+      {
+        "label": "خريطة المكاتب",
+        "path": "/offices.html",
+        "status": 200,
+        "assets": 3,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 2,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "خريطة مكاتب الخدمات الحكومية | خِدْمَتي AI",
+        "lang": "ar"
+      },
+      {
+        "label": "Scan Macaron",
+        "path": "/scan/",
+        "status": 200,
+        "assets": 5,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 1,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "Scan Macaron AI — ماسح المستندات الذكي",
+        "lang": "ar"
+      },
+      {
+        "label": "حاسبة الرسوم",
+        "path": "/calc.html",
+        "status": 200,
+        "assets": 5,
+        "assets_broken": [],
+        "js_errors": [],
+        "external_scripts": 1,
+        "missing_ids": [],
+        "missing_functions": [],
+        "dead_internal_links": [],
+        "title": "حاسبة الرسوم | خِدْمَتي AI",
+        "lang": "ar"
+      }
+    ],
+    "summary": {
+      "pages": 7,
+      "dead_buttons": 0,
+      "js_errors": 0,
+      "dead_links": 0,
+      "broken_assets": 0
+    }
+  },
+  "security": {
+    "status": 200,
+    "tls": "TLSv1.3",
+    "headers_present": [],
+    "headers_missing": [
+      "HSTS",
+      "CSP",
+      "nosniff",
+      "Referrer-Policy"
+    ],
+    "server": "GitHub.com",
+    "exposed": [],
+    "local_secret_files": []
+  },
+  "backup": {
+    "ok": true,
+    "file": "hares-backup-2026-11-04_0821.zip",
+    "files": 1322,
+    "mb": 5.57,
+    "seconds": 23.4,
+    "sha256_16": "865bddaed29d23cc",
+    "kept": 7,
+    "entries_sample": [
+      "khidmaty-ai-main/agents/hares/CHARTER.md",
+      "khidmaty-ai-main/agents/hares/MEMORY.md",
+      "khidmaty-ai-main/agents/hares/backup.py"
+    ]
+  },
+  "trend": {
+    "prev_problems": 1,
+    "new": 0
+  },
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "ms": 463,
+      "label": "الرئيسية"
+    },
+    {
+      "path": "/services.html",
+      "status": 200,
+      "ms": 250,
+      "label": "دليل الخدمات"
+    },
+    {
+      "path": "/offices.html",
+      "status": 200,
+      "ms": 250,
+      "label": "خريطة المكاتب"
+    },
+    {
+      "path": "/store.html",
+      "status": 200,
+      "ms": 261,
+      "label": "المتجر"
+    },
+    {
+      "path": "/scan/",
+      "status": 200,
+      "ms": 246,
+      "label": "Scan Macaron"
+    },
+    {
+      "path": "/calc.html",
+      "status": 200,
+      "ms": 256,
+      "label": "حاسبة الرسوم"
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "ms": 277,
+      "label": "robots"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "ms": 258,
+      "label": "sitemap"
+    }
+  ]
+}

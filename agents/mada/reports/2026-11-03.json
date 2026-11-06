@@ -1,0 +1,162 @@
+{
+  "date": "2026-11-03",
+  "at": "13:03",
+  "measured": {
+    "articles": {
+      "count": 35,
+      "newest_days": 4,
+      "newest": "maqalat/supply-card-replacement.html",
+      "last_30": 35
+    },
+    "sitemap": {
+      "urls": 1183,
+      "key_pages_missing": [
+        "index.html"
+      ]
+    },
+    "books": {
+      "amazon": 6,
+      "need_asin": 0,
+      "labels": [
+        "قوة العقل: استرد دماغك (AR)",
+        "Power of Mind 1: Reclaim Your Mind (EN)",
+        "Power of Mind 2: Where Are You Going? (EN)",
+        "قوة العقل 2: رايح فين؟ (AR)",
+        "نظام التركيز (AR)",
+        "اصنع مستقبلك الذكي (AR)"
+      ],
+      "store_cards": 21
+    },
+    "hares_open_issues": 1,
+    "traffic": {
+      "ok": true,
+      "property": "554298401",
+      "window": {
+        "from": "2026-10-06",
+        "to": "2026-11-02",
+        "days": 28
+      },
+      "current": {
+        "totalUsers": 212.0,
+        "sessions": 251.0,
+        "screenPageViews": 412.0,
+        "engagementRate": 0.526,
+        "averageSessionDuration": 144.604
+      },
+      "previous": {
+        "totalUsers": 86.0,
+        "sessions": 128.0,
+        "screenPageViews": 226.0,
+        "engagementRate": 0.359,
+        "averageSessionDuration": 230.623
+      },
+      "change_pct": {
+        "users": 146.5,
+        "sessions": 96.1,
+        "views": 82.3
+      },
+      "top_pages": [
+        {
+          "name": "/",
+          "value": 149.0
+        },
+        {
+          "name": "/store.html",
+          "value": 38.0
+        },
+        {
+          "name": "/services/renew-commercial-register.html",
+          "value": 33.0
+        },
+        {
+          "name": "/index.html",
+          "value": 32.0
+        },
+        {
+          "name": "/services/insurance-periods-inquiry.html",
+          "value": 20.0
+        }
+      ],
+      "top_sources": [
+        {
+          "name": "google / organic",
+          "value": 124.0
+        },
+        {
+          "name": "(direct) / (none)",
+          "value": 101.0
+        },
+        {
+          "name": "youtube.com / referral",
+          "value": 14.0
+        },
+        {
+          "name": "(not set)",
+          "value": 6.0
+        },
+        {
+          "name": "chatgpt.com / ai-assistant",
+          "value": 2.0
+        }
+      ]
+    },
+    "week": {
+      "ok": true,
+      "current": {
+        "totalUsers": 49.0,
+        "sessions": 52.0,
+        "screenPageViews": 88.0,
+        "engagementRate": 0.577,
+        "averageSessionDuration": 124.35
+      },
+      "previous": {
+        "totalUsers": 73.0,
+        "sessions": 80.0,
+        "screenPageViews": 100.0,
+        "engagementRate": 0.475,
+        "averageSessionDuration": 66.244
+      },
+      "sessions_change_pct": -35.0
+    },
+    "page_trends": [
+      {
+        "page": "/",
+        "views": 149.0,
+        "prev": 70.0,
+        "change_pct": 112.9
+      },
+      {
+        "page": "/index.html",
+        "views": 32.0,
+        "prev": 6.0,
+        "change_pct": 433.3
+      },
+      {
+        "page": "/store.html",
+        "views": 38.0,
+        "prev": 0,
+        "change_pct": null
+      },
+      {
+        "page": "/services/renew-commercial-register.html",
+        "views": 33.0,
+        "prev": 0,
+        "change_pct": null
+      },
+      {
+        "page": "/services/insurance-periods-inquiry.html",
+        "views": 20.0,
+        "prev": 0,
+        "change_pct": null
+      }
+    ]
+  },
+  "unknown": [],
+  "decision": {
+    "rule": "في عطل مفتوح عند حارس",
+    "stance": "مش هنشتغل على نمو وفيه باب مكسور.",
+    "decision": "نقفل العطل ده قبل أي حاجة: الرئيسية: السرعة اتضاعفت (625ms ← 1358ms)",
+    "why": "أي زائر بيقع في عطل = محتوى ومسارات مش بتوصل، فالنمو عليه كلام",
+    "expect": "تفادي زائر بياخد صفحة خطأ بدل ما يكمّل"
+  }
+}

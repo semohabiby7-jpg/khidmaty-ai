@@ -1,0 +1,160 @@
+{
+  "date": "2026-11-01",
+  "at": "14:34",
+  "measured": {
+    "articles": {
+      "count": 35,
+      "newest_days": 2,
+      "newest": "maqalat/supply-card-replacement.html",
+      "last_30": 35
+    },
+    "sitemap": {
+      "urls": 1152,
+      "key_pages_missing": [
+        "index.html"
+      ]
+    },
+    "books": {
+      "amazon": 4,
+      "need_asin": 2,
+      "labels": [
+        "قوة العقل: استرد دماغك (AR)",
+        "Power of Mind 1 (EN)",
+        "Power of Mind 2 (EN)",
+        "قوة العقل 2: رايح فين؟ (AR)"
+      ],
+      "store_cards": 21
+    },
+    "hares_open_issues": 0,
+    "traffic": {
+      "ok": true,
+      "property": "554298401",
+      "window": {
+        "from": "2026-10-04",
+        "to": "2026-10-31",
+        "days": 28
+      },
+      "current": {
+        "totalUsers": 215.0,
+        "sessions": 255.0,
+        "screenPageViews": 409.0,
+        "engagementRate": 0.525,
+        "averageSessionDuration": 132.328
+      },
+      "previous": {
+        "totalUsers": 75.0,
+        "sessions": 116.0,
+        "screenPageViews": 211.0,
+        "engagementRate": 0.362,
+        "averageSessionDuration": 248.995
+      },
+      "change_pct": {
+        "users": 186.7,
+        "sessions": 119.8,
+        "views": 93.8
+      },
+      "top_pages": [
+        {
+          "name": "/",
+          "value": 152.0
+        },
+        {
+          "name": "/store.html",
+          "value": 38.0
+        },
+        {
+          "name": "/index.html",
+          "value": 35.0
+        },
+        {
+          "name": "/services/renew-commercial-register.html",
+          "value": 33.0
+        },
+        {
+          "name": "/services/insurance-periods-inquiry.html",
+          "value": 20.0
+        }
+      ],
+      "top_sources": [
+        {
+          "name": "google / organic",
+          "value": 123.0
+        },
+        {
+          "name": "(direct) / (none)",
+          "value": 104.0
+        },
+        {
+          "name": "youtube.com / referral",
+          "value": 14.0
+        },
+        {
+          "name": "(not set)",
+          "value": 7.0
+        },
+        {
+          "name": "chatgpt.com / ai-assistant",
+          "value": 2.0
+        }
+      ]
+    },
+    "week": {
+      "ok": true,
+      "current": {
+        "totalUsers": 62.0,
+        "sessions": 66.0,
+        "screenPageViews": 92.0,
+        "engagementRate": 0.576,
+        "averageSessionDuration": 61.173
+      },
+      "previous": {
+        "totalUsers": 64.0,
+        "sessions": 76.0,
+        "screenPageViews": 121.0,
+        "engagementRate": 0.526,
+        "averageSessionDuration": 204.79
+      },
+      "sessions_change_pct": -13.2
+    },
+    "page_trends": [
+      {
+        "page": "/",
+        "views": 152.0,
+        "prev": 58.0,
+        "change_pct": 162.1
+      },
+      {
+        "page": "/index.html",
+        "views": 35.0,
+        "prev": 3.0,
+        "change_pct": 1066.7
+      },
+      {
+        "page": "/store.html",
+        "views": 38.0,
+        "prev": 0,
+        "change_pct": null
+      },
+      {
+        "page": "/services/renew-commercial-register.html",
+        "views": 33.0,
+        "prev": 0,
+        "change_pct": null
+      },
+      {
+        "page": "/services/insurance-periods-inquiry.html",
+        "views": 20.0,
+        "prev": 0,
+        "change_pct": null
+      }
+    ]
+  },
+  "unknown": [],
+  "decision": {
+    "rule": "الزيارات بتنمو 186.7% في ٢٨ يوم",
+    "stance": "الرقم بيتكلم: القناة دي شغالة، والباقي لسه رأي.",
+    "decision": "نضاعف اللي شغّال فعلًا: / + جايبينها google / organic",
+    "why": "لما النمو جاي من مسار واحد، تقويته أسرع من فتح مسار جديد",
+    "expect": "زيادة في نفس المسار اللي أثبت نفسه، مش تجربة جديدة"
+  }
+}

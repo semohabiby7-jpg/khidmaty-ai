@@ -32,6 +32,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .calc-search input{width:100%;box-sizing:border-box;background:#162847;border:1px solid #2a4068;border-radius:14px;padding:14px 18px;color:#fff;font-family:Cairo,sans-serif;font-size:15px;outline:none}
 .calc-search input::placeholder{color:#6e80a4}
 .calc-search input:focus{border-color:#e6c258}
+.calc-hint{text-align:center;color:#6e80a4;font-size:11.5px;margin-top:12px;line-height:1.7}
 .calc-empty{grid-column:1/-1;text-align:center;color:#8ea0c4;font-size:14px;padding:22px 10px;line-height:1.9}
 /* Services grid */
 .calc-services{max-width:700px;margin:0 auto 30px;padding:0 20px}
@@ -121,6 +122,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 
 <div class="calc-services">
   <div class="calc-services-grid" id="servicesGrid"></div>
+  <div class="calc-hint" id="calcHint" style="display:none">مرتّبة على أكثر الخدمات زيارة على الموقع في آخر ٣٠ يوم</div>
 </div>
 
 <div class="calc-box">
@@ -170,6 +172,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
    بيانات الخدمات — مقسّمة حسب التصنيف
    ============================================================ */
 var categories = [
+  { id:'top', name:'⭐ الأكثر طلبًا' },
   { id:'traffic', name:'🚗 مرور' },
   { id:'civil', name:'🪪 أحوال مدنية' },
   { id:'passport', name:'🛂 جوازات' },
@@ -461,7 +464,44 @@ var detailedCalculators = {
 /* ============================================================
    الكود الرئيسي
    ============================================================ */
-var currentCat = 'traffic';
+// ترتيب «الأكثر طلبًا» — مبني على أكثر صفحات الخدمات زيارة في GA آخر 30 يوم
+// (سجل تجاري 33، تأمينات 34، معاش 10، وفيات 7، جوازات، أحوال) + أسئلة البوت الحقيقية
+var POPULAR = ['commercial_reg','license_car','id_card','social_insurance','passport_new',
+  'license_drive','criminal_record','pension','death_cert','notary','id_card_lost','health_card'];
+
+// كلمات مساعدة للبحث — عشان «رخصه» تلاقي «رخصة»
+var ALIAS = {
+  id_card: 'بطاقة رقم قومي هوية اثبات',
+  id_card_lost: 'بدل فاقد ضاعت تلفت',
+  id_card_reissue: 'استخراج تجديد بطاقة',
+  passport_new: 'جواز سفر جديد',
+  passport_renew: 'تجديد جواز سفر',
+  passport_lost: 'بدل فاقد جواز ضاع',
+  license_drive: 'رخصة قيادة سواقة',
+  license_car: 'تجديد رخصة سيارة عربية ملاكي',
+  car_transfer: 'نقل ملكية سيارة بيع عربية',
+  criminal_record: 'فيش جنائي صحيفة حالة النقل الذكي',
+  commercial_reg: 'سجل تجاري شركة',
+  social_insurance: 'تأمينات اجتماعية تأمين',
+  health_card: 'بطاقة تأمين صحي علاج',
+  pension: 'معاش pension',
+  death_cert: 'شهادة وفاة ميت',
+  birth_cert: 'شهادة ميلاد مولود',
+  marriage: 'قسن عقد جواز زواج',
+  divorce_cert: 'طلاق',
+  notary: 'توكيل شهر عقاري توثيق عقد',
+  inheritance: 'ميراث ورث',
+  building_permit: 'تصريح بناء رخصة بناء'
+};
+
+// تطبيع العربي: تشكيل + أ/إ/آ + ة/ه + ى/ي
+function normAr(s){
+  return (s||'').replace(/[\u064B-\u0652\u0640]/g,'')
+    .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه')
+    .replace(/\s+/g,' ').trim();
+}
+
+var currentCat = 'top';
 var currentService = null;
 
 // بناء التبويبات
@@ -479,7 +519,15 @@ function selectCat(catId){
   });
   // عرض خدمات التصنيف
   var grid = document.getElementById('servicesGrid');
-  var services = Object.keys(fees).filter(function(k){ return fees[k].cat === catId; });
+  var hint = document.getElementById('calcHint');
+  var services;
+  if (catId === 'top') {
+    services = POPULAR.filter(function(k){ return fees[k]; });
+    hint.style.display = 'block';
+  } else {
+    services = Object.keys(fees).filter(function(k){ return fees[k].cat === catId; });
+    hint.style.display = 'none';
+  }
   grid.innerHTML = services.map(function(k){
     return '<div class="calc-service-tag" onclick="selectService(\'' + k + '\')" id="svc-' + k + '">' + fees[k].name + '</div>';
   }).join('');
@@ -641,8 +689,15 @@ function searchCalc(v){
   var q = (v||'').trim();
   var grid = document.getElementById('servicesGrid');
   var card = document.getElementById('calcCard');
+  document.getElementById('calcHint').style.display = 'none';
   if(!q){ selectCat(currentCat); return; }
-  var keys = Object.keys(fees).filter(function(k){ return fees[k].name.indexOf(q) > -1; });
+  var nq = normAr(q);
+  var words = nq.split(' ').filter(Boolean);
+  function hit(k){
+    var blob = normAr(fees[k].name + ' ' + (ALIAS[k] || ''));
+    return words.every(function(w){ return blob.indexOf(w) > -1; });
+  }
+  var keys = Object.keys(fees).filter(hit);
   if(!keys.length){
     grid.innerHTML = '<div class="calc-empty">مفيش خدمة بالاسم ده في الحاسبة.<br>جرّب كلمة أقصر — أو اسأل المساعد الذكي في الرئيسية.</div>';
   } else {
@@ -654,8 +709,8 @@ function searchCalc(v){
   currentService = null;
 }
 
-// ابدأ بتصنيف مرور
-selectCat('traffic');
+// ابدأ بـ«الأكثر طلبًا»
+selectCat('top');
 
 // رابط مباشر لخدمة: calc.html?s=id_card
 (function(){

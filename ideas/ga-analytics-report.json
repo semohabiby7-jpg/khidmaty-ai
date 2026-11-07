@@ -1,30 +1,30 @@
 {
-  "timestamp": "2026-11-06T19:00:29.114809",
+  "timestamp": "2026-11-07T06:04:09.454248",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "225",
-      "sessions": "271",
-      "screenPageViews": "453",
-      "averageSessionDuration": "139.93348462730626",
-      "bounceRate": "0.47970479704797048"
+      "totalUsers": "216",
+      "sessions": "262",
+      "screenPageViews": "444",
+      "averageSessionDuration": "144.27571988931297",
+      "bounceRate": "0.46564885496183206"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "8",
-      "sessions": "8",
-      "screenPageViews": "11",
-      "averageSessionDuration": "97.874646875",
-      "bounceRate": "0.75"
+      "totalUsers": "7",
+      "sessions": "7",
+      "screenPageViews": "7",
+      "averageSessionDuration": "0.68575599999999992",
+      "bounceRate": "1"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "163",
-      "totalUsers": "78",
-      "averageSessionDuration": "135.25737211607142"
+      "screenPageViews": "153",
+      "totalUsers": "68",
+      "averageSessionDuration": "147.27734962745097"
     },
     {
       "pagePath": "/store.html",
@@ -75,6 +75,12 @@
       "averageSessionDuration": "631.34956679999993"
     },
     {
+      "pagePath": "/services/international-license.html",
+      "screenPageViews": "10",
+      "totalUsers": "9",
+      "averageSessionDuration": "126.60155945454544"
+    },
+    {
       "pagePath": "/services/pension-postal-payment.html",
       "screenPageViews": "10",
       "totalUsers": "7",
@@ -85,12 +91,6 @@
       "screenPageViews": "9",
       "totalUsers": "3",
       "averageSessionDuration": "52.225263333333338"
-    },
-    {
-      "pagePath": "/services/international-license.html",
-      "screenPageViews": "9",
-      "totalUsers": "8",
-      "averageSessionDuration": "138.7816862"
     },
     {
       "pagePath": "/services/replace-plates.html",
@@ -149,12 +149,12 @@
     },
     {
       "sessionSource": "(direct)",
-      "sessions": "108",
-      "totalUsers": "94"
+      "sessions": "98",
+      "totalUsers": "85"
     },
     {
       "sessionSource": "youtube.com",
-      "sessions": "20",
+      "sessions": "21",
       "totalUsers": "1"
     },
     {
@@ -164,8 +164,8 @@
     },
     {
       "sessionSource": "chatgpt.com",
-      "sessions": "4",
-      "totalUsers": "4"
+      "sessions": "5",
+      "totalUsers": "5"
     },
     {
       "sessionSource": "facebook.com",
@@ -183,11 +183,6 @@
       "totalUsers": "1"
     },
     {
-      "sessionSource": "dataindex.pro",
-      "sessions": "1",
-      "totalUsers": "1"
-    },
-    {
       "sessionSource": "gemini.google.com",
       "sessions": "1",
       "totalUsers": "1"
@@ -196,13 +191,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "170",
-      "totalUsers": "135"
+      "sessions": "168",
+      "totalUsers": "133"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "105",
-      "totalUsers": "90"
+      "sessions": "98",
+      "totalUsers": "83"
     },
     {
       "deviceCategory": "tablet",
@@ -213,9 +208,9 @@
   "daily_7d": [
     {
       "date": "20261106",
-      "totalUsers": "5",
-      "sessions": "5",
-      "screenPageViews": "5"
+      "totalUsers": "7",
+      "sessions": "7",
+      "screenPageViews": "7"
     },
     {
       "date": "20261105",
@@ -252,12 +247,6 @@
       "totalUsers": "1",
       "sessions": "1",
       "screenPageViews": "1"
-    },
-    {
-      "date": "20261030",
-      "totalUsers": "2",
-      "sessions": "2",
-      "screenPageViews": "2"
     }
   ]
 }

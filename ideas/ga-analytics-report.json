@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-11-07T06:04:09.454248",
+  "timestamp": "2026-11-08T06:02:32.857127",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "216",
-      "sessions": "262",
-      "screenPageViews": "444",
-      "averageSessionDuration": "144.27571988931297",
-      "bounceRate": "0.46564885496183206"
+      "totalUsers": "280",
+      "sessions": "325",
+      "screenPageViews": "505",
+      "averageSessionDuration": "115.97950745846154",
+      "bounceRate": "0.57538461538461538"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "7",
-      "sessions": "7",
-      "screenPageViews": "7",
-      "averageSessionDuration": "0.68575599999999992",
-      "bounceRate": "1"
+      "totalUsers": "69",
+      "sessions": "69",
+      "screenPageViews": "73",
+      "averageSessionDuration": "16.277403",
+      "bounceRate": "0.95652173913043481"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "153",
-      "totalUsers": "68",
-      "averageSessionDuration": "147.27734962745097"
+      "screenPageViews": "147",
+      "totalUsers": "64",
+      "averageSessionDuration": "143.40454956701029"
     },
     {
       "pagePath": "/store.html",
-      "screenPageViews": "38",
+      "screenPageViews": "35",
       "totalUsers": "3",
-      "averageSessionDuration": "177.8087965"
+      "averageSessionDuration": "193.0008435625"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
@@ -78,7 +78,7 @@
       "pagePath": "/services/international-license.html",
       "screenPageViews": "10",
       "totalUsers": "9",
-      "averageSessionDuration": "126.60155945454544"
+      "averageSessionDuration": "126.60155945454545"
     },
     {
       "pagePath": "/services/pension-postal-payment.html",
@@ -129,32 +129,32 @@
       "averageSessionDuration": "71.54328625"
     },
     {
+      "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
+      "screenPageViews": "4",
+      "totalUsers": "4",
+      "averageSessionDuration": "38.3030865"
+    },
+    {
       "pagePath": "/services/renew-car-license.html",
       "screenPageViews": "4",
       "totalUsers": "4",
       "averageSessionDuration": "3.9993385"
-    },
-    {
-      "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
-      "screenPageViews": "3",
-      "totalUsers": "3",
-      "averageSessionDuration": "21.545778333333331"
     }
   ],
   "traffic_sources": [
+    {
+      "sessionSource": "(direct)",
+      "sessions": "159",
+      "totalUsers": "148"
+    },
     {
       "sessionSource": "google",
       "sessions": "125",
       "totalUsers": "118"
     },
     {
-      "sessionSource": "(direct)",
-      "sessions": "98",
-      "totalUsers": "85"
-    },
-    {
       "sessionSource": "youtube.com",
-      "sessions": "21",
+      "sessions": "22",
       "totalUsers": "1"
     },
     {
@@ -164,8 +164,8 @@
     },
     {
       "sessionSource": "chatgpt.com",
-      "sessions": "5",
-      "totalUsers": "5"
+      "sessions": "6",
+      "totalUsers": "6"
     },
     {
       "sessionSource": "facebook.com",
@@ -191,13 +191,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "168",
-      "totalUsers": "133"
+      "sessions": "169",
+      "totalUsers": "135"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "98",
-      "totalUsers": "83"
+      "sessions": "161",
+      "totalUsers": "145"
     },
     {
       "deviceCategory": "tablet",
@@ -206,6 +206,12 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261107",
+      "totalUsers": "69",
+      "sessions": "69",
+      "screenPageViews": "73"
+    },
     {
       "date": "20261106",
       "totalUsers": "7",
@@ -241,12 +247,6 @@
       "totalUsers": "4",
       "sessions": "4",
       "screenPageViews": "6"
-    },
-    {
-      "date": "20261031",
-      "totalUsers": "1",
-      "sessions": "1",
-      "screenPageViews": "1"
     }
   ]
 }

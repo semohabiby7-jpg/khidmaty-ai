@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-11-08T06:02:32.857127",
+  "timestamp": "2026-11-09T06:02:42.812800",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "280",
-      "sessions": "325",
-      "screenPageViews": "505",
-      "averageSessionDuration": "115.97950745846154",
-      "bounceRate": "0.57538461538461538"
+      "totalUsers": "278",
+      "sessions": "322",
+      "screenPageViews": "499",
+      "averageSessionDuration": "114.417057621118",
+      "bounceRate": "0.5714285714285714"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "69",
-      "sessions": "69",
-      "screenPageViews": "73",
-      "averageSessionDuration": "16.277403",
-      "bounceRate": "0.95652173913043481"
+      "totalUsers": "4",
+      "sessions": "4",
+      "screenPageViews": "6",
+      "averageSessionDuration": "30.43948525",
+      "bounceRate": "0.5"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "147",
-      "totalUsers": "64",
-      "averageSessionDuration": "143.40454956701029"
+      "screenPageViews": "146",
+      "totalUsers": "62",
+      "averageSessionDuration": "144.03594539583335"
     },
     {
       "pagePath": "/store.html",
       "screenPageViews": "35",
       "totalUsers": "3",
-      "averageSessionDuration": "193.0008435625"
+      "averageSessionDuration": "186.8879389375"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
@@ -40,9 +40,9 @@
     },
     {
       "pagePath": "/index.html",
-      "screenPageViews": "32",
+      "screenPageViews": "26",
       "totalUsers": "11",
-      "averageSessionDuration": "178.87825677777778"
+      "averageSessionDuration": "148.91892605882353"
     },
     {
       "pagePath": "/services/insurance-periods-inquiry.html",
@@ -111,6 +111,12 @@
       "averageSessionDuration": "308.142206"
     },
     {
+      "pagePath": "/maqalat.html",
+      "screenPageViews": "5",
+      "totalUsers": "2",
+      "averageSessionDuration": "60.7819356"
+    },
+    {
       "pagePath": "/services/egyptian-citizenship.html",
       "screenPageViews": "5",
       "totalUsers": "5",
@@ -121,12 +127,6 @@
       "screenPageViews": "5",
       "totalUsers": "5",
       "averageSessionDuration": "10.2641454"
-    },
-    {
-      "pagePath": "/maqalat.html",
-      "screenPageViews": "4",
-      "totalUsers": "2",
-      "averageSessionDuration": "71.54328625"
     },
     {
       "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
@@ -144,8 +144,8 @@
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "159",
-      "totalUsers": "148"
+      "sessions": "154",
+      "totalUsers": "145"
     },
     {
       "sessionSource": "google",
@@ -154,7 +154,7 @@
     },
     {
       "sessionSource": "youtube.com",
-      "sessions": "22",
+      "sessions": "23",
       "totalUsers": "1"
     },
     {
@@ -178,6 +178,11 @@
       "totalUsers": "2"
     },
     {
+      "sessionSource": "aicrawler.store",
+      "sessions": "1",
+      "totalUsers": "1"
+    },
+    {
       "sessionSource": "aimanhunt.online",
       "sessions": "1",
       "totalUsers": "1"
@@ -191,13 +196,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "169",
-      "totalUsers": "135"
+      "sessions": "166",
+      "totalUsers": "132"
     },
     {
       "deviceCategory": "desktop",
       "sessions": "161",
-      "totalUsers": "145"
+      "totalUsers": "146"
     },
     {
       "deviceCategory": "tablet",
@@ -207,9 +212,15 @@
   ],
   "daily_7d": [
     {
+      "date": "20261108",
+      "totalUsers": "4",
+      "sessions": "4",
+      "screenPageViews": "6"
+    },
+    {
       "date": "20261107",
       "totalUsers": "69",
-      "sessions": "69",
+      "sessions": "68",
       "screenPageViews": "73"
     },
     {
@@ -241,12 +252,6 @@
       "totalUsers": "4",
       "sessions": "4",
       "screenPageViews": "12"
-    },
-    {
-      "date": "20261101",
-      "totalUsers": "4",
-      "sessions": "4",
-      "screenPageViews": "6"
     }
   ]
 }

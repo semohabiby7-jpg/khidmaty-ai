@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-11-08 06:02
+**التاريخ:** 2026-11-09 06:02
 **Property ID:** 554298401
 
 ---
@@ -9,10 +9,10 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 280 |
-| 🌐 الجلسات | 325 |
-| 📄 مشاهدات الصفحات | 505 |
-| ⏱️ متوسط مدة الجلسة | 116s |
+| 👥 المستخدمين | 278 |
+| 🌐 الجلسات | 322 |
+| 📄 مشاهدات الصفحات | 499 |
+| ⏱️ متوسط مدة الجلسة | 114s |
 | 📊 معدل الارتداد | 0.6% |
 
 ---
@@ -21,10 +21,10 @@
 
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
-| / | 147 | 64 |
+| / | 146 | 62 |
 | /store.html | 35 | 3 |
 | /services/renew-commercial-register.html | 33 | 32 |
-| /index.html | 32 | 11 |
+| /index.html | 26 | 11 |
 | /services/insurance-periods-inquiry.html | 20 | 14 |
 | /services/vaccination-certificate.html | 15 | 13 |
 | /services/update-insured-data.html | 14 | 11 |
@@ -43,13 +43,14 @@
 
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
-| (direct) | 159 | 148 |
+| (direct) | 154 | 145 |
 | google | 125 | 118 |
-| youtube.com | 22 | 1 |
+| youtube.com | 23 | 1 |
 | (not set) | 7 | 4 |
 | chatgpt.com | 6 | 6 |
 | facebook.com | 2 | 2 |
 | m.facebook.com | 2 | 2 |
+| aicrawler.store | 1 | 1 |
 | aimanhunt.online | 1 | 1 |
 | gemini.google.com | 1 | 1 |
 

@@ -196,6 +196,55 @@
         </div>
         <p class="members-line" id="membersLine" style="display:none;margin-top:16px;font-size:14px;color:rgba(255,255,255,.75);font-weight:600">👥 انضم لـ <span id="membersCount" style="color:var(--gold);font-weight:800">0</span> مستخدم على خِدْمَتي AI</p>
     </div>
+
+    <!-- ========== أرقام اليوم ========== -->
+    <aside class="rx-panel" id="rxPanel" aria-label="أرقام اليوم">
+        <div class="rx-head">
+            <h2 class="rx-title">أرقام اليوم</h2>
+            <div class="rx-stamp" id="rxStamp">جاري التحديث…</div>
+        </div>
+
+        <div class="rx-block">
+            <div class="rx-row">
+                <span class="rx-label">سعر العملة</span>
+                <select class="rx-select" id="rxCur" aria-label="اختر العملة">
+                    <option value="usd" selected>دولار أمريكي</option>
+                    <option value="eur">يورو</option>
+                    <option value="gbp">جنيه إسترليني</option>
+                    <option value="sar">ريال سعودي</option>
+                    <option value="aed">درهم إماراتي</option>
+                    <option value="kwd">دينار كويتي</option>
+                    <option value="qar">ريال قطري</option>
+                    <option value="jpy">١٠٠ ين ياباني</option>
+                    <option value="chf">فرنك سويسري</option>
+                    <option value="try">ليرة تركية</option>
+                </select>
+            </div>
+            <div class="rx-value" id="rxCurValue">—</div>
+            <div class="rx-sub" id="rxCurSub">بالجنيه المصري</div>
+            <div class="rx-flag" id="rxCurFlag"></div>
+        </div>
+
+        <div class="rx-block">
+            <div class="rx-row">
+                <span class="rx-label">الذهب</span>
+                <select class="rx-select" id="rxKarat" aria-label="اختر عيار الذهب">
+                    <option value="24">عيار ٢٤</option>
+                    <option value="22">عيار ٢٢</option>
+                    <option value="21" selected>عيار ٢١</option>
+                    <option value="18">عيار ١٨</option>
+                    <option value="14">عيار ١٤</option>
+                    <option value="coin">الجنيه الذهب</option>
+                    <option value="ounce">الأونصة عالميًا</option>
+                </select>
+            </div>
+            <div class="rx-value" id="rxGoldValue">—</div>
+            <div class="rx-sub" id="rxGoldSub"></div>
+            <div class="rx-flag" id="rxGoldFlag"></div>
+        </div>
+
+        <div class="rx-foot" id="rxFoot">بيتم التأكد من مصدرين قبل عرض الرقم</div>
+    </aside>
 </section>
 
 <!-- ========== شريط الأيقونات السريعة (المحطة) ========== -->
@@ -851,6 +900,131 @@ setTimeout(()=>{
 
 <script>
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))})
+</script>
+<script>
+/* ===== أرقام اليوم — عملات وذهب بتأكيد من مصدرين ===== */
+(function () {
+  var KEY = "rx_rates_v1", TTL = 3 * 60 * 60 * 1000;
+  var LABEL = { usd: "دولار أمريكي", eur: "يورو", gbp: "جنيه إسترليني", sar: "ريال سعودي", aed: "درهم إماراتي", kwd: "دينار كويتي", qar: "ريال قطري", jpy: "١٠٠ ين ياباني", chf: "فرنك سويسري", try: "ليرة تركية" };
+  var FALLBACK = {
+    ts: 1794341640000,
+    fx: { usd: 54.07, eur: 60.59, gbp: 72.61, sar: 14.42, aed: 14.72, kwd: 174.07, qar: 14.85, jpy: 34.0, chf: 65.97, try: 1.08 },
+    fxAgree: true, usdEgp: 54.07,
+    ounce: 4031, goldAgree: true,
+    grams: { "24": 7008, "22": 6419, "21": 6132, "18": 5256, "14": 4085, coin: 49054 }
+  };
+  var state = null;
+
+  function num(x, d) {
+    return new Intl.NumberFormat("ar-EG-u-nu-latn", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }).format(x);
+  }
+  function el(id) { return document.getElementById(id); }
+  function pct(a, b) { return Math.abs(a - b) / Math.max(a, b); }
+
+  function stamp(ts) {
+    var d = new Date(ts), now = new Date();
+    var t = new Intl.DateTimeFormat("ar-EG", { hour: "2-digit", minute: "2-digit" }).format(d);
+    var same = d.toDateString() === now.toDateString();
+    var day = new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "long" }).format(d);
+    return "آخر تحديث<br>" + (same ? "النهاردة " + t : day + " · " + t);
+  }
+
+  function renderCurrency() {
+    var code = el("rxCur").value, v = state.fx[code];
+    if (!v) { el("rxCurValue").textContent = "—"; el("rxCurSub").textContent = "الرقم مش متاح دلوقتي"; return; }
+    var val = code === "jpy" ? v * 100 : v;
+    var per = code === "jpy" ? "١٠٠ ين" : "١ " + LABEL[code];
+    el("rxCurValue").innerHTML = num(val, 2) + ' <small>جنيه</small>';
+    el("rxCurSub").innerHTML = "لكل " + per + " · " + (state.fxAgree ? '<span class="rx-ok">✓ مصدرين متفقين</span>' : "تقدير");
+    var flag = el("rxCurFlag");
+    if (!state.fxAgree) { flag.className = "rx-flag on"; flag.textContent = "المصدرين مختلفين — خد الرقم كتقدير واتأكد من البنك."; }
+    else { flag.className = "rx-flag"; flag.textContent = ""; }
+  }
+
+  function renderGold() {
+    var k = el("rxKarat").value, g = state.grams, flag = el("rxGoldFlag");
+    if (k === "ounce") {
+      el("rxGoldValue").innerHTML = num(state.ounce) + ' <small>دولار</small>';
+      el("rxGoldSub").innerHTML = "الأونصة عالميًا · " + (state.goldAgree ? '<span class="rx-ok">✓ مصدرين متفقين</span>' : "تقدير");
+    } else if (k === "coin") {
+      el("rxGoldValue").innerHTML = num(g.coin) + ' <small>جنيه</small>';
+      el("rxGoldSub").innerHTML = "جنيه ذهب = ٨ جرام عيار ٢١ · بدون مصنعية";
+    } else {
+      el("rxGoldValue").innerHTML = "~" + num(g[k]) + ' <small>جنيه/جرام</small>';
+      el("rxGoldSub").innerHTML = "بدون مصنعية · محسوب من الأونصة والدولار";
+    }
+    if (!state.goldAgree) { flag.className = "rx-flag on"; flag.textContent = "مصادر الأونصة مش متفقين — الرقم تقديري."; }
+    else { flag.className = "rx-flag"; flag.textContent = ""; }
+  }
+
+  function render() {
+    el("rxStamp").innerHTML = stamp(state.ts);
+    renderCurrency();
+    renderGold();
+    var both = state.fxAgree && state.goldAgree;
+    el("rxFoot").innerHTML = (both ? "✓ الأرقام متأكدة من مصدرين مستقلين" : "⚠ بعض الأرقام مصدرها واحد — معلّم عليها")
+      + "<br>مصادر: er-api · currency-api · gold-api · coingecko";
+  }
+
+  function load() {
+    var req = function (u) { return fetch(u, { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error("x"); return r.json(); }); };
+    Promise.all([
+      req("https://open.er-api.com/v6/latest/USD").catch(function () { return null; }),
+      req("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json").catch(function () { return null; }),
+      req("https://api.gold-api.com/price/XAU").catch(function () { return null; }),
+      req("https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd").catch(function () { return null; })
+    ]).then(function (res) {
+      var A = res[0], B = res[1], GA = res[2], GB = res[3];
+      var egpA = A && A.rates ? Number(A.rates.EGP) : null;
+      var egpB = B && B.usd ? Number(B.usd.egp) : null;
+      if (!egpA && !egpB) throw new Error("no fx");
+      var usdEgp = egpA || egpB;
+
+      var usdUnitsA = A && A.rates ? A.rates : null;
+      var usdUnitsB = B && B.usd ? B.usd : null;
+      var fx = {};
+      Object.keys(LABEL).forEach(function (c) {
+        var ua = usdUnitsA && usdUnitsA[c.toUpperCase()];
+        var ub = usdUnitsB && usdUnitsB[c];
+        var v = null;
+        if (ua && egpA) v = egpA / ua;
+        else if (ub && egpB) v = egpB / ub;
+        if (v) fx[c] = Math.round(v * 100) / 100;
+      });
+
+      var ozA = GA ? Number(GA.price) : null;
+      var ozB = GB && GB["pax-gold"] ? Number(GB["pax-gold"].usd) : null;
+      var ozs = [ozA, ozB].filter(function (x) { return x && x > 500; });
+      if (!ozs.length) throw new Error("no gold");
+      var ounce = ozs.length === 2 ? (ozA + ozB) / 2 : ozs[0];
+      var goldAgree = ozs.length === 2 ? pct(ozA, ozB) <= 0.015 : false;
+
+      var gram24 = (ounce / 31.1035) * usdEgp;
+      var grams = {
+        "24": Math.round(gram24), "22": Math.round(gram24 * 0.916), "21": Math.round(gram24 * 0.875),
+        "18": Math.round(gram24 * 0.75), "14": Math.round(gram24 * 0.583), coin: Math.round(gram24 * 0.875 * 8)
+      };
+
+      state = {
+        ts: Date.now(), fx: fx,
+        fxAgree: !!(egpA && egpB) && pct(egpA, egpB) <= 0.015,
+        usdEgp: usdEgp, ounce: Math.round(ounce), goldAgree: goldAgree, grams: grams
+      };
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      render();
+    }).catch(function () { render(); });
+  }
+
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
+  state = cached && cached.fx && cached.grams ? cached : FALLBACK;
+  render();
+  if (!cached || Date.now() - cached.ts > TTL) load();
+  else setTimeout(load, 4000);
+
+  el("rxCur").addEventListener("change", renderCurrency);
+  el("rxKarat").addEventListener("change", renderGold);
+})();
 </script>
 </body>
 </html>

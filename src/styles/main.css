@@ -1050,3 +1050,37 @@ transition:var(--t)
 .faq-cta a{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);text-decoration:none;padding:10px 24px;border-radius:25px;font-weight:700;font-size:14px;transition:var(--t);box-shadow:0 4px 14px rgba(212,169,55,.3)}
 .faq-cta a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(212,169,55,.4)}
 [data-theme="dark"] .faq-cta a{color:#0F1E3D}
+
+/* ===== أرقام اليوم (لوحة أسعار بمصدرين) ===== */
+.hero{flex-wrap:wrap}
+.rx-panel{
+flex:0 0 100%;
+max-width:430px;
+margin:26px auto 0;
+background:#fff;
+border:1px solid rgba(15,30,61,.1);
+border-radius:18px;
+padding:14px 16px;
+text-align:start;
+box-shadow:0 10px 30px rgba(15,30,61,.08);
+position:relative;
+z-index:2
+}
+@media(min-width:1420px){
+.rx-panel{position:absolute;inset-inline-start:26px;top:50%;transform:translateY(-50%);margin:0;width:298px;max-width:none;flex:none}
+}
+.rx-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px}
+.rx-title{font-size:15px;font-weight:800;color:var(--navy);margin:0}
+.rx-stamp{font-size:10.5px;color:var(--gray);text-align:end;line-height:1.45}
+.rx-block{border:1px solid rgba(15,30,61,.09);border-radius:13px;padding:9px 11px;margin-top:8px;background:#fbfcfe}
+.rx-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rx-label{font-size:11.5px;font-weight:700;color:var(--gray)}
+.rx-select{font-family:inherit;font-size:12px;padding:4px 7px;border:1px solid rgba(15,30,61,.15);border-radius:8px;background:#fff;color:var(--navy);max-width:150px;cursor:pointer}
+.rx-value{font-size:27px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1.15;margin-top:2px;font-variant-numeric:tabular-nums}
+.rx-value small{font-size:11.5px;font-weight:500;color:var(--gray)}
+.rx-sub{font-size:10.5px;color:var(--gray);line-height:1.55;margin-top:3px}
+.rx-ok{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;background:#e8f5ee;color:#0f7a4a}
+.rx-bad{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;background:#fdece7;color:#b23b1f}
+.rx-flag{display:none;font-size:10px;color:#b23b1f;margin-top:4px;line-height:1.5}
+.rx-flag.on{display:block}
+.rx-foot{border-top:1px solid rgba(15,30,61,.09);margin-top:9px;padding-top:7px;font-size:9.5px;color:var(--gray);line-height:1.6}

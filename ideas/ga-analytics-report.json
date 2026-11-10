@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-11-09T06:02:42.812800",
+  "timestamp": "2026-11-10T06:03:48.572853",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "278",
-      "sessions": "322",
-      "screenPageViews": "499",
-      "averageSessionDuration": "114.417057621118",
-      "bounceRate": "0.5714285714285714"
+      "totalUsers": "277",
+      "sessions": "324",
+      "screenPageViews": "508",
+      "averageSessionDuration": "114.45549331172839",
+      "bounceRate": "0.5679012345679012"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "4",
-      "sessions": "4",
-      "screenPageViews": "6",
-      "averageSessionDuration": "30.43948525",
-      "bounceRate": "0.5"
+      "totalUsers": "1",
+      "sessions": "3",
+      "screenPageViews": "10",
+      "averageSessionDuration": "80.429093000000009",
+      "bounceRate": "0.33333333333333331"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "146",
-      "totalUsers": "62",
-      "averageSessionDuration": "144.03594539583335"
+      "screenPageViews": "153",
+      "totalUsers": "61",
+      "averageSessionDuration": "143.11558726530612"
     },
     {
       "pagePath": "/store.html",
-      "screenPageViews": "35",
+      "screenPageViews": "36",
       "totalUsers": "3",
-      "averageSessionDuration": "186.8879389375"
+      "averageSessionDuration": "176.97487311764706"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
@@ -105,16 +105,16 @@
       "averageSessionDuration": "46.019613142857146"
     },
     {
+      "pagePath": "/maqalat.html",
+      "screenPageViews": "6",
+      "totalUsers": "2",
+      "averageSessionDuration": "54.825723833333335"
+    },
+    {
       "pagePath": "/articles.html",
       "screenPageViews": "5",
       "totalUsers": "1",
       "averageSessionDuration": "308.142206"
-    },
-    {
-      "pagePath": "/maqalat.html",
-      "screenPageViews": "5",
-      "totalUsers": "2",
-      "averageSessionDuration": "60.7819356"
     },
     {
       "pagePath": "/services/egyptian-citizenship.html",
@@ -144,8 +144,8 @@
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "154",
-      "totalUsers": "145"
+      "sessions": "153",
+      "totalUsers": "144"
     },
     {
       "sessionSource": "google",
@@ -154,12 +154,12 @@
     },
     {
       "sessionSource": "youtube.com",
-      "sessions": "23",
+      "sessions": "25",
       "totalUsers": "1"
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "7",
+      "sessions": "8",
       "totalUsers": "4"
     },
     {
@@ -196,13 +196,13 @@
   "devices": [
     {
       "deviceCategory": "mobile",
-      "sessions": "166",
+      "sessions": "168",
       "totalUsers": "132"
     },
     {
       "deviceCategory": "desktop",
-      "sessions": "161",
-      "totalUsers": "146"
+      "sessions": "163",
+      "totalUsers": "145"
     },
     {
       "deviceCategory": "tablet",
@@ -211,6 +211,12 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261109",
+      "totalUsers": "1",
+      "sessions": "3",
+      "screenPageViews": "10"
+    },
     {
       "date": "20261108",
       "totalUsers": "4",
@@ -246,12 +252,6 @@
       "totalUsers": "2",
       "sessions": "3",
       "screenPageViews": "7"
-    },
-    {
-      "date": "20261102",
-      "totalUsers": "4",
-      "sessions": "4",
-      "screenPageViews": "12"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-11-09 06:02
+**التاريخ:** 2026-11-10 06:03
 **Property ID:** 554298401
 
 ---
@@ -9,9 +9,9 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 278 |
-| 🌐 الجلسات | 322 |
-| 📄 مشاهدات الصفحات | 499 |
+| 👥 المستخدمين | 277 |
+| 🌐 الجلسات | 324 |
+| 📄 مشاهدات الصفحات | 508 |
 | ⏱️ متوسط مدة الجلسة | 114s |
 | 📊 معدل الارتداد | 0.6% |
 
@@ -21,8 +21,8 @@
 
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
-| / | 146 | 62 |
-| /store.html | 35 | 3 |
+| / | 153 | 61 |
+| /store.html | 36 | 3 |
 | /services/renew-commercial-register.html | 33 | 32 |
 | /index.html | 26 | 11 |
 | /services/insurance-periods-inquiry.html | 20 | 14 |
@@ -35,7 +35,7 @@
 | /calc.html | 9 | 3 |
 | /services/replace-plates.html | 9 | 7 |
 | /services/death-certificate.html | 7 | 7 |
-| /articles.html | 5 | 1 |
+| /maqalat.html | 6 | 2 |
 
 ---
 
@@ -43,10 +43,10 @@
 
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
-| (direct) | 154 | 145 |
+| (direct) | 153 | 144 |
 | google | 125 | 118 |
-| youtube.com | 23 | 1 |
-| (not set) | 7 | 4 |
+| youtube.com | 25 | 1 |
+| (not set) | 8 | 4 |
 | chatgpt.com | 6 | 6 |
 | facebook.com | 2 | 2 |
 | m.facebook.com | 2 | 2 |

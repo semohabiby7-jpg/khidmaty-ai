@@ -198,6 +198,25 @@
     </div>
 
     <!-- ========== أرقام اليوم ========== -->
+    <style>
+    .hero .rx-panel{max-width:720px;margin:22px auto 0;background:#0d1a33;border:1px solid #2a4068;border-radius:18px;padding:18px 18px 14px;box-shadow:0 14px 40px rgba(0,0,0,.35);color:#fff}
+    .hero .rx-panel .rx-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+    .hero .rx-panel .rx-title{font-size:17px;font-weight:900;color:#e6c258;margin:0;padding:0}
+    .hero .rx-panel .rx-stamp{font-size:11.5px;line-height:1.55;color:#b9c3d6;text-align:left;font-weight:600}
+    .hero .rx-panel .rx-block{padding:12px 0;border-top:1px solid rgba(255,255,255,.09)}
+    .hero .rx-panel .rx-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+    .hero .rx-panel .rx-label{font-size:13px;font-weight:700;color:#cbd5e1}
+    .hero .rx-panel .rx-select{background:#16284a;color:#fff;border:1px solid #2a4068;border-radius:10px;padding:6px 10px;font-family:inherit;font-size:13px;font-weight:700;max-width:62%}
+    .hero .rx-panel .rx-value{font-size:26px;font-weight:900;color:#fff;line-height:1.25}
+    .hero .rx-panel .rx-value small{font-size:12px;font-weight:600;color:#9fb0c9}
+    .hero .rx-panel .rx-sub{font-size:12px;color:#9fb0c9;margin-top:3px}
+    .hero .rx-panel .rx-ok{color:#4ade80;font-weight:700}
+    .hero .rx-panel .rx-flag{font-size:11.5px;color:#fbbf24;margin-top:5px;font-weight:700}
+    .hero .rx-panel .rx-flag:empty{display:none}
+    .hero .rx-panel .rx-foot{font-size:11px;color:#8aa0bd;border-top:1px solid rgba(255,255,255,.09);padding-top:10px;margin-top:4px;line-height:1.75}
+    .hero .rx-panel .rx-foot a{color:#e6c258;font-weight:700}
+    @media(max-width:560px){.hero .rx-panel{margin-top:16px;padding:14px}.hero .rx-panel .rx-value{font-size:23px}}
+    </style>
     <aside class="rx-panel" id="rxPanel" aria-label="أرقام اليوم">
         <div class="rx-head">
             <h2 class="rx-title">أرقام اليوم</h2>
@@ -924,9 +943,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
   function stamp(ts) {
     var d = new Date(ts), now = new Date();
     var t = new Intl.DateTimeFormat("ar-EG", { hour: "2-digit", minute: "2-digit" }).format(d);
-    var same = d.toDateString() === now.toDateString();
-    var day = new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "long" }).format(d);
-    return "آخر تحديث<br>" + (same ? "النهاردة " + t : day + " · " + t);
+    var day = new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "long", year: "numeric" }).format(d);
+    return "آخر تحديث<br>" + day + " · " + t;
   }
 
   function renderCurrency() {
@@ -963,7 +981,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
     renderGold();
     var both = state.fxAgree && state.goldAgree;
     el("rxFoot").innerHTML = (both ? "✓ الأرقام متأكدة من مصدرين مستقلين" : "⚠ بعض الأرقام مصدرها واحد — معلّم عليها")
-      + "<br>مصادر: er-api · currency-api · gold-api · coingecko";
+      + "<br>أسعار العملات: er-api.com + currency-api · سعر الأونصة: gold-api + coingecko"
+      + "<br>الأرقام استرشادية للاستعلام السريع — التعامل الرسمي بسعر البنك.";
   }
 
   function load() {

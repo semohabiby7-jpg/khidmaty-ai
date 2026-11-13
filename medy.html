@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>مدي — مساعدك في خِدْمَتي AI</title>
+<meta name="description" content="مدي: المساعد الذكي في خِدْمَتي AI. احكي حالتك بالعربي، وهي تسمعك، ترتّب خطواتك، وتوصّلك للخدمة والورق والمكتب الصح.">
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding:18px 18px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.top a{color:#8ea0c4;text-decoration:none;font-size:13px}
+.hero{display:flex;gap:14px;align-items:center;margin:8px 0 14px}
+.hero img{width:132px;height:132px;object-fit:contain;background:transparent;
+  -webkit-mask-image:radial-gradient(ellipse 58% 58% at 50% 50%,#000 52%,rgba(0,0,0,.85) 68%,transparent 92%);
+  mask-image:radial-gradient(ellipse 58% 58% at 50% 50%,#000 52%,rgba(0,0,0,.85) 68%,transparent 92%)}
+.hero-txt h1{font-size:22px;font-weight:900;margin:0 0 6px;color:#fff}
+.hero-txt p{font-size:13.5px;color:#93a6c7;margin:0;line-height:1.7}
+.card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid #1e3556;border-radius:18px;padding:18px;margin-bottom:16px}
+.card h2{font-size:15px;color:#e6c258;font-weight:800;margin:0 0 12px}
+.ask{display:flex;gap:8px}
+.ask input{flex:1;background:#0b1730;border:1px solid #24395c;border-radius:14px;padding:14px;color:#fff;font-family:Cairo,sans-serif;font-size:14px;outline:none;min-width:0}
+.ask input:focus{border-color:#e6c258}
+.ask button{background:#e6c258;color:#0F1E3D;border:none;border-radius:14px;padding:0 20px;font-weight:900;font-size:14px;font-family:Cairo,sans-serif;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:rgba(230,194,88,.1);border:1px solid rgba(230,194,88,.25);color:#e6c258;border-radius:20px;padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif}
+.chip:hover{background:rgba(230,194,88,.18)}
+#casebar{display:none;align-items:center;gap:8px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);
+  border-radius:12px;padding:9px 12px;margin-top:14px;font-size:12px;color:#bcd4f4;line-height:1.6}
+#casebar b{color:#fff;font-weight:800}
+#chat{display:none;margin-top:14px}
+.blk{margin-bottom:12px}
+.msg{border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.9;white-space:pre-wrap}
+.msg.me{background:#1a2d5a;color:#dbe6f7;margin-inline-start:auto;max-width:85%}
+.msg.medy{background:rgba(230,194,88,.08);border:1px solid rgba(230,194,88,.2);color:#e8eef8}
+.msg.medy strong{color:#fff;font-weight:800}
+.msg.medy a{color:#e6c258}
+.thinking{display:flex;align-items:center;gap:8px;color:#9fb4d6;font-size:12.5px}
+.dot{width:7px;height:7px;border-radius:50%;background:#e6c258;animation:pl 1.1s infinite ease-in-out}
+@keyframes pl{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.act{background:#0b1730;border:1px solid #24395c;color:#bcd4f4;border-radius:10px;padding:6px 11px;
+  font-size:11.5px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif}
+.act:hover{border-color:#e6c258;color:#e6c258}
+.act.on{border-color:#e6c258;color:#e6c258;background:rgba(230,194,88,.12)}
+.src{display:none;margin-top:9px;background:#081326;border:1px solid #1e3556;border-radius:12px;padding:12px;font-size:12px;line-height:1.85}
+.src.open{display:block}
+.src .hd{color:#e6c258;font-weight:800;margin-bottom:7px;font-size:12px}
+.src a{display:block;color:#cddcf3;text-decoration:none;padding:6px 0;border-bottom:1px dashed #1e3556;word-break:break-word}
+.src a:last-of-type{border-bottom:none}
+.src a span{color:#7f93b5;font-size:11px;display:block}
+.tag{display:inline-block;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.4);color:#6ee7b7;
+  border-radius:6px;padding:1px 6px;font-size:10px;margin-inline-start:6px}
+.meta{color:#63769a;font-size:11px;margin-top:8px}
+.fbnote{display:none;margin-top:8px;gap:6px}
+.fbnote.open{display:flex}
+.fbnote input{flex:1;min-width:0;background:#081326;border:1px solid #24395c;border-radius:10px;padding:8px 10px;
+  color:#fff;font-family:Cairo,sans-serif;font-size:12px;outline:none}
+.fbnote button{background:#24395c;color:#dbe6f7;border:none;border-radius:10px;padding:0 12px;font-size:11.5px;
+  font-weight:700;font-family:Cairo,sans-serif;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.qa{background:#0b1730;border:1px solid #24395c;border-radius:14px;padding:14px;text-decoration:none;color:#dbe6f7;font-size:13px;font-weight:700;display:flex;gap:8px;align-items:center}
+.qa:hover{border-color:#e6c258}
+.note{font-size:11.5px;color:#5a6a8a;line-height:1.8;margin-top:10px}
+@media(max-width:430px){.hero img{width:104px;height:104px}.wrap{padding:14px 14px 50px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="index.html">← الرئيسية</a>
+    <img src="assets/brand/wordmark-white.svg" alt="خِدْمَتي AI" width="96" height="30">
+  </div>
+
+  <div class="hero">
+    <img src="assets/brand/medy-3d.webp" alt="مدي — مساعدة خِدْمَتي AI">
+    <div class="hero-txt">
+      <h1>أنا مدي</h1>
+      <div id="fromChip" style="display:none"></div>
+      <p>احكيلي إنت داخل علشان إيه — بالعامية وزي ما تحب. أنا هرتّب وأقولك تروح فين وإيه اللي ناقصك.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>إنت داخل علشان إيه؟</h2>
+    <div class="ask">
+      <input id="q" type="text" placeholder="مثال: عايز أنقل ملكية عربية" autocomplete="off">
+      <button onclick="ask()">اسأل</button>
+    </div>
+    <div class="chips">
+      <button class="chip" onclick="quick('عايز أنقل ملكية عربية')">نقل ملكية عربية</button>
+      <button class="chip" onclick="quick('بطاقتي ضاعت أعمل إيه')">بطاقتي ضاعت</button>
+      <button class="chip" onclick="quick('ورثت شقة ومش عارف أنقلها')">ورثت شقة</button>
+      <button class="chip" onclick="quick('عايز أطلع جواز سفر')">جواز سفر</button>
+      <button class="chip" onclick="quick('إعلام الوراثة بيتعمل إزاي')">إعلام وراثة</button>
+    </div>
+    <div id="casebar"></div>
+    <div id="chat"></div>
+    <p class="note">مدي بتاخد من بيانات الموقع المتحققة — ولو الرقم مش متأكد منه بتقولك «مش معايا» بدل ما تخمّن.</p>
+  </div>
+
+  <div class="card">
+    <h2>محتاج تمشي بنفسك؟</h2>
+    <div class="grid">
+      <a class="qa" href="journeys.html">🗺️ رحلات الخدمة</a>
+      <a class="qa" href="calc.html">🧮 حاسبة الرسوم</a>
+      <a class="qa" href="doc-checker.html">📄 فاحص المستندات</a>
+      <a class="qa" href="offices.html">📍 أقرب مكتب</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const RANIA='https://khidmaty-rania.semohabiby7.workers.dev/chat';
+const BRAIN='https://khidmaty-agent.semohabiby7.workers.dev/chat';
+const SRC_URL='data/medy-sources.json';
+const FB_KEY='medy_feedback_v1';
+
+let history=[];
+let sourcesDB={items:[],updated:''};
+let caseCtx=null;           // {slug,title,questions:[]}
+let busy=false;
+
+/* ---------- helpers ---------- */
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+/* تنسيق ردود مدي: **عريض** يتعرض عريض، والنجوم والشرط تطلع نضيفة */
+function fmtMedy(t){
+  let h=String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  h=h.replace(/^\s*[-*•]\s+/gm,'• ');
+  h=h.replace(/\*/g,'').replace(/^\s*#{1,6}\s*/gm,'');
+  return h;
+}
+const AR_DIAC=/[\u064B-\u0652\u0670\u0640]/g;
+function norm(s){return (s||'').replace(AR_DIAC,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase()}
+
+/* ---------- sources ---------- */
+async function loadSources(){
+  try{
+    const r=await fetch(SRC_URL,{cache:'no-cache'});
+    if(r.ok){sourcesDB=await r.json();return}
+  }catch(e){}
+  if(window.__MEDY_SRC__) sourcesDB=window.__MEDY_SRC__;
+}
+function findService(text){
+  const t=norm(text);if(!t)return null;
+  let best=null,bs=0;
+  for(const it of sourcesDB.items||[]){
+    let s=0;
+    for(const k of (it.kw||[])){
+      const nk=norm(k);
+      if(nk&&t.includes(nk))s+=nk.length+2;
+    }
+    if(norm(it.name)&&t.includes(norm(it.name)))s+=6;
+    if(s>bs){bs=s;best=it}
+  }
+  return bs>=5?best:null;
+}
+
+/* ---------- memory (same request / same case) ---------- */
+function rememberCase(svc,question){
+  if(!svc)return;
+  if(!caseCtx||caseCtx.slug!==svc.slug){
+    caseCtx={slug:svc.slug,title:svc.name,questions:[]};
+  }
+  caseCtx.questions.push(question);
+  renderCase();
+}
+function renderCase(){
+  const bar=document.getElementById('casebar');
+  if(!caseCtx){bar.style.display='none';return}
+  bar.style.display='flex';
+  bar.innerHTML='';
+  bar.appendChild(document.createTextNode('🧠 مدي فاكرة طلبك: '));
+  const b=el('b',null,caseCtx.title);bar.appendChild(b);
+  bar.appendChild(document.createTextNode(' — '+caseCtx.questions.length+' سؤال في نفس الطلب. اسأل من غير ما تعيد الشرح.'));
+}
+/* الصفحة اللي المستخدم جه منها (لو دخل من زرار «اسأل مدي») */
+const FROM=(function(){try{const q=new URLSearchParams(location.search);
+  return {path:q.get('from')||'',title:(q.get('t')||'').trim()};}catch(e){return {path:'',title:''}}})();
+function fromLine(){
+  if(!FROM.path&&!FROM.title)return '';
+  return 'المستخدم جه ليك من صفحة الموقع: '+(FROM.title||FROM.path)+(FROM.path?' ('+FROM.path+')':'')+'. ';
+}
+/* شارة «جاية من» في أعلى الصفحة */
+try{if(FROM.title||FROM.path){var _c=document.getElementById('fromChip');if(_c){_c.style.cssText='display:inline-block;margin:0 0 8px;font-size:12px;color:#bcd4f4;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);border-radius:12px;padding:5px 10px';_c.textContent='جاية من: '+(FROM.title||FROM.path);}}}catch(e){}
+function contextLine(){
+  let s='';
+  if(!caseCtx)return s;
+  return 'سياق الطلب الحالي: '+caseCtx.title+' (نفس الطلب — '+caseCtx.questions.length+' سؤال سابق). ';
+}
+
+/* ---------- ask ---------- */
+function quick(t){document.getElementById('q').value=t;ask()}
+
+async function ask(){
+  const input=document.getElementById('q');
+  const raw=(input.value||'').trim();
+  if(!raw||busy)return;
+  busy=true;input.value='';
+  add(raw,'me');
+
+  /* 1) thinking states instead of a plain spinner */
+  const wait=el('div','thinking');
+  const dot=el('span','dot');const label=el('span',null,'مدي بتسمع…');
+  wait.appendChild(dot);wait.appendChild(label);
+  document.getElementById('chat').appendChild(wait);
+  const stages=['مدي بتسمع…','مدي بتراجع البيانات…','مدي بتبحث في المصادر…'];
+  let si=0;
+  const tick=setInterval(()=>{si=Math.min(si+1,stages.length-1);label.textContent=stages[si]},1100);
+
+  const msg=fromLine()+contextLine()+raw;
+  let reply='';
+  for(const url of [BRAIN,RANIA]){
+    try{
+      const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({message:msg,question:raw,history:history,context:caseCtx?{topic:caseCtx.title,previous:caseCtx.questions}:null})});
+      const data=await res.json();
+      if(data.response||data.reply){reply=data.response||data.reply;break}
+    }catch(e){}
+  }
+  /* حارس الاسم: أي اسم قديم للواجهة يظهر كـ«مدى» */
+  reply=String(reply).replace(/رانيا|راينا|رنيا/g,'مدى').replace(/Rania/gi,'Medy');
+  clearInterval(tick);wait.remove();
+  if(!reply)reply='معلش، مش قادرة أوصل دلوقتي. جرّب تاني بعد شوية أو افتح رحلات الخدمة من تحت.';
+
+  const svc=findService(raw+' '+reply);
+  rememberCase(svc,raw);
+  addBlock(raw,reply,svc);
+
+  history.push({role:'user',text:raw},{role:'model',text:reply});
+  if(history.length>16)history=history.slice(-16);
+  if(window.gtag)gtag('event','medy_ask',{question:raw});
+  busy=false;
+}
+
+/* ---------- rendering a Medy answer + sources + rating ---------- */
+function add(text,who){
+  const box=document.getElementById('chat');box.style.display='block';
+  const d=el('div','msg '+who,txt_placeholder());
+  d.textContent=text;box.appendChild(d);d.scrollIntoView({behavior:'smooth',block:'nearest'});return d;
+}
+function txt_placeholder(){return ''}
+
+function addBlock(question,reply,svc){
+  const box=document.getElementById('chat');
+  box.style.display='block';
+  const blk=el('div','blk');
+
+  const a=el('div','msg medy');a.innerHTML=fmtMedy(reply);blk.appendChild(a);
+
+  const acts=el('div','acts');
+
+  /* 2) sources */
+  const srcBtn=el('button','act');
+  const srcs=(svc&&svc.sources)?svc.sources:[];
+  srcBtn.textContent='📚 مصادري'+(srcs.length?' ('+srcs.length+')':'');
+  const srcBox=el('div','src');
+  if(srcs.length){
+    const hd=el('div','hd','المصادر اللي رجعت منها:');
+    srcBox.appendChild(hd);
+    srcs.slice(0,6).forEach(s=>{
+      const link=el('a');
+      link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';
+      link.appendChild(document.createTextNode(s.label));
+      if(s.official){const tg=el('span','tag','رسمي');link.appendChild(tg)}
+      const dom=el('span',null,s.domain);link.appendChild(dom);
+      srcBox.appendChild(link);
+    });
+    srcBox.appendChild(el('div','meta','البيانات محدّثة في: '+arDate(sourcesDB.updated)+' — تاريخ التحقق لكل مصدر على حدة مش مسجّل عندي، فمش بزوّد رقم من عندي.'));
+  }else{
+    srcBox.appendChild(el('div','hd','مفيش مصدر متحقّق مطابق للسؤال ده'));
+    srcBox.appendChild(el('div','meta','مدي بترد من قاعدة البيانات المتحققة بس. السؤال ده ملقيتش له خدمة موثقة، فمقولتلك رقم ولا إجراء من دماغي.'));
+  }
+  srcBtn.onclick=()=>{
+    srcBox.classList.toggle('open');
+    srcBtn.classList.toggle('on',srcBox.classList.contains('open'));
+    if(window.gtag)gtag('event','medy_sources',{service:svc?svc.slug:'none'});
+  };
+  acts.appendChild(srcBtn);
+
+  /* 3) rating 👍 / 👎 */
+  let vote=null;
+  const up=el('button','act','👍 مفيدة');
+  const down=el('button','act','👎 محتاجة تصحيح');
+  const fb=el('div','fbnote');
+  const fbInput=el('input');fbInput.placeholder='قوللي إيه الغلط (اختياري)';
+  const fbSend=el('button',null,'حفظ');
+  fb.appendChild(fbInput);fb.appendChild(fbSend);
+
+  function save(v,note){
+    const rec={t:new Date().toISOString(),q:question,a:reply.slice(0,600),vote:v,
+      note:note||'',service:svc?svc.slug:null,ctx:caseCtx?caseCtx.title:null};
+    try{
+      const arr=JSON.parse(localStorage.getItem(FB_KEY)||'[]');
+      arr.push(rec);localStorage.setItem(FB_KEY,JSON.stringify(arr.slice(-200)));
+    }catch(e){}
+    up.classList.toggle('on',v==='up');down.classList.toggle('on',v==='down');
+    if(window.gtag)gtag('event','medy_rating',{vote:v,service:svc?svc.slug:'none'});
+    fbSend.textContent='اتسجل ✓';
+    setTimeout(()=>{fb.classList.remove('open');fbSend.textContent='حفظ'},900);
+  }
+  up.onclick=()=>{vote='up';save('up')};
+  down.onclick=()=>{vote='down';save('down','');fb.classList.add('open');fbInput.focus()};
+  fbSend.onclick=()=>{if(fbInput.value.trim())save('down',fbInput.value.trim())};
+  fbInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&fbInput.value.trim())save('down',fbInput.value.trim())});
+
+  acts.appendChild(up);acts.appendChild(down);
+  blk.appendChild(acts);blk.appendChild(fb);blk.appendChild(srcBox);
+  box.appendChild(blk);
+  blk.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function arDate(d){
+  if(!d)return 'غير مسجّل';
+  const p=d.split('-');
+  const m=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  return (+p[2])+' '+m[(+p[1])-1]+' '+p[0];
+}
+
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask()});
+loadSources();
+</script>
+</body>
+</html>

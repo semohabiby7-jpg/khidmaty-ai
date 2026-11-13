@@ -1,0 +1,144 @@
+{
+ "this_week": [
+  {
+   "totalUsers": "93",
+   "newUsers": "92",
+   "sessions": "100",
+   "screenPageViews": "126",
+   "averageSessionDuration": "23.493486199999996",
+   "engagementRate": "0.1"
+  }
+ ],
+ "last_week": [
+  {
+   "totalUsers": "24",
+   "newUsers": "22",
+   "sessions": "30",
+   "screenPageViews": "61",
+   "averageSessionDuration": "164.81555866666665",
+   "engagementRate": "0.43333333333333335"
+  }
+ ],
+ "events": [
+  {
+   "eventName": "page_view",
+   "eventCount": "126"
+  },
+  {
+   "eventName": "session_start",
+   "eventCount": "100"
+  },
+  {
+   "eventName": "first_visit",
+   "eventCount": "92"
+  },
+  {
+   "eventName": "user_engagement",
+   "eventCount": "15"
+  },
+  {
+   "eventName": "scroll",
+   "eventCount": "10"
+  },
+  {
+   "eventName": "form_start",
+   "eventCount": "2"
+  },
+  {
+   "eventName": "sign_up",
+   "eventCount": "2"
+  },
+  {
+   "eventName": "utm_capture",
+   "eventCount": "2"
+  }
+ ],
+ "last_events": [
+  {
+   "eventName": "page_view",
+   "eventCount": "61"
+  },
+  {
+   "eventName": "user_engagement",
+   "eventCount": "43"
+  },
+  {
+   "eventName": "session_start",
+   "eventCount": "29"
+  },
+  {
+   "eventName": "first_visit",
+   "eventCount": "22"
+  },
+  {
+   "eventName": "scroll",
+   "eventCount": "14"
+  },
+  {
+   "eventName": "utm_capture",
+   "eventCount": "5"
+  },
+  {
+   "eventName": "form_start",
+   "eventCount": "4"
+  },
+  {
+   "eventName": "sign_up",
+   "eventCount": "4"
+  },
+  {
+   "eventName": "click",
+   "eventCount": "2"
+  }
+ ],
+ "daily": [
+  {
+   "date": "20261107",
+   "totalUsers": "69",
+   "sessions": "68",
+   "screenPageViews": "73"
+  },
+  {
+   "date": "20261110",
+   "totalUsers": "13",
+   "sessions": "13",
+   "screenPageViews": "13"
+  },
+  {
+   "date": "20261106",
+   "totalUsers": "7",
+   "sessions": "7",
+   "screenPageViews": "7"
+  },
+  {
+   "date": "20261108",
+   "totalUsers": "4",
+   "sessions": "4",
+   "screenPageViews": "6"
+  },
+  {
+   "date": "20261111",
+   "totalUsers": "2",
+   "sessions": "2",
+   "screenPageViews": "3"
+  },
+  {
+   "date": "20261112",
+   "totalUsers": "2",
+   "sessions": "3",
+   "screenPageViews": "14"
+  },
+  {
+   "date": "20261109",
+   "totalUsers": "1",
+   "sessions": "3",
+   "screenPageViews": "10"
+  },
+  {
+   "date": "20261113",
+   "totalUsers": "1",
+   "sessions": "2",
+   "screenPageViews": "11"
+  }
+ ]
+}

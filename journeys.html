@@ -6,7 +6,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>رحلات الخدمة — اشرحها لي أو اعملها معايا خطوة بخطوة | خِدْمَتي AI</title>
-<meta name="description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: بدل فاقد للرقم القومي، استخراج معاش التأمينات، بطاقة أول مرة لبلوغ.">
+<meta name="description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: ١٢ رحلة: نقل ملكية سيارة، تجديد رخصة، جواز سفر جديد، بطاقة رقم قومي، فيش وتشبيه، شهادة ميلاد، إعلام وراثة، تسجيل عقد بيع، توكيل رسمي.">
 <meta name="keywords" content="رحلات الخدمة, خطوات الخدمات الحكومية, بدل فاقد, معاش التأمينات, بطاقة الرقم القومي, خِدْمَتي">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0F1E3D">
@@ -113,7 +113,7 @@ details.acc .acc-a{font-size:13.5px;color:#8ea0c4;line-height:1.7;padding:0 0 15
 <link rel="canonical" href="https://khidmatyai.com/journeys.html">
   <!-- Open Graph / Social Sharing -->
   <meta property="og:title" content="رحلات الخدمة — اشرحها لي أو اعملها معايا خطوة بخطوة | خِدْمَتي AI">
-  <meta property="og:description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: بدل فاقد للرقم القومي، استخراج معاش التأمينات، بطاقة أول مرة لبلوغ 15 سنة.">
+  <meta property="og:description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: ١٢ رحلة: نقل ملكية سيارة، تجديد رخصة، جواز سفر جديد، بطاقة رقم قومي، فيش وتشبيه، شهادة ميلاد، إعلام وراثة، تسجيل عقد بيع، توكيل رسمي.">
   <meta property="og:url" content="https://khidmatyai.com/journeys.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="خِدْمَتي AI">
@@ -121,7 +121,7 @@ details.acc .acc-a{font-size:13.5px;color:#8ea0c4;line-height:1.7;padding:0 0 15
   <meta property="og:locale" content="ar_EG">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="رحلات الخدمة — اشرحها لي أو اعملها معايا خطوة بخطوة | خِدْمَتي AI">
-  <meta name="twitter:description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: بدل فاقد للرقم القومي، استخراج معاش التأمينات، بطاقة أول مرة لبلوغ 15 سنة.">
+  <meta name="twitter:description" content="محرك رحلات الخدمة من خِدْمَتي AI — اختار خدمتك الحكومية واعملها خطوة بخطوة مع حفظ تقدمك: ١٢ رحلة: نقل ملكية سيارة، تجديد رخصة، جواز سفر جديد، بطاقة رقم قومي، فيش وتشبيه، شهادة ميلاد، إعلام وراثة، تسجيل عقد بيع، توكيل رسمي.">
   <meta name="twitter:image" content="https://khidmatyai.com/assets/og-banner.png">
 
 
@@ -272,7 +272,7 @@ function renderWizard(){
     h+='<div class="step-row" id="st'+i+'"><button class="check" onclick="toggleStep('+i+')" aria-label="تمت الخطوة">✓</button><div class="step-body">'
       +'<div class="step-t">'+(i+1)+'. '+esc(s.title)+'</div>'
       +'<div class="step-d">'+esc(s.desc)+'</div>'
-      +'<div class="step-meta"><span class="time-chip">⏱ '+esc(s.time)+'</span>'
+      +'<div class="step-meta">'+(s.time?'<span class="time-chip">⏱ '+esc(s.time)+'</span>':'')
       +(s.docs||[]).map(function(d){return'<span class="chip">📄 '+esc(d)+'</span>'}).join('')
       +'</div></div></div>';
   });

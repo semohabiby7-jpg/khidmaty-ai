@@ -1,0 +1,36 @@
+{
+  "updated": "2026-11-13",
+  "note": "تصحيحات ومراجعات متحققة لمدي — كل بند بمصدرين (رسمي + ثاني). الأصل في data/docs-finder.json و medy-sources.json.",
+  "items": [
+    {
+      "slug": "criminal-record",
+      "fee": "٤٢ ج + ٥ ج طابع الشهيد (مميكنة من القسم) | ٨٤ ج شاملة التوصيل + ٥ ج طابع (أونلاين) | ورقية: ٢٣ ج عادية، ٢٧ ج عاجلة (+٥ طابع)",
+      "dur": "٢٤ ساعة من مكتب الفيش | حتى ٧٢ ساعة للطلب الأونلاين",
+      "sources": [
+        {"label": "وزارة الداخلية — الإدارة العامة للأدلة الجنائية: جدول القيمة المالية لنماذج صحيفة الحالة الجنائية", "url": "https://www.moi.gov.eg/PublicSecurity/Home/Department1", "domain": "moi.gov.eg", "official": true},
+        {"label": "الدستور: رسوم وخطوات استخراج صحيفة الحالة الجنائية ٢٠٢٦", "url": "https://www.dostor.org/5668100", "domain": "dostor.org", "official": false}
+      ],
+      "verified": "2026-11-13"
+    },
+    {
+      "slug": "family-record",
+      "fee": "٦٥ ج مميكن إلكتروني | ٢٥ ج عادي من المكتب | قيد زواج ٤٠ ج (+ رسوم توصيل لو طلبتها)",
+      "dur": "من ٣ إلى ٧ أيام عمل",
+      "sources": [
+        {"label": "بوابة الأهرام: خطوات استخراج قيد عائلي مميكن من المنزل بـ٦٥ جنيهًا", "url": "https://gate.ahram.org.eg/News/5838944.aspx", "domain": "gate.ahram.org.eg", "official": false},
+        {"label": "البلاد: رسوم استخراج القيد العائلي ٢٠٢٦", "url": "https://www.elbalad.news/7011920", "domain": "elbalad.news", "official": false}
+      ],
+      "verified": "2026-11-13"
+    },
+    {
+      "slug": "external-attestation",
+      "fee": "١١٥ ج للتصديق العادي | ٤١٠ ج للتصديق التجاري",
+      "dur": "من ٣ إلى ٧ أيام عمل حسب المكتب",
+      "sources": [
+        {"label": "وزارة الخارجية — إجراءات التعامل مع مكاتب التصديقات: جدول رسوم التصديقات", "url": "https://www.mfa.gov.eg/ar/RatificationOffices/AuthenticationProcedure", "domain": "mfa.gov.eg", "official": true},
+        {"label": "وزارة الخارجية — التصديق على المحررات (الشروط والاعتمادات المطلوبة)", "url": "https://www.mfa.gov.eg/ar/ConsularServicesAndTransactions/Details/77", "domain": "mfa.gov.eg", "official": true}
+      ],
+      "verified": "2026-11-13"
+    }
+  ]
+}

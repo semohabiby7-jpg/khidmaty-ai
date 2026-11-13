@@ -1,66 +1,54 @@
 {
-  "timestamp": "2026-11-10T06:03:48.572853",
+  "timestamp": "2026-11-13T19:00:22.979677",
   "property_id": "554298401",
   "totals_30d": [
     {
-      "totalUsers": "277",
-      "sessions": "324",
-      "screenPageViews": "508",
-      "averageSessionDuration": "114.45549331172839",
-      "bounceRate": "0.5679012345679012"
+      "totalUsers": "266",
+      "sessions": "313",
+      "screenPageViews": "499",
+      "averageSessionDuration": "109.79143810223643",
+      "bounceRate": "0.60063897763578278"
     }
   ],
   "yesterday": [
     {
-      "totalUsers": "1",
+      "totalUsers": "2",
       "sessions": "3",
-      "screenPageViews": "10",
-      "averageSessionDuration": "80.429093000000009",
+      "screenPageViews": "14",
+      "averageSessionDuration": "283.31115033333333",
       "bounceRate": "0.33333333333333331"
     }
   ],
   "top_pages": [
     {
       "pagePath": "/",
-      "screenPageViews": "153",
-      "totalUsers": "61",
-      "averageSessionDuration": "143.11558726530612"
+      "screenPageViews": "167",
+      "totalUsers": "56",
+      "averageSessionDuration": "157.50799191578949"
     },
     {
       "pagePath": "/store.html",
-      "screenPageViews": "36",
+      "screenPageViews": "34",
       "totalUsers": "3",
-      "averageSessionDuration": "176.97487311764706"
+      "averageSessionDuration": "185.559989375"
     },
     {
       "pagePath": "/services/renew-commercial-register.html",
-      "screenPageViews": "33",
-      "totalUsers": "32",
-      "averageSessionDuration": "94.82968751515152"
+      "screenPageViews": "28",
+      "totalUsers": "28",
+      "averageSessionDuration": "62.506416965517239"
     },
     {
       "pagePath": "/index.html",
-      "screenPageViews": "26",
-      "totalUsers": "11",
-      "averageSessionDuration": "148.91892605882353"
+      "screenPageViews": "17",
+      "totalUsers": "7",
+      "averageSessionDuration": "152.23978300000002"
     },
     {
       "pagePath": "/services/insurance-periods-inquiry.html",
-      "screenPageViews": "20",
-      "totalUsers": "14",
-      "averageSessionDuration": "77.798414599999987"
-    },
-    {
-      "pagePath": "/services/vaccination-certificate.html",
       "screenPageViews": "15",
-      "totalUsers": "13",
-      "averageSessionDuration": "111.13525535714287"
-    },
-    {
-      "pagePath": "/services/update-insured-data.html",
-      "screenPageViews": "14",
-      "totalUsers": "11",
-      "averageSessionDuration": "137.37458590909091"
+      "totalUsers": "9",
+      "averageSessionDuration": "94.1237155"
     },
     {
       "pagePath": "/services.html",
@@ -69,10 +57,16 @@
       "averageSessionDuration": "34.905652333333336"
     },
     {
-      "pagePath": "/offices.html",
+      "pagePath": "/services/update-insured-data.html",
       "screenPageViews": "12",
+      "totalUsers": "9",
+      "averageSessionDuration": "140.70442933333334"
+    },
+    {
+      "pagePath": "/calc.html",
+      "screenPageViews": "10",
       "totalUsers": "4",
-      "averageSessionDuration": "631.34956679999993"
+      "averageSessionDuration": "44.764511428571431"
     },
     {
       "pagePath": "/services/international-license.html",
@@ -87,28 +81,34 @@
       "averageSessionDuration": "82.593360428571415"
     },
     {
-      "pagePath": "/calc.html",
-      "screenPageViews": "9",
-      "totalUsers": "3",
-      "averageSessionDuration": "52.225263333333338"
+      "pagePath": "/services/vaccination-certificate.html",
+      "screenPageViews": "10",
+      "totalUsers": "10",
+      "averageSessionDuration": "116.09332079999999"
+    },
+    {
+      "pagePath": "/offices.html",
+      "screenPageViews": "8",
+      "totalUsers": "2",
+      "averageSessionDuration": "1380.4365585"
     },
     {
       "pagePath": "/services/replace-plates.html",
-      "screenPageViews": "9",
-      "totalUsers": "7",
-      "averageSessionDuration": "19.545522555555557"
-    },
-    {
-      "pagePath": "/services/death-certificate.html",
-      "screenPageViews": "7",
-      "totalUsers": "7",
-      "averageSessionDuration": "46.019613142857146"
+      "screenPageViews": "8",
+      "totalUsers": "6",
+      "averageSessionDuration": "20.550307375"
     },
     {
       "pagePath": "/maqalat.html",
+      "screenPageViews": "7",
+      "totalUsers": "3",
+      "averageSessionDuration": "46.993477571428571"
+    },
+    {
+      "pagePath": "/services/death-certificate.html",
       "screenPageViews": "6",
-      "totalUsers": "2",
-      "averageSessionDuration": "54.825723833333335"
+      "totalUsers": "6",
+      "averageSessionDuration": "50.728169"
     },
     {
       "pagePath": "/articles.html",
@@ -117,10 +117,10 @@
       "averageSessionDuration": "308.142206"
     },
     {
-      "pagePath": "/services/egyptian-citizenship.html",
+      "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
       "screenPageViews": "5",
       "totalUsers": "5",
-      "averageSessionDuration": "47.084148"
+      "averageSessionDuration": "54.132751199999994"
     },
     {
       "pagePath": "/services/marriage-divorce-certificate.html",
@@ -129,38 +129,38 @@
       "averageSessionDuration": "10.2641454"
     },
     {
-      "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
+      "pagePath": "/services/egyptian-citizenship.html",
       "screenPageViews": "4",
       "totalUsers": "4",
-      "averageSessionDuration": "38.3030865"
+      "averageSessionDuration": "46.89867175"
     },
     {
-      "pagePath": "/services/renew-car-license.html",
-      "screenPageViews": "4",
-      "totalUsers": "4",
-      "averageSessionDuration": "3.9993385"
+      "pagePath": "/offices/civil/ghrbya/kfr-alzyat.html",
+      "screenPageViews": "3",
+      "totalUsers": "2",
+      "averageSessionDuration": "38.5072685"
     }
   ],
   "traffic_sources": [
     {
       "sessionSource": "(direct)",
-      "sessions": "153",
-      "totalUsers": "144"
+      "sessions": "155",
+      "totalUsers": "149"
     },
     {
       "sessionSource": "google",
-      "sessions": "125",
-      "totalUsers": "118"
+      "sessions": "109",
+      "totalUsers": "103"
     },
     {
       "sessionSource": "youtube.com",
-      "sessions": "25",
+      "sessions": "29",
       "totalUsers": "1"
     },
     {
       "sessionSource": "(not set)",
-      "sessions": "8",
-      "totalUsers": "4"
+      "sessions": "9",
+      "totalUsers": "3"
     },
     {
       "sessionSource": "chatgpt.com",
@@ -186,23 +186,18 @@
       "sessionSource": "aimanhunt.online",
       "sessions": "1",
       "totalUsers": "1"
-    },
-    {
-      "sessionSource": "gemini.google.com",
-      "sessions": "1",
-      "totalUsers": "1"
     }
   ],
   "devices": [
     {
-      "deviceCategory": "mobile",
-      "sessions": "168",
-      "totalUsers": "132"
+      "deviceCategory": "desktop",
+      "sessions": "165",
+      "totalUsers": "145"
     },
     {
-      "deviceCategory": "desktop",
-      "sessions": "163",
-      "totalUsers": "145"
+      "deviceCategory": "mobile",
+      "sessions": "158",
+      "totalUsers": "121"
     },
     {
       "deviceCategory": "tablet",
@@ -211,6 +206,30 @@
     }
   ],
   "daily_7d": [
+    {
+      "date": "20261113",
+      "totalUsers": "1",
+      "sessions": "2",
+      "screenPageViews": "11"
+    },
+    {
+      "date": "20261112",
+      "totalUsers": "2",
+      "sessions": "3",
+      "screenPageViews": "14"
+    },
+    {
+      "date": "20261111",
+      "totalUsers": "2",
+      "sessions": "2",
+      "screenPageViews": "3"
+    },
+    {
+      "date": "20261110",
+      "totalUsers": "13",
+      "sessions": "13",
+      "screenPageViews": "13"
+    },
     {
       "date": "20261109",
       "totalUsers": "1",
@@ -233,24 +252,6 @@
       "date": "20261106",
       "totalUsers": "7",
       "sessions": "7",
-      "screenPageViews": "7"
-    },
-    {
-      "date": "20261105",
-      "totalUsers": "8",
-      "sessions": "8",
-      "screenPageViews": "11"
-    },
-    {
-      "date": "20261104",
-      "totalUsers": "5",
-      "sessions": "8",
-      "screenPageViews": "22"
-    },
-    {
-      "date": "20261103",
-      "totalUsers": "2",
-      "sessions": "3",
       "screenPageViews": "7"
     }
   ]

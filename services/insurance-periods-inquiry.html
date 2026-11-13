@@ -148,28 +148,6 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
 .hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
 @media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
-
-/* ===== Tools ===== */
-.tool-hint{font-size:13px;color:#8ea0c4;line-height:1.6;margin:0 0 16px}
-.trow{display:grid;grid-template-columns:1fr 1fr 1fr 40px;gap:8px;margin-bottom:8px;align-items:center}
-.trow input,.trow select{width:100%;box-sizing:border-box;background:#0f1e3d;border:1px solid #2a4068;border-radius:10px;padding:11px 10px;color:#fff;font-family:Cairo,sans-serif;font-size:14px}
-.trow input:focus,.trow select:focus{outline:none;border-color:#e6c258}
-.trow input::placeholder{color:#5a6a8a}
-.trow .del{background:rgba(239,68,68,.15);color:#ef4444;border:none;border-radius:10px;height:42px;font-size:18px;cursor:pointer;font-family:Cairo}
-.tbtn{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;padding:12px 22px;font-weight:800;font-size:15px;font-family:Cairo,sans-serif;cursor:pointer}
-.tbtn.ghost{background:transparent;border:1px solid #2a4068;color:#8ea0c4}
-.tbtn:active{transform:scale(.98)}
-.tactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.tout{margin-top:18px;background:rgba(15,30,61,.6);border:1px solid #1e3556;border-radius:12px;padding:16px;display:none}
-.tout.show{display:block}
-.tbig{font-size:24px;font-weight:900;color:#e6c258;margin:0 0 4px}
-.tsub{font-size:13px;color:#8ea0c4;margin:0 0 12px}
-.tline{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:#c0cee0;padding:7px 0;border-bottom:1px solid #1e3556}
-.tline:last-child{border-bottom:none}
-.tline b{color:#fff;font-weight:700}
-.tnote{font-size:12px;color:#5a6a8a;margin-top:12px;line-height:1.6}
-.tgap{color:#f59e0b;font-weight:700}
-@media(max-width:600px){.trow{grid-template-columns:1fr 1fr;}.trow .del{grid-column:span 2;height:34px;font-size:14px}}
 </style>
 <!-- Breadcrumb Schema -->
 <script type="application/ld+json">
@@ -228,22 +206,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  </div>
 
  <div class="section">
-  
-  <div class="section" id="tool-periods">
-    <h2>🧮 حاسبة مدد الاشتراك (احسب بنفسك)</h2>
-    <p class="tool-hint">ادخل كل مدة شغل عندك (من تاريخ — لتاريخ). الحاسبة بتجمعهم، بتشيل التداخل، وبتوريك الفجوات اللي مش متسجل فيها اشتراك. كله بيحصل على جهازك — مفيش أي بيانات بتتبعت لأي مكان.</p>
-    <div id="ppRows"></div>
-    <div class="tactions">
-      <button class="tbtn ghost" onclick="pAddRow()">+ إضافة مدة</button>
-      <button class="tbtn" onclick="pCalc()">احسب المدة</button>
-      <button class="tbtn ghost" onclick="copyReport(function(){return window.__pReport})">📋 نسخ النتيجة</button>
-      <button class="tbtn ghost" onclick="printReport(function(){return window.__pReport},'حساب مدد اشتراك التأمينات')">🖨 طباعة / PDF</button>
-    </div>
-    <div class="tout" id="ppOut"></div>
-    <p class="tnote">الحساب تقريبي (السنة = ٣٦٥ يوم، الشهر = ٣٠٫٤ يوم) ومش بديل عن برنت الهيئة. المرجع الرسمي دايمًا برنت التأمينات المختوم من المكتب.</p>
-  </div>
-
-<h2>💰 الرسوم وقنوات الاستعلام</h2>
+  <h2>💰 الرسوم وقنوات الاستعلام</h2>
   <div class="fee-row"><div class="fee-type"><span class="fee-icon">💻</span><div><div class="fee-name">الاستعلام الإلكتروني</div><div class="fee-note">من موقع الهيئة القومية للتأمين الاجتماعي nosi.gov.eg — فوري بعد تسجيل الدخول</div></div></div><div class="fee-price">مجانًا</div><div class="fee-speed">فوري</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🏛️</span><div><div class="fee-name">البرنت المختوم من المكتب</div><div class="fee-note">من أقرب مكتب تأمينات اجتماعية — بيتسلم مختومًا في نفس اليوم غالبًا</div></div></div><div class="fee-price">رسوم رمزية</div><div class="fee-speed">نفس اليوم غالبًا</div></div>
   
  </div>
@@ -327,114 +290,6 @@ function shareWa(){var u=location.href;var t=document.title;window.open('https:/
 function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
 function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
 </script>
-
-<script>
-function copyReport(getter){
-  var txt=getter();
-  if(!txt){ alert('احسب الأول وبعدين انسخ'); return; }
-  function done(){ var b=document.activeElement; }
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(function(){ toast('اتنسخ ✓'); },function(){ fallback(txt); });
-  } else fallback(txt);
-  function fallback(t){
-    var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
-    try{document.execCommand('copy'); toast('اتنسخ ✓');}catch(e){alert('مش قادر أنسخ — اختار النص يدويًا');}
-    document.body.removeChild(ta);
-  }
-  function toast(m){
-    var d=document.createElement('div');
-    d.textContent=m;
-    d.style.cssText='position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#10b981;color:#fff;padding:10px 22px;border-radius:30px;font-family:Cairo,sans-serif;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.4)';
-    document.body.appendChild(d); setTimeout(function(){d.remove()},1800);
-  }
-}
-function printReport(getter,title){
-  var txt=getter();
-  if(!txt){ alert('احسب الأول وبعدين اطبع'); return; }
-  var w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+title+'</title><style>body{font-family:Cairo,Tahoma,sans-serif;padding:32px;line-height:2;color:#111}h1{font-size:20px;border-bottom:2px solid #d4a843;padding-bottom:10px}pre{white-space:pre-wrap;font-family:inherit;font-size:15px}.f{margin-top:28px;font-size:12px;color:#666;border-top:1px solid #ddd;padding-top:10px}</style></head><body><h1>'+title+'</h1><pre></pre><div class="f">اتحسب على khidmatyai.com — للاستخدام الشخصي</div></body></html>');
-  w.document.querySelector('pre').textContent=txt;
-  w.document.close();
-  setTimeout(function(){ w.focus(); w.print(); },350);
-}
-</script>
-
-<script>
-(function(){
-  var DAY=86400000;
-  function el(id){return document.getElementById(id)}
-  function rowHTML(){
-    return '<div class="trow">'+
-      '<input type="date" class="p-from" title="من تاريخ">'+
-      '<input type="date" class="p-to" title="إلى تاريخ">'+
-      '<input type="text" class="p-org" placeholder="جهة العمل (اختياري)">'+
-      '<button class="del" type="button" onclick="this.parentNode.remove()" title="حذف">×</button>'+
-    '</div>';
-  }
-  window.pAddRow=function(){
-    var d=document.createElement('div'); d.innerHTML=rowHTML(); el('ppRows').appendChild(d.firstChild);
-  };
-  function seed(){ if(!document.querySelector('#ppRows .trow')){ pAddRow(); pAddRow(); } }
-  document.addEventListener('DOMContentLoaded', seed);
-  if(document.readyState !== 'loading') seed();
-  function parseD(v){ if(!v) return null; var d=new Date(v+'T00:00:00'); return isNaN(d)?null:d; }
-  function fmt(d){ return d? d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0') : ''; }
-  function prettyDate(v){ var d=parseD(v); if(!d) return v; return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear(); }
-  function human(days){
-    var y=Math.floor(days/365), rem=days-y*365, m=Math.floor(rem/30.4), dd=Math.round(rem-m*30.4);
-    return {y:y,m:m,d:dd};
-  }
-  window.pCalc=function(){
-    var rows=[].slice.call(document.querySelectorAll('#ppRows .trow'));
-    var list=[];
-    rows.forEach(function(r){
-      var f=parseD(r.querySelector('.p-from').value), t=parseD(r.querySelector('.p-to').value);
-      var org=r.querySelector('.p-org').value.trim();
-      if(f&&t&&t>=f) list.push({s:f,e:t,org:org});
-    });
-    var out=el('ppOut');
-    if(!list.length){ out.className='tout show'; out.innerHTML='<p class="tsub" style="margin:0">ادخل مدة واحدة على الأقل — التاريخ «إلى» لازم يكون بعد «من».</p>'; return; }
-    list.sort(function(a,b){return a.s-b.s});
-    var merged=[], overlap=false;
-    list.forEach(function(i){
-      var last=merged[merged.length-1];
-      if(last && i.s.getTime()<=last.e.getTime()+DAY){
-        if(i.s.getTime()<=last.e.getTime()) overlap=true;
-        if(i.e>last.e) last.e=i.e;
-        if(!last.org) last.org=i.org;
-      } else merged.push({s:i.s,e:i.e,org:i.org});
-    });
-    var total=0;
-    merged.forEach(function(m){ total += Math.round((m.e-m.s)/DAY)+1; });
-    var h=human(total);
-    var gaps=[];
-    for(var k=1;k<merged.length;k++){
-      var gs=merged[k-1].e.getTime()+DAY, ge=merged[k].s.getTime()-DAY;
-      if(ge>=gs) gaps.push({s:new Date(gs),e:new Date(ge),days:Math.round((ge-gs)/DAY)+1});
-    }
-    var t=
-      '<p class="tbig">'+total+' يوم اشتراك</p>'+
-      '<p class="tsub">يعني تقريبًا '+h.y+' سنة و'+h.m+' شهر و'+h.d+' يوم</p>'+
-      '<div class="tline"><span>عدد الفترات المدخلة</span><b>'+list.length+'</b></div>'+
-      '<div class="tline"><span>فترات مستقلة بعد الدمج</span><b>'+merged.length+'</b></div>'+
-      (overlap?'<div class="tline"><span>تداخل بين مدد</span><b class="tgap">موجود — اتشال من الحساب</b></div>':'')+
-      '<div class="tline"><span>أقدم اشتراك</span><b>'+prettyDate(fmt(merged[0].s))+'</b></div>'+
-      '<div class="tline"><span>آخر اشتراك</span><b>'+prettyDate(fmt(merged[merged.length-1].e))+'</b></div>'+
-      gaps.map(function(g,i){
-        return '<div class="tline"><span>فجوة '+(i+1)+'</span><b class="tgap">'+prettyDate(fmt(g.s))+' ← '+prettyDate(fmt(g.e))+' ('+g.days+' يوم)</b></div>';
-      }).join('');
-    out.className='tout show';
-    out.innerHTML=t;
-    var body='مدد الاشتراك — حساب تقريبي\n\n';
-    body+='إجمالي المدة: '+total+' يوم (≈ '+h.y+' سنة و'+h.m+' شهر و'+h.d+' يوم)\n';
-    body+='عدد المدد: '+list.length+' — فترات مستقلة: '+merged.length+'\n';
-    merged.forEach(function(m,i){ body+='  مدة '+(i+1)+': '+prettyDate(fmt(m.s))+' ← '+prettyDate(fmt(m.e))+(m.org?' — '+m.org:'')+'\n'; });
-    gaps.forEach(function(g,i){ body+='  فجوة '+(i+1)+': '+prettyDate(fmt(g.s))+' ← '+prettyDate(fmt(g.e))+' ('+g.days+' يوم)\n'; });
-    body+='\nمحسوب على khidmatyai.com — المرجع الرسمي برنت التأمينات.';
-    window.__pReport=body.replace(/\n/g,'\n');
-    window.__pReport=body;
-  };
-})();
-</script>
+<script src="/js/medy-global.js" defer></script>
 </body>
 </html>

@@ -7,8 +7,18 @@
       "fee": "٤٢ ج + ٥ ج طابع الشهيد (مميكنة من القسم) | ٨٤ ج شاملة التوصيل + ٥ ج طابع (أونلاين) | ورقية: ٢٣ ج عادية، ٢٧ ج عاجلة (+٥ طابع)",
       "dur": "٢٤ ساعة من مكتب الفيش | حتى ٧٢ ساعة للطلب الأونلاين",
       "sources": [
-        {"label": "وزارة الداخلية — الإدارة العامة للأدلة الجنائية: جدول القيمة المالية لنماذج صحيفة الحالة الجنائية", "url": "https://www.moi.gov.eg/PublicSecurity/Home/Department1", "domain": "moi.gov.eg", "official": true},
-        {"label": "الدستور: رسوم وخطوات استخراج صحيفة الحالة الجنائية ٢٠٢٦", "url": "https://www.dostor.org/5668100", "domain": "dostor.org", "official": false}
+        {
+          "label": "وزارة الداخلية — الإدارة العامة للأدلة الجنائية: جدول القيمة المالية لنماذج صحيفة الحالة الجنائية",
+          "url": "https://www.moi.gov.eg/PublicSecurity/Home/Department1",
+          "domain": "moi.gov.eg",
+          "official": true
+        },
+        {
+          "label": "الدستور: رسوم وخطوات استخراج صحيفة الحالة الجنائية ٢٠٢٦",
+          "url": "https://www.dostor.org/5668100",
+          "domain": "dostor.org",
+          "official": false
+        }
       ],
       "verified": "2026-11-13"
     },
@@ -17,8 +27,18 @@
       "fee": "٦٥ ج مميكن إلكتروني | ٢٥ ج عادي من المكتب | قيد زواج ٤٠ ج (+ رسوم توصيل لو طلبتها)",
       "dur": "من ٣ إلى ٧ أيام عمل",
       "sources": [
-        {"label": "بوابة الأهرام: خطوات استخراج قيد عائلي مميكن من المنزل بـ٦٥ جنيهًا", "url": "https://gate.ahram.org.eg/News/5838944.aspx", "domain": "gate.ahram.org.eg", "official": false},
-        {"label": "البلاد: رسوم استخراج القيد العائلي ٢٠٢٦", "url": "https://www.elbalad.news/7011920", "domain": "elbalad.news", "official": false}
+        {
+          "label": "بوابة الأهرام: خطوات استخراج قيد عائلي مميكن من المنزل بـ٦٥ جنيهًا",
+          "url": "https://gate.ahram.org.eg/News/5838944.aspx",
+          "domain": "gate.ahram.org.eg",
+          "official": false
+        },
+        {
+          "label": "البلاد: رسوم استخراج القيد العائلي ٢٠٢٦",
+          "url": "https://www.elbalad.news/7011920",
+          "domain": "elbalad.news",
+          "official": false
+        }
       ],
       "verified": "2026-11-13"
     },
@@ -27,8 +47,78 @@
       "fee": "١١٥ ج للتصديق العادي | ٤١٠ ج للتصديق التجاري",
       "dur": "من ٣ إلى ٧ أيام عمل حسب المكتب",
       "sources": [
-        {"label": "وزارة الخارجية — إجراءات التعامل مع مكاتب التصديقات: جدول رسوم التصديقات", "url": "https://www.mfa.gov.eg/ar/RatificationOffices/AuthenticationProcedure", "domain": "mfa.gov.eg", "official": true},
-        {"label": "وزارة الخارجية — التصديق على المحررات (الشروط والاعتمادات المطلوبة)", "url": "https://www.mfa.gov.eg/ar/ConsularServicesAndTransactions/Details/77", "domain": "mfa.gov.eg", "official": true}
+        {
+          "label": "وزارة الخارجية — إجراءات التعامل مع مكاتب التصديقات: جدول رسوم التصديقات",
+          "url": "https://www.mfa.gov.eg/ar/RatificationOffices/AuthenticationProcedure",
+          "domain": "mfa.gov.eg",
+          "official": true
+        },
+        {
+          "label": "وزارة الخارجية — التصديق على المحررات (الشروط والاعتمادات المطلوبة)",
+          "url": "https://www.mfa.gov.eg/ar/ConsularServicesAndTransactions/Details/77",
+          "domain": "mfa.gov.eg",
+          "official": true
+        }
+      ],
+      "verified": "2026-11-13"
+    },
+    {
+      "slug": "car-ownership-inquiry",
+      "fee": "مفيش رقم ثابت: رسم تسجيل عقد البيع في الشهر العقاري ~٢٪ من قيمة السيارة (بحد أدنى حسب جدول وزير العدل ٢٠٢٦) + رسوم نماذج نقل القيد في المرور فقط لو ضرائب السيارة سارية، + التأمين الإجباري والمخالفات",
+      "dur": "نقل القيد لازم يتم خلال ٣٠ يومًا من اليوم التالي لتاريخ السند الناقل للملكية، وإلا الرخصة تُعتبر ملغاة",
+      "sources": [
+        {
+          "label": "الإدارة العامة للمرور: خدمة نقل قيد أو ملكية مركبة — المستندات والرسوم",
+          "url": "https://www.alexandria.gov.eg/services/traffic5/traffic_services/license1.html",
+          "domain": "alexandria.gov.eg",
+          "official": true
+        },
+        {
+          "label": "بوابة المرور — قانون المرور: الضرائب والرسوم",
+          "url": "https://traffic.moi.gov.eg/Arabic/OurServices/InfoServices/TrafficLaw/Pages/taxes-and-fees.aspx",
+          "domain": "traffic.moi.gov.eg",
+          "official": true
+        }
+      ],
+      "verified": "2026-11-13"
+    },
+    {
+      "slug": "disability-card",
+      "fee": "التقييم الوظيفي ٥٠ ج (فوري كود ٨٨٨٨) + إصدار/استلام البطاقة ١١٠ ج (فوري كود ٩٠١٤٠)، والكشف الطبي رسومه حسب الجهة الطبية (~٢٠٠ ج). وزارة التضامن بتأكد إنه مفيش رسوم على البطاقة نفسها",
+      "dur": "من أسبوعين إلى ٣ أسابيع، والصلاحية ٥ سنوات للحالات المستقرة طبيًا",
+      "sources": [
+        {
+          "label": "بوابة منظومة بطاقات الخدمات المتكاملة — وزارة التضامن الاجتماعي",
+          "url": "https://rdis.moss.gov.eg/EDR/OnlineRegistration/OnlineHome",
+          "domain": "rdis.moss.gov.eg",
+          "official": true
+        },
+        {
+          "label": "المصري اليوم: خطوات التقديم على كارت الخدمات المتكاملة والرسوم المطلوبة",
+          "url": "https://www.almasryalyoum.com/news/details/4212892",
+          "domain": "almasryalyoum.com",
+          "official": false
+        }
+      ],
+      "verified": "2026-11-13"
+    },
+    {
+      "slug": "military-service",
+      "fee": "شهادة الجيش أونلاين: ١٠٠ ج ورقي | ١٥٠ ج مصغرة | بدل فاقد من المكتب ١٥ ج | بدل تالف ٣٠ ج",
+      "dur": "أونلاين ~٣ أيام من اعتماد الطلب | ورقي من ٣٠ إلى ٦٠ يومًا",
+      "sources": [
+        {
+          "label": "إدارة السجلات العسكرية — وزارة الدفاع (تسجيل الطلب والاستعلام)",
+          "url": "https://seglat.mod.gov.eg/Application.aspx",
+          "domain": "seglat.mod.gov.eg",
+          "official": true
+        },
+        {
+          "label": "البلاد: استخراج شهادة الجيش ٢٠٢٦ — الخطوات والرسوم",
+          "url": "https://www.elbalad.news/6830584",
+          "domain": "elbalad.news",
+          "official": false
+        }
       ],
       "verified": "2026-11-13"
     }

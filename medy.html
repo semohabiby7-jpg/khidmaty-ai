@@ -117,7 +117,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0}
 <script>
 const RANIA='https://khidmaty-rania.semohabiby7.workers.dev/chat';
 const BRAIN='https://khidmaty-agent.semohabiby7.workers.dev/chat';
-const SRC_URL='data/medy-sources.json';
+const SRC_URL='data/medy-kb.json';
 const FB_KEY='medy_feedback_v1';
 
 let history=[];
@@ -142,7 +142,7 @@ function norm(s){return (s||'').replace(AR_DIAC,'').replace(/[أإآ]/g,'ا').re
 async function loadSources(){
   try{
     const r=await fetch(SRC_URL,{cache:'no-cache'});
-    if(r.ok){sourcesDB=await r.json();return}
+    if(r.ok){const d=await r.json();(d.items||[]).forEach(i=>{if(!i.name)i.name=i.title});sourcesDB=d;return}
   }catch(e){}
   if(window.__MEDY_SRC__) sourcesDB=window.__MEDY_SRC__;
 }
@@ -197,6 +197,34 @@ function contextLine(){
 /* ---------- ask ---------- */
 function quick(t){document.getElementById('q').value=t;ask()}
 
+
+/* ---------- إجابة من قاعدة المعرفة المحلية (بدون تخمين) ---------- */
+function localAnswer(it){
+  const L=[];
+  L.push('أهلاً بيك! دي تفاصيل '+it.title+' من بيانات الموقع المتحققة:');
+  L.push('');
+  if(it.auth)L.push('📍 **الجهة:** '+it.auth);
+  if(it.dur)L.push('⏱️ **المدة:** '+it.dur);
+  L.push(it.fee?'💸 **الرسوم:** '+it.fee:'💸 **الرسوم:** الرقم ده مش معايا متأكد منه — أتأكد من الصفحة الرسمية.');
+  const d=it.docs||[];
+  if(d.length){
+    L.push('');L.push('📄 **المستندات ('+d.length+'):**');
+    d.slice(0,8).forEach(x=>L.push('- '+x));
+    if(d.length>8)L.push('- ... وكمان '+(d.length-8)+' مستند في صفحة الخدمة');
+  }
+  const j=it.journey;
+  if(j&&j.steps&&j.steps.length){
+    L.push('');L.push('🪜 **الخطوات:**');
+    j.steps.slice(0,6).forEach((st,i)=>{
+      const t=(typeof st==='string')?st:(st.title||st.t||st.name||st.text||'');
+      if(t)L.push((i+1)+'. '+t);
+    });
+  }
+  if(j&&j.warning){L.push('');L.push('⚠️ '+j.warning)}
+  if(it.page){L.push('');L.push('📎 التفاصيل الكاملة: /'+it.page)}
+  return L.join('\n');
+}
+
 async function ask(){
   const input=document.getElementById('q');
   const raw=(input.value||'').trim();
@@ -215,6 +243,9 @@ async function ask(){
 
   const msg=fromLine()+contextLine()+raw;
   let reply='';
+  const _hit=findService(raw);
+  if(_hit&&_hit.docs&&_hit.docs.length>=2)reply=localAnswer(_hit);
+  if(!reply)
   for(const url of [BRAIN,RANIA]){
     try{
       const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},

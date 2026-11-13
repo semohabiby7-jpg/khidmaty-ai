@@ -148,28 +148,6 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
 .hd-nav a{font-size:12.5px;font-weight:700;color:#cbd7ea!important;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:5px 12px;border-radius:20px;white-space:nowrap;text-decoration:none;line-height:1.6}
 .hd-nav a:hover,.hd-nav a.on{color:#e6c258!important;border-color:rgba(230,194,88,.5);background:rgba(230,194,88,.1)}
 @media(max-width:620px){.hd-nav{max-width:60%;gap:5px}.hd-nav a{font-size:11.5px;padding:5px 10px}}
-
-/* ===== Tools ===== */
-.tool-hint{font-size:13px;color:#8ea0c4;line-height:1.6;margin:0 0 16px}
-.trow{display:grid;grid-template-columns:1fr 1fr 1fr 40px;gap:8px;margin-bottom:8px;align-items:center}
-.trow input,.trow select{width:100%;box-sizing:border-box;background:#0f1e3d;border:1px solid #2a4068;border-radius:10px;padding:11px 10px;color:#fff;font-family:Cairo,sans-serif;font-size:14px}
-.trow input:focus,.trow select:focus{outline:none;border-color:#e6c258}
-.trow input::placeholder{color:#5a6a8a}
-.trow .del{background:rgba(239,68,68,.15);color:#ef4444;border:none;border-radius:10px;height:42px;font-size:18px;cursor:pointer;font-family:Cairo}
-.tbtn{background:linear-gradient(135deg,#e6c258,#d4a843);color:#0F1E3D;border:none;border-radius:10px;padding:12px 22px;font-weight:800;font-size:15px;font-family:Cairo,sans-serif;cursor:pointer}
-.tbtn.ghost{background:transparent;border:1px solid #2a4068;color:#8ea0c4}
-.tbtn:active{transform:scale(.98)}
-.tactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.tout{margin-top:18px;background:rgba(15,30,61,.6);border:1px solid #1e3556;border-radius:12px;padding:16px;display:none}
-.tout.show{display:block}
-.tbig{font-size:24px;font-weight:900;color:#e6c258;margin:0 0 4px}
-.tsub{font-size:13px;color:#8ea0c4;margin:0 0 12px}
-.tline{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:#c0cee0;padding:7px 0;border-bottom:1px solid #1e3556}
-.tline:last-child{border-bottom:none}
-.tline b{color:#fff;font-weight:700}
-.tnote{font-size:12px;color:#5a6a8a;margin-top:12px;line-height:1.6}
-.tgap{color:#f59e0b;font-weight:700}
-@media(max-width:600px){.trow{grid-template-columns:1fr 1fr;}.trow .del{grid-column:span 2;height:34px;font-size:14px}}
 </style>
 <!-- Breadcrumb Schema -->
 <script type="application/ld+json">
@@ -228,28 +206,7 @@ body{font-family:Cairo,sans-serif;background:#0F1E3D;color:#e8eef8;margin:0;padd
  </div>
 
  <div class="section">
-  
-  <div class="section" id="tool-fees">
-    <h2>🧮 حاسبة رسوم التجديد (تقديري)</h2>
-    <p class="tool-hint">ادخل نوع النشاط ورأس المال، وتطلعلك الرسوم التقديرية قبل ما تروح الغرفة. الحساب بيحصل على جهازك بس.</p>
-    <div class="trow" style="grid-template-columns:1fr 1fr">
-      <select id="ffAct">
-        <option value="commercial">🏪 تجاري</option>
-        <option value="industrial">🏭 صناعي</option>
-        <option value="service">🛎️ خدمي</option>
-      </select>
-      <input id="ffCap" type="number" placeholder="رأس المال (جنيه)" inputmode="numeric">
-    </div>
-    <div class="tactions">
-      <button class="tbtn" onclick="fCalc()">احسب الرسوم</button>
-      <button class="tbtn ghost" onclick="copyReport(function(){return window.__fReport})">📋 نسخ النتيجة</button>
-      <button class="tbtn ghost" onclick="printReport(function(){return window.__fReport},'رسوم تجديد السجل التجاري — تقديري')">🖨 طباعة / PDF</button>
-    </div>
-    <div class="tout" id="ffOut"></div>
-    <p class="tnote">أرقام تقديرية بتختلف حسب الغرفة التجارية ونوع النشاط والتعديلات اللي حصلت على السجل. المرجع النهائي هو إيصال الغرفة.</p>
-  </div>
-
-<h2>💰 الرسوم حسب نوع المنشأة</h2>
+  <h2>💰 الرسوم حسب نوع المنشأة</h2>
   <div class="fee-row"><div class="fee-type"><span class="fee-icon">👤</span><div><div class="fee-name">منشأة فردية (أفراد)</div><div class="fee-note">تتضاعف لـ 13.5ج بعد ميعاد التجديد</div></div></div><div class="fee-price">9.5 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">👥</span><div><div class="fee-name">شركات أشخاص (مصريين)</div><div class="fee-note">تتضاعف لـ 22ج بعد ميعاد التجديد</div></div></div><div class="fee-price">14 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🌍</span><div><div class="fee-name">بمشاركة أجنبي</div><div class="fee-note">تتضاعف لـ 46ج بعد ميعاد التجديد</div></div></div><div class="fee-price">26 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">🏢</span><div><div class="fee-name">شركات أموال</div><div class="fee-note">تتضاعف لـ 106ج بعد ميعاد التجديد</div></div></div><div class="fee-price">56 جنيه</div><div class="fee-speed">نفس اليوم</div></div><div class="fee-row"><div class="fee-type"><span class="fee-icon">📄</span><div><div class="fee-name">رسوم إضافية</div><div class="fee-note">رسوم النشر + اشتراكات الغرفة التجارية + نقابة التجار</div></div></div><div class="fee-price">حسب النشاط</div><div class="fee-speed">—</div></div>
   <div class="verify-note">⚠️ ⚠️ الرسوم أعلاه رسم السجل فقط — فوقها رسوم النشر واشتراكات الغرفة التجارية ونقابة التجار حسب النشاط. التجديد العادي خلال العشرين يوم الأولى من الشهر الأخير لصلاحية القيد، وبعدها تتضاعف الرسوم.</div>
  </div>
@@ -333,59 +290,6 @@ function shareWa(){var u=location.href;var t=document.title;window.open('https:/
 function shareFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')}
 function shareCp(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅')}
 </script>
-
-<script>
-function copyReport(getter){
-  var txt=getter();
-  if(!txt){ alert('احسب الأول وبعدين انسخ'); return; }
-  function done(){ var b=document.activeElement; }
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(function(){ toast('اتنسخ ✓'); },function(){ fallback(txt); });
-  } else fallback(txt);
-  function fallback(t){
-    var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
-    try{document.execCommand('copy'); toast('اتنسخ ✓');}catch(e){alert('مش قادر أنسخ — اختار النص يدويًا');}
-    document.body.removeChild(ta);
-  }
-  function toast(m){
-    var d=document.createElement('div');
-    d.textContent=m;
-    d.style.cssText='position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#10b981;color:#fff;padding:10px 22px;border-radius:30px;font-family:Cairo,sans-serif;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.4)';
-    document.body.appendChild(d); setTimeout(function(){d.remove()},1800);
-  }
-}
-function printReport(getter,title){
-  var txt=getter();
-  if(!txt){ alert('احسب الأول وبعدين اطبع'); return; }
-  var w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+title+'</title><style>body{font-family:Cairo,Tahoma,sans-serif;padding:32px;line-height:2;color:#111}h1{font-size:20px;border-bottom:2px solid #d4a843;padding-bottom:10px}pre{white-space:pre-wrap;font-family:inherit;font-size:15px}.f{margin-top:28px;font-size:12px;color:#666;border-top:1px solid #ddd;padding-top:10px}</style></head><body><h1>'+title+'</h1><pre></pre><div class="f">اتحسب على khidmatyai.com — للاستخدام الشخصي</div></body></html>');
-  w.document.querySelector('pre').textContent=txt;
-  w.document.close();
-  setTimeout(function(){ w.focus(); w.print(); },350);
-}
-</script>
-
-<script>
-(function(){
-  function el(id){return document.getElementById(id)}
-  var NAMES={commercial:'تجاري',industrial:'صناعي',service:'خدمي'};
-  var BASE={commercial:50,industrial:200,service:100};
-  window.fCalc=function(){
-    var act=el('ffAct').value, cap=parseInt(el('ffCap').value)||0;
-    var base=BASE[act];
-    var capFee=Math.min(Math.round(cap*0.001),2000);
-    var total=base+capFee;
-    var out=el('ffOut');
-    out.className='tout show';
-    out.innerHTML=
-      '<p class="tbig">'+total+' جنيه تقديري</p>'+
-      '<p class="tsub">نشاط '+NAMES[act]+(cap?' — رأس مال '+cap.toLocaleString('ar-EG')+' جنيه':' — ادخل رأس المال لدقة أعلى')+'</p>'+
-      '<div class="tline"><span>رسوم السجل ('+NAMES[act]+')</span><b>'+base+' جنيه</b></div>'+
-      '<div class="tline"><span>رسوم رأس المال (٠٫١٪ — حد أقصى ٢٠٠٠)</span><b>'+capFee+' جنيه</b></div>'+
-      '<div class="tline"><span>الإجمالي التقديري</span><b>'+total+' جنيه</b></div>';
-    window.__fReport='تجديد سجل تجاري — تقديري\nنوع النشاط: '+NAMES[act]+'\nرأس المال: '+cap+' جنيه\nرسوم السجل: '+base+' جنيه\nرسوم رأس المال: '+capFee+' جنيه\nالإجمالي: '+total+' جنيه\n\nمحسوب على khidmatyai.com — المرجع النهائي إيصال الغرفة التجارية.';
-  };
-})();
-</script>
+<script src="/js/medy-global.js" defer></script>
 </body>
 </html>

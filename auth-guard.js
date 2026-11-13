@@ -168,3 +168,41 @@ function kgGaConvert(label){
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',createGate);}
   else{createGate();}
 })();
+
+/* ===== مدي العائم — زرار واحد في كل صفحات الموقع ===== */
+(function(){
+  try{
+    var p=location.pathname||'';
+    if(/\/medy\.html$/i.test(p))return;
+    if(/(admin|dashboard|dash|login|signin|register|gate|404)/i.test(p))return;
+    if(document.getElementById('medyFab'))return;
+
+    var css=document.createElement('style');
+    css.textContent=
+      '#medyFab{position:fixed;inset-inline-start:16px;bottom:18px;z-index:99990;display:flex;align-items:center;gap:9px;'+
+      'background:linear-gradient(145deg,#e6c258,#c9a33c);color:#0F1E3D;border:0;border-radius:40px;padding:10px 16px 10px 12px;'+
+      'font-family:Cairo,system-ui,sans-serif;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.12) inset;'+
+      'opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease,box-shadow .25s ease}'+
+      '#medyFab.on{opacity:1;transform:translateY(0)}'+
+      '#medyFab:hover{box-shadow:0 14px 30px rgba(0,0,0,.45)}'+
+      '#medyFab:active{transform:scale(.97)}'+
+      '#medyFab svg{width:24px;height:24px;flex:0 0 auto}'+
+      '#medyFab .mdot{width:7px;height:7px;border-radius:50%;background:#0F1E3D;opacity:.55;animation:mfab 1.6s infinite}'+
+      '@keyframes mfab{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1)}}'+
+      '@media(max-width:430px){#medyFab{font-size:13px;padding:9px 13px 9px 10px;bottom:14px;inset-inline-start:12px}}'+
+      '@media(prefers-reduced-motion:reduce){#medyFab{transition:none;opacity:1;transform:none}#medyFab .mdot{animation:none}}';
+    document.head.appendChild(css);
+
+    var b=document.createElement('a');
+    var t=(document.title||'').replace(/\s*[|—–-]\s*.*$/,'').trim().slice(0,70);
+    b.id='medyFab';
+    b.href='/medy.html?from='+encodeURIComponent(p)+'&t='+encodeURIComponent(t);
+    b.setAttribute('aria-label','اسأل مدي — مساعدة خِدْمَتي AI');
+    b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#0F1E3D" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+
+      '<rect x="4" y="7" width="16" height="12" rx="4"/><path d="M12 3v4"/><circle cx="9" cy="13" r="1.3" fill="#0F1E3D" stroke="none"/>'+
+      '<circle cx="15" cy="13" r="1.3" fill="#0F1E3D" stroke="none"/><path d="M9.5 16.5h5"/></svg>'+
+      '<span>اسأل مدي</span><span class="mdot"></span>';
+    document.body.appendChild(b);
+    setTimeout(function(){b.className='on'},900);
+  }catch(e){}
+})();

@@ -1,6 +1,6 @@
 # 📊 تقرير Google Analytics — خِدْمَتي AI
 
-**التاريخ:** 2026-11-10 06:03
+**التاريخ:** 2026-11-13 19:00
 **Property ID:** 554298401
 
 ---
@@ -9,10 +9,10 @@
 
 | المؤشر | القيمة |
 |---|---|
-| 👥 المستخدمين | 277 |
-| 🌐 الجلسات | 324 |
-| 📄 مشاهدات الصفحات | 508 |
-| ⏱️ متوسط مدة الجلسة | 114s |
+| 👥 المستخدمين | 266 |
+| 🌐 الجلسات | 313 |
+| 📄 مشاهدات الصفحات | 499 |
+| ⏱️ متوسط مدة الجلسة | 110s |
 | 📊 معدل الارتداد | 0.6% |
 
 ---
@@ -21,21 +21,21 @@
 
 | الصفحة | المشاهدات | المستخدمين |
 |---|---|---|
-| / | 153 | 61 |
-| /store.html | 36 | 3 |
-| /services/renew-commercial-register.html | 33 | 32 |
-| /index.html | 26 | 11 |
-| /services/insurance-periods-inquiry.html | 20 | 14 |
-| /services/vaccination-certificate.html | 15 | 13 |
-| /services/update-insured-data.html | 14 | 11 |
+| / | 167 | 56 |
+| /store.html | 34 | 3 |
+| /services/renew-commercial-register.html | 28 | 28 |
+| /index.html | 17 | 7 |
+| /services/insurance-periods-inquiry.html | 15 | 9 |
 | /services.html | 13 | 8 |
-| /offices.html | 12 | 4 |
+| /services/update-insured-data.html | 12 | 9 |
+| /calc.html | 10 | 4 |
 | /services/international-license.html | 10 | 9 |
 | /services/pension-postal-payment.html | 10 | 7 |
-| /calc.html | 9 | 3 |
-| /services/replace-plates.html | 9 | 7 |
-| /services/death-certificate.html | 7 | 7 |
-| /maqalat.html | 6 | 2 |
+| /services/vaccination-certificate.html | 10 | 10 |
+| /offices.html | 8 | 2 |
+| /services/replace-plates.html | 8 | 6 |
+| /maqalat.html | 7 | 3 |
+| /services/death-certificate.html | 6 | 6 |
 
 ---
 
@@ -43,16 +43,15 @@
 
 | المصدر | الجلسات | المستخدمين |
 |---|---|---|
-| (direct) | 153 | 144 |
-| google | 125 | 118 |
-| youtube.com | 25 | 1 |
-| (not set) | 8 | 4 |
+| (direct) | 155 | 149 |
+| google | 109 | 103 |
+| youtube.com | 29 | 1 |
+| (not set) | 9 | 3 |
 | chatgpt.com | 6 | 6 |
 | facebook.com | 2 | 2 |
 | m.facebook.com | 2 | 2 |
 | aicrawler.store | 1 | 1 |
 | aimanhunt.online | 1 | 1 |
-| gemini.google.com | 1 | 1 |
 
 ---
 

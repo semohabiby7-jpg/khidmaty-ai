@@ -1,0 +1,512 @@
+{
+ "src_week": [
+  {
+   "sessionSource": "(direct)",
+   "sessionMedium": "(none)",
+   "sessions": "87",
+   "totalUsers": "88"
+  },
+  {
+   "sessionSource": "youtube.com",
+   "sessionMedium": "referral",
+   "sessions": "7",
+   "totalUsers": "1"
+  },
+  {
+   "sessionSource": "(not set)",
+   "sessionMedium": "(not set)",
+   "sessions": "3",
+   "totalUsers": "1"
+  },
+  {
+   "sessionSource": "chatgpt.com",
+   "sessionMedium": "ai-assistant",
+   "sessions": "2",
+   "totalUsers": "2"
+  },
+  {
+   "sessionSource": "aicrawler.store",
+   "sessionMedium": "referral",
+   "sessions": "1",
+   "totalUsers": "1"
+  },
+  {
+   "sessionSource": "google",
+   "sessionMedium": "organic",
+   "sessions": "1",
+   "totalUsers": "1"
+  }
+ ],
+ "pages_week": [
+  {
+   "pagePath": "/",
+   "screenPageViews": "31",
+   "totalUsers": "5"
+  },
+  {
+   "pagePath": "/maqalat.html",
+   "screenPageViews": "3",
+   "totalUsers": "2"
+  },
+  {
+   "pagePath": "/offices/civil/iskndrya/sydy-bshr.html",
+   "screenPageViews": "2",
+   "totalUsers": "2"
+  },
+  {
+   "pagePath": "/services/birth-certificate.html",
+   "screenPageViews": "2",
+   "totalUsers": "2"
+  },
+  {
+   "pagePath": "/services/duplicate-document.html",
+   "screenPageViews": "2",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/store.html",
+   "screenPageViews": "2",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/articles/health-insurance-card.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/articles/health-insurance-egypt.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/articles/insurance-inquiry.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/calc.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/maqalat/car-ownership-transfer.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/maqalat/real-estate-tax.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/maqalat/rent-contract-registration.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/maqalat/social-housing.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/maqalat/tax-return.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bhyra/iytay-albarwd.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bhyra/kfr-aldwar.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bhyra/mhmwdya-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bhyra/mhmwdya.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bhyra/shbrakhyt.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bny-swyf/bba.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bny-swyf/bny-swyf-4.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bny-swyf/fshn.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bny-swyf/ihnasya.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bny-swyf/smsta.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bwrsayd/bwr-fuad.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bwrsayd/bwrsayd-10.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bwrsayd/bwrsayd-6.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bwrsayd/bwrsayd-7.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/bwrsayd/bwrsayd-8.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/dmyat.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/dmyat/farskwr-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/dmyat/kfr-sad-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/dmyat/ras-albr-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/dmyat/ras-albr.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/dmyat/srw.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/ghrbya/kfr-alzyat.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/ghrbya/mhla-alkbra.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/ghrbya/snta-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/ghrbya/snta.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/ghrbya/zfta.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/gyza/6-aktwbr.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/gyza/awsym.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/gyza/fysl.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/gyza/hrm.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/gyza/wraq.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/iskndrya/bab-shrq.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/iskndrya/brg-alarb.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/iskndrya/dkhyla-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/iskndrya/rml.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/iskndrya/smwha.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/kfr-alshykh/kfr-alshykh-3.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/kfr-alshykh/kfr-alshykh.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/kfr-alshykh/mtwbs.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/kfr-alshykh/ryad.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/kfr-alshykh/sydy-salm.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/qna.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/swys.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/swys/swys-10.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/swys/swys-3.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/swys/swys-4.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/swys/swys-9.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/civil/swys/swys.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance/bhr-alahmr/ghrdqa.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance/bhyra/kfr-aldwar.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance/kfr-alshykh.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance/mtrwh/hmam.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance/qahra/mdyna-alslam.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/insurance/qahra/nzha.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/aswan.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/bhyra/iytay-albarwd.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/bhyra/mhmwdya.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/bhyra/shbrakhyt.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/gyza/6-aktwbr-2.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/gyza/6-aktwbr.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/gyza/awsym.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/gyza/fysl.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/gyza/hrm.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/iskndrya/awayd.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/iskndrya/brg-alarb.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/iskndrya/gmrk.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/iskndrya/hdra.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/iskndrya/mamwra.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/swys/swys-3.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/swys/swys-6.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/offices/traffic/swys/swys-7.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/scan/",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  },
+  {
+   "pagePath": "/services/international-license.html",
+   "screenPageViews": "1",
+   "totalUsers": "1"
+  }
+ ],
+ "src_7nov": [
+  {
+   "sessionSource": "(direct)",
+   "sessionMedium": "(none)",
+   "sessions": "66",
+   "totalUsers": "67"
+  },
+  {
+   "sessionSource": "chatgpt.com",
+   "sessionMedium": "ai-assistant",
+   "sessions": "1",
+   "totalUsers": "1"
+  },
+  {
+   "sessionSource": "youtube.com",
+   "sessionMedium": "referral",
+   "sessions": "1",
+   "totalUsers": "1"
+  }
+ ]
+}

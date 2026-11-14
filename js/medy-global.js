@@ -1,6 +1,7 @@
-/* مدي — طبقة عامة على كل صفحات خِدْمَتي AI
-   بتحمّل نفس قاعدة المعرفة المتحققة وتفضل مع المستخدم في أي صفحة.
-   مفيش تخمين: لو الرقم مش في الداتا بتقول «مش معايا». */
+/* مدي — طبقة عامة على كل صفحات خِدْمَتي AI (v2)
+   - إجابات مرتّبة بأقسام + مصادر + أزرار تنقّل
+   - ذاكرة خدمة أخيرة بين الصفحات (لو سألت «وبعدين؟» وهي عارفة الخدمة)
+   - صفر تخمين: أي رقم مش في الداتا بيقول «مش معايا» */
 (function () {
   if (window.__MEDY_GLOBAL__) return;
   window.__MEDY_GLOBAL__ = true;
@@ -9,10 +10,12 @@
   var BRAIN = 'https://khidmaty-agent.semohabiby7.workers.dev/chat';
   var RANIA = 'https://khidmaty-rania.semohabiby7.workers.dev/chat';
   var KB = '/data/medy-kb.json';
-  var HKEY = 'medy_global_hist_v1';
+  var HKEY = 'medy_global_hist_v2';
+  var LKEY = 'medy_last_svc_v1';
 
   var kb = { items: [], updated: '' };
   var pageItem = null;
+  var lastSlug = null;
   var history = [];
   var busy = false;
   var built = false;
@@ -50,9 +53,14 @@
         (d.items || []).forEach(function (i) { if (!i.name) i.name = i.title; });
         kb = d;
         matchPage();
-        if (built) paintContext();
+        if (built) { paintContext(); paintChips(); }
       })
       .catch(function () {});
+  }
+
+  function bySlug(slug) {
+    for (var i = 0; i < (kb.items || []).length; i++) if (kb.items[i].slug === slug) return kb.items[i];
+    return null;
   }
 
   function matchPage() {
@@ -60,8 +68,19 @@
     if (!p) return;
     for (var i = 0; i < (kb.items || []).length; i++) {
       var it = kb.items[i];
-      if (it.page && (it.page === p || '/' + it.page === location.pathname)) { pageItem = it; return; }
+      if (it.page && (it.page === p || '/' + it.page === location.pathname)) {
+        pageItem = it;
+        remember(it.slug, true);
+        return;
+      }
     }
+  }
+
+  function remember(slug, soft) {
+    if (!slug) return;
+    lastSlug = slug;
+    try { localStorage.setItem(LKEY, slug); } catch (e) {}
+    if (!soft) track('medy_context', { slug: slug });
   }
 
   function findService(text) {
@@ -80,69 +99,94 @@
     return bs >= 5 ? best : null;
   }
 
-  /* ---------- إجابات محلية ---------- */
-  var FEE = ['رسوم', 'بكام', 'كام', 'سعر', 'تكلفه', 'تكلفة', 'فلوس', 'دفع', 'جنيه'];
-  var DOC = ['مستند', 'ورق', 'مطلوب', 'اجيب', 'أجيب', 'اطلع ايه', 'ورقه'];
-  var DUR = ['مده', 'مدة', 'وقت', 'ياخد', 'كام يوم', 'امتى', 'متى'];
-  var STEP = ['خطوات', 'اعمل', 'أعمل', 'ازاي', 'إزاي', 'طريقه', 'طريقة', 'ابدأ'];
+  /* ---------- تصنيف السؤال ---------- */
+  var FEE = ['رسوم', 'بكام', 'كام', 'سعر', 'تكلفه', 'تكلفة', 'فلوس', 'دفع', 'جنيه', 'مصاريف'];
+  var DOC = ['مستند', 'ورق', 'مطلوب', 'اجيب', 'أجيب', 'معايا ايه', 'ناقص'];
+  var DUR = ['مده', 'مدة', 'وقت', 'ياخد', 'كام يوم', 'امتى', 'متى', 'بدري'];
+  var STEP = ['خطوات', 'اعمل', 'أعمل', 'ازاي', 'إزاي', 'طريقه', 'طريقة', 'ابدأ', 'ابدا'];
+  var OFFICE = ['فين', 'مكتب', 'مكان', 'عنوان', 'فرع'];
+  var FOLLOW = ['وبعدين', 'وكمان', 'طب', 'ولو', 'وكمل', 'كمل', 'وعلى فكره', 'ده كده', 'تمام وبعدين', 'زياده'];
 
   function has(list, t) {
     for (var i = 0; i < list.length; i++) if (t.indexOf(norm(list[i])) >= 0) return true;
     return false;
   }
 
-  function localAnswer(it, q) {
-    if (!it) return '';
-    var t = norm(q), L = [];
-    var head = '**' + it.title + '**';
-    if (has(FEE, t)) {
-      L.push(head);
-      L.push(it.fee ? '💸 الرسوم: ' + it.fee : '💸 الرسوم: الرقم ده مش معايا متأكد منه — متقولش رقم من دماغك، اتأكد من المصدر الرسمي.');
-      if (it.auth) L.push('📍 الجهة: ' + it.auth);
-      if (it.warn) L.push('⚠️ ' + it.warn);
-    } else if (has(DOC, t)) {
-      L.push(head);
-      var d = it.docs || [];
-      if (d.length) {
-        L.push('📄 المستندات (' + d.length + '):');
-        d.slice(0, 10).forEach(function (x) { L.push('- ' + x); });
-        if (d.length > 10) L.push('- ... وفاضل ' + (d.length - 10) + ' في صفحة الخدمة');
-      } else L.push('مفيش قايمة مستندات متحققة عندي للخدمة دي.');
-      if (it.warn) L.push('⚠️ ' + it.warn);
-    } else if (has(DUR, t)) {
-      L.push(head);
-      L.push(it.dur ? '⏱️ المدة: ' + it.dur : '⏱️ المدة مش مسجّلة عندي بدقة.');
-      if (it.fee) L.push('💸 الرسوم: ' + it.fee);
-    } else if (has(STEP, t)) {
-      L.push(head);
-      var j = it.journey || {};
-      var st = j.steps || [];
-      if (st.length) {
-        L.push('🪜 الخطوات:');
-        st.slice(0, 8).forEach(function (s, i) {
-          var x = (typeof s === 'string') ? s : (s.title || s.t || s.name || s.text || '');
-          if (x) L.push((i + 1) + '. ' + x);
-        });
-      }
-      if (j.warning) L.push('⚠️ ' + j.warning);
-      if (it.auth) L.push('📍 الجهة: ' + it.auth);
-    } else {
-      L.push('دي تفاصيل ' + head + ' من بيانات الموقع المتحققة:');
+  /* ---------- بناء الإجابة ---------- */
+  function answer(it, q, focus) {
+    if (!it) return null;
+    var t = norm(q);
+    var wantFee = focus === 'fee' || has(FEE, t);
+    var wantDoc = focus === 'docs' || has(DOC, t);
+    var wantDur = focus === 'dur' || has(DUR, t);
+    var wantStep = focus === 'steps' || has(STEP, t);
+    var wantOffice = has(OFFICE, t);
+    var j = it.journey || {};
+    var docs = it.docs || [];
+    var L = [];
+
+    L.push('**' + it.title + '**');
+    var facts = [];
+    if (it.auth) facts.push(it.auth);
+    if (it.dur) facts.push(it.dur);
+    if (facts.length) L.push(facts.join(' · '));
+    L.push('');
+
+    /* الرسوم */
+    if (wantFee || (!wantDoc && !wantStep)) {
+      L.push('💸 **الرسوم**');
+      L.push(it.fee ? it.fee : 'الرقم ده مش معايا متأكد منه — متأكدش من دماغي، راجع المصدر الرسمي.');
       L.push('');
-      if (it.auth) L.push('📍 **الجهة:** ' + it.auth);
-      if (it.dur) L.push('⏱️ **المدة:** ' + it.dur);
-      L.push(it.fee ? '💸 **الرسوم:** ' + it.fee : '💸 **الرسوم:** مش معايا متأكد منها.');
-      var dd = it.docs || [];
-      if (dd.length) {
-        L.push('');
-        L.push('📄 **المستندات (' + dd.length + '):**');
-        dd.slice(0, 6).forEach(function (x) { L.push('- ' + x); });
-        if (dd.length > 6) L.push('- ... وكمان ' + (dd.length - 6) + ' مستند');
-      }
-      if (it.warn) { L.push(''); L.push('⚠️ ' + it.warn); }
     }
-    if (it.page) { L.push(''); L.push('📎 التفاصيل الكاملة: /' + it.page); }
-    return L.join('\n');
+
+    /* المدة */
+    if (wantDur && it.dur) {
+      L.push('⏱️ **بكام وقت**');
+      L.push(it.dur);
+      L.push('');
+    }
+
+    /* الورق */
+    if (wantDoc || (!wantFee && !wantStep)) {
+      if (docs.length) {
+        L.push('📄 **الورق اللي هتحتاجه (' + docs.length + ')**');
+        docs.slice(0, wantDoc ? 12 : 6).forEach(function (x) { L.push('• ' + x); });
+        if (docs.length > (wantDoc ? 12 : 6)) L.push('• ... وغيرها في صفحة الخدمة');
+        L.push('');
+      }
+    }
+
+    /* الخطوات */
+    if ((wantStep || !wantFee) && j.steps && j.steps.length) {
+      L.push('🪜 **الخطوات**');
+      j.steps.slice(0, 8).forEach(function (s, i) {
+        var x = (typeof s === 'string') ? s : (s.title || s.t || s.name || s.text || '');
+        if (x) L.push((i + 1) + '. ' + x);
+      });
+      L.push('');
+    }
+
+    /* التحذيرات */
+    if (it.warn || j.warning) {
+      L.push('⚠️ **خد بالك**');
+      L.push(it.warn || j.warning);
+      L.push('');
+    }
+
+    /* المكان */
+    if (wantOffice) {
+      L.push('📍 **تعملها فين**');
+      L.push((it.auth || 'الجهة المختصة') + ' — وتقدر تشوف أقرب مكتب ليك على الخريطة.');
+      L.push('');
+    }
+
+    /* المصدر الأول مضمّن */
+    var srcs = it.sources || [];
+    if (srcs.length) {
+      L.push('📚 المصدر: ' + srcs[0].label + (srcs[0].official ? ' ✓' : ''));
+    }
+
+    return L.join('\n').replace(/\n+$/, '');
   }
 
   /* ---------- الواجهة ---------- */
@@ -154,8 +198,8 @@
     '.mg-btn:hover{transform:translateY(-2px)}',
     '.mg-btn img{width:26px;height:26px;object-fit:contain;border-radius:50%}',
     '.mg-btn .mg-dot{width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.18)}',
-    '.mg-panel{position:fixed;bottom:18px;left:18px;z-index:99999;width:370px;max-width:calc(100vw - 24px);',
-    'height:min(560px,calc(100vh - 36px));background:#0F1E3D;border:1px solid #1e3556;border-radius:20px;',
+    '.mg-panel{position:fixed;bottom:18px;left:18px;z-index:99999;width:378px;max-width:calc(100vw - 24px);',
+    'height:min(580px,calc(100vh - 36px));background:#0F1E3D;border:1px solid #1e3556;border-radius:20px;',
     'display:none;flex-direction:column;overflow:hidden;font-family:Cairo,system-ui,sans-serif;direction:rtl;',
     'box-shadow:0 24px 60px rgba(8,19,38,.45)}',
     '.mg-panel.open{display:flex}',
@@ -166,10 +210,14 @@
     '.mg-top .mg-n span{display:block;color:#8ea0c4;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.mg-x{background:transparent;border:none;color:#8ea0c4;font-size:19px;cursor:pointer;line-height:1;padding:4px 6px}',
     '.mg-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;background:#0F1E3D}',
-    '.mg-msg{max-width:90%;border-radius:14px;padding:9px 12px;font-size:12.8px;line-height:1.85;white-space:normal}',
+    '.mg-msg{max-width:92%;border-radius:14px;padding:9px 12px;font-size:12.8px;line-height:1.9;white-space:normal}',
     '.mg-msg.me{align-self:flex-start;background:#1a2d5a;color:#dbe6f7}',
     '.mg-msg.md{align-self:stretch;background:rgba(230,194,88,.08);border:1px solid rgba(230,194,88,.2);color:#e8eef8}',
-    '.mg-msg.md strong{color:#fff}',
+    '.mg-msg.md strong{color:#fff;font-weight:800}',
+    '.mg-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:7px;border-top:1px dashed rgba(230,194,88,.25)}',
+    '.mg-act{background:#0b1730;border:1px solid #24395c;color:#cddcf3;border-radius:9px;padding:5px 10px;',
+    'font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;text-decoration:none}',
+    '.mg-act:hover{border-color:#E6C258;color:#E6C258}',
     '.mg-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 10px}',
     '.mg-chip{background:rgba(230,194,88,.1);border:1px solid rgba(230,194,88,.28);color:#E6C258;border-radius:999px;',
     'padding:6px 11px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit}',
@@ -230,6 +278,7 @@
       var saved = sessionStorage.getItem(HKEY);
       if (saved) history = JSON.parse(saved) || [];
     } catch (e) {}
+    try { lastSlug = localStorage.getItem(LKEY) || null; } catch (e) {}
 
     paintContext();
     paintChips();
@@ -238,14 +287,18 @@
 
   function paintContext() {
     if (!ctxEl) return;
-    ctxEl.textContent = pageItem ? ('واقفين على: ' + pageItem.title) : 'مساعدتك في خِدْمَتي AI';
+    var cur = pageItem || (lastSlug ? bySlug(lastSlug) : null);
+    ctxEl.textContent = pageItem
+      ? ('واقفين على: ' + pageItem.title)
+      : (cur ? ('آخر حاجة سألت عنها: ' + cur.title) : 'مساعدتك في خِدْمَتي AI');
   }
 
   function paintChips() {
     if (!chipsEl) return;
     chipsEl.innerHTML = '';
-    var list = pageItem
-      ? ['الرسوم كام؟', 'المستندات إيه؟', 'الخطوات بالترتيب', 'الأخطاء الشائعة']
+    var it = pageItem || (lastSlug ? bySlug(lastSlug) : null);
+    var list = it
+      ? ['الرسوم كام؟', 'الورق المطلوب', 'الخطوات بالترتيب', 'أقرب مكتب فين؟']
       : ['عايز أنقل ملكية عربية', 'بطاقتي ضاعت أعمل إيه', 'عايز أطلع جواز سفر', 'إعلام الوراثة إزاي'];
     list.forEach(function (t) {
       var b = el('button', 'mg-chip', t);
@@ -256,8 +309,9 @@
 
   function greet() {
     if (bodyEl.children.length) return;
-    var hi = pageItem
-      ? 'أنا مدي 🤍 إنت في صفحة **' + pageItem.title + '**. اسألني عن الرسوم أو الورق أو الخطوات، وهقولك من الداتا المتحققة بس.'
+    var it = pageItem || (lastSlug ? bySlug(lastSlug) : null);
+    var hi = it
+      ? 'أنا مدي 🤍 إحنا في **' + it.title + '**. اسألني عن الرسوم أو الورق أو الخطوات — وهجاوبك من الداتا المتحققة بس.'
       : 'أنا مدي 🤍 احكيلي إنت محتاج إيه وأنا أرتّبلك الخطوات والورق والجهة الصح.';
     sys(hi);
   }
@@ -286,6 +340,11 @@
     inputEl.value = '';
     mine(raw);
 
+    var t = norm(raw);
+    var ctxSvc = pageItem || (lastSlug ? bySlug(lastSlug) : null);
+    var isFollow = has(FOLLOW, t) && ctxSvc;
+    var target = findService(raw) || (isFollow ? ctxSvc : null);
+
     var think = el('div', 'mg-think');
     think.innerHTML = '<i></i><span>مدي بتسمع…</span>';
     bodyEl.appendChild(think);
@@ -297,29 +356,35 @@
       var s = think.querySelector('span'); if (s) s.textContent = stages[si];
     }, 1100);
 
-    var target = findService(raw) || (pageItem && norm(raw).length <= 28 ? pageItem : null);
-    var reply = target ? localAnswer(target, raw) : '';
+    var local = target ? answer(target, raw) : '';
 
     function done(text, svc) {
       clearInterval(tick);
       if (think.parentNode) think.remove();
       addAnswer(text, svc);
+      if (svc) { remember(svc.slug); paintContext(); paintChips(); }
       history.push({ role: 'user', text: raw }, { role: 'model', text: text });
       if (history.length > 12) history = history.slice(-12);
       try { sessionStorage.setItem(HKEY, JSON.stringify(history)); } catch (e) {}
-      track('medy_global_ask', { q: raw, page: pageItem ? pageItem.slug : location.pathname });
+      track('medy_ask', {
+        q: raw,
+        slug: svc ? svc.slug : 'none',
+        page: pageItem ? pageItem.slug : location.pathname,
+        mode: text === local ? 'local' : 'server'
+      });
       busy = false;
     }
 
-    if (reply) { done(reply, target); return; }
+    if (local) { done(local, target); return; }
 
-    var ctx = 'المستخدم واقف على صفحة: ' + (pageItem ? pageItem.title + ' (' + pageItem.page + ')' : lection()) + '. ';
-    var msg = ctx + raw;
+    var ctx = 'المستخدم واقف على صفحة: ' +
+      (pageItem ? pageItem.title + ' (' + pageItem.page + ')' : (document.title || location.pathname)) +
+      '. ' + (ctxSvc ? 'آخر خدمة اتكلمنا عنها: ' + ctxSvc.title + '. ' : '');
     var urls = [BRAIN, RANIA];
     (function next(i) {
       if (i >= urls.length) {
         var it = findService(raw);
-        if (it && (it.docs || []).length) { done(localAnswer(it, raw), it); return; }
+        if (it && (it.docs || []).length) { done(answer(it, raw), it); return; }
         done('معلش، مش قادرة أوصل للسيرفر دلوقتي. جرّب تاني بعد شوية — ولو معاك اسم الخدمة اكتبه وأنا أقولك اللي عندي عنها من الداتا المتحققة.', null);
         return;
       }
@@ -327,10 +392,14 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: msg,
+          message: ctx + raw,
           question: raw,
           history: history,
-          context: { page: pageItem ? pageItem.slug : location.pathname, topic: pageItem ? pageItem.title : null }
+          context: {
+            page: pageItem ? pageItem.slug : location.pathname,
+            topic: ctxSvc ? ctxSvc.title : null,
+            last: lastSlug
+          }
         })
       }).then(function (r) { return r.json(); }).then(function (d) {
         var rep = d && (d.response || d.reply);
@@ -342,18 +411,33 @@
     })(0);
   }
 
-  function lection() {
-    var t = (document.title || '').split('|')[0].trim();
-    return t || location.pathname;
-  }
-
   function addAnswer(text, svc) {
     var m = el('div', 'mg-msg md');
     m.innerHTML = fmt(text);
+
+    /* أزرار تنقّل */
+    var acts = el('div', 'mg-acts');
+    if (svc) {
+      if (svc.page) {
+        var a1 = el('a', 'mg-act', '📄 صفحة الخدمة');
+        a1.href = '/' + svc.page;
+        acts.appendChild(a1);
+      }
+      var a2 = el('a', 'mg-act', '🧮 احسب الرسوم');
+      a2.href = '/calc.html?service=' + encodeURIComponent(svc.slug || '');
+      acts.appendChild(a2);
+      var a3 = el('a', 'mg-act', '🗺️ رحلة الخدمة');
+      a3.href = '/journeys.html#' + (svc.slug || '');
+      acts.appendChild(a3);
+      var a4 = el('a', 'mg-act', '📍 أقرب مكتب');
+      a4.href = '/offices.html';
+      acts.appendChild(a4);
+    }
+
     var srcs = (svc && svc.sources) || [];
     if (srcs.length) {
       var box = el('div', 'mg-src');
-      srcs.slice(0, 5).forEach(function (s) {
+      srcs.slice(0, 6).forEach(function (s) {
         var a = document.createElement('a');
         a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
         a.textContent = s.label + (s.official ? ' ✓' : '');
@@ -361,14 +445,17 @@
         a.appendChild(i);
         box.appendChild(a);
       });
-      var b = el('button', 'mg-sbtn', '📚 مصادري (' + srcs.length + ')');
+      var b = el('button', 'mg-sbtn', '📚 كل المصادر (' + srcs.length + ')');
       b.addEventListener('click', function () {
         box.classList.toggle('open');
-        b.textContent = box.classList.contains('open') ? 'إخفاء المصادر' : '📚 مصادري (' + srcs.length + ')';
+        b.textContent = box.classList.contains('open') ? 'إخفاء المصادر' : '📚 كل المصادر (' + srcs.length + ')';
       });
       m.appendChild(b);
       m.appendChild(box);
+      acts.appendChild(el('span'));
     }
+
+    if (acts.children.length) m.appendChild(acts);
     bodyEl.appendChild(m);
     bodyEl.scrollTop = bodyEl.scrollHeight;
   }
@@ -378,7 +465,7 @@
     root.classList.add('open');
     greet();
     setTimeout(function () { if (window.innerWidth > 430) inputEl.focus(); }, 120);
-    track('medy_global_open', { page: pageItem ? pageItem.slug : location.pathname });
+    track('medy_open', { page: pageItem ? pageItem.slug : location.pathname });
   }
   function close() { root.classList.remove('open'); }
 
@@ -391,10 +478,8 @@
   else boot();
 
   try {
-    var p = (function () {
-      var q = new URLSearchParams(location.search);
-      return q.get('medy') === '1';
-    })();
-    if (p) setTimeout(open, 400);
+    var q = new URLSearchParams(location.search);
+    if (q.get('medy') === '1') setTimeout(open, 400);
+    if (q.get('ask')) setTimeout(function () { build(); inputEl.value = q.get('ask'); ask(); }, 700);
   } catch (e) {}
 })();

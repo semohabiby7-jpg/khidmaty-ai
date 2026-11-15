@@ -12,9 +12,9 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="canonical" href="https://khidmatyai.com/talab.html">
-<meta name="description" content="اكتب طلبك أو تظلمك في دقيقة: اختر النوع، املأ بياناتك، واطبع أو حمّل PDF أو ابعتها واتساب. كل البيانات على جهازك ولا تخرج من المتصفح.">
+<meta name="description" content="اكتب طلبك أو تظلمك في دقيقة: ٩ فئات و٣٨ طلبًا جاهزًا — اختار، املأ بياناتك، واطبع أو حمّل PDF أو ابعتها واتساب. بياناتك على جهازك ولا تخرج من المتصفح.">
 <meta property="og:title" content="اكتبلي طلب — طلبات وتظلمات جاهزة">
-<meta property="og:description" content="طلبات وتظلمات مكتوبة بصيغة رسمية سليمة، جاهزة للطباعة وPDF. مجاني وبلا تسجيل.">
+<meta property="og:description" content="٩ فئات و٣٨ طلبًا مكتوبة بصيغة رسمية، جاهزة للطباعة وPDF. مجاني وبلا تسجيل.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://khidmatyai.com/talab.html">
 <meta property="og:site_name" content="خِدْمَتي AI">
@@ -34,8 +34,12 @@ body{font-family:Cairo,system-ui,sans-serif;background:var(--navy);color:var(--t
 .hero p{color:var(--mute);font-size:14px;line-height:1.8;margin:0}
 .card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin-bottom:16px}
 .card h2{font-size:16px;font-weight:900;color:var(--gold);margin:0 0 12px}
-.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px}
-.type{background:#122341;border:1px solid var(--line);color:#c0cee0;font-family:inherit;font-size:13.5px;font-weight:700;padding:12px 12px;border-radius:11px;cursor:pointer;text-align:right;line-height:1.5;transition:.2s}
+.cats{display:flex;flex-wrap:wrap;gap:8px}
+.cat{background:#122341;border:1px solid var(--line);color:#c0cee0;font-family:inherit;font-size:13px;font-weight:700;padding:9px 13px;border-radius:22px;cursor:pointer;transition:.2s}
+.cat:hover{border-color:var(--gold);color:#fff}
+.cat.active{background:linear-gradient(135deg,var(--gold),#d4a843);color:var(--navy);border-color:var(--gold)}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;margin-top:12px}
+.type{background:#122341;border:1px solid var(--line);color:#c0cee0;font-family:inherit;font-size:13.5px;font-weight:700;padding:12px;border-radius:11px;cursor:pointer;text-align:right;line-height:1.5;transition:.2s}
 .type:hover{border-color:var(--gold);color:#fff}
 .type.active{background:linear-gradient(135deg,var(--gold),#d4a843);color:var(--navy);border-color:var(--gold)}
 label{display:block;font-size:12.5px;font-weight:700;color:var(--mute);margin:10px 0 5px}
@@ -51,18 +55,15 @@ button.act:hover{border-color:var(--gold);color:#fff}
 button.act.primary{background:linear-gradient(135deg,var(--gold),#d4a843);color:var(--navy);border-color:var(--gold)}
 button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
 .preview{background:#fff;color:#111;border-radius:14px;padding:26px 22px;line-height:2.05;font-size:15px;white-space:pre-wrap;word-wrap:break-word;box-shadow:0 12px 40px rgba(0,0,0,.45);min-height:200px}
-.preview h3{color:#0F1E3D;font-size:16px;margin:0 0 14px;text-align:center}
-.preview .sig{margin-top:22px}
 .empty{color:#6f82a6;font-size:13.5px;line-height:1.9;text-align:center;padding:26px 8px}
 .toast{position:fixed;bottom:22px;right:50%;transform:translateX(50%);background:var(--gold);color:var(--navy);font-weight:900;font-size:13.5px;padding:11px 22px;border-radius:26px;opacity:0;pointer-events:none;transition:.3s;z-index:99}
 .toast.show{opacity:1}
 .foot{text-align:center;color:#5b6d8f;font-size:11.5px;line-height:1.9;padding-top:8px}
 @media print{
   body{background:#fff;color:#000}
-  .header,.hero,.card.noprint,.actions,.toast,.foot,.prevhead{display:none!important}
+  .header,.hero,.card.noprint,.actions,.toast,.foot,.prevhead,.preview .empty{display:none!important}
   .wrap{padding:0;max-width:none}
   .preview{box-shadow:none;border-radius:0;padding:0;font-size:13pt;line-height:2}
-  .preview h3{font-size:14pt}
 }
 </style>
 </head>
@@ -75,11 +76,12 @@ button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
 <main class="wrap">
   <div class="hero">
     <h1>اكتبلي طلب</h1>
-    <p>اختار نوع الطلب، املأ بياناتك، وتطلعلك مكتوبة بصيغة رسمية — تطبعها أو تحمّلها PDF أو تبعتها واتساب.</p>
+    <p>٩ فئات و٣٨ طلبًا جاهزًا — اختار، املأ بياناتك، والطلب يطلعلك مكتوب بصيغة رسمية. اطبعه أو حمّله PDF أو ابعته واتساب.</p>
   </div>
 
   <section class="card noprint">
-    <h2>١. نوع الطلب</h2>
+    <h2>١. الفئة</h2>
+    <div class="cats" id="cats"></div>
     <div class="types" id="types"></div>
   </section>
 
@@ -96,12 +98,12 @@ button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
     <label for="f-to">الجهة المخاطبة <span style="color:#e07a5f">*</span></label>
     <input id="f-to" placeholder="إدارة المرور — محافظة القاهرة">
     <div class="grid2">
-      <div><label for="f-ref">رقم/بيان الموضوع (اختياري)</label><input id="f-ref" placeholder="رقم المخالفة 1234 — أو رقم الملف"></div>
+      <div><label for="f-ref">رقم الموضوع / بيانه (اختياري)</label><input id="f-ref" placeholder="رقم المخالفة — رقم الملف — رقم الطلب"></div>
       <div><label for="f-date">تاريخ الطلب</label><input id="f-date" type="date"></div>
     </div>
     <label for="f-body">تفاصيلك بكلامك (اختياري)</label>
     <textarea id="f-body" placeholder="اكتب اللي حصل بالتفصيل وبالتواريخ لو محتاج."></textarea>
-    <p class="hint">كل اللي بتكتبه هنا بيفضل على جهازك ومش بيتبعت لأي مكان.</p>
+    <p class="hint">كل اللي بتكتبه بيفضل على جهازك ومش بيتبعت لأي مكان.</p>
   </section>
 
   <div class="prevhead" style="display:flex;justify-content:space-between;align-items:center;margin:2px 4px 10px">
@@ -109,7 +111,7 @@ button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
     <span id="wcount" style="font-size:11.5px;color:#6f82a6"></span>
   </div>
 
-  <div class="preview" id="preview"><div class="empty">اختار نوع الطلب فوق، والطلب هيتكتب هنا فورًا.</div></div>
+  <div class="preview" id="preview"><div class="empty">اختار الفئة والطلب فوق، والطلب هيتكتب هنا فورًا.</div></div>
 
   <div class="actions noprint">
     <button class="act primary" id="btn-copy">نسخ النص</button>
@@ -127,117 +129,230 @@ button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
 (function(){
   "use strict";
 
-  var TYPES = [
-    { id:"mokhalafa", name:"تظلم على مخالفة مرورية",
-      subject:"تظلم على مخالفة مرورية",
-      body:function(d){
-        return "أتشرف بالتقدم لسيادتكم بتظلم على المخالفة المرورية المنسوبة إليّ" + (d.ref ? " رقم (" + d.ref + ")" : "") + "، وذلك للأسباب الآتية:\n\n"
-          + "١. الظروف التي أدت إلى المخالفة: " + (d.body || "…………………") + "\n"
-          + "٢. ألتمس مراجعة بيانات المخالفة والصور المرفقة بها، والتأكد من صحة تسجيلها على المركبة ومالكها.\n\n"
-          + "لذا أرجو من سيادتكم التكرم بدراسة التظلم وإلغاء المخالفة أو إعادة النظر في تقديرها، وإفادتي بالنتيجة كتابةً.";
-      }},
-    { id:"naqlmelkeya", name:"طلب نقل ملكية مركبة",
-      subject:"طلب نقل ملكية مركبة",
-      body:function(d){
-        return "أتشرف بالتقدم لسيادتكم بطلب نقل ملكية المركبة الموضحة بياناتها أدناه إلى اسمي، بعد إتمام البيع واستلام المركبة ومستنداتها.\n\n"
-          + "بيانات المركبة: " + (d.ref || "رقم اللوحة / الشاسيه / الموتور …………………") + "\n"
-          + "بيانات البائع: " + (d.body || "…………………") + "\n\n"
-          + "وأرفق لسيادتكم المستندات المطلوبة، وأرجو استكمال إجراءات نقل الملكية وإصدار التراخيص اللازمة باسمي، مع إفادتي بالموعد والمستحقات.";
-      }},
-    { id:"dariba", name:"تظلم على تقدير ضريبي",
-      subject:"تظلم على تقدير الضريبة",
-      body:function(d){
-        return "أتشرف بالتقدم لسيادتكم بتظلم على التقدير الضريبي الصادر بشأني" + (d.ref ? " تحت رقم (" + d.ref + ")" : "") + "، وذلك للأسباب الآتية:\n\n"
-          + "١. بيان أسباب الاعتراض: " + (d.body || "…………………") + "\n"
-          + "٢. ألتمس إعادة فحص التقدير في ضوء المستندات المرفقة، وسماع أقوالي قبل صدور القرار.\n\n"
-          + "لذا أرجو التكرم بإعادة النظر في التقدير وتعديله وفقًا للقانون، وإفادتي بالقرار وأسبابه كتابةً.";
-      }},
-    { id:"taqseet", name:"طلب تقسيط مبلغ مستحق",
-      subject:"طلب تقسيط مبلغ مستحق",
-      body:function(d){
-        return "أتشرف بالتقدم لسيادتكم بطلب تقسيط المبلغ المستحق عليّ" + (d.ref ? " بموجب (" + d.ref + ")" : "") + " على أقساط شهرية، وذلك لظروف الحالة الموضحة أدناه.\n\n"
-          + "بيان الظروف: " + (d.body || "…………………") + "\n"
-          + "المبلغ المطلوب تقسيطه: …… جنيهًا — عدد الأقساط المقترح: …… قسطًا شهريًا.\n\n"
-          + "وأتعهد بسداد الأقساط في مواعيدها، وأرجو التكرم بالموافقة وإفادتي بجدول السداد المعتمد.";
-      }},
-    { id:"qarar", name:"تظلم على قرار إداري",
-      subject:"تظلم على قرار إداري",
-      body:function(d){
-        return "أتشرف بالتقدم لسيادتكم بتظلم على القرار الإداري الصادر" + (d.ref ? " برقم (" + d.ref + ")" : "") + "، وذلك للأسباب الآتية:\n\n"
-          + "١. بيان القرار وأثره عليّ: " + (d.body || "…………………") + "\n"
-          + "٢. ألتمس إعادة النظر في القرار، ووقف تنفيذه لحين البت في التظلم.\n\n"
-          + "لذا أرجو التكرم بفحص التظلم والمستندات المرفقة، وإفادتي بالقرار الصادر بشأنه كتابةً.";
-      }},
-    { id:"efada", name:"طلب إفادة / شهادة",
-      subject:"طلب إصدار إفادة",
-      body:function(d){
-        return "أتشرف بالتقدم لسيادتكم بطلب إصدار إفادة رسمية تفيد ما يلي:\n\n"
-          + (d.body || "…………………") + "\n\n"
-          + "وذلك لاستخدامها في " + (d.ref || "الغرض المطلوب …………………") + "، وأرجو التكرم بإصدارها مع بيان المستحقات إن وجدت.";
-      }}
+  var DATA = [
+    { cat:"المرور والرخص", icon:"🚗", items:[
+      { id:"car_renew", n:"تجديد رخصة سيارة", s:"طلب تجديد ترخيص مركبة",
+        i:"أتشرف بالتقدم لسيادتكم بطلب تجديد ترخيص المركبة المملوكة لي.",
+        a:["بيانات المركبة ومالكها: ……………","أرجو بيان المستندات والرسوم المطلوبة والموعد المتاح للتجديد."] },
+      { id:"car_transfer", n:"نقل ملكية سيارة", s:"طلب نقل ملكية مركبة",
+        i:"أتشرف بالتقدم لسيادتكم بطلب نقل ملكية المركبة الموضحة أدناه إلى اسمي بعد إتمام البيع.",
+        a:["بيانات المركبة والبائع: ……………","أرجو استكمال إجراءات نقل الملكية وإصدار التراخيص باسمي وإفادتي بالمستحقات."] },
+      { id:"car_lost", n:"بدل فاقد رخصة أو لوحات", s:"طلب استخراج بدل فاقد",
+        i:"أتشرف بالتقدم لسيادتكم بطلب استخراج بدل فاقد.",
+        a:["المفقود: …………… (رخصة / لوحات / رخصة قيادة)","أرجو بيان المستندات والرسوم وإجراءات الإبلاغ عن الفقد."] },
+      { id:"car_fine", n:"تظلم على مخالفة مرورية", s:"تظلم على مخالفة مرورية",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على المخالفة المرورية المنسوبة إليّ.",
+        a:["ألتمس مراجعة بيانات المخالفة والصور المرفقة والتأكد من صحة تسجيلها على المركبة ومالكها.","أرجو إلغاء المخالفة أو إعادة النظر في تقديرها وإفادتي بالنتيجة كتابةً."] },
+      { id:"car_lic_first", n:"رخصة قيادة لأول مرة", s:"طلب استخراج رخصة قيادة",
+        i:"أتشرف بالتقدم لسيادتكم بطلب استخراج رخصة قيادة لأول مرة.",
+        a:["الفئة المطلوبة: ……………","أرجو بيان خطوات التقديم والمستندات والاختبارات والرسوم."] },
+      { id:"car_info", n:"إفادة ببيانات مركبة", s:"طلب إفادة ببيانات مركبة",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إصدار إفادة رسمية ببيانات المركبة.",
+        a:["بيانات المركبة: ……………","أرجو إصدار الإفادة متضمنة البيانات المطلوبة."] }
+    ]},
+    { cat:"الشهر العقاري", icon:"🏠", items:[
+      { id:"re_reg", n:"تسجيل عقار", s:"طلب تسجيل عقار",
+        i:"أتشرف بالتقدم لسيادتكم بطلب تسجيل العقار الموضح أدناه.",
+        a:["بيانات العقار والمحرر: ……………","أرجو بيان المستندات والرسوم وإجراءات التسجيل."] },
+      { id:"re_own", n:"إفادة ملكية", s:"طلب إفادة بملكية عقار",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إصدار إفادة رسمية بملكية العقار.",
+        a:["بيانات العقار: ……………","أرجو إصدار الإفادة موضحًا بها حالة الملكية والقيد."] },
+      { id:"re_reject", n:"تظلم على رفض تسجيل", s:"تظلم على قرار رفض تسجيل",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على قرار رفض تسجيل العقار.",
+        a:["تاريخ الرفض وأسبابه: ……………","ألتمس إعادة النظر في القرار واستكمال التسجيل بعد استيفاء ما يلزم."] },
+      { id:"re_copy", n:"صورة من محضر", s:"طلب صورة من محضر",
+        i:"أتشرف بالتقدم لسيادتكم بطلب الحصول على صورة رسمية من المحضر.",
+        a:["رقم المحضر وتاريخه: ……………","أرجو تسليمي صورة رسمية منه بسداد الرسوم المقررة."] }
+    ]},
+    { cat:"التموين والبطاقات", icon:"🛒", items:[
+      { id:"tw_lost", n:"بدل فاقد بطاقة تموين", s:"طلب استخراج بدل فاقد بطاقة تموين",
+        i:"أتشرف بالتقدم لسيادتكم بطلب استخراج بدل فاقد لبطاقة التموين.",
+        a:["رقم البطاقة والمكتب التابع له: ……………","أرجو بيان إجراءات استخراج البدل والرسوم إن وجدت."] },
+      { id:"tw_baby", n:"إضافة مولود للبطاقة", s:"طلب إضافة مولود إلى البطاقة",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إضافة المولود الموضح أدناه إلى بطاقة التموين.",
+        a:["بيانات المولود وشهادة الميلاد: ……………","أرجو تنفيذ الإضافة وإفادتي بالموعد."] },
+      { id:"tw_split", n:"فصل اجتماعي أو نقل بطاقة", s:"طلب فصل اجتماعي / نقل بطاقة",
+        i:"أتشرف بالتقدم لسيادتكم بطلب تعديل بيانات بطاقة التموين.",
+        a:["نوع الطلب (فصل اجتماعي / نقل): ……………","أرجو تنفيذ الطلب وإفادتي بالقرار."] },
+      { id:"tw_block", n:"تظلم على حجب الدعم", s:"تظلم على حجب الدعم",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على حجب الدعم عن البطاقة المذكورة.",
+        a:["سبب الحجب الظاهر لي: ……………","ألتمس مراجعة البيانات وإعادة الصرف إن كان الحجب خطأً."] }
+    ]},
+    { cat:"التأمينات والمعاش", icon:"👴", items:[
+      { id:"in_pension", n:"طلب صرف معاش", s:"طلب صرف معاش",
+        i:"أتشرف بالتقدم لسيادتكم بطلب صرف المعاش المستحق.",
+        a:["بيانات المؤمن عليه ورقم الملف: ……………","أرجو بيان المستندات اللازمة لاستكمال الصرف."] },
+      { id:"in_cert", n:"إفادة تأمينية", s:"طلب إفادة تأمينية",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إصدار إفادة تأمينية.",
+        a:["الغرض من الإفادة: ……………","أرجو إصدار الإفادة موضحًا بها المدد والاشتراكات."] },
+      { id:"in_merge", n:"ضم مدة تأمينية", s:"طلب ضم مدة تأمينية",
+        i:"أتشرف بالتقدم لسيادتكم بطلب ضم المدة التأمينية الموضحة أدناه.",
+        a:["بيانات المدد المراد ضمها: ……………","أرجو بيان إجراءات الضم والمستندات المطلوبة."] },
+      { id:"in_reject", n:"تظلم على رفض صرف", s:"تظلم على رفض صرف مستحقات",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على قرار رفض صرف المستحقات.",
+        a:["تاريخ الرفض وأسبابه: ……………","ألتمس إعادة فحص الملف وصرف المستحقات المستحقة قانونًا."] }
+    ]},
+    { cat:"الضرائب", icon:"🧾", items:[
+      { id:"tx_clear", n:"شهادة عدم ممانعة", s:"طلب شهادة عدم ممانعة ضريبية",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إصدار شهادة عدم ممانعة ضريبية.",
+        a:["الجهة الطالبة للشهادة والغرض منها: ……………","أرجو إصدار الشهادة بعد مراجعة الموقف الضريبي."] },
+      { id:"tx_obj", n:"تظلم على تقدير ضريبي", s:"تظلم على تقدير الضريبة",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على التقدير الضريبي الصادر بشأني.",
+        a:["أسباب الاعتراض: ……………","ألتمس إعادة فحص التقدير في ضوء المستندات المرفقة وسماع أقوالي قبل صدور القرار."] },
+      { id:"tx_inst", n:"طلب تقسيط مستحقات", s:"طلب تقسيط مبلغ مستحق",
+        i:"أتشرف بالتقدم لسيادتكم بطلب تقسيط المبلغ المستحق عليّ على أقساط شهرية.",
+        a:["المبلغ المطلوب تقسيطه وعدد الأقساط المقترح: ……………","أتعهد بالسداد في المواعيد، وأرجو إفادتي بجدول السداد المعتمد."] },
+      { id:"tx_paid", n:"إفادة سداد", s:"طلب إفادة بسداد المستحقات",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إصدار إفادة بسداد المستحقات.",
+        a:["الفترة / نوع الضريبة: ……………","أرجو إصدار الإفادة موضحًا بها الموقف حتى تاريخه."] }
+    ]},
+    { cat:"التربية والتعليم", icon:"📚", items:[
+      { id:"ed_move", n:"نقل طالب بين مدارس", s:"طلب نقل طالب",
+        i:"أتشرف بالتقدم لسيادتكم بطلب نقل الطالب الموضح أدناه.",
+        a:["بيانات الطالب والمدرسة الحالية والمطلوبة: ……………","أرجو بيان الشواغر والمستندات المطلوبة لاستكمال النقل."] },
+      { id:"ed_back", n:"إعادة قيد بعد رسوب", s:"طلب إعادة قيد طالب",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إعادة قيد الطالب بعد انقطاع أو رسوب.",
+        a:["بيانات الطالب وسبب إلغاء القيد: ……………","أرجو إعادة قيده بالصف المناسب وإفادتي بالإجراء."] },
+      { id:"ed_result", n:"تظلم على نتيجة", s:"تظلم على نتيجة امتحان",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على نتيجة الامتحان.",
+        a:["المادة والدرجة وتاريخ إعلان النتيجة: ……………","ألتمس مراجعة رصد الدرجة وإفادتي بالنتيجة كتابةً."] },
+      { id:"ed_state", n:"بيان حالة طالب", s:"طلب بيان حالة طالب",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إصدار بيان بحالة الطالب الدراسية.",
+        a:["بيانات الطالب والمدرسة: ……………","أرجو إصدار البيان موضحًا به الصف والحالة."] }
+    ]},
+    { cat:"الصحة", icon:"🏥", items:[
+      { id:"hl_complaint", n:"شكوى ضد مستشفى أو عيادة", s:"شكوى ضد جهة صحية",
+        i:"أتقدم لسيادتكم بشكوى رسمية ضد الجهة الصحية الموضحة أدناه.",
+        a:["ملابسات الواقعة وتاريخها: ……………","أرجو فتح تحقيق وإفادتي بالنتيجة والإجراء المتخذ."] },
+      { id:"hl_report", n:"طلب تقرير طبي", s:"طلب استخراج تقرير طبي",
+        i:"أتشرف بالتقدم لسيادتكم بطلب استخراج تقرير طبي معتمد.",
+        a:["الغرض من التقرير: ……………","أرجو بيان المستندات والرسوم المطلوبة."] },
+      { id:"hl_deny", n:"تظلم على رفض علاج", s:"تظلم على رفض العلاج",
+        i:"أتشرف بالتقدم لسيادتكم بتظلم على رفض توفير العلاج اللازم.",
+        a:["تاريخ الرفض والجهة: ……………","ألتمس إعادة النظر وتوفير العلاج المقرر طبياً."] },
+      { id:"hl_transfer", n:"تحويل لمستشفى آخر", s:"طلب تحويل بين جهتين صحيتين",
+        i:"أتشرف بالتقدم لسيادتكم بطلب التحويل للجهة الصحية الموضحة أدناه.",
+        a:["الجهة الحالية والمطلوب التحويل إليها وسبب التحويل: ……………","أرجو الموافقة على التحويل وإفادتي بالإجراء."] }
+    ]},
+    { cat:"الأحياء والمحليات", icon:"🧹", items:[
+      { id:"mu_clean", n:"شكوى نظافة أو قمامة", s:"شكوى بشأن النظافة",
+        i:"أتقدم لسيادتكم بشكوى بشأن تراكم المخلفات في الموقع الموضح أدناه.",
+        a:["الموقع وتاريخ الملاحظة: ……………","أرجو رفع المخلفات ومتابعة الموقع بصفة دورية."] },
+      { id:"mu_street", n:"شكوى إشغال طريق", s:"شكوى بشأن إشغال الطريق",
+        i:"أتقدم لسيادتكم بشكوى بشأن إشغال الطريق العام في الموقع الموضح أدناه.",
+        a:["الموقع ووصف الإشغال: ……………","أرجو إزالة الإشغال وتحرير المحضر اللازم."] },
+      { id:"mu_damage", n:"طلب تعويض عن تلف", s:"طلب تعويض عن أضرار",
+        i:"أتشرف بالتقدم لسيادتكم بطلب التعويض عن الأضرار الموضحة أدناه.",
+        a:["وصف التلف والموقع والتاريخ: ……………","أرجو معاينة الموقع وتعويضي عن الأضرار المادية."] },
+      { id:"mu_build", n:"شكوى ترخيص بناء", s:"شكوى بشأن ترخيص بناء",
+        i:"أتقدم لسيادتكم بشكوى بشأن أعمال بناء مخالفة للموقع الموضح أدناه.",
+        a:["الموقع ووصف المخالفة: ……………","أرجو المراجعة واتخاذ الإجراء القانوني وإفادتي بالنتيجة."] }
+    ]},
+    { cat:"شكاوى عامة", icon:"📣", items:[
+      { id:"gn_staff", n:"شكوى ضد موظف حكومي", s:"شكوى ضد موظف عام",
+        i:"أتقدم لسيادتكم بشكوى بشأن تعامل أحد الموظفين معي أثناء تقديم الخدمة.",
+        a:["اسم الموظف أو المكتب وملابسات الواقعة: ……………","أرجو التحقيق في الواقعة وإفادتي بالإجراء المتخذ."] },
+      { id:"gn_delay", n:"تأخر خدمة عن موعدها", s:"شكوى بشأن تأخر خدمة",
+        i:"أتقدم لسيادتكم بشكوى بشأن تأخر إنهاء الخدمة المقدمة لي.",
+        a:["الخدمة وتاريخ التقديم ورقم الطلب: ……………","أرجو تحديد مدة إنهاء الخدمة وإفادتي بسبب التأخر."] },
+      { id:"gn_portal", n:"شكوى على بوابة الحكومة", s:"شكوى عبر بوابة الحكومة",
+        i:"أتشرف بالتقدم لسيادتكم بشكوى بشأن الخدمة الإلكترونية الموضحة أدناه.",
+        a:["وصف المشكلة ورقم الطلب: ……………","أرجو معالجة المشكلة وإفادتي كتابةً."] },
+      { id:"gn_noreply", n:"إفادة بعدم الرد على شكوى", s:"طلب إفادة بعدم الرد على شكوى",
+        i:"أتشرف بالتقدم لسيادتكم بطلب إفادة رسمية بعدم الرد على شكوى مقدمة.",
+        a:["رقم الشكوى وتاريخ تقديمها: ……………","أرجو إصدار الإفادة لاستخدامها في التظلم."] }
+    ]}
   ];
 
-  var state = { type:"", name:"", nid:"", phone:"", addr:"", to:"", ref:"", date:"", body:"" };
+  var state = { catIdx:0, type:"", name:"", nid:"", phone:"", addr:"", to:"", ref:"", date:"", body:"" };
   var LS_KEY = "khidmaty_talab_v1";
-
   var $ = function(id){ return document.getElementById(id); };
-  var typesEl = $("types"), previewEl = $("preview"), wcountEl = $("wcount");
+  var catsEl = $("cats"), typesEl = $("types"), previewEl = $("preview"), wcountEl = $("wcount");
 
   function today(){
     var d = new Date(), m = d.getMonth()+1, day = d.getDate();
-    return d.getFullYear() + "-" + (m<10?"0"+m:m) + "-" + (day<10?"0"+day:day);
+    return d.getFullYear()+"-"+(m<10?"0"+m:m)+"-"+(day<10?"0"+day:day);
   }
-
   function fmtDate(iso){
     if(!iso) return "";
     var p = iso.split("-");
     if(p.length !== 3) return iso;
     var months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
-    var m = parseInt(p[1],10);
-    return parseInt(p[2],10) + " " + (months[m-1] || p[1]) + " " + p[0];
+    return parseInt(p[2],10)+" "+(months[parseInt(p[1],10)-1]||p[1])+" "+p[0];
+  }
+  function findType(){
+    for(var i=0;i<DATA.length;i++){
+      for(var j=0;j<DATA[i].items.length;j++){
+        if(DATA[i].items[j].id === state.type) return DATA[i].items[j];
+      }
+    }
+    return null;
   }
 
   function buildText(){
-    var t = TYPES.filter(function(x){ return x.id === state.type; })[0];
+    var t = findType();
     if(!t) return "";
-    var d = { ref:state.ref.trim(), body:state.body.trim() };
-    var lines = [];
-    lines.push("بسم الله الرحمن الرحيم");
-    lines.push("");
-    lines.push("السيد الأستاذ / مدير " + (state.to.trim() || "…………………"));
-    lines.push("تحية طيبة وبعد،");
-    lines.push("");
-    lines.push("الموضوع: " + t.subject);
-    lines.push("");
-    var who = [];
+    var L = [];
+    L.push("بسم الله الرحمن الرحيم");
+    L.push("");
+    L.push("السيد الأستاذ / مدير " + (state.to.trim() || "…………………"));
+    L.push("تحية طيبة وبعد،");
+    L.push("");
+    L.push("الموضوع: " + t.s);
+    L.push("");
     if(state.name.trim()){
-      who.push("المقدم: " + state.name.trim());
+      var who = ["المقدم: " + state.name.trim()];
       if(state.nid.trim()) who.push("الرقم القومي: " + state.nid.trim());
       if(state.addr.trim()) who.push("العنوان: " + state.addr.trim());
       if(state.phone.trim()) who.push("تليفون: " + state.phone.trim());
-      lines.push(who.join(" — "));
-      lines.push("");
+      L.push(who.join(" — "));
+      L.push("");
     }
-    lines.push(t.body(d));
-    lines.push("");
-    if(state.date) lines.push("وتفضلوا بقبول فائق الاحترام.");
-    if(state.date) lines.push("");
-    if(state.name.trim()) lines.push("مقدم الطلب: " + state.name.trim());
-    if(state.phone.trim()) lines.push("تليفون: " + state.phone.trim());
-    if(state.date) lines.push("التاريخ: " + fmtDate(state.date));
-    return lines.join("\n");
+    L.push(t.i);
+    L.push("");
+    t.a.forEach(function(line, i){ L.push("(" + (i+1) + ") " + line); });
+    if(state.ref.trim()){
+      L.push("");
+      L.push("بيان/رقم الموضوع: " + state.ref.trim());
+    }
+    if(state.body.trim()){
+      L.push("");
+      L.push("بيان التفاصيل: " + state.body.trim());
+    }
+    L.push("");
+    L.push("لذا أرجو من سيادتكم التكرم بالنظر في الطلب واتخاذ ما يلزم قانونًا، وإفادتي بالنتيجة.");
+    L.push("");
+    L.push("وتفضلوا بقبول فائق الاحترام.");
+    L.push("");
+    if(state.name.trim()) L.push("مقدم الطلب: " + state.name.trim());
+    if(state.phone.trim()) L.push("تليفون: " + state.phone.trim());
+    if(state.date) L.push("التاريخ: " + fmtDate(state.date));
+    return L.join("\n");
+  }
+
+  function renderCats(){
+    catsEl.innerHTML = "";
+    DATA.forEach(function(c, idx){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "cat" + (idx === state.catIdx ? " active" : "");
+      b.textContent = c.icon + " " + c.cat;
+      b.addEventListener("click", function(){
+        state.catIdx = idx; renderCats(); renderTypes(); save();
+      });
+      catsEl.appendChild(b);
+    });
   }
 
   function renderTypes(){
     typesEl.innerHTML = "";
-    TYPES.forEach(function(t){
+    DATA[state.catIdx].items.forEach(function(t){
       var b = document.createElement("button");
       b.type = "button";
       b.className = "type" + (state.type === t.id ? " active" : "");
-      b.textContent = t.name;
+      b.textContent = t.n;
       b.addEventListener("click", function(){
-        state.type = t.id;
-        renderTypes(); render(); save();
+        state.type = t.id; renderTypes(); render(); save();
       });
       typesEl.appendChild(b);
     });
@@ -246,14 +361,13 @@ button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
   function render(){
     var txt = buildText();
     if(!txt){
-      previewEl.innerHTML = '<div class="empty">اختار نوع الطلب فوق، والطلب هيتكتب هنا فورًا.</div>';
+      previewEl.innerHTML = '<div class="empty">اختار الفئة والطلب فوق، والطلب هيتكتب هنا فورًا.</div>';
       wcountEl.textContent = "";
       return;
     }
-    var esc = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
     previewEl.textContent = "";
     var frag = document.createDocumentFragment();
-    esc.split("\n").forEach(function(ln, i){
+    txt.split("\n").forEach(function(ln, i){
       if(i) frag.appendChild(document.createElement("br"));
       frag.appendChild(document.createTextNode(ln));
     });
@@ -261,74 +375,67 @@ button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
     wcountEl.textContent = txt.split(/\s+/).filter(Boolean).length + " كلمة";
   }
 
-  function save(){
-    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
-  }
+  function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
   function load(){
     try{
-      var raw = localStorage.getItem(LS_KEY);
-      if(!raw) return;
+      var raw = localStorage.getItem(LS_KEY); if(!raw) return;
       var o = JSON.parse(raw);
-      Object.keys(state).forEach(function(k){ if(typeof o[k] === "string") state[k] = o[k]; });
+      Object.keys(state).forEach(function(k){
+        if(k === "catIdx" && typeof o[k] === "number") state[k] = o[k];
+        else if(typeof o[k] === "string") state[k] = o[k];
+      });
+      if(state.catIdx < 0 || state.catIdx >= DATA.length) state.catIdx = 0;
     }catch(e){}
   }
 
   function toast(msg){
-    var el = $("toast");
-    el.textContent = msg;
-    el.classList.add("show");
+    var el = $("toast"); el.textContent = msg; el.classList.add("show");
     setTimeout(function(){ el.classList.remove("show"); }, 1800);
   }
 
   var map = { "f-name":"name", "f-nid":"nid", "f-phone":"phone", "f-addr":"addr", "f-to":"to", "f-ref":"ref", "f-date":"date", "f-body":"body" };
   Object.keys(map).forEach(function(id){
-    var el = $(id);
-    el.addEventListener("input", function(){
-      state[map[id]] = el.value;
-      render(); save();
+    $(id).addEventListener("input", function(){
+      state[map[id]] = $(id).value; render(); save();
     });
   });
 
   $("btn-copy").addEventListener("click", function(){
     var txt = buildText();
-    if(!txt){ toast("اختار نوع الطلب الأول"); return; }
+    if(!txt){ toast("اختار الطلب الأول"); return; }
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(txt).then(function(){ toast("اتنسخ ✓"); }, function(){ fallbackCopy(txt); });
-    } else { fallbackCopy(txt); }
+    } else fallbackCopy(txt);
   });
-
   function fallbackCopy(txt){
     var ta = document.createElement("textarea");
     ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
     document.body.appendChild(ta); ta.select();
-    try{ document.execCommand("copy"); toast("اتنسخ ✓"); }catch(e){ toast("مقدرتش أنسخ — حدد النص يدويًا"); }
+    try{ document.execCommand("copy"); toast("اتنسخ ✓"); }catch(e){ toast("حدد النص يدويًا"); }
     document.body.removeChild(ta);
   }
-
   $("btn-print").addEventListener("click", function(){
-    if(!buildText()){ toast("اختار نوع الطلب الأول"); return; }
-    window.print();
+    if(!buildText()){ toast("اختار الطلب الأول"); return; } window.print();
   });
-
   $("btn-wa").addEventListener("click", function(){
     var txt = buildText();
-    if(!txt){ toast("اختار نوع الطلب الأول"); return; }
+    if(!txt){ toast("اختار الطلب الأول"); return; }
     window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank");
   });
-
   $("btn-clear").addEventListener("click", function(){
     if(!confirm("تمسح كل البيانات اللي كتبتها؟")) return;
-    state = { type:"", name:"", nid:"", phone:"", addr:"", to:"", ref:"", date:"", body:"" };
+    state = { catIdx:state.catIdx, type:"", name:"", nid:"", phone:"", addr:"", to:"", ref:"", date:today(), body:"" };
     Object.keys(map).forEach(function(id){ $(id).value = ""; });
+    $("f-date").value = state.date;
     try{ localStorage.removeItem(LS_KEY); }catch(e){}
     renderTypes(); render(); toast("اتمسح");
   });
 
   load();
-  if(!state.date){ state.date = today(); $("f-date").value = state.date; }
+  if(!state.date){ state.date = today(); }
+  $("f-date").value = state.date;
   Object.keys(map).forEach(function(id){ if(state[map[id]]) $(id).value = state[map[id]]; });
-  renderTypes();
-  render();
+  renderCats(); renderTypes(); render();
 })();
 </script>
 </body>

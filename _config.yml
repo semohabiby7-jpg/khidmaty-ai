@@ -1,0 +1,14 @@
+# إعداد GitHub Pages — منع نشر أي ملف داخلي
+exclude:
+  - "*.md"
+  - tools
+  - scripts
+  - alex-leads
+  - khidmaty-vault
+  - _backup
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json

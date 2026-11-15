@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>اكتبلي طلب | خِدْمَتي AI — طلبات وتظلمات جاهزة للطباعة</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://khidmatyai.com/talab.html">
+<meta name="description" content="اكتب طلبك أو تظلمك في دقيقة: اختر النوع، املأ بياناتك، واطبع أو حمّل PDF أو ابعتها واتساب. كل البيانات على جهازك ولا تخرج من المتصفح.">
+<meta property="og:title" content="اكتبلي طلب — طلبات وتظلمات جاهزة">
+<meta property="og:description" content="طلبات وتظلمات مكتوبة بصيغة رسمية سليمة، جاهزة للطباعة وPDF. مجاني وبلا تسجيل.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://khidmatyai.com/talab.html">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:locale" content="ar_EG">
+<style>
+:root{--navy:#0F1E3D;--navy2:#162847;--line:#1e3556;--gold:#e6c258;--gold2:#b8923a;--txt:#e8eef8;--mute:#8ea0c4}
+*{box-sizing:border-box}
+body{font-family:Cairo,system-ui,sans-serif;background:var(--navy);color:var(--txt);margin:0;padding:0}
+.header{background:linear-gradient(135deg,#0F1E3D,#1a2d5a);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header a{color:var(--gold);text-decoration:none;font-weight:800;font-size:15px}
+.logo{display:flex;align-items:center;gap:9px;color:#fff;font-weight:900;font-size:17px;text-decoration:none}
+.logo img{width:32px;height:32px;border-radius:8px}
+.logo .ai{color:var(--gold)}
+.wrap{max-width:820px;margin:0 auto;padding:22px 16px 60px}
+.hero{text-align:center;padding:14px 6px 20px}
+.hero h1{font-size:24px;font-weight:900;margin:0 0 8px}
+.hero p{color:var(--mute);font-size:14px;line-height:1.8;margin:0}
+.card{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin-bottom:16px}
+.card h2{font-size:16px;font-weight:900;color:var(--gold);margin:0 0 12px}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px}
+.type{background:#122341;border:1px solid var(--line);color:#c0cee0;font-family:inherit;font-size:13.5px;font-weight:700;padding:12px 12px;border-radius:11px;cursor:pointer;text-align:right;line-height:1.5;transition:.2s}
+.type:hover{border-color:var(--gold);color:#fff}
+.type.active{background:linear-gradient(135deg,var(--gold),#d4a843);color:var(--navy);border-color:var(--gold)}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--mute);margin:10px 0 5px}
+input,textarea{width:100%;background:#0d1a33;border:1px solid var(--line);border-radius:10px;color:var(--txt);font-family:inherit;font-size:14px;padding:11px 12px;outline:none}
+input:focus,textarea:focus{border-color:var(--gold)}
+textarea{resize:vertical;min-height:74px;line-height:1.8}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.hint{font-size:11.5px;color:#6f82a6;margin-top:10px;line-height:1.7}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+button.act{flex:1 1 150px;font-family:inherit;font-size:14px;font-weight:900;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#122341;color:#c0cee0;cursor:pointer;transition:.2s}
+button.act:hover{border-color:var(--gold);color:#fff}
+button.act.primary{background:linear-gradient(135deg,var(--gold),#d4a843);color:var(--navy);border-color:var(--gold)}
+button.act.wa{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
+.preview{background:#fff;color:#111;border-radius:14px;padding:26px 22px;line-height:2.05;font-size:15px;white-space:pre-wrap;word-wrap:break-word;box-shadow:0 12px 40px rgba(0,0,0,.45);min-height:200px}
+.preview h3{color:#0F1E3D;font-size:16px;margin:0 0 14px;text-align:center}
+.preview .sig{margin-top:22px}
+.empty{color:#6f82a6;font-size:13.5px;line-height:1.9;text-align:center;padding:26px 8px}
+.toast{position:fixed;bottom:22px;right:50%;transform:translateX(50%);background:var(--gold);color:var(--navy);font-weight:900;font-size:13.5px;padding:11px 22px;border-radius:26px;opacity:0;pointer-events:none;transition:.3s;z-index:99}
+.toast.show{opacity:1}
+.foot{text-align:center;color:#5b6d8f;font-size:11.5px;line-height:1.9;padding-top:8px}
+@media print{
+  body{background:#fff;color:#000}
+  .header,.hero,.card.noprint,.actions,.toast,.foot,.prevhead{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .preview{box-shadow:none;border-radius:0;padding:0;font-size:13pt;line-height:2}
+  .preview h3{font-size:14pt}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="index.html"><img src="icon-192.png" alt="">خِدْمَتي <span class="ai">AI</span></a>
+  <a href="services.html">كل الخدمات ↗</a>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>اكتبلي طلب</h1>
+    <p>اختار نوع الطلب، املأ بياناتك، وتطلعلك مكتوبة بصيغة رسمية — تطبعها أو تحمّلها PDF أو تبعتها واتساب.</p>
+  </div>
+
+  <section class="card noprint">
+    <h2>١. نوع الطلب</h2>
+    <div class="types" id="types"></div>
+  </section>
+
+  <section class="card noprint">
+    <h2>٢. بياناتك</h2>
+    <div class="grid2">
+      <div><label for="f-name">الاسم بالكامل</label><input id="f-name" autocomplete="name" placeholder="محمد إسماعيل عبد العزيز"></div>
+      <div><label for="f-nid">الرقم القومي (اختياري)</label><input id="f-nid" inputmode="numeric" maxlength="14" placeholder="١٤ رقم"></div>
+    </div>
+    <div class="grid2">
+      <div><label for="f-phone">رقم التليفون (اختياري)</label><input id="f-phone" inputmode="tel" placeholder="01xxxxxxxxx"></div>
+      <div><label for="f-addr">العنوان (اختياري)</label><input id="f-addr" placeholder="المدينة — الشارع"></div>
+    </div>
+    <label for="f-to">الجهة المخاطبة <span style="color:#e07a5f">*</span></label>
+    <input id="f-to" placeholder="إدارة المرور — محافظة القاهرة">
+    <div class="grid2">
+      <div><label for="f-ref">رقم/بيان الموضوع (اختياري)</label><input id="f-ref" placeholder="رقم المخالفة 1234 — أو رقم الملف"></div>
+      <div><label for="f-date">تاريخ الطلب</label><input id="f-date" type="date"></div>
+    </div>
+    <label for="f-body">تفاصيلك بكلامك (اختياري)</label>
+    <textarea id="f-body" placeholder="اكتب اللي حصل بالتفصيل وبالتواريخ لو محتاج."></textarea>
+    <p class="hint">كل اللي بتكتبه هنا بيفضل على جهازك ومش بيتبعت لأي مكان.</p>
+  </section>
+
+  <div class="prevhead" style="display:flex;justify-content:space-between;align-items:center;margin:2px 4px 10px">
+    <h2 style="font-size:16px;font-weight:900;color:var(--gold);margin:0">٣. الطلب جاهز</h2>
+    <span id="wcount" style="font-size:11.5px;color:#6f82a6"></span>
+  </div>
+
+  <div class="preview" id="preview"><div class="empty">اختار نوع الطلب فوق، والطلب هيتكتب هنا فورًا.</div></div>
+
+  <div class="actions noprint">
+    <button class="act primary" id="btn-copy">نسخ النص</button>
+    <button class="act" id="btn-print">طباعة / حفظ PDF</button>
+    <button class="act wa" id="btn-wa">إرسال واتساب</button>
+    <button class="act" id="btn-clear">مسح البيانات</button>
+  </div>
+
+  <p class="foot">الطلب بيتكتب تلقائيًا من بياناتك — راجعه قبل الطباعة. الصيغ مكتوبة بصيغة رسمية عامة ومش بديل عن استشارة قانونية.</p>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var TYPES = [
+    { id:"mokhalafa", name:"تظلم على مخالفة مرورية",
+      subject:"تظلم على مخالفة مرورية",
+      body:function(d){
+        return "أتشرف بالتقدم لسيادتكم بتظلم على المخالفة المرورية المنسوبة إليّ" + (d.ref ? " رقم (" + d.ref + ")" : "") + "، وذلك للأسباب الآتية:\n\n"
+          + "١. الظروف التي أدت إلى المخالفة: " + (d.body || "…………………") + "\n"
+          + "٢. ألتمس مراجعة بيانات المخالفة والصور المرفقة بها، والتأكد من صحة تسجيلها على المركبة ومالكها.\n\n"
+          + "لذا أرجو من سيادتكم التكرم بدراسة التظلم وإلغاء المخالفة أو إعادة النظر في تقديرها، وإفادتي بالنتيجة كتابةً.";
+      }},
+    { id:"naqlmelkeya", name:"طلب نقل ملكية مركبة",
+      subject:"طلب نقل ملكية مركبة",
+      body:function(d){
+        return "أتشرف بالتقدم لسيادتكم بطلب نقل ملكية المركبة الموضحة بياناتها أدناه إلى اسمي، بعد إتمام البيع واستلام المركبة ومستنداتها.\n\n"
+          + "بيانات المركبة: " + (d.ref || "رقم اللوحة / الشاسيه / الموتور …………………") + "\n"
+          + "بيانات البائع: " + (d.body || "…………………") + "\n\n"
+          + "وأرفق لسيادتكم المستندات المطلوبة، وأرجو استكمال إجراءات نقل الملكية وإصدار التراخيص اللازمة باسمي، مع إفادتي بالموعد والمستحقات.";
+      }},
+    { id:"dariba", name:"تظلم على تقدير ضريبي",
+      subject:"تظلم على تقدير الضريبة",
+      body:function(d){
+        return "أتشرف بالتقدم لسيادتكم بتظلم على التقدير الضريبي الصادر بشأني" + (d.ref ? " تحت رقم (" + d.ref + ")" : "") + "، وذلك للأسباب الآتية:\n\n"
+          + "١. بيان أسباب الاعتراض: " + (d.body || "…………………") + "\n"
+          + "٢. ألتمس إعادة فحص التقدير في ضوء المستندات المرفقة، وسماع أقوالي قبل صدور القرار.\n\n"
+          + "لذا أرجو التكرم بإعادة النظر في التقدير وتعديله وفقًا للقانون، وإفادتي بالقرار وأسبابه كتابةً.";
+      }},
+    { id:"taqseet", name:"طلب تقسيط مبلغ مستحق",
+      subject:"طلب تقسيط مبلغ مستحق",
+      body:function(d){
+        return "أتشرف بالتقدم لسيادتكم بطلب تقسيط المبلغ المستحق عليّ" + (d.ref ? " بموجب (" + d.ref + ")" : "") + " على أقساط شهرية، وذلك لظروف الحالة الموضحة أدناه.\n\n"
+          + "بيان الظروف: " + (d.body || "…………………") + "\n"
+          + "المبلغ المطلوب تقسيطه: …… جنيهًا — عدد الأقساط المقترح: …… قسطًا شهريًا.\n\n"
+          + "وأتعهد بسداد الأقساط في مواعيدها، وأرجو التكرم بالموافقة وإفادتي بجدول السداد المعتمد.";
+      }},
+    { id:"qarar", name:"تظلم على قرار إداري",
+      subject:"تظلم على قرار إداري",
+      body:function(d){
+        return "أتشرف بالتقدم لسيادتكم بتظلم على القرار الإداري الصادر" + (d.ref ? " برقم (" + d.ref + ")" : "") + "، وذلك للأسباب الآتية:\n\n"
+          + "١. بيان القرار وأثره عليّ: " + (d.body || "…………………") + "\n"
+          + "٢. ألتمس إعادة النظر في القرار، ووقف تنفيذه لحين البت في التظلم.\n\n"
+          + "لذا أرجو التكرم بفحص التظلم والمستندات المرفقة، وإفادتي بالقرار الصادر بشأنه كتابةً.";
+      }},
+    { id:"efada", name:"طلب إفادة / شهادة",
+      subject:"طلب إصدار إفادة",
+      body:function(d){
+        return "أتشرف بالتقدم لسيادتكم بطلب إصدار إفادة رسمية تفيد ما يلي:\n\n"
+          + (d.body || "…………………") + "\n\n"
+          + "وذلك لاستخدامها في " + (d.ref || "الغرض المطلوب …………………") + "، وأرجو التكرم بإصدارها مع بيان المستحقات إن وجدت.";
+      }}
+  ];
+
+  var state = { type:"", name:"", nid:"", phone:"", addr:"", to:"", ref:"", date:"", body:"" };
+  var LS_KEY = "khidmaty_talab_v1";
+
+  var $ = function(id){ return document.getElementById(id); };
+  var typesEl = $("types"), previewEl = $("preview"), wcountEl = $("wcount");
+
+  function today(){
+    var d = new Date(), m = d.getMonth()+1, day = d.getDate();
+    return d.getFullYear() + "-" + (m<10?"0"+m:m) + "-" + (day<10?"0"+day:day);
+  }
+
+  function fmtDate(iso){
+    if(!iso) return "";
+    var p = iso.split("-");
+    if(p.length !== 3) return iso;
+    var months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+    var m = parseInt(p[1],10);
+    return parseInt(p[2],10) + " " + (months[m-1] || p[1]) + " " + p[0];
+  }
+
+  function buildText(){
+    var t = TYPES.filter(function(x){ return x.id === state.type; })[0];
+    if(!t) return "";
+    var d = { ref:state.ref.trim(), body:state.body.trim() };
+    var lines = [];
+    lines.push("بسم الله الرحمن الرحيم");
+    lines.push("");
+    lines.push("السيد الأستاذ / مدير " + (state.to.trim() || "…………………"));
+    lines.push("تحية طيبة وبعد،");
+    lines.push("");
+    lines.push("الموضوع: " + t.subject);
+    lines.push("");
+    var who = [];
+    if(state.name.trim()){
+      who.push("المقدم: " + state.name.trim());
+      if(state.nid.trim()) who.push("الرقم القومي: " + state.nid.trim());
+      if(state.addr.trim()) who.push("العنوان: " + state.addr.trim());
+      if(state.phone.trim()) who.push("تليفون: " + state.phone.trim());
+      lines.push(who.join(" — "));
+      lines.push("");
+    }
+    lines.push(t.body(d));
+    lines.push("");
+    if(state.date) lines.push("وتفضلوا بقبول فائق الاحترام.");
+    if(state.date) lines.push("");
+    if(state.name.trim()) lines.push("مقدم الطلب: " + state.name.trim());
+    if(state.phone.trim()) lines.push("تليفون: " + state.phone.trim());
+    if(state.date) lines.push("التاريخ: " + fmtDate(state.date));
+    return lines.join("\n");
+  }
+
+  function renderTypes(){
+    typesEl.innerHTML = "";
+    TYPES.forEach(function(t){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "type" + (state.type === t.id ? " active" : "");
+      b.textContent = t.name;
+      b.addEventListener("click", function(){
+        state.type = t.id;
+        renderTypes(); render(); save();
+      });
+      typesEl.appendChild(b);
+    });
+  }
+
+  function render(){
+    var txt = buildText();
+    if(!txt){
+      previewEl.innerHTML = '<div class="empty">اختار نوع الطلب فوق، والطلب هيتكتب هنا فورًا.</div>';
+      wcountEl.textContent = "";
+      return;
+    }
+    var esc = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    previewEl.textContent = "";
+    var frag = document.createDocumentFragment();
+    esc.split("\n").forEach(function(ln, i){
+      if(i) frag.appendChild(document.createElement("br"));
+      frag.appendChild(document.createTextNode(ln));
+    });
+    previewEl.appendChild(frag);
+    wcountEl.textContent = txt.split(/\s+/).filter(Boolean).length + " كلمة";
+  }
+
+  function save(){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+  }
+  function load(){
+    try{
+      var raw = localStorage.getItem(LS_KEY);
+      if(!raw) return;
+      var o = JSON.parse(raw);
+      Object.keys(state).forEach(function(k){ if(typeof o[k] === "string") state[k] = o[k]; });
+    }catch(e){}
+  }
+
+  function toast(msg){
+    var el = $("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    setTimeout(function(){ el.classList.remove("show"); }, 1800);
+  }
+
+  var map = { "f-name":"name", "f-nid":"nid", "f-phone":"phone", "f-addr":"addr", "f-to":"to", "f-ref":"ref", "f-date":"date", "f-body":"body" };
+  Object.keys(map).forEach(function(id){
+    var el = $(id);
+    el.addEventListener("input", function(){
+      state[map[id]] = el.value;
+      render(); save();
+    });
+  });
+
+  $("btn-copy").addEventListener("click", function(){
+    var txt = buildText();
+    if(!txt){ toast("اختار نوع الطلب الأول"); return; }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ toast("اتنسخ ✓"); }, function(){ fallbackCopy(txt); });
+    } else { fallbackCopy(txt); }
+  });
+
+  function fallbackCopy(txt){
+    var ta = document.createElement("textarea");
+    ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); toast("اتنسخ ✓"); }catch(e){ toast("مقدرتش أنسخ — حدد النص يدويًا"); }
+    document.body.removeChild(ta);
+  }
+
+  $("btn-print").addEventListener("click", function(){
+    if(!buildText()){ toast("اختار نوع الطلب الأول"); return; }
+    window.print();
+  });
+
+  $("btn-wa").addEventListener("click", function(){
+    var txt = buildText();
+    if(!txt){ toast("اختار نوع الطلب الأول"); return; }
+    window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank");
+  });
+
+  $("btn-clear").addEventListener("click", function(){
+    if(!confirm("تمسح كل البيانات اللي كتبتها؟")) return;
+    state = { type:"", name:"", nid:"", phone:"", addr:"", to:"", ref:"", date:"", body:"" };
+    Object.keys(map).forEach(function(id){ $(id).value = ""; });
+    try{ localStorage.removeItem(LS_KEY); }catch(e){}
+    renderTypes(); render(); toast("اتمسح");
+  });
+
+  load();
+  if(!state.date){ state.date = today(); $("f-date").value = state.date; }
+  Object.keys(map).forEach(function(id){ if(state[map[id]]) $(id).value = state[map[id]]; });
+  renderTypes();
+  render();
+})();
+</script>
+</body>
+</html>

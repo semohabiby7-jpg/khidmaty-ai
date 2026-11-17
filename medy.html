@@ -297,6 +297,17 @@ function addBlock(question,reply,svc){
 
   const acts=el('div','acts');
 
+  /* 1) حول السؤال لطلب جاهز */
+  const draftBtn=el('button','act','\u270d\ufe0f اكتبلي الطلب ده');
+  draftBtn.onclick=()=>{
+    const subj=((svc&&svc.title)?svc.title:question).replace(/\s+/g,' ').trim().slice(0,90);
+    const pr=new URLSearchParams({subject:subj,story:question,from:'medy'});
+    if(svc&&svc.auth)pr.set('auth',svc.auth);
+    window.open('/talab-ai.html?'+pr.toString(),'_blank');
+    if(window.gtag)gtag('event','medy_to_talab',{service:svc?svc.slug:'none'});
+  };
+  acts.appendChild(draftBtn);
+
   /* 2) sources */
   const srcBtn=el('button','act');
   const srcs=(svc&&svc.sources)?svc.sources:[];

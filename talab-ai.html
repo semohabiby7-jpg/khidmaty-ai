@@ -412,6 +412,18 @@ textarea{min-height:120px;line-height:1.9;resize:vertical}
   AUTHORITIES.forEach(function(a){var o=document.createElement("option");o.value=a;o.textContent=a;sel.appendChild(o);});
   sel.value=state.authority;
   renderChips();renderDrafts();
+
+  // تعبئة تلقائية جاية من مدي: ?subject=&story=&auth=&doc=&from=
+  try{
+    var qp=new URLSearchParams(location.search);
+    var qs=qp.get("story")||"", qsub=qp.get("subject")||"", qa=qp.get("auth")||"", qd=qp.get("doc")||"";
+    var changed=false;
+    if(qa && AUTHORITIES.indexOf(qa)>=0){ state.authority=qa; sel.value=qa; changed=true; }
+    if(qd && DOCS.some(function(x){return x.id===qd;})){ state.doc=qd; renderChips(); changed=true; }
+    if(qsub){ state.subject=qsub.slice(0,200); $("subject").value=state.subject; changed=true; }
+    if(qs){ state.story=qs.slice(0,4000); $("story").value=state.story; changed=true; }
+    if(changed){ aiFacts=null; aiSubject=""; save(); toast("اتملّت من مدي — راجعها وكمّلها"); }
+  }catch(e){}
 })();
 </script>
 </body>

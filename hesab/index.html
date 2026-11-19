@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>احسبلي المشوار — حاسبة الأجرة</title>
+<meta name="theme-color" content="#0F172A">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  :root{--ink:#0F172A;--muted:#64748B;--line:#E2E8F0;--gold:#C9A227;--ok:#16A34A}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:#F8FAFC;color:var(--ink);font-family:"Tajawal","Cairo",system-ui,-apple-system,"Segoe UI",sans-serif;padding:14px}
+  .wrap{max-width:520px;margin:0 auto}
+  header{background:var(--ink);color:#fff;border-radius:16px;padding:16px 18px;margin-bottom:14px}
+  header h1{margin:0;font-size:19px}
+  header p{margin:6px 0 0;font-size:12px;color:#CBD5E1;line-height:1.6}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+  label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px}
+  input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px}.row>div{flex:1}
+  .out{background:var(--ink);color:#fff;border-radius:16px;padding:16px 18px;margin-bottom:12px}
+  .total{font-size:32px;font-weight:700;line-height:1.1}
+  .total small{font-size:14px;font-weight:400;color:#CBD5E1}
+  .lines{margin-top:12px;border-top:1px solid #24344f;padding-top:10px;font-size:13px}
+  .lines div{display:flex;justify-content:space-between;padding:4px 0;color:#E2E8F0}
+  .lines b{font-weight:600}
+  .note{font-size:11px;color:var(--muted);line-height:1.7;margin:0}
+  .btn{display:block;width:100%;padding:12px;border-radius:12px;border:0;font-family:inherit;font-size:14px;font-weight:600;background:var(--ink);color:#fff;margin-top:10px}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  details summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0}
+  .src a{color:var(--muted)}
+  .warn{background:#FFFBEB;border:1px solid #FDE68A;color:#92400E;border-radius:12px;padding:10px 12px;font-size:11.5px;line-height:1.7;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🚕 احسبلي المشوار</h1>
+    <p>حاسبة تعريفة التاكسي الأبيض — القاهرة. التعريفة الرسمية السارية من ١٠ مارس ٢٠٢٦.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="km">المسافة (كم)</label>
+        <input id="km" type="number" inputmode="decimal" min="0" step="0.1" value="5">
+      </div>
+      <div>
+        <label for="wait">الانتظار (دقائق)</label>
+        <input id="wait" type="number" inputmode="numeric" min="0" step="1" value="0">
+      </div>
+    </div>
+    <button class="btn" id="calcBtn">احسب الأجرة</button>
+  </div>
+
+  <div class="out">
+    <div class="total" id="total">٢٠ ج <small>تقريبًا</small></div>
+    <div class="lines" id="lines"></div>
+  </div>
+
+  <div class="card">
+    <p class="note">
+      <b>طريقة الحساب:</b> فتح العداد ١٥ج ويشمل أول كيلومتر، ثم ٤ج لكل كم إضافي.
+      الانتظار ٣٢ج للساعة الأولى (بالنسبة لجزء الساعة) + ١٥ج لكل ساعة إضافية تبدأ.
+      الناتج تقريبي ويقرّب لأقرب جنيه، والعداد الفعلي هو المرجع.
+    </p>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>تعديل التعريفة (للاستخدام المؤقت)</summary>
+      <div class="row" style="margin-top:10px">
+        <div><label for="base">فتح العداد</label><input id="base" type="number" value="15" step="0.5"></div>
+        <div><label for="perkm">سعر الكيلو</label><input id="perkm" type="number" value="4" step="0.25"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div><label for="w1">انتظار/ساعة أولى</label><input id="w1" type="number" value="32" step="1"></div>
+        <div><label for="w2">كل ساعة إضافية</label><input id="w2" type="number" value="15" step="1"></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <div class="warn">
+      التعريفة دي خاصة بـ<b>التاكسي الأبيض في القاهرة</b>. محافظات تانية ليها قرارات مختلفة،
+      وعربيات النقل لها تسعير مختلف (كيلو + ساعة + تحميل) — محتاجين نضيفها لاحقًا بأسعارك.
+    </div>
+    <p class="note src">
+      المصدر: قرار محافظة القاهرة ٤٦٨٩ لسنة ٢٠٢٦ (الوقائع المصرية) —
+      <a href="https://www.cairo.gov.eg/media/i0dhrtqy/taxiiii.pdf" target="_blank" rel="noopener">موقع المحافظة</a> ·
+      <a href="https://www.youm7.com/story/2026/3/31/7360111" target="_blank" rel="noopener">اليوم السابع</a>
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = function(n){ return new Intl.NumberFormat('ar-EG',{maximumFractionDigits:1}).format(n); };
+
+  function calc(){
+    var km = parseFloat($('km').value) || 0;
+    var waitMin = parseFloat($('wait').value) || 0;
+    var base = parseFloat($('base').value) || 0;
+    var perkm = parseFloat($('perkm').value) || 0;
+    var w1 = parseFloat($('w1').value) || 0;
+    var w2 = parseFloat($('w2').value) || 0;
+
+    var extraKm = Math.max(0, km - 1);
+    var kmCost = extraKm * perkm;
+
+    var hours = waitMin / 60;
+    var waitCost = 0;
+    if (hours > 0) {
+      var first = Math.min(hours, 1) * w1;
+      var rest = Math.max(0, Math.ceil(hours - 1)) * w2;
+      waitCost = first + rest;
+    }
+
+    var total = Math.max(base, base + kmCost + waitCost);
+    var rounded = Math.round(total);
+
+    $('total').innerHTML = fmt(rounded) + ' ج <small>تقريبًا</small>';
+    var rows = [
+      ['فتح العداد (يشمل أول ١ كم)', base],
+      [extraKm > 0 ? 'كيلومترات إضافية (' + fmt(extraKm) + ' كم × ' + fmt(perkm) + ')' : 'كيلومترات إضافية', kmCost],
+      [waitMin > 0 ? 'انتظار (' + fmt(waitMin) + ' دقيقة)' : 'انتظار', waitCost]
+    ];
+    $('lines').innerHTML = rows.map(function(r){
+      return '<div><span>' + r[0] + '</span><b>' + fmt(Math.round(r[1]*10)/10) + ' ج</b></div>';
+    }).join('') + '<div style="border-top:1px dashed #24344f;margin-top:6px;padding-top:6px"><span>الإجمالي قبل التقريب</span><b>' + fmt(Math.round(total*10)/10) + ' ج</b></div>';
+  }
+
+  $('calcBtn').addEventListener('click', calc);
+  ['km','wait','base','perkm','w1','w2'].forEach(function(id){
+    $(id).addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>

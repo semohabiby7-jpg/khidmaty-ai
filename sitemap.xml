@@ -11,7 +11,7 @@
   <url><loc>https://khidmatyai.com/calc.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://khidmatyai.com/contact.html</loc><lastmod>2026-10-12</lastmod></url>
   <url><loc>https://khidmatyai.com/faq.html</loc><lastmod>2026-10-20</lastmod></url>
-  <url><loc>https://khidmatyai.com/</loc><lastmod>2026-10-29</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://khidmatyai.com/</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://khidmatyai.com/journeys.html</loc><lastmod>2026-10-12</lastmod></url>
   <url><loc>https://khidmatyai.com/offices.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://khidmatyai.com/offices/civil.html</loc><lastmod>2026-10-12</lastmod></url>
@@ -1188,4 +1188,8 @@
   <url><loc>https://khidmatyai.com/services/lost-driving-license.html</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://khidmatyai.com/services/lost-car-license.html</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://khidmatyai.com/talab.html</loc><lastmod>2026-11-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://khidmatyai.com/hesab/</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://khidmatyai.com/talab-ai.html</loc><lastmod>2026-11-17</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://khidmatyai.com/articles.html</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://khidmatyai.com/fees-watcher.html</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

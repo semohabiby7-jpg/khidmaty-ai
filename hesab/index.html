@@ -3,18 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>احسبلي المشوار — حاسبة أجرة النقل والتاكسي في مصر | خِدْمَتي</title>
-<meta name="description" content="حاسبة أجرة المشوار أونلاين مجانًا: احسب تكلفة نقل أو أجرة أو ملاكي على تعريفة التاكسي الرسمية في مصر، من أو إلى أي عنوان، من غير تحميل تطبيق وتعمل أوفلاين على الموبايل.">
-<link rel="canonical" href="https://khidmatyai.com/hesab/">
-<meta name="robots" content="index,follow">
-<meta property="og:type" content="website">
-<meta property="og:title" content="احسبلي المشوار — حاسبة أجرة النقل والتاكسي | خِدْمَتي AI">
-<meta property="og:description" content="احسب تكلفة المشوار على تعريفة التاكسي الرسمية في مصر — نقل أو أجرة أو ملاكي — مجانًا وأوفلاين.">
-<meta property="og:url" content="https://khidmatyai.com/hesab/">
-<meta property="og:site_name" content="خِدْمَتي AI">
-<meta property="og:locale" content="ar_EG">
-<meta property="og:image" content="https://khidmatyai.com/assets/brand-logo.jpeg">
-<meta name="twitter:card" content="summary_large_image">
+<title>احسبلي المشوار — حاسبة الأجرة</title>
 <meta name="theme-color" content="#0F172A">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -46,16 +35,37 @@
   .src a{color:var(--muted)}
   .warn{background:#FFFBEB;border:1px solid #FDE68A;color:#92400E;border-radius:12px;padding:10px 12px;font-size:11.5px;line-height:1.7;margin-bottom:12px}
 </style>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"احسبلي المشوار — حاسبة أجرة النقل والتاكسي","url":"https://khidmatyai.com/hesab/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","inLanguage":"ar-EG","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EGP"},"author":{"@type":"Organization","name":"خِدْمَتي AI","url":"https://khidmatyai.com/"},"description":"حاسبة تعريفة التاكسي الأبيض الرسمية في القاهرة — تحسب أجرة النقل والأجرة والملاكي وتعمل أوفلاين على الموبايل."}
-</script>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>🚕 احسبلي المشوار</h1>
-    <p>حاسبة تعريفة التاكسي الأبيض — القاهرة. التعريفة الرسمية السارية من ١٠ مارس ٢٠٢٦.</p>
+    <p>حاسبة مشوار: تاكسي، نقل، ملاكي/أجرة، أو تطبيق — على التعريفة الرسمية في القاهرة، وبمدخلاتك لباقي الأنواع.</p>
   </header>
+
+  <div class="card">
+    <label for="mode">نوع المشوار</label>
+    <select id="mode">
+      <option value="taxi-cai">تاكسي أبيض — القاهرة (تعريفة رسمية)</option>
+      <option value="taxi-other">تاكسي — محافظة تانية (تدخل التعريفة)</option>
+      <option value="naql">نقل / ربع نقل (تدخل تسعيرتك)</option>
+      <option value="malaki">ملاكي أو أجرة (تدخل تسعيرتك)</option>
+      <option value="app">تطبيق (أوبر/كريم) — تقديري</option>
+    </select>
+    <p class="note" id="modeNote" style="margin-top:8px">
+      التعريفة الرسمية للقاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم.
+    </p>
+  </div>
+
+  <div class="card">
+    <label for="gov">المحافظة</label>
+    <select id="gov">
+      <option value="cairo">القاهرة — تاكسي أبيض (تعريفة رسمية معلنة)</option>
+      <option value="alex">الإسكندرية — تاكسي (تعريفة معلنة أكتوبر ٢٠٢٥)</option>
+      <option value="other">محافظة تانية — تدخل التعريفة بنفسك</option>
+    </select>
+    <p class="note" id="govNote" style="margin-top:8px">تعريفة القاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم، انتظار ٣٢ج للساعة الأولى.</p>
+  </div>
 
   <div class="card">
     <div class="row">
@@ -100,8 +110,9 @@
 
   <div class="card">
     <div class="warn">
-      التعريفة دي خاصة بـ<b>التاكسي الأبيض في القاهرة</b>. محافظات تانية ليها قرارات مختلفة،
-      وعربيات النقل لها تسعير مختلف (كيلو + ساعة + تحميل) — محتاجين نضيفها لاحقًا بأسعارك.
+      التعريفة الموثّقة عندنا: <b>التاكسي في القاهرة</b> (قرار المحافظة ٢٠٢٦) و<b>التاكسي في الإسكندرية</b>
+      (المعلنة أكتوبر ٢٠٢٥). باقي المحافظات والأنواع بتدخل تسعيرتها بنفسك، والناتج تقديري —
+      المرجع دايمًا العداد أو الاتفاق قبل المشوار.
     </div>
     <p class="note src">
       المصدر: قرار محافظة القاهرة ٤٦٨٩ لسنة ٢٠٢٦ (الوقائع المصرية) —
@@ -148,6 +159,50 @@
       return '<div><span>' + r[0] + '</span><b>' + fmt(Math.round(r[1]*10)/10) + ' ج</b></div>';
     }).join('') + '<div style="border-top:1px dashed #24344f;margin-top:6px;padding-top:6px"><span>الإجمالي قبل التقريب</span><b>' + fmt(Math.round(total*10)/10) + ' ج</b></div>';
   }
+
+  var NOTES = {
+    'taxi-cai': 'التعريفة الرسمية للقاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم إضافي، والانتظار ٣٢ج للساعة الأولى.',
+    'taxi-other': 'مفيش تعريفة موحدة لكل المحافظات — اسأل السواق أو شوف قرار المحافظة، واكتب سعر الفتح والكيلو تحت. الأرقام الحالية بتاعة القاهرة، فعدّلها.',
+    'naql': 'النقل بيتسعّر بالكيلو + ساعة التحميل/التنزيل. اكتب سعر الكيلو اللي اتفقت عليه، وحط وقت التحميل في خانة الانتظار.',
+    'malaki': 'الملاكي والأجرة بتتفق على المشوار. اكتب قيمة المشوار في خانة «فتح العداد» وسيب الكيلو صفر.',
+    'app': 'تطبيقات النقل بتسعّر بالكيلو + وقت + طلب. الأرقام هنا تقديرية للاسترشاد فقط، والسعر النهائي في التطبيق.'
+  };
+
+  function setMode(){
+    var m = $('mode').value;
+    $('modeNote').textContent = NOTES[m] || '';
+    if (m === 'taxi-cai' && $('gov').value === 'cairo') {
+      $('base').value = 15; $('perkm').value = 4;
+      $('w1').value = 32; $('w2').value = 15;
+    } else if (m === 'malaki') {
+      $('perkm').value = 0; $('w1').value = 0; $('w2').value = 0;
+    }
+    calc();
+  }
+
+  $('mode').addEventListener('change', setMode);
+
+  var GOVS = {
+    cairo: {base:15, perkm:4, w1:32, w2:15,
+      note:'تعريفة القاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم، انتظار ٣٢ج للساعة الأولى. مصدر: قرار محافظة القاهرة ٤٦٨٩ لسنة ٢٠٢٦.'},
+    alex: {base:14.29, perkm:5, w1:32, w2:15,
+      note:'تعريفة الإسكندرية المعلنة أكتوبر ٢٠٢٥: فتح العداد ١٤٫٢٩ج + ٥ج لكل كم. التعريفة بتتغير مع أسعار البنزين — راجعها قبل الاعتماد عليها.'},
+    other: {base:0, perkm:0, w1:0, w2:0,
+      note:'محافظتك: اكتب فتح العداد وسعر الكيلو من التعريفة المعلنة في محافظتك، والحاسبة هتكمّل معاك.'}
+  };
+  function setGov(){
+    var key = $('gov').value;
+    var g = GOVS[key] || GOVS.other;
+    if (key !== 'cairo' && $('mode').value === 'taxi-cai') {
+      $('mode').value = 'taxi-other';
+      $('modeNote').textContent = NOTES['taxi-other'] || '';
+    }
+    $('base').value = g.base; $('perkm').value = g.perkm;
+    $('w1').value = g.w1; $('w2').value = g.w2;
+    $('govNote').textContent = g.note;
+    calc();
+  }
+  $('gov').addEventListener('change', setGov);
 
   $('calcBtn').addEventListener('click', calc);
   ['km','wait','base','perkm','w1','w2'].forEach(function(id){

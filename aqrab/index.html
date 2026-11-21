@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>أقرب مكتب حكومي ليك — سجل مدني ومرور وتأمينات | خِدْمَتي AI</title>
+<meta name="description" content="حدّد موقعك والأداة تقولك أقرب مكتب سجل مدني أو مرور أو تأمينات أو شهر عقاري ليك، بالمسافة والعنوان والمواعيد واتجاهات الوصول على الخريطة — مجانًا.">
+<link rel="canonical" href="https://khidmatyai.com/aqrab/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="أقرب مكتب حكومي ليك | خِدْمَتي AI">
+<meta property="og:description" content="اعرف أقرب مكتب سجل مدني أو مرور أو تأمينات من موقعك بالمسافة والاتجاهات.">
+<meta property="og:url" content="https://khidmatyai.com/aqrab/">
+<meta property="og:site_name" content="خِدْمَتي AI">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="https://khidmatyai.com/assets/brand-logo.jpeg">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F1E3D;--line:#1e3556;--gold:#e6c258;--txt:#e8eef8;--mute:#8ea0c4}
+*{box-sizing:border-box}
+body{font-family:Cairo,system-ui,sans-serif;background:var(--navy);color:var(--txt);margin:0;padding:0}
+.wrap{max-width:760px;margin:0 auto;padding:18px 15px 60px}
+a{color:var(--gold)}
+h1{font-size:22px;font-weight:900;margin:6px 0 6px;text-align:center;line-height:1.4}
+.sub{color:var(--mute);font-size:13.5px;text-align:center;line-height:1.8;margin:0 0 16px}
+.panel{background:linear-gradient(145deg,#162847,#0d1a33);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
+.btn{display:block;width:100%;padding:14px;border:0;border-radius:12px;font-family:inherit;font-size:15px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--gold),#d4a843);color:var(--navy)}
+.btn.ghost{background:#122341;color:#c0cee0;border:1px solid var(--line);margin-top:9px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:#122341;border:1px solid var(--line);color:#c0cee0;font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 13px;border-radius:20px;cursor:pointer}
+.chip.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+select{width:100%;margin-top:10px;background:#0d1a33;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px;font-family:inherit;font-size:14px}
+.status{font-size:13px;color:var(--mute);text-align:center;margin:10px 0 0;line-height:1.9}
+.card{background:#162847;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.card h3{margin:0 0 6px;font-size:15px;color:#fff;font-weight:800}
+.meta{font-size:12.5px;color:var(--mute);line-height:1.8}
+.dist{float:left;background:var(--gold);color:var(--navy);font-weight:900;font-size:12px;padding:3px 9px;border-radius:14px}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.acts a{flex:1 1 120px;text-align:center;text-decoration:none;font-size:12.5px;font-weight:800;padding:9px;border-radius:10px;border:1px solid var(--line);background:#122341;color:#c0cee0}
+.acts a.map{background:#0f3b2a;color:#7ff0b4;border-color:#1c5c42}
+.foot{text-align:center;color:#5a6a8a;font-size:12px;margin-top:22px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📍 أقرب مكتب حكومي ليك</h1>
+  <p class="sub">دوس الزرار وحدّد نوع الخدمة — هنقولك أقرب المكاتب بالمسافة والعنوان والمواعيد.</p>
+
+  <div class="panel">
+    <button class="btn" id="locBtn" onclick="useLocation()">📍 استخدم موقعي الحالي</button>
+    <button class="btn ghost" onclick="toggleGov()">أو اختار محافظتك يدويًا</button>
+    <div id="govWrap" style="display:none">
+      <select id="gov" onchange="byGov()"><option value="">— اختار المحافظة —</option></select>
+    </div>
+    <div class="chips" id="chips"></div>
+    <p class="status" id="status">مستنيين تحديد موقعك…</p>
+  </div>
+
+  <div id="results"></div>
+
+  <p class="foot">البيانات مجمّعة من صفحات المكاتب الرسمية • <a href="/offices.html">خريطة كل المكاتب</a> • <a href="/">الرئيسية</a></p>
+</div>
+
+<script>
+const TYPES=[{k:'all',n:'الكل'},{k:'civil',n:'سجل مدني'},{k:'traffic',n:'مرور'},{k:'insurance',n:'تأمينات'},{k:'notary',n:'شهر عقاري'}];
+const NAMES={civil:'السجل المدني',traffic:'المرور',insurance:'التأمينات',notary:'الشهر العقاري'};
+let DATA=[],cur='all',pos=null;
+const $=id=>document.getElementById(id);
+
+fetch('/data/offices-nearby.json').then(r=>r.json()).then(d=>{
+  DATA=d;
+  const govs=[...new Set(d.map(o=>o.g))].filter(Boolean).sort();
+  govs.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;$('gov').appendChild(o)});
+  TYPES.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='chip'+(t.k==='all'?' on':'');b.textContent=t.n;
+    b.onclick=()=>{cur=t.k;[...$('chips').children].forEach(c=>c.classList.remove('on'));b.classList.add('on');render()};
+    $('chips').appendChild(b);
+  });
+  $('status').textContent='اختار موقعك أو محافظتك، عندنا '+d.length+' مكتب.';
+});
+
+function toggleGov(){const w=$('govWrap');w.style.display=w.style.display==='none'?'block':'none'}
+function useLocation(){
+  if(!navigator.geolocation){$('status').textContent='متصفحك مش بيدعم تحديد الموقع — اختار محافظتك.';toggleGov();return}
+  $('status').textContent='بنجيب موقعك…';
+  navigator.geolocation.getCurrentPosition(p=>{
+    pos={lat:p.coords.latitude,lng:p.coords.longitude};
+    $('status').textContent='تم تحديد موقعك ✅ أقرب المكاتب تحت.';
+    render();
+  },err=>{
+    $('status').textContent='معرفناش ناخد موقعك ('+err.message+') — اختار محافظتك يدويًا.';
+    toggleGov();
+  },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+}
+function byGov(){
+  const g=$('gov').value;
+  if(!g){$('status').textContent='اختار محافظة.';return}
+  $('status').textContent='مكاتب '+g+' — أقربها من مركز المحافظة مش من موقعك بالظبط.';
+  render(g);
+}
+function dist(a,b,c,d){
+  const R=6371,r=Math.PI/180;
+  const dLa=(c-a)*r,dLo=(d-b)*r;
+  const h=Math.sin(dLa/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(dLo/2)**2;
+  return R*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
+}
+function render(gov){
+  let list=DATA.slice();
+  if(cur!=='all')list=list.filter(o=>o.t===cur);
+  if(gov)list=list.filter(o=>o.g===gov);
+  if(pos&&!gov){
+    list=list.map(o=>({...o,d:dist(pos.lat,pos.lng,o.la,o.lo)})).sort((a,b)=>a.d-b.d).slice(0,12);
+  }else if(!gov){
+    $('results').innerHTML='';return;
+  }else{
+    list=list.slice(0,12);
+  }
+  $('results').innerHTML=list.map(o=>{
+    const km=o.d?('<span class="dist">'+o.d.toFixed(1)+' كم</span>'):'';
+    const maps='https://www.google.com/maps/dir/?api=1&destination='+o.la+','+o.lo;
+    return '<div class="card">'+km+'<h3>'+o.n+'</h3>'+
+      '<div class="meta">'+NAMES[o.t]+' • '+o.g+(o.c?' — '+o.c:'')+'<br>'+o.a+
+      (o.h?'<br>🕒 '+o.h:'')+'</div>'+
+      '<div class="acts">'+(o.p?'<a href="tel:'+o.p+'">📞 اتصل</a>':'')+
+      '<a class="map" href="'+maps+'" target="_blank" rel="noopener">🧭 الاتجاهات</a></div></div>';
+  }).join('')||'<p class="status">مفيش مكاتب بالفلتر ده.</p>';
+}
+</script>
+<script src="/js/medy-global.js" defer></script>
+</body>
+</html>

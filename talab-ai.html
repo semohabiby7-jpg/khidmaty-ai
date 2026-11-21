@@ -123,7 +123,9 @@ textarea{min-height:120px;line-height:1.9;resize:vertical}
     <div class="actions nowrap">
       <button class="btn" id="btnCopy">نسخ النص</button>
       <button class="btn" id="btnPrint">طباعة / PDF</button>
+      <button class="btn" id="btnDl">تحميل ملف</button>
       <button class="btn wa" id="btnWa">إرسال واتساب</button>
+      <button class="btn" id="btnShare">مشاركة</button>
       <button class="btn" id="btnSave">حفظ نسخة</button>
     </div>
     <div class="drafts nowrap" id="drafts"></div>
@@ -389,6 +391,27 @@ textarea{min-height:120px;line-height:1.9;resize:vertical}
     function fb(){var ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("اتنسخ ✓");}catch(e){toast("حدد النص يدويًا");}document.body.removeChild(ta);}
   });
   $("btnPrint").addEventListener("click",function(){window.print();});
+  $("btnDl").addEventListener("click",function(){
+    var txt=$("paper").value||"";
+    if(!txt.trim()){toast("مفيش مستند بعد");return;}
+    var b=new Blob(["\ufeff"+txt],{type:"text/plain;charset=utf-8"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(b);
+    a.download="طلب-"+today()+".txt";
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1200);
+    toast("اتحمّل على جهازك ✓");
+  });
+  $("btnShare").addEventListener("click",function(){
+    var txt=$("paper").value||"";
+    if(!txt.trim()){toast("مفيش مستند بعد");return;}
+    if(navigator.share){
+      navigator.share({title:"طلب جاهز — خِدْمَتي",text:txt}).catch(function(){});
+    }else{
+      navigator.clipboard&&navigator.clipboard.writeText(txt);
+      toast("المتصفح مش بيدعم المشاركة — النص اتنسخ");
+    }
+  });
   $("btnWa").addEventListener("click",function(){window.open("https://wa.me/?text="+encodeURIComponent($("paper").value),"_blank");});
 
   var DKEY="khidmaty_talabai_drafts";

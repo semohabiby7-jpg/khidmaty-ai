@@ -34,37 +34,66 @@
   details summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0}
   .src a{color:var(--muted)}
   .warn{background:#FFFBEB;border:1px solid #FDE68A;color:#92400E;border-radius:12px;padding:10px 12px;font-size:11.5px;line-height:1.7;margin-bottom:12px}
+  .warn.calm{background:#F1F5F9;border-color:#E2E8F0;color:#334155}
+  .srcitem{font-size:11.5px;color:var(--muted);line-height:1.9;border-bottom:1px dashed var(--line);padding:6px 0}
+  .srcitem b{color:var(--ink);font-size:12.5px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>🚕 احسبلي المشوار</h1>
-    <p>حاسبة مشوار: تاكسي، نقل، ملاكي/أجرة، أو تطبيق — على التعريفة الرسمية في القاهرة، وبمدخلاتك لباقي الأنواع.</p>
+    <p>تاكسي بالعداد، نقل، ملاكي/أجرة، أو تطبيق — بأرقام المحافظات المعلنة، واللي مفيش لها تعريفة معلنة بتدخلها بنفسك.</p>
   </header>
 
   <div class="card">
     <label for="mode">نوع المشوار</label>
     <select id="mode">
-      <option value="taxi-cai">تاكسي أبيض — القاهرة (تعريفة رسمية)</option>
-      <option value="taxi-other">تاكسي — محافظة تانية (تدخل التعريفة)</option>
+      <option value="taxi">تاكسي بالعداد</option>
       <option value="naql">نقل / ربع نقل (تدخل تسعيرتك)</option>
       <option value="malaki">ملاكي أو أجرة (تدخل تسعيرتك)</option>
       <option value="app">تطبيق (أوبر/كريم) — تقديري</option>
     </select>
-    <p class="note" id="modeNote" style="margin-top:8px">
-      التعريفة الرسمية للقاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم.
-    </p>
+    <p class="note" id="modeNote" style="margin-top:8px"></p>
   </div>
 
   <div class="card">
     <label for="gov">المحافظة</label>
     <select id="gov">
-      <option value="cairo">القاهرة — تاكسي أبيض (تعريفة رسمية معلنة)</option>
-      <option value="alex">الإسكندرية — تاكسي (تعريفة معلنة أكتوبر ٢٠٢٥)</option>
-      <option value="other">محافظة تانية — تدخل التعريفة بنفسك</option>
+      <optgroup label="تعريفة معلنة">
+        <option value="cairo">القاهرة</option>
+        <option value="alex">الإسكندرية</option>
+        <option value="dakahlia">الدقهلية</option>
+        <option value="sharqia">الشرقية</option>
+        <option value="beheira">البحيرة</option>
+      </optgroup>
+      <optgroup label="مفيش تعريفة معلنة — تدخلها بنفسك">
+        <option value="giza">الجيزة</option>
+        <option value="qalyubia">القليوبية</option>
+        <option value="menoufia">المنوفية</option>
+        <option value="gharbia">الغربية</option>
+        <option value="kafrelsheikh">كفر الشيخ</option>
+        <option value="damietta">دمياط</option>
+        <option value="portsaid">بورسعيد</option>
+        <option value="ismailia">الإسماعيلية</option>
+        <option value="suez">السويس</option>
+        <option value="fayoum">الفيوم</option>
+        <option value="benisuef">بني سويف</option>
+        <option value="minya">المنيا</option>
+        <option value="assiut">أسيوط</option>
+        <option value="sohag">سوهاج</option>
+        <option value="qena">قنا</option>
+        <option value="luxor">الأقصر</option>
+        <option value="aswan">أسوان</option>
+        <option value="matrouh">مطروح</option>
+        <option value="redsea">البحر الأحمر</option>
+        <option value="newvalley">الوادي الجديد</option>
+        <option value="northsinai">شمال سيناء</option>
+        <option value="southsinai">جنوب سيناء</option>
+        <option value="other">محافظة تانية</option>
+      </optgroup>
     </select>
-    <p class="note" id="govNote" style="margin-top:8px">تعريفة القاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم، انتظار ٣٢ج للساعة الأولى.</p>
+    <p class="note" id="govNote" style="margin-top:8px"></p>
   </div>
 
   <div class="card">
@@ -88,9 +117,9 @@
 
   <div class="card">
     <p class="note">
-      <b>طريقة الحساب:</b> فتح العداد ١٥ج ويشمل أول كيلومتر، ثم ٤ج لكل كم إضافي.
-      الانتظار ٣٢ج للساعة الأولى (بالنسبة لجزء الساعة) + ١٥ج لكل ساعة إضافية تبدأ.
-      الناتج تقريبي ويقرّب لأقرب جنيه، والعداد الفعلي هو المرجع.
+      <b>طريقة الحساب:</b> فتح العداد ويشمل أول كيلومتر، ثم سعر الكيلو لكل كم إضافي،
+      والانتظار للساعة الأولى + كل ساعة إضافية تبدأ. الناتج تقريبي ويقرّب لأقرب جنيه،
+      والعداد الفعلي هو المرجع.
     </p>
   </div>
 
@@ -98,26 +127,28 @@
     <details>
       <summary>تعديل التعريفة (للاستخدام المؤقت)</summary>
       <div class="row" style="margin-top:10px">
-        <div><label for="base">فتح العداد</label><input id="base" type="number" value="15" step="0.5"></div>
+        <div><label for="base">فتح العداد</label><input id="base" type="number" value="15" step="0.25"></div>
         <div><label for="perkm">سعر الكيلو</label><input id="perkm" type="number" value="4" step="0.25"></div>
       </div>
       <div class="row" style="margin-top:10px">
-        <div><label for="w1">انتظار/ساعة أولى</label><input id="w1" type="number" value="32" step="1"></div>
-        <div><label for="w2">كل ساعة إضافية</label><input id="w2" type="number" value="15" step="1"></div>
+        <div><label for="w1">انتظار/ساعة أولى</label><input id="w1" type="number" value="32" step="0.5"></div>
+        <div><label for="w2">كل ساعة إضافية</label><input id="w2" type="number" value="15" step="0.5"></div>
       </div>
     </details>
   </div>
 
   <div class="card">
-    <div class="warn">
-      التعريفة الموثّقة عندنا: <b>التاكسي في القاهرة</b> (قرار المحافظة ٢٠٢٦) و<b>التاكسي في الإسكندرية</b>
-      (المعلنة أكتوبر ٢٠٢٥). باقي المحافظات والأنواع بتدخل تسعيرتها بنفسك، والناتج تقديري —
-      المرجع دايمًا العداد أو الاتفاق قبل المشوار.
-    </div>
-    <p class="note src">
-      المصدر: قرار محافظة القاهرة ٤٦٨٩ لسنة ٢٠٢٦ (الوقائع المصرية) —
-      <a href="https://www.cairo.gov.eg/media/i0dhrtqy/taxiiii.pdf" target="_blank" rel="noopener">موقع المحافظة</a> ·
-      <a href="https://www.youm7.com/story/2026/3/31/7360111" target="_blank" rel="noopener">اليوم السابع</a>
+    <div class="warn" id="govWarn"></div>
+    <details>
+      <summary>المصادر وتاريخها</summary>
+      <div id="srcBox" style="margin-top:8px"></div>
+      <p class="note" style="margin-top:10px">
+        القاعدة اللي ماشيين عليها: مفيش رقم من غير مصدر. ولو التعريفة مش منشورة رسميًا
+        بنكتب «غير معلنة» مش رقم من عندنا.
+      </p>
+    </details>
+    <p class="note" style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px">
+      تحديث ٢٢ نوفمبر ٢٠٢٦
     </p>
   </div>
 </div>
@@ -126,6 +157,58 @@
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   var fmt = function(n){ return new Intl.NumberFormat('ar-EG',{maximumFractionDigits:1}).format(n); };
+
+  var MODES = {
+    taxi: 'التاكسي بالعداد: فتح العداد + سعر الكيلو المعلن في محافظتك. لو المحافظة مش معلنة، اكتب التعريفة اللي في قرار المحافظة أو اتفق قبل المشوار.',
+    naql: 'النقل بيتسعّر بالكيلو + ساعة التحميل/التنزيل. اكتب سعر الكيلو اللي اتفقت عليه، وحط وقت التحميل في خانة الانتظار.',
+    malaki: 'الملاكي والأجرة بتتفق على المشوار. اكتب قيمة المشوار في خانة «فتح العداد» وسيب الكيلو صفر.',
+    app: 'تطبيقات النقل بتسعّر بالكيلو + وقت + طلب. الأرقام هنا تقديرية للاسترشاد فقط، والسعر النهائي في التطبيق.'
+  };
+
+  /* كل رقم هنا لازم يكون له مصدرين على الأقل في SRC والتاريخ مكتوب.
+     anyData:false معناها مفيش تعريفة معلنة → الحقول تفضل فاضية للمستخدم. */
+  var GOVS = {
+    cairo: {base:15, perkm:4, w1:32, w2:15, anyData:true,
+      note:'تعريفة القاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم، انتظار ٣٢ج للساعة الأولى + ١٥ج لكل ساعة إضافية.'},
+    alex: {base:16.5, perkm:5.75, w1:0, w2:0, anyData:true,
+      note:'تعريفة الإسكندرية المعتمدة ١٠ مارس ٢٠٢٦: العداد ١٦٫٥٠ج + ٥٫٧٥ج لكل كم. مفيش انتظار معلن، فسايبناه صفر.'},
+    dakahlia: {base:15, perkm:3.5, w1:0, w2:0, anyData:true,
+      note:'الدقهلية (١٠ مارس ٢٠٢٦): فتح العداد ١٥ج + ٣٫٥ج لكل كم. القرار معتمد من المحافظ ومنشور في الصحف، بس مش منشور على موقع المحافظة.'},
+    sharqia: {base:15, perkm:4.5, w1:11, w2:10, anyData:true,
+      note:'الشرقية (١٠ مارس ٢٠٢٦): فتح البنديرة ١٥ج تشمل أول كم + ٤٫٥ج لكل كم، انتظار ١١ج للساعة الأولى + ١٠ج لكل ساعة إضافية.'},
+    beheira: {base:16, perkm:2, w1:0, w2:0, anyData:true,
+      note:'البحيرة (١٠ مارس ٢٠٢٦): فتح العداد ١٦ج + ٢ج لكل كم. الأرقام زي ما المحافظة أعلنتها، راجعها مع السواق في المشاوير الطويلة.'},
+    giza: {anyData:false,
+      note:'الجيزة: مفيش تعريفة معلنة متطابقة. صفحة المحافظة الرسمية لسه عليها أرقام قديمة (٥ج فتح + ٢ج/كم)، وفي تقارير بتقول إنها بتطبق تعريفة القاهرة (١٥ج + ٤ج). المصدرين مش متفقين، فمفيش رقم بنعتمده — اسأل السواق واكتب اللي اتفقت عليه.'}
+  };
+
+  var NODATA_NOTE = 'المحافظة دي مفيش لها تعريفة تاكسي منشورة رسميًا عندنا. اسأل السواق قبل ما تركب، واكتب سعر فتح العداد وسعر الكيلو اللي اتفقت عليه.';
+
+  var SRC = {
+    cairo: [
+      {label:'محافظة القاهرة — قرار تعريفة التاكسي (PDF)', url:'https://www.cairo.gov.eg/media/i0dhrtqy/taxiiii.pdf', kind:'رسمي'},
+      {label:'اليوم السابع — تعريفة الأجرة بعد تحريك الوقود (١٠ مارس ٢٠٢٦)', url:'https://www.youm7.com/story/2026/3/10/%D8%A7%D9%84%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%AC%D8%B1%D8%A9-%D8%A8%D8%B9%D8%AF-%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%A8%D9%86%D8%B2%D9%8A%D9%86-%D8%AD%D9%85%D9%84%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D9%85%D9%88%D8%A7%D9%82%D9%81/7335364', kind:'صحفي'}
+    ],
+    alex: [
+      {label:'محافظة الإسكندرية — اعتماد تعريفة الركوب (١٠ مارس ٢٠٢٦)', url:'http://www.alexandria.gov.eg/MainPage/DispAlex_2017.aspx?ID=17665', kind:'رسمي'},
+      {label:'الجمهورية — جدول تعريفة مارس ٢٠٢٦ (PDF)', url:'https://algomhuria.gomhuriaonline.com/wp-content/uploads/2026/03/%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D8%A9-%D8%A7%D9%84%D8%B1%D9%83%D9%88%D8%A8-%D9%85%D8%A7%D8%B1%D8%B3-202617-Copy-1.pdf', kind:'صحفي'}
+    ],
+    dakahlia: [
+      {label:'اليوم السابع — محافظ الدقهلية يعتمد التعريفة (١٠ مارس ٢٠٢٦)', url:'https://www.youm7.com/story/2026/3/10/%D9%85%D8%AD%D8%A7%D9%81%D8%B8-%D8%A7%D9%84%D8%AF%D9%82%D9%87%D9%84%D9%8A%D8%A9-%D9%8A%D8%B9%D8%AA%D9%85%D8%AF-%D8%A7%D9%84%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D8%A7%D9%83%D8%B3%D9%8A/7335054', kind:'صحفي'},
+      {label:'المصري اليوم — ١٥ج فتح العداد (١٠ مارس ٢٠٢٦)', url:'https://www.almasryalyoum.com/news/details/4218495', kind:'صحفي'}
+    ],
+    sharqia: [
+      {label:'اليوم السابع — محافظ الشرقية يعتمد التعريفة (١٠ مارس ٢٠٢٦)', url:'https://www.youm7.com/story/2026/3/10/%D9%85%D8%AD%D8%A7%D9%81%D8%B8-%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9-%D9%8A%D8%B9%D8%AA%D9%85%D8%AF-%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D8%A9-%D8%A7%D9%84%D8%B1%D9%83%D9%88%D8%A8-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D8%A7%D8%B9%D8%B1%D9%81-%D8%A7%D9%84%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/7335201', kind:'صحفي'},
+      {label:'البوابة نيوز — تعريفة جديدة للأجرة والسرفيس بالشرقية', url:'https://www.albawabhnews.com/5328972', kind:'صحفي'}
+    ],
+    beheira: [
+      {label:'بوابة الأهرام — البحيرة تعتمد التعريفة (١٠ مارس ٢٠٢٦)', url:'https://gate.ahram.org.eg/News/5565529.aspx', kind:'صحفي'},
+      {label:'اليوم السابع — تفاصيل تعريفة الأجرة بالبحيرة', url:'https://www.youm7.com/story/2026/3/10/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84-%D8%A7%D9%84%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%AC%D8%B1%D8%A9-%D9%88%D8%A7%D9%84%D8%B3%D8%B1%D9%81%D9%8A%D8%B3-%D8%A8%D8%A7%D9%84%D8%A8%D8%AD%D9%8A%D8%B1%D8%A9/7335098', kind:'صحفي'}
+    ],
+    giza: [
+      {label:'محافظة الجيزة — صفحة تعريفة الركوب (أرقام قديمة، مش محدثة)', url:'http://www.giza.gov.eg/t3reffaa.aspx', kind:'رسمي'}
+    ]
+  };
 
   function calc(){
     var km = parseFloat($('km').value) || 0;
@@ -140,75 +223,93 @@
 
     var hours = waitMin / 60;
     var waitCost = 0;
-    if (hours > 0) {
+    if (hours > 0 && (w1 > 0 || w2 > 0)) {
       var first = Math.min(hours, 1) * w1;
       var rest = Math.max(0, Math.ceil(hours - 1)) * w2;
       waitCost = first + rest;
     }
 
     var total = Math.max(base, base + kmCost + waitCost);
-    var rounded = Math.round(total);
+    var empty = (base <= 0 && perkm <= 0);
 
-    $('total').innerHTML = fmt(rounded) + ' ج <small>تقريبًا</small>';
+    if (empty) {
+      $('total').innerHTML = '— <small>اكتب التعريفة</small>';
+    } else {
+      $('total').innerHTML = fmt(Math.round(total)) + ' ج <small>تقريبًا</small>';
+    }
+
     var rows = [
       ['فتح العداد (يشمل أول ١ كم)', base],
       [extraKm > 0 ? 'كيلومترات إضافية (' + fmt(extraKm) + ' كم × ' + fmt(perkm) + ')' : 'كيلومترات إضافية', kmCost],
       [waitMin > 0 ? 'انتظار (' + fmt(waitMin) + ' دقيقة)' : 'انتظار', waitCost]
     ];
-    $('lines').innerHTML = rows.map(function(r){
+    var html = rows.map(function(r){
       return '<div><span>' + r[0] + '</span><b>' + fmt(Math.round(r[1]*10)/10) + ' ج</b></div>';
-    }).join('') + '<div style="border-top:1px dashed #24344f;margin-top:6px;padding-top:6px"><span>الإجمالي قبل التقريب</span><b>' + fmt(Math.round(total*10)/10) + ' ج</b></div>';
+    }).join('');
+    if (!empty) {
+      html += '<div style="border-top:1px dashed #24344f;margin-top:6px;padding-top:6px"><span>الإجمالي قبل التقريب</span><b>' + fmt(Math.round(total*10)/10) + ' ج</b></div>';
+    }
+    $('lines').innerHTML = html;
   }
-
-  var NOTES = {
-    'taxi-cai': 'التعريفة الرسمية للقاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم إضافي، والانتظار ٣٢ج للساعة الأولى.',
-    'taxi-other': 'مفيش تعريفة موحدة لكل المحافظات — اسأل السواق أو شوف قرار المحافظة، واكتب سعر الفتح والكيلو تحت. الأرقام الحالية بتاعة القاهرة، فعدّلها.',
-    'naql': 'النقل بيتسعّر بالكيلو + ساعة التحميل/التنزيل. اكتب سعر الكيلو اللي اتفقت عليه، وحط وقت التحميل في خانة الانتظار.',
-    'malaki': 'الملاكي والأجرة بتتفق على المشوار. اكتب قيمة المشوار في خانة «فتح العداد» وسيب الكيلو صفر.',
-    'app': 'تطبيقات النقل بتسعّر بالكيلو + وقت + طلب. الأرقام هنا تقديرية للاسترشاد فقط، والسعر النهائي في التطبيق.'
-  };
 
   function setMode(){
     var m = $('mode').value;
-    $('modeNote').textContent = NOTES[m] || '';
-    if (m === 'taxi-cai' && $('gov').value === 'cairo') {
-      $('base').value = 15; $('perkm').value = 4;
-      $('w1').value = 32; $('w2').value = 15;
-    } else if (m === 'malaki') {
+    $('modeNote').textContent = MODES[m] || '';
+    if (m === 'malaki') {
       $('perkm').value = 0; $('w1').value = 0; $('w2').value = 0;
     }
+    if (m === 'taxi') {
+      var g = GOVS[$('gov').value];
+      if (g && g.anyData) {
+        $('base').value = g.base; $('perkm').value = g.perkm;
+        $('w1').value = g.w1; $('w2').value = g.w2;
+      }
+    }
+    calc();
+  }
+
+  function renderSrc(key){
+    var list = SRC[key] || [];
+    if (!list.length) {
+      var opt = $('gov').selectedOptions[0];
+      var name = opt ? opt.textContent : '';
+      $('srcBox').innerHTML = '<p class="note">مفيش تعريفة معلنة لمحافظة ' + name + ' — عشان كده مفيش رقم بنعرضه.</p>';
+      return;
+    }
+    $('srcBox').innerHTML = list.map(function(s){
+      return '<div class="srcitem"><b>' + s.kind + '</b> — <a href="' + s.url + '" target="_blank" rel="noopener">' + s.label + '</a></div>';
+    }).join('');
+  }
+
+  function setGov(){
+    var key = $('gov').value;
+    var g = GOVS[key];
+    if (g && g.anyData) {
+      $('base').value = g.base; $('perkm').value = g.perkm;
+      $('w1').value = g.w1; $('w2').value = g.w2;
+      $('govNote').textContent = g.note;
+      $('govWarn').className = 'warn calm';
+      $('govWarn').innerHTML = '<b>تعريفة معلنة.</b> ' + g.note;
+    } else {
+      $('govNote').textContent = (g && g.note) ? g.note : NODATA_NOTE;
+      $('base').value = 0; $('perkm').value = 0; $('w1').value = 0; $('w2').value = 0;
+      $('govWarn').className = 'warn';
+      $('govWarn').innerHTML = '<b>غير معلنة — اسأل السواق قبل ما تركب.</b> ' + ((g && g.note) ? g.note : NODATA_NOTE);
+    }
+    renderSrc(key);
     calc();
   }
 
   $('mode').addEventListener('change', setMode);
-
-  var GOVS = {
-    cairo: {base:15, perkm:4, w1:32, w2:15,
-      note:'تعريفة القاهرة: فتح العداد ١٥ج (يشمل أول كم) + ٤ج لكل كم، انتظار ٣٢ج للساعة الأولى. مصدر: قرار محافظة القاهرة ٤٦٨٩ لسنة ٢٠٢٦.'},
-    alex: {base:14.29, perkm:5, w1:32, w2:15,
-      note:'تعريفة الإسكندرية المعلنة أكتوبر ٢٠٢٥: فتح العداد ١٤٫٢٩ج + ٥ج لكل كم. التعريفة بتتغير مع أسعار البنزين — راجعها قبل الاعتماد عليها.'},
-    other: {base:0, perkm:0, w1:0, w2:0,
-      note:'محافظتك: اكتب فتح العداد وسعر الكيلو من التعريفة المعلنة في محافظتك، والحاسبة هتكمّل معاك.'}
-  };
-  function setGov(){
-    var key = $('gov').value;
-    var g = GOVS[key] || GOVS.other;
-    if (key !== 'cairo' && $('mode').value === 'taxi-cai') {
-      $('mode').value = 'taxi-other';
-      $('modeNote').textContent = NOTES['taxi-other'] || '';
-    }
-    $('base').value = g.base; $('perkm').value = g.perkm;
-    $('w1').value = g.w1; $('w2').value = g.w2;
-    $('govNote').textContent = g.note;
-    calc();
-  }
   $('gov').addEventListener('change', setGov);
 
   $('calcBtn').addEventListener('click', calc);
   ['km','wait','base','perkm','w1','w2'].forEach(function(id){
     $(id).addEventListener('input', calc);
   });
-  calc();
+
+  $('modeNote').textContent = MODES[$('mode').value];
+  setGov();
 })();
 </script>
 <script>

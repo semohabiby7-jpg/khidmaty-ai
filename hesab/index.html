@@ -66,6 +66,7 @@
         <option value="dakahlia">الدقهلية</option>
         <option value="sharqia">الشرقية</option>
         <option value="beheira">البحيرة</option>
+        <option value="suez">السويس</option>
       </optgroup>
       <optgroup label="مفيش تعريفة معلنة — تدخلها بنفسك">
         <option value="giza">الجيزة</option>
@@ -76,7 +77,6 @@
         <option value="damietta">دمياط</option>
         <option value="portsaid">بورسعيد</option>
         <option value="ismailia">الإسماعيلية</option>
-        <option value="suez">السويس</option>
         <option value="fayoum">الفيوم</option>
         <option value="benisuef">بني سويف</option>
         <option value="minya">المنيا</option>
@@ -108,6 +108,40 @@
       </div>
     </div>
     <button class="btn" id="calcBtn">احسب الأجرة</button>
+  </div>
+
+  <div class="card" id="naqlCard" style="display:none">
+    <p class="note" style="margin-bottom:10px">مشوار نقل: المسافة من وإلى، وسعر الطن، والحمولة، والانتظار — كلها بأرقامك انت.</p>
+    <div class="row">
+      <div>
+        <label for="nFrom">من</label>
+        <input id="nFrom" type="text" placeholder="مثال: الإسكندرية">
+      </div>
+      <div>
+        <label for="nTo">إلى</label>
+        <input id="nTo" type="text" placeholder="مثال: طنطا">
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div>
+        <label for="tonPrice">سعر الطن (ج)</label>
+        <input id="tonPrice" type="number" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div>
+        <label for="tons">الحمولة (طن)</label>
+        <input id="tons" type="number" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div>
+        <label for="waitPrice">سعر ساعة الانتظار (ج)</label>
+        <input id="waitPrice" type="number" inputmode="decimal" min="0" step="5" value="0">
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <div class="note" style="margin:0">ساعات الانتظار بتتكتب فوق في خانة الانتظار (دقايق)</div>
+      </div>
+    </div>
   </div>
 
   <div class="out">
@@ -178,6 +212,8 @@
       note:'الشرقية (١٠ مارس ٢٠٢٦): فتح البنديرة ١٥ج تشمل أول كم + ٤٫٥ج لكل كم، انتظار ١١ج للساعة الأولى + ١٠ج لكل ساعة إضافية.'},
     beheira: {base:16, perkm:2, w1:0, w2:0, anyData:true,
       note:'البحيرة (١٠ مارس ٢٠٢٦): فتح العداد ١٦ج + ٢ج لكل كم. الأرقام زي ما المحافظة أعلنتها، راجعها مع السواق في المشاوير الطويلة.'},
+    suez: {base:13, perkm:6, w1:0, w2:0, anyData:true,
+      note:'السويس (١٠ مارس ٢٠٢٦): فتح العداد ١٣ج بدل ١١ج + ٦ج لكل كم بدل ٥ج. مفيش انتظار معلن، فسايبناه صفر.'},
     giza: {anyData:false,
       note:'الجيزة: مفيش تعريفة معلنة متطابقة. صفحة المحافظة الرسمية لسه عليها أرقام قديمة (٥ج فتح + ٢ج/كم)، وفي تقارير بتقول إنها بتطبق تعريفة القاهرة (١٥ج + ٤ج). المصدرين مش متفقين، فمفيش رقم بنعتمده — اسأل السواق واكتب اللي اتفقت عليه.'}
   };
@@ -205,12 +241,54 @@
       {label:'بوابة الأهرام — البحيرة تعتمد التعريفة (١٠ مارس ٢٠٢٦)', url:'https://gate.ahram.org.eg/News/5565529.aspx', kind:'صحفي'},
       {label:'اليوم السابع — تفاصيل تعريفة الأجرة بالبحيرة', url:'https://www.youm7.com/story/2026/3/10/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84-%D8%A7%D9%84%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%AC%D8%B1%D8%A9-%D9%88%D8%A7%D9%84%D8%B3%D8%B1%D9%81%D9%8A%D8%B3-%D8%A8%D8%A7%D9%84%D8%A8%D8%AD%D9%8A%D8%B1%D8%A9/7335098', kind:'صحفي'}
     ],
+    suez: [
+      {label:'الوطن — تعريفة التاكسي بالسويس: ١٣ج فتح + ٦ج/كم (١٠ مارس ٢٠٢٦)', url:'https://www.elwatannews.com/news/details/8242668', kind:'صحفي'},
+      {label:'مصر تايمز — تعريفة المواصلات ٢٠٢٦: السويس ١٣ج فتح العداد', url:'https://www.masrtimes.com/673944', kind:'صحفي'}
+    ],
     giza: [
       {label:'محافظة الجيزة — صفحة تعريفة الركوب (أرقام قديمة، مش محدثة)', url:'http://www.giza.gov.eg/t3reffaa.aspx', kind:'رسمي'}
     ]
   };
 
+  function calcNaql(){
+    var from = ($('nFrom').value || '').trim();
+    var to = ($('nTo').value || '').trim();
+    var tonPrice = parseFloat($('tonPrice').value) || 0;
+    var tons = parseFloat($('tons').value) || 0;
+    var waitMin = parseFloat($('wait').value) || 0;
+    var waitPrice = parseFloat($('waitPrice').value) || 0;
+    var km = parseFloat($('km').value) || 0;
+
+    var goodsCost = tonPrice * tons;
+    var hours = waitMin / 60;
+    var waitCost = hours * waitPrice;
+    var total = goodsCost + waitCost;
+    var empty = (tonPrice <= 0 || tons <= 0);
+
+    if (empty) {
+      $('total').innerHTML = '— <small>اكتب سعر الطن والحمولة</small>';
+    } else {
+      $('total').innerHTML = fmt(Math.round(total)) + ' ج <small>تقريبًا</small>';
+    }
+
+    var head = (from || to) ? (from || '—') + ' ← ' + (to || '—') : 'المسافة';
+    var rows = [
+      [head + (km > 0 ? ' · ' + fmt(km) + ' كم' : ''), 0],
+      ['سعر الطن × الحمولة (' + fmt(tons) + ' طن × ' + fmt(tonPrice) + ')', goodsCost],
+      [waitMin > 0 ? 'انتظار (' + fmt(Math.round(hours * 10) / 10) + ' ساعة)' : 'انتظار', waitCost]
+    ];
+    var html = rows.map(function(r){
+      if (r[1] === 0 && r === rows[0]) return '<div><span>' + r[0] + '</span><b></b></div>';
+      return '<div><span>' + r[0] + '</span><b>' + fmt(Math.round(r[1]*10)/10) + ' ج</b></div>';
+    }).join('');
+    if (!empty) {
+      html += '<div style="border-top:1px dashed #24344f;margin-top:6px;padding-top:6px"><span>الإجمالي قبل التقريب</span><b>' + fmt(Math.round(total*10)/10) + ' ج</b></div>';
+    }
+    $('lines').innerHTML = html;
+  }
+
   function calc(){
+    if ($('mode').value === 'naql') { return calcNaql(); }
     var km = parseFloat($('km').value) || 0;
     var waitMin = parseFloat($('wait').value) || 0;
     var base = parseFloat($('base').value) || 0;
@@ -255,6 +333,7 @@
   function setMode(){
     var m = $('mode').value;
     $('modeNote').textContent = MODES[m] || '';
+    $('naqlCard').style.display = (m === 'naql') ? '' : 'none';
     if (m === 'malaki') {
       $('perkm').value = 0; $('w1').value = 0; $('w2').value = 0;
     }
@@ -304,7 +383,7 @@
   $('gov').addEventListener('change', setGov);
 
   $('calcBtn').addEventListener('click', calc);
-  ['km','wait','base','perkm','w1','w2'].forEach(function(id){
+  ['km','wait','base','perkm','w1','w2','tonPrice','tons','waitPrice','nFrom','nTo'].forEach(function(id){
     $(id).addEventListener('input', calc);
   });
 

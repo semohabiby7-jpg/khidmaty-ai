@@ -509,20 +509,7 @@ const dailyNeeds = [
       { name: "الهيئة العامة للاستعلامات (SIS) — أخبار الحكومة والخدمات الرقمية", url: "https://sis.gov.eg/" },
     ],
   },
-];
-
-/* اختر كارت اليوم — لو مفيش كارت لليوم، اعرض أحدث كارت منفذ */
-function getTodayNeed() {
-  if (!Array.isArray(dailyNeeds) || dailyNeeds.length === 0) return null;
-  const today = new Date();
-  const y = today.getFullYear();
-  const m = String(today.getMonth() + 1).padStart(2, "0");
-  const d = String(today.getDate()).padStart(2, "0");
-  const key = `${y}-${m}-${d}`;
-  let card = dailyNeeds.find(n => n.date === key);
-  if (!card) {
-    const past = dailyNeeds.filter(n => n.date <= key).sort((a, b) => b.date.localeCompare(a.date));
-    card = past[0] || dailyNeeds[dailyNeeds.length - 1  {
+{
     date: "2026-11-26",
     category: "الاتصالات",
     icon: "📱",
@@ -556,7 +543,21 @@ function getTodayNeed() {
     cta: "اعرف إجراءات تليفوني بالتفصيل",
     ctaLink: "services.html"
   },
+,
 ];
+
+/* اختر كارت اليوم — لو مفيش كارت لليوم، اعرض أحدث كارت منفذ */
+function getTodayNeed() {
+  if (!Array.isArray(dailyNeeds) || dailyNeeds.length === 0) return null;
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, "0");
+  const d = String(today.getDate()).padStart(2, "0");
+  const key = `${y}-${m}-${d}`;
+  let card = dailyNeeds.find(n => n.date === key);
+  if (!card) {
+    const past = dailyNeeds.filter(n => n.date <= key).sort((a, b) => b.date.localeCompare(a.date));
+    card = past[0] || dailyNeeds[dailyNeeds.length - 1];
   }
   return card;
 }

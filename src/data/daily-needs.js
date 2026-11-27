@@ -20,9 +20,9 @@ const dailyNeeds = [
     ],
     sources: [
       { name: "المصري اليوم — أسعار البنزين والسولار ٢٧ نوفمبر ٢٠٢٦", url: "https://www.almasryalyoum.com/news/details/4421815" },
-      { name: "قناة النيل — حزمة الحوافز للمعلمين والأطباء", url: "https://www.nile.eg/" },
-      { name: "وزارة الاستثمار — تعديلات اللائحة التنفيذية لقانون الشركات", url: "https://www.investinegypt.gov.eg/" },
-      { name: "إيجي إن — طرح سندات خزانة بـ٢٧ مليار جنيه", url: "https://www.egyin.com/article/163048/" }
+      { name: "قناة النيل — حزمة الحوافز للمعلمين والأطباء", url: "https://www.nile.eg/%d8%a8%d8%aa%d9%88%d8%ac%d9%8a%d9%87%d8%a7%d8%aa-%d8%a7%d9%84%d8%b1%d8%a6%d9%8a%d8%b3-%d8%a7%d9%84%d8%b3%d9%8a%d8%b3%d9%8a-%d8%a3%d8%ad%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d9%85%d9%88%d8%a7%d8%b7%d9%86" },
+      { name: "وزارة الاستثمار — تعديلات اللائحة التنفيذية لقانون الشركات", url: "https://www.investinegypt.gov.eg/Arabic/NewsAndEvents/News/Pages/%D8%A8%D8%AD%D8%B6%D9%88%D8%B1-%D8%A7%D9%84%D8%AF%D9%83%D8%AA%D9%88%D8%B1-%D9%85%D8%B5%D8%B7%D9%81%D9%89-%D9%85%D8%AF%D8%A8%D9%88%D9%84%D9%8A%D8%B1%D8%A6%D9%8A%D8%B3-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D9%88%D8%B2%D8%B1%D8%A7%D8%A1-%D9%88%D8%A8%D9%85%D9%82%D8%B1-%D8%A7%D9%84%D9%85%D8%AC%D9%84%D8%B3-%D9%88%D8%B2%D9%8A%D8%B1-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AB%D9%85%D8%A7%D8%B1-%D9%88%D8%A7%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D9%8A%D8%B9%D9%84%D9%86-%D8%AD%D8%B2%D9%85%D8%A9-%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%D8%A7%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D9%84%D8%A7%D8%A6%D8%AD%D8%A9-.aspx" },
+      { name: "إيجي إن — طرح سندات خزانة بـ٢٧ مليار جنيه", url: "https://www.egyin.com/article/163048/%D9%88%D8%B2%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A%D8%A9-%D8%AA%D8%B7%D8%B1%D8%AD-%D8%B3%D9%86%D8%AF%D8%A7%D8%AA-%D8%AE%D8%B2%D8%A7%D9%86%D8%A9-%D8%A8%D9%8027-%D9%85%D9%84%D9%8A%D8%A7%D8%B1" }
     ]
   },
   {
